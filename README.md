@@ -1,6 +1,19 @@
-# Turborepo starter
+# Breeze Mono Repo
 
-This is an official starter Turborepo.
+The mono repo for the breeze microservices.
+
+## Services
+```
+Api Gateway -> Suggestion
+```
+
+### API Gateway
+https://breeze-backend-api.vercel.app/
+
+### Suggestion Service
+https://breeze-suggestion-service.vercel.app/
+
+
 
 ## Using this example
 
