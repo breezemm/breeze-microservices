@@ -15,6 +15,12 @@ https://breeze-suggestion-service.vercel.app/
 
 
 
+## Git Setup
+
+```
+git diff HEAD^ HEAD --quiet ./
+```
+
 ## Using this example
 
 Run the following command:
