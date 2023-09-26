@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Users;
+namespace App\Http\Controllers\Api\V1\UserFollowings;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;

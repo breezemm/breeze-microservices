@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Events;
+namespace App\Http\Controllers\Api\V1\Events\EventReactions;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;

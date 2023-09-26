@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\AuthenicatedUserAactivities;
+namespace App\Http\Controllers\Api\V1\Timeline;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class UserActivityFeedController extends Controller
+class ProfileTimeline extends Controller
 {
     public function __invoke()
     {
