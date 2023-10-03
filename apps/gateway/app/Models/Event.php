@@ -19,19 +19,19 @@ class Event extends Model implements HasMedia
 
 
     protected $fillable = [
-        'title',
-        'date',
-        'time',
+        'name',
+        'start_date',
+        'start_time',
+        'end_time',
         'place',
-        'ticket_price',
-        'information',
-        'visibility',
-        'is_shareable',
-        'user_id',
+        'co_organizers', // json
+        'description',
+        'interests', // json
     ];
 
     protected $casts = [
-        'is_shareable' => 'boolean',
+        'co_organizers' => 'collection', // 'array
+        'interests' => 'collection', // 'array'
     ];
 
     public function user(): BelongsTo

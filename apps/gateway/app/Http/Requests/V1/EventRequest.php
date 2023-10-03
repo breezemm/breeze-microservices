@@ -24,23 +24,23 @@ class EventRequest extends FormRequest
     public function rules(): array
     {
         return [
-
-            // step 1
-            'event_name' => 'required|string|max:255',
-            'day' => 'required|date_format:d',
-            'month' => 'required|date_format:m',
-            'year' => 'required|date_format:Y',
-            'start_time' => 'required|date_format:H:i',
+            // Step 1
+            'name' => 'required|string|max:255',
+            'start_date' => 'required|date_format:Y-m-d',
+            'start_time' => 'required|date_format:H:i', //
             'end_time' => 'required|date_format:H:i',
             'place' => 'required',
+            'co_organizers' => 'nullable|array|exists:users,id',
 
-            // step 2
+            // Step 2
             'image' => ['required', new Base64ValidationRule],
             'description' => 'required|string',
-            'categories' => ['required', 'array'],
 
-            'visibility' => 'nullable|in:public,private,unlisted',
-            'is_shareable' => 'nullable|boolean',
+            // Step 3
+            'interests' => 'required|array|exists:interests,id',
+
+//            'visibility' => 'nullable|in:public,private,unlisted',
+//            'is_shareable' => 'nullable|boolean',
         ];
     }
 }
