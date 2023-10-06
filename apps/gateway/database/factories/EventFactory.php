@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Event;
+use App\Models\Interest;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,13 +21,11 @@ class EventFactory extends Factory
     {
         return [
             'name' => fake()->sentence(),
-            'date' => fake()->date(),
-            'time' => fake()->time(),
+            'start_date' => fake()->date(),
+            'start_time' => fake()->time(),
+            'end_time' => fake()->time(),
             'place' => collect(['Yangon', 'Mandalay', 'Letpadan'])->random(),
-            'ticket_price' => fake()->numberBetween(0, 3000),
-            'information' => fake()->realText(200),
-            'visibility' => collect(['public', 'private', 'unlisted'])->random(),
-            'is_shareable' => fake()->boolean(),
+            'description' => fake()->realText(200),
         ];
     }
 }

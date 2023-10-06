@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Overtrue\LaravelLike\Traits\Likeable;
@@ -26,12 +27,10 @@ class Event extends Model implements HasMedia
         'place',
         'co_organizers', // json
         'description',
-        'interests', // json
     ];
 
     protected $casts = [
         'co_organizers' => 'collection', // 'array
-        'interests' => 'collection', // 'array'
     ];
 
     public function user(): BelongsTo
@@ -50,5 +49,10 @@ class Event extends Model implements HasMedia
         return $this->hasMany(Comment::class);
     }
 
+
+    public function interests(): BelongsToMany
+    {
+        return $this->belongsToMany(Interest::class,);
+    }
 
 }

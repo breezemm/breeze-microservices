@@ -38,9 +38,6 @@ class EventRequest extends FormRequest
 
             // Step 3
             'interests' => 'required|array|exists:interests,id',
-
-//            'visibility' => 'nullable|in:public,private,unlisted',
-//            'is_shareable' => 'nullable|boolean',
         ];
     }
 }

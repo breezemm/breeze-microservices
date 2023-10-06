@@ -17,9 +17,7 @@ return new class extends Migration {
             $table->time('start_time');
             $table->time('end_time');
             $table->string('place');
-            $table->json('co_organizers')->nullable();
             $table->text('description');
-            $table->json('interests');
 
 
 //            $table->enum('visibility', [
