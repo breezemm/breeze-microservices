@@ -14,7 +14,14 @@ class EventStoreController extends Controller
     {
 
 
-        return $request->validated();
+        dd(
+            $request->validated()['phases'],
+        );
+
+
+
+
+
 
 //        try {
 //            $data = $request->validated();

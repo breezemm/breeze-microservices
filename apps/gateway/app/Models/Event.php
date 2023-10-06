@@ -23,14 +23,15 @@ class Event extends Model implements HasMedia
         'name',
         'start_date',
         'start_time',
+        'end_date',
         'end_time',
         'place',
-        'co_organizers', // json
         'description',
+        "is_has_phases",
     ];
 
     protected $casts = [
-        'co_organizers' => 'collection', // 'array
+        "is_has_phases" => "boolean",
     ];
 
     public function user(): BelongsTo
@@ -53,6 +54,13 @@ class Event extends Model implements HasMedia
     public function interests(): BelongsToMany
     {
         return $this->belongsToMany(Interest::class,);
+    }
+
+
+    // an event has many phases that can be added to it
+    public function phases(): HasMany
+    {
+        return $this->hasMany(Phase::class);
     }
 
 }

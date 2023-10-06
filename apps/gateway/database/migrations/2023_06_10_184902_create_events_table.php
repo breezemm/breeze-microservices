@@ -15,17 +15,11 @@ return new class extends Migration {
             $table->string('name');
             $table->date('start_date');
             $table->time('start_time');
+            $table->date('end_date');
             $table->time('end_time');
             $table->string('place');
             $table->text('description');
             $table->boolean('is_has_phases')->default(false);
-
-
-//            $table->enum('visibility', [
-//                'public',
-//                'private',
-//                'unlisted',
-//            ])->default('public');
             $table->foreignId('user_id');
             $table->timestamps();
         });

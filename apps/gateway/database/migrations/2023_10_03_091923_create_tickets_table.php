@@ -15,9 +15,10 @@ return new class extends Migration {
             $table->foreignId('phase_id');
             $table->string('name');
             $table->text('information')->nullable();
+            $table->unsignedDouble('price')->default(0);
+
             $table->boolean('is_has_seating_plan')->default(false);
             $table->integer('total_seats')->default(0);
-            $table->unsignedDouble('price')->default(0);
             $table->timestamps();
         });
     }
