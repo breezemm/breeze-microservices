@@ -13,9 +13,9 @@ return new class extends Migration {
         Schema::create('phases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('event_id');
+            $table->string('name');
             $table->date('start_date');
             $table->date('end_date');
-            $table->string('name');
             $table->timestamps();
         });
     }

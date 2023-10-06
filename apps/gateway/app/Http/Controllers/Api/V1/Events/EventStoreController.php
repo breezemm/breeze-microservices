@@ -13,6 +13,9 @@ class EventStoreController extends Controller
     public function __invoke(EventRequest $request)
     {
 
+
+        return $request->validated();
+
 //        try {
 //            $data = $request->validated();
 //            $data['date'] = date('Y-m-d', strtotime($data['date']));
