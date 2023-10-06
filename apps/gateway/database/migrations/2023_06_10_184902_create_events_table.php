@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->time('end_time');
             $table->string('place');
             $table->text('description');
+            $table->boolean('is_changeable_over_time')->default(false);
 
 
 //            $table->enum('visibility', [
