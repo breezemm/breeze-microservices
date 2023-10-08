@@ -2,42 +2,40 @@
 
 namespace App\Http\Controllers\Api\V1\Events;
 
-use App\Domains\Events\Events\EventCreated;
-use App\Domains\Events\Exceptions\EventCreatedFailed;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\EventRequest;
 use App\Models\Event;
+use Illuminate\Support\Facades\DB;
 
 class EventStoreController extends Controller
 {
     public function __invoke(EventRequest $request)
     {
+        try {
+            DB::beginTransaction();
 
+            $event = Event::create($request->validated() + ['user_id' => auth()->id()]);
+            $event->interests()->sync($request->validated('interests'));
+            $phases = $event->phases()->createMany($request->validated('phases'));
 
-        dd(
-            $request->validated()['phases'],
-        );
+            $event->addMediaFromBase64($request->validated('image'))
+                ->toMediaCollection('event-images');
 
+            // Create ticket base on the phases that we have been created before
+            foreach ($phases as $index => $phase) {
+                $phase->tickets()->createMany($request->phases[$index]['tickets']);
+            }
+            DB::commit();
 
-
-
-
-
-//        try {
-//            $data = $request->validated();
-//            $data['date'] = date('Y-m-d', strtotime($data['date']));
-//            $data['time'] = date('H:i:s', strtotime($data['time']));
-//            $data['user_id'] = auth()->user()->id;
-//
-//            event(new EventCreated($data));
-//
-//            return response()->json([
-//                'msg' => 'Event created successfully'
-//            ], 201);
-//        } catch (EventCreatedFailed $e) {
-//            return response()->json([
-//                'msg' => $e->getMessage()
-//            ], 500);
-//        }
+            return response()->json(
+                $event->with('phases.tickets')->findOrFail($event->id)
+            );
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return response()->json([
+                'msg' => $exception->getMessage()
+            ], 500);
+        }
     }
+
 }

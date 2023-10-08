@@ -23,6 +23,7 @@ class EventFactory extends Factory
             'name' => fake()->sentence(),
             'start_date' => fake()->date(),
             'start_time' => fake()->time(),
+            'end_date' => fake()->date(),
             'end_time' => fake()->time(),
             'place' => collect(['Yangon', 'Mandalay', 'Letpadan'])->random(),
             'description' => fake()->realText(200),

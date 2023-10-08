@@ -27,7 +27,8 @@ class Event extends Model implements HasMedia
         'end_time',
         'place',
         'description',
-        "is_has_phases",
+        'is_has_phases',
+        'user_id',
     ];
 
     protected $casts = [
