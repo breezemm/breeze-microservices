@@ -34,4 +34,19 @@ class EventRepository
             throw new EventCreatedFailed($exception->getMessage());
         }
     }
+
+
+    public function getEventById(Event $event): Event
+    {
+        return $event->load(['interests', 'phases.tickets']);
+    }
+
+
+    public function deleteEventById(Event $event): void
+    {
+        $event->delete();
+        $event->interests()->detach();
+        $event->phases()->delete();
+        $event->phases->tickets()->delete();
+    }
 }
