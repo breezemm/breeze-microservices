@@ -27,3 +27,10 @@ We have to ignore build step in Vercel in terms of deployment. So we have to set
 ```sh
 git diff HEAD^ HEAD --quiet ./
 ```
+
+## Docker Setup
+
+```bash
+  docker-compose up -d // up all services
+  docker-compose down // down all services
+```
