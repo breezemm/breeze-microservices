@@ -8,11 +8,14 @@ const path = require('path');
  * @type {import('metro-config').MetroConfig}
  */
 const config = {
-    resolver: {
-        unstable_enableSymlinks: true,
-        unstable_enablePackageExports: true,
-    },
-    watchFolders: [path.resolve(__dirname, 'node_modules')],
+  resolver: {
+    unstable_enableSymlinks: true,
+    unstable_enablePackageExports: true,
+  },
+  watchFolders: [
+    path.resolve(__dirname, 'node_modules'),
+    path.resolve(__dirname, '../', '../', 'node_modules'),
+  ],
 };
 
 module.exports = mergeConfig(getDefaultConfig(__dirname), config);
