@@ -6,7 +6,6 @@
 /public/hot
 /public/storage
 public/media/*
-.turbo
 
 #/storage/*.key
 /vendor
