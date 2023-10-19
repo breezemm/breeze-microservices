@@ -63,6 +63,14 @@ Route::middleware('auth:api')->group(function () {
 
 });
 
+Route::get('/checkout', function () {
+    \App\Jobs\CheckoutJob::dispatch();
+
+    return response()->json([
+        'message' => 'Hello World'
+    ]);
+});
+
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/timeline', TimelineController::class);
