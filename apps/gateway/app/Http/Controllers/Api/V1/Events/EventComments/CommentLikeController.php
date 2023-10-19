@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Comments;
+namespace App\Http\Controllers\Api\V1\Events\EventComments;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;

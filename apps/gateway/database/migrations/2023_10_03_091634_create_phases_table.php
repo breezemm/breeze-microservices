@@ -10,17 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('phases', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('event_id');
             $table->string('name');
             $table->date('start_date');
-            $table->time('start_time');
             $table->date('end_date');
-            $table->time('end_time');
-            $table->string('place');
-            $table->text('description');
-            $table->boolean('is_has_phases')->default(false);
-            $table->foreignId('user_id');
             $table->timestamps();
         });
     }
@@ -30,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('phases');
     }
 };

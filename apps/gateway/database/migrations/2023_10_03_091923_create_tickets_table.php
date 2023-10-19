@@ -10,17 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('phase_id');
             $table->string('name');
-            $table->date('start_date');
-            $table->time('start_time');
-            $table->date('end_date');
-            $table->time('end_time');
-            $table->string('place');
-            $table->text('description');
-            $table->boolean('is_has_phases')->default(false);
-            $table->foreignId('user_id');
+            $table->text('information')->nullable();
+            $table->unsignedDouble('price')->default(0);
+
+            $table->boolean('is_has_seating_plan')->default(false);
+            $table->integer('total_seats')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('tickets');
     }
 };
