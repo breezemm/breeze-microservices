@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use Illuminate\Support\Facades\Route;
+use Junges\Kafka\Facades\Kafka;
+use Junges\Kafka\Message\Message;
 
 
 Route::prefix('users')->group(function () {
@@ -63,17 +65,32 @@ Route::middleware('auth:api')->group(function () {
 
 });
 
-Route::get('/checkout', function () {
-    \App\Jobs\CheckoutJob::dispatch();
-
-    return response()->json([
-        'message' => 'Hello World'
-    ]);
-});
-
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/timeline', TimelineController::class);
-
 });
+
+
+Route::get('/checkout', function () {
+    $amount = request('amount');
+    Kafka::publishOn('test-topic')
+        ->withMessage(
+            new Message(
+                body: json_encode([
+                    'user_id' => 2,
+                    'amount' => $amount,
+                    'type' => 'debit',
+                    'description' => 'Test debit',
+                    'transaction_id' => '123456789',
+                ]),
+            )
+        )
+        ->send();
+
+
+    return response()->json([
+        'message' => 'test-topic published'
+    ]);
+});
+
 

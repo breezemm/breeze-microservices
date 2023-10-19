@@ -13,6 +13,7 @@ use Junges\Kafka\Contracts\KafkaConsumerMessage;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 use Mockery\Exception;
+use Opcodes\LogViewer\Logs\Log;
 
 class CheckoutJob implements ShouldQueue
 {
@@ -21,9 +22,10 @@ class CheckoutJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct(
+        public array $data,
+    )
     {
-        \Log::info('CheckoutJob');
     }
 
     /**
@@ -31,33 +33,6 @@ class CheckoutJob implements ShouldQueue
      */
     public function handle(): void
     {
-        try {
-            Kafka::publishOn('wallets')
-                ->withDebugEnabled()
-                ->withMessage(
-                    new Message(
-                        body: json_encode([
-                            'user_id' => 1,
-                            'amount' => 100,
-                            'type' => 'debit',
-                            'description' => 'Test debit',
-                            'transaction_id' => '123456789',
-                        ]),
-                    )
-                )
-                ->send();
-            \Log::info('Checked out successfully');
-
-            $consumer = Kafka::createConsumer()
-                ->subscribe('wallets')
-                ->withHandler(function (KafkaConsumerMessage $message) {
-                    event(new WalletReceived($message->getBody()));
-                    \Log::info('Received message: ' . json_encode($message->getBody()));
-                })->build();
-            $consumer->consume();
-
-        } catch (Exception $exception) {
-            \Log::error($exception->getMessage());
-        }
+        \Log::info('Received message: ' . $this->data['user_id']);
     }
 }
