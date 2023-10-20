@@ -15,7 +15,7 @@
   "packageManager": "pnpm@8.6.10",
   "name": "breeze",
   "workspaces": [
-    "app/*",
+    "apps/*",
     "packages/*"
   ]
 }
