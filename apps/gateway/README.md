@@ -155,3 +155,23 @@ export const event: Event = {
 }
 
 ```
+
+# Event Naming Convention
+
+```json
+{
+  "id": "68950cb0-397b-43b3-bf03-9c5f8aa619fa",
+  "pattern": {
+    "cmd": "wallet.create"
+  },
+  "data": {
+    "name": "Wallet",
+    "description": "Wallet for the user",
+    "user_id": "68950cb0-397b-43b3-bf03-9c5f8aa619fa",
+    "currency": "USD",
+    "balance": 0,
+    "is_active": true
+  }
+}
+```
+

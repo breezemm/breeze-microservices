@@ -71,52 +71,67 @@ Route::middleware('auth:api')->group(function () {
 });
 
 
+Route::any('/wallets/{any?}', function () {
+    try {
+        $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+        $threadHold = 10;
+
+        if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
+            return response()->json([
+                'message' => 'Too many attempts. Please try again later.',
+            ], 429);
+        }
+
+        $client = new GuzzleHttp\Client([
+            'base_uri' => config('services.breeze.wallet'),
+            'timeout' => 30,
+            'connect_timeout' => 60,
+            'http_errors' => false,
+        ]);
+
+        $response = $client->request(
+            method: request()->method(),
+            options: [
+                'query' => request()->query(),
+                'headers' => request()->headers->all()
+            ]);
+
+        return response($response->getBody()->getContents(), $response->getStatusCode(), $response->getHeaders());
+    } catch (\Exception $exception) {
+        return response()->json([
+            'meta' => [
+                'status' => 500,
+                'message' => 'Wallet service is not available at the moment.',
+            ],
+            'data' => [],
+        ], 500);
+    }
+})->where('any', '.*');
+
 Route::get('/checkout', function () {
     $amount = request('amount');
-    Kafka::publishOn('test-topic')
+
+
+    Kafka::publishOn("checkout")
         ->withMessage(
             new Message(
-                body: json_encode([
-                    'user_id' => 2,
-                    'amount' => $amount,
-                    'type' => 'debit',
-                    'description' => 'Test debit',
-                    'transaction_id' => '123456789',
-                ]),
+                body: json_encode(
+
+                    [
+                        'data' => [
+                            "name" => "John Doe",
+                        ]
+                    ]
+                )
             )
         )
         ->send();
 
 
     return response()->json([
-        'message' => 'test-topic published'
+        'message' => 'test-topic published',
+        'user' => collect([
+            'name' => 'John Doe',
+        ])->toJson(),
     ]);
 });
-
-
-Route::any('/wallet/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
-    $threadHold = 10;
-
-    if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
-        return response()->json([
-            'message' => 'Too many attempts. Please try again later.',
-        ], 429);
-    }
-
-    $client = new GuzzleHttp\Client([
-        'base_uri' => config('services.breeze.wallet'),
-        'timeout' => 30,
-        'connect_timeout' => 60,
-        'http_errors' => false,
-    ]);
-
-    $response = $client->request(
-        method: request()->method(),
-        options: [
-            'query' => request()->query(),
-            'headers' => request()->headers->all()
-        ]);
-
-    return response($response->getBody()->getContents(), $response->getStatusCode(), $response->getHeaders());
-})->where('any', '.*');

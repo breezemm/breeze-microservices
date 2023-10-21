@@ -2,23 +2,28 @@
 
 namespace App\Console\Commands;
 
-use App\Events\WalletReceived;
-use App\Jobs\CheckoutJob;
-use Carbon\Exceptions\Exception;
 use Illuminate\Console\Command;
 use Junges\Kafka\Contracts\KafkaConsumerMessage;
-use Junges\Kafka\Exceptions\KafkaConsumerException;
 use Junges\Kafka\Facades\Kafka;
 
-class TestCommandConsumer extends Command
+class TestTopicCommandCosumer extends Command
 {
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
     protected $signature = 'kafka:consume';
 
-    protected $description = 'Consume test messages from kafka';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
 
     /**
-     * @throws Exception
-     * @throws KafkaConsumerException
+     * Execute the console command.
      */
     public function handle()
     {
@@ -26,9 +31,6 @@ class TestCommandConsumer extends Command
             ->subscribe('test-topic')
             ->withHandler(function (KafkaConsumerMessage $message) {
                 $this->info('Received message: ' . $message->getBody());
-//                CheckoutJob::dispatch(
-//                    json_decode($message->getBody(), true)
-//                );
             })
             ->withAutoCommit()
             ->build();
