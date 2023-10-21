@@ -41,7 +41,7 @@ services:
       SCHEMA_REGISTRY_LISTENERS: 'http://0.0.0.0:8081'
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka:9092'
 
-  mysql:
+  debeium_mysql:
     image: debezium/example-mysql:1.2
     container_name: mysql
     ports:
@@ -58,7 +58,7 @@ services:
     container_name: connect-debezium
     depends_on:
       - kafka
-      - mysql
+      - debeium_mysql
       - schema-registry
     ports:
       - 8083:8083

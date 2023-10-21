@@ -21,6 +21,15 @@ use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 
 
+Route::any('/proxy/{path}', function(Request $req, $path) {
+    $client = new HttpClient([
+        'base_uri' => env('APP_URL')
+    ]);
+
+    return $client->request($req->method(), $path);
+});
+
+
 Route::prefix('users')->group(function () {
     Route::post('/validate-email', [EmailValidationController::class, 'validateEmail']);
     Route::post('/validate-profile-image', [EmailValidationController::class, 'validateProfileImage']);
