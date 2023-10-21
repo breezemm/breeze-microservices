@@ -17,3 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/', function () {
+    try {
+        throw new \Exception('Invalid request');
+        return response()->json([
+            'message' => 'Welcome to the Wallet API'
+        ], 422);
+    } catch (\Exception $exception) {
+        return response()->json([
+            'message' => 'Wallet service is not available at the moment.',
+        ], 500);
+    }
+});

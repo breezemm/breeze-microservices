@@ -21,15 +21,6 @@ use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 
 
-Route::any('/proxy/{path}', function(Request $req, $path) {
-    $client = new HttpClient([
-        'base_uri' => env('APP_URL')
-    ]);
-
-    return $client->request($req->method(), $path);
-});
-
-
 Route::prefix('users')->group(function () {
     Route::post('/validate-email', [EmailValidationController::class, 'validateEmail']);
     Route::post('/validate-profile-image', [EmailValidationController::class, 'validateProfileImage']);
@@ -103,3 +94,29 @@ Route::get('/checkout', function () {
 });
 
 
+Route::any('/wallet/{any?}', function () {
+    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+    $threadHold = 10;
+
+    if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
+        return response()->json([
+            'message' => 'Too many attempts. Please try again later.',
+        ], 429);
+    }
+
+    $client = new GuzzleHttp\Client([
+        'base_uri' => config('services.breeze.wallet'),
+        'timeout' => 30,
+        'connect_timeout' => 60,
+        'http_errors' => false,
+    ]);
+
+    $response = $client->request(
+        method: request()->method(),
+        options: [
+            'query' => request()->query(),
+            'headers' => request()->headers->all()
+        ]);
+
+    return response($response->getBody()->getContents(), $response->getStatusCode(), $response->getHeaders());
+})->where('any', '.*');
