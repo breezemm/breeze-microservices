@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Jobs\WalletCreated;
+use App\Support\Payload;
 use Illuminate\Support\Facades\Log;
 
 class CommandHandler

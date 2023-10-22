@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Support;
 
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -15,4 +15,6 @@ class Payload
     )
     {
     }
+
+
 }

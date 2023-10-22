@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,7 +12,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/', function () {
     try {
-//        throw new \Exception('Invalid request');
         return response()->json([
             'message' => 'Welcome to the Wallet API'
         ], 422);
@@ -25,3 +25,6 @@ Route::get('/', function () {
         ], 500);
     }
 });
+
+Route::apiResource('/wallets', WalletController::class);
+

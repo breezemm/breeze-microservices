@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\WalletCreated;
 use App\Services\CommandHandler;
-use App\Services\Payload;
+use App\Support\Payload;
 use Carbon\Exceptions\Exception;
 use Illuminate\Console\Command;
 use Junges\Kafka\Contracts\KafkaConsumerMessage;

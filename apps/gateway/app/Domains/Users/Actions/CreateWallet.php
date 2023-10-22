@@ -20,18 +20,14 @@ class CreateWallet
         try {
             Kafka::publishOn('wallet')
                 ->withMessage(new Message(
-                    body: json_encode([
-                        'id' => Str::uuid(),
-                        'topic' => 'wallet',
-                        'pattern' => [
-                            'cmd' => 'wallet.created',
-                        ],
-                        'data' => [
-                            'id' => $user['id'],
-                        ],
-                    ]),
-                ))
-                ->send();
+                        body: createPayload(
+                            topic: 'wallet',
+                            pattern: [
+                                'cmd' => 'wallet.created',
+                            ],
+                            data: $user,
+                        ))
+                )->send();
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }

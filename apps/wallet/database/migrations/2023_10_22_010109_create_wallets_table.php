@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('wallet_id')->unique();
             $table->string('balance');
             $table->enum('type', ['DEBIT', 'CREDIT', 'CASH', 'POINT', 'COIN']);
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id');
             $table->softDeletes();
             $table->timestamps();
         });
