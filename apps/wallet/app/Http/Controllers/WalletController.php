@@ -7,6 +7,7 @@ use App\Http\Requests\StoreWalletRequest;
 use App\Http\Requests\UpdateWalletRequest;
 use App\Models\User;
 use App\Models\Wallet;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class WalletController extends Controller
@@ -16,22 +17,13 @@ class WalletController extends Controller
      */
     public function index(User $user)
     {
-
-        Wallet::create([
-            'user_id' => '1',
-            'wallet_id' => Str::uuid(),
-            'balance' => 0,
-            'type' => WalletType::DEBIT,
-        ]);
-
-
-        $wallet = Wallet::where('user_id', $user->id)->first();
+        $wallets = $user->with('wallets')->get();
 
         return response()->json([
             'meta' => [
                 'status' => 200,
             ],
-            'data' => $wallet,
+            'data' => $wallets,
         ]);
     }
 

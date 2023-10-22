@@ -14,7 +14,7 @@ Route::get('/', function () {
     try {
         return response()->json([
             'message' => 'Welcome to the Wallet API'
-        ], 422);
+        ]);
     } catch (\Exception $exception) {
         return response()->json([
             'meta' => [
@@ -26,5 +26,9 @@ Route::get('/', function () {
     }
 });
 
-Route::apiResource('/wallets', WalletController::class);
 
+Route::prefix('v1/wallets')->group(function () {
+
+    Route::post('/', [WalletController::class, 'index']);
+
+});

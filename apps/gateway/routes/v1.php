@@ -71,67 +71,78 @@ Route::middleware('auth:api')->group(function () {
 });
 
 
-Route::any('/wallets/{any?}', function () {
+//Route::middleware('auth:api')->any('/wallets/{any?}', function () {
+//
+//    try {
+//        $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+//        $threadHold = 10;
+//
+//        if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
+//            return response()->json([
+//                'message' => 'Too many attempts. Please try again later.',
+//            ], 429);
+//        }
+//
+//
+//        $client = new GuzzleHttp\Client([
+//            'base_uri' => config('services.breeze.wallet'),
+////            'timeout' => 3,
+////            'connect_timeout' => 3,
+//            'http_errors' => true,
+//        ]);
+//
+//        $path = str_replace("api/", "", request()->path());
+//
+////        return $path;
+//        $response = $client->request(
+//            method: request()->method(),
+//            uri: "/api/{$path}",
+//            options: [
+//                'query' => request()->query(),
+//                'headers' => request()->headers->all()
+//            ]);
+//
+//
+//        return response($response->getBody()->getContents(), $response->getStatusCode(), $response->getHeaders());
+//    } catch (\Exception $exception) {
+//        return response()->json([
+//            'meta' => [
+//                'status' => 500,
+//                'message' => 'Wallet service is not available at the moment.',
+//                'stack' => $exception->getMessage(),
+//            ],
+//            'data' => [],
+//        ], 500);
+//    }
+//})->where('any', '.*');
+
+
+Route::middleware('auth:api')->get('/wallets', function () {
     try {
-        $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
-        $threadHold = 10;
 
-        if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
-            return response()->json([
-                'message' => 'Too many attempts. Please try again later.',
-            ], 429);
-        }
-
-        $client = new GuzzleHttp\Client([
-            'base_uri' => config('services.breeze.wallet'),
-            'timeout' => 30,
-            'connect_timeout' => 60,
-            'http_errors' => false,
+        return response()->json([
+            'name' => 'John Doe',
         ]);
 
-        $response = $client->request(
-            method: request()->method(),
-            options: [
-                'query' => request()->query(),
-                'headers' => request()->headers->all()
+        $response = \Illuminate\Support\Facades\Http::
+        timeout(3)
+            ->withHeaders(request()->headers->all())
+            ->retry(3, 100)
+            ->post(config('services.breeze.wallet') . "/wallets", [
+                'user_id' => auth()->id()
             ]);
 
-        return response($response->getBody()->getContents(), $response->getStatusCode(), $response->getHeaders());
+        return response($response->body(), $response->status(), $response->headers());
     } catch (\Exception $exception) {
         return response()->json([
             'meta' => [
                 'status' => 500,
                 'message' => 'Wallet service is not available at the moment.',
+                'stack' => $exception->getMessage(),
             ],
             'data' => [],
         ], 500);
     }
-})->where('any', '.*');
-
-Route::get('/checkout', function () {
-    $amount = request('amount');
-
-
-    Kafka::publishOn("checkout")
-        ->withMessage(
-            new Message(
-                body: json_encode(
-
-                    [
-                        'data' => [
-                            "name" => "John Doe",
-                        ]
-                    ]
-                )
-            )
-        )
-        ->send();
-
-
-    return response()->json([
-        'message' => 'test-topic published',
-        'user' => collect([
-            'name' => 'John Doe',
-        ])->toJson(),
-    ]);
 });
+
+
