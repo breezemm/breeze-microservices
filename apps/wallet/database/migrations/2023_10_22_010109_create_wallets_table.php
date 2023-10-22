@@ -11,7 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('wallets', function (Blueprint $table) {
-            $table->uuid();
+            $table->id();
+            $table->string('wallet_id')->unique();
             $table->string('balance');
             $table->enum('type', ['DEBIT', 'CREDIT', 'CASH', 'POINT', 'COIN']);
             $table->foreignId('user_id')->constrained('users');

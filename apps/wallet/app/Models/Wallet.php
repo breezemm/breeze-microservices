@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wallet extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
+
 
     protected $guarded = [];
     protected $casts = [
