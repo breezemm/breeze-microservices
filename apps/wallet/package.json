@@ -1,0 +1,14 @@
+{
+    "name": "wallet",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "php artisan serve --port=8002",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "axios": "^1.1.2",
+        "laravel-vite-plugin": "^0.8.0",
+        "vite": "^4.0.0"
+    }
+}

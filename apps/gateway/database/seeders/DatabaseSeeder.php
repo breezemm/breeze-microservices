@@ -29,37 +29,44 @@ class DatabaseSeeder extends Seeder
             )
             ->create()
             ->each(
-                fn(User $user) => $user->events()->createMany(
-                    Event::factory()->count(3)->make()->toArray()
-                )
+                fn(User $user) => $user->events()->saveMany(
+                    Event::factory()
+                        ->count(3)->make()
+                ),
             );
 
-        Activity::create([
-            'action_id' => 1,
-            'user_id' => 1,
-            'event_id' => 4,
-        ]);
-
-        Activity::create([
-            'action_id' => 3, // like
-            'user_id' => 1,
-            'event_id' => 5,
-        ]);
-
-        Activity::create([
-            'action_id' => 4, // bookmark
-            'user_id' => 1,
-            'event_id' => 5,
-        ]);
+        Event::all()
+            ->each(
+                fn(Event $event) => $event->interests()->attach(
+                    Interest::all()->random(3)
+                ),
+            );
 
 
-        Activity::create([
-            'action_id' => 5, // repost
-            'user_id' => 1,
-            'event_id' => 5,
-        ]);
-
-
+//        Activity::create([
+//            'action_id' => 1,
+//            'user_id' => 1,
+//            'event_id' => 4,
+//        ]);
+//
+//        Activity::create([
+//            'action_id' => 3, // like
+//            'user_id' => 1,
+//            'event_id' => 5,
+//        ]);
+//
+//        Activity::create([
+//            'action_id' => 4, // bookmark
+//            'user_id' => 1,
+//            'event_id' => 5,
+//        ]);
+//
+//
+//        Activity::create([
+//            'action_id' => 5, // repost
+//            'user_id' => 1,
+//            'event_id' => 5,
+//        ]);
 
     }
 }

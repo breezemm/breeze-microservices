@@ -12,18 +12,14 @@ return new class extends Migration {
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->date('date');
-            $table->time('time');
+            $table->string('name');
+            $table->date('start_date');
+            $table->time('start_time');
+            $table->date('end_date');
+            $table->time('end_time');
             $table->string('place');
-            $table->double('ticket_price');
-            $table->text('information');
-            $table->enum('visibility', [
-                'public',
-                'private',
-                'unlisted',
-            ])->default('public');
-            $table->boolean('is_shareable')->default(true);
+            $table->text('description');
+            $table->boolean('is_has_phases')->default(false);
             $table->foreignId('user_id');
             $table->timestamps();
         });
