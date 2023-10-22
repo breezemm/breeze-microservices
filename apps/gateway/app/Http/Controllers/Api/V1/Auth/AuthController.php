@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Domains\Users\Actions\CreateWallet;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegisterRequest;
@@ -31,6 +32,11 @@ class AuthController extends Controller
             $user->interests()->attach($data['interests']);
 
             $token = $user->createToken('access_token')->accessToken;
+
+
+            (new CreateWallet)([
+                'id' => $user->id,
+            ]);
 
             return json_response(Response::HTTP_CREATED, 'User has been created successfully', [
                 'access_token' => $token,
