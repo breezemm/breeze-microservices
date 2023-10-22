@@ -1,8 +1,9 @@
 {
+    "name": "wallet",
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
+        "dev": "php artisan serve --port=8002",
         "build": "vite build"
     },
     "devDependencies": {

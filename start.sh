@@ -5,7 +5,7 @@ NC='\033[0m' # No Color
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 
-docker-compose -f docker-compose.kafka.yaml up -d
+docker-compose up -d
 
 echo -e "${BLUE}☁️ Confluent Platform is starting up...${NC}"
 

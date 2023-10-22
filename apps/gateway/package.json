@@ -4,7 +4,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "php artisan serve",
+        "dev": "php artisan serve --port=8000",
         "build": "vite build"
     },
     "devDependencies": {

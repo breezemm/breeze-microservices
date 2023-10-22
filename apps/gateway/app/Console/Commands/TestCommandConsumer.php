@@ -12,7 +12,7 @@ use Junges\Kafka\Facades\Kafka;
 
 class TestCommandConsumer extends Command
 {
-    protected $signature = 'kafka:test-consume';
+    protected $signature = 'kafka:consume';
 
     protected $description = 'Consume test messages from kafka';
 
@@ -26,9 +26,9 @@ class TestCommandConsumer extends Command
             ->subscribe('test-topic')
             ->withHandler(function (KafkaConsumerMessage $message) {
                 $this->info('Received message: ' . $message->getBody());
-                CheckoutJob::dispatch(
-                    json_decode($message->getBody(), true)
-                );
+//                CheckoutJob::dispatch(
+//                    json_decode($message->getBody(), true)
+//                );
             })
             ->withAutoCommit()
             ->build();

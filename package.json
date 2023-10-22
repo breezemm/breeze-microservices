@@ -13,5 +13,9 @@
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.6.10",
-  "name": "breeze-mono"
+  "name": "breeze",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

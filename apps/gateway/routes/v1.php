@@ -71,26 +71,78 @@ Route::middleware('auth:api')->group(function () {
 });
 
 
-Route::get('/checkout', function () {
-    $amount = request('amount');
-    Kafka::publishOn('test-topic')
-        ->withMessage(
-            new Message(
-                body: json_encode([
-                    'user_id' => 2,
-                    'amount' => $amount,
-                    'type' => 'debit',
-                    'description' => 'Test debit',
-                    'transaction_id' => '123456789',
-                ]),
-            )
-        )
-        ->send();
+//Route::middleware('auth:api')->any('/wallets/{any?}', function () {
+//
+//    try {
+//        $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+//        $threadHold = 10;
+//
+//        if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
+//            return response()->json([
+//                'message' => 'Too many attempts. Please try again later.',
+//            ], 429);
+//        }
+//
+//
+//        $client = new GuzzleHttp\Client([
+//            'base_uri' => config('services.breeze.wallet'),
+////            'timeout' => 3,
+////            'connect_timeout' => 3,
+//            'http_errors' => true,
+//        ]);
+//
+//        $path = str_replace("api/", "", request()->path());
+//
+////        return $path;
+//        $response = $client->request(
+//            method: request()->method(),
+//            uri: "/api/{$path}",
+//            options: [
+//                'query' => request()->query(),
+//                'headers' => request()->headers->all()
+//            ]);
+//
+//
+//        return response($response->getBody()->getContents(), $response->getStatusCode(), $response->getHeaders());
+//    } catch (\Exception $exception) {
+//        return response()->json([
+//            'meta' => [
+//                'status' => 500,
+//                'message' => 'Wallet service is not available at the moment.',
+//                'stack' => $exception->getMessage(),
+//            ],
+//            'data' => [],
+//        ], 500);
+//    }
+//})->where('any', '.*');
 
 
-    return response()->json([
-        'message' => 'test-topic published'
-    ]);
+Route::middleware('auth:api')->get('/wallets', function () {
+    try {
+
+        return response()->json([
+            'name' => 'John Doe',
+        ]);
+
+        $response = \Illuminate\Support\Facades\Http::
+        timeout(3)
+            ->withHeaders(request()->headers->all())
+            ->retry(3, 100)
+            ->post(config('services.breeze.wallet') . "/wallets", [
+                'user_id' => auth()->id()
+            ]);
+
+        return response($response->body(), $response->status(), $response->headers());
+    } catch (\Exception $exception) {
+        return response()->json([
+            'meta' => [
+                'status' => 500,
+                'message' => 'Wallet service is not available at the moment.',
+                'stack' => $exception->getMessage(),
+            ],
+            'data' => [],
+        ], 500);
+    }
 });
 
 
