@@ -33,4 +33,8 @@ WORKDIR /mcy/breeze/gateway
 RUN apk del autoconf g++ make && \
     rm -rf /tmp/*
 
+COPY laravel-setup.sh /setup.sh
+RUN chmod +x /setup.sh
+ENTRYPOINT ["/setup.sh"]
+
 USER $user

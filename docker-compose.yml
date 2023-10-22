@@ -35,7 +35,7 @@ services:
         uid: 1000
         user: breeze
       context: ./infra/docker/php
-      dockerfile: php-fpm.dockerfile
+      dockerfile: fpm.dockerfile
     volumes:
       - ./apps/gateway:/mcy/breeze/gateway
     networks:
@@ -43,6 +43,13 @@ services:
     depends_on:
       - mysql
       - redis
+      - nestjs
+    command:
+      - /bin/sh
+      - -c
+      - |
+        composer install
+        composer setup
 
   mysql:
     image: mysql:latest
@@ -65,3 +72,14 @@ services:
       - |
         redis-server --requirepass $$REDIS_PASSWORD
         sysctl vm.overcommit_memory=1
+
+  nestjs:
+    build:
+      context: ./apps/suggestion
+      dockerfile: nestjs.dockerfile
+    volumes:
+      - ./apps/suggestion:/mcy/breeze/suggestion
+      - /mcy/breeze/suggestion/node_modules
+    networks:
+      - backend
+    command: pnpm run start
