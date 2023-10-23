@@ -69,8 +69,7 @@
         "setup": [
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "php artisan key:generate",
-            "php artisan migrate:fresh --seed",
-            "php artisan passport:install --force"
+            "php artisan migrate:fresh --seed"
         ],
         "test": "pest"
     },
