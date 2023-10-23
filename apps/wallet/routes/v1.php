@@ -9,7 +9,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::get('/', function () {
     try {
         return response()->json([
@@ -27,8 +26,20 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('v1/wallets')->group(function () {
+Route::prefix('wallets')->group(function () {
+    Route::get('/', function () {
+        return response()->json([
+            'ok' => true,
+            'message' => 'wallets'
+        ]);
+    });
 
-    Route::post('/', [WalletController::class, 'index']);
+    Route::get('/some', function () {
+//        throw new \Exception('some');
+        return response()->json([
+            'ok' => true,
+            'message' => 'some'
+        ]);
+    });
 
 });

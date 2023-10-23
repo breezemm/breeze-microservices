@@ -6,19 +6,19 @@ use App\Http\Controllers\Api\V1\Auth\InterestController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentController;
+use App\Http\Controllers\Api\V1\Events\EventLaunched\LaunchedEventController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventLikeController;
-use App\Http\Controllers\Api\V1\Events\EventStoreController;
-use App\Http\Controllers\Api\V1\Events\EventLaunched\LaunchedEventController;
 use App\Http\Controllers\Api\V1\Events\EventSaved\EventSaveController;
+use App\Http\Controllers\Api\V1\Events\EventStoreController;
 use App\Http\Controllers\Api\V1\Suggestions\SuggestionController;
 use App\Http\Controllers\Api\V1\Timeline\ProfileTimeline;
 use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-use Junges\Kafka\Facades\Kafka;
-use Junges\Kafka\Message\Message;
 
 
 Route::prefix('users')->group(function () {
@@ -71,78 +71,44 @@ Route::middleware('auth:api')->group(function () {
 });
 
 
-//Route::middleware('auth:api')->any('/wallets/{any?}', function () {
-//
-//    try {
-//        $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
-//        $threadHold = 10;
-//
-//        if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
-//            return response()->json([
-//                'message' => 'Too many attempts. Please try again later.',
-//            ], 429);
-//        }
-//
-//
-//        $client = new GuzzleHttp\Client([
-//            'base_uri' => config('services.breeze.wallet'),
-////            'timeout' => 3,
-////            'connect_timeout' => 3,
-//            'http_errors' => true,
-//        ]);
-//
-//        $path = str_replace("api/", "", request()->path());
-//
-////        return $path;
-//        $response = $client->request(
-//            method: request()->method(),
-//            uri: "/api/{$path}",
-//            options: [
-//                'query' => request()->query(),
-//                'headers' => request()->headers->all()
-//            ]);
-//
-//
-//        return response($response->getBody()->getContents(), $response->getStatusCode(), $response->getHeaders());
-//    } catch (\Exception $exception) {
-//        return response()->json([
-//            'meta' => [
-//                'status' => 500,
-//                'message' => 'Wallet service is not available at the moment.',
-//                'stack' => $exception->getMessage(),
-//            ],
-//            'data' => [],
-//        ], 500);
-//    }
-//})->where('any', '.*');
+Route::any('/wallets/{any?}', function (Request $request) {
+    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+    $threadHold = 10;
 
-
-Route::middleware('auth:api')->get('/wallets', function () {
     try {
+        if (RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
+            return response()->json([
+                'meta' => [
+                    'status' => 429,
+                    'ok' => false,
+                    'message' => 'Too many attempts, please try again later.',
+                ],
+                'data' => [],
+            ], 429);
+        }
 
-        return response()->json([
-            'name' => 'John Doe',
-        ]);
-
-        $response = \Illuminate\Support\Facades\Http::
-        timeout(3)
-            ->withHeaders(request()->headers->all())
-            ->retry(3, 100)
-            ->post(config('services.breeze.wallet') . "/wallets", [
-                'user_id' => auth()->id()
+        $response = Http::timeout(2)
+            ->retry(3, 200)
+            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
+                'query' => request()->query(),
+                'headers' => request()->headers->all(),
             ]);
 
         return response($response->body(), $response->status(), $response->headers());
     } catch (\Exception $exception) {
+
+        RateLimiter::hit($throttleKey);
+
         return response()->json([
             'meta' => [
                 'status' => 500,
+                'ok' => false,
                 'message' => 'Wallet service is not available at the moment.',
                 'stack' => $exception->getMessage(),
             ],
             'data' => [],
         ], 500);
     }
-});
+})->where('any', '.*');
 
 
