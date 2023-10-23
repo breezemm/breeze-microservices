@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegisterRequest;
 use App\Http\Resources\V1\UserResource;
+use App\Jobs\UserCreated;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -24,6 +26,7 @@ class AuthController extends Controller
             $data['date_of_birth'] = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
             $data['username'] = 'user_' . time();
 
+            DB::beginTransaction();
             $user = User::create($data);
 
             $user->addMediaFromBase64($data['profile_image'])
@@ -33,16 +36,15 @@ class AuthController extends Controller
 
             $token = $user->createToken('access_token')->accessToken;
 
+            UserCreated::dispatch($user->toArray());
 
-            (new CreateWallet)([
-                'id' => $user->id,
-            ]);
-
+            DB::commit();
             return json_response(Response::HTTP_CREATED, 'User has been created successfully', [
                 'access_token' => $token,
             ]);
         } catch (\Exception $exception) {
-            return json_response(Response::HTTP_INTERNAL_SERVER_ERROR, $exception);
+            DB::rollBack();
+            return json_response(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
         }
     }
 

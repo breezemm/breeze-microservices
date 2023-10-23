@@ -2,37 +2,34 @@
 
 namespace App\Jobs;
 
-use App\Events\WalletReceived;
+use App\Domains\Users\Actions\CreateWallet;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Junges\Kafka\Contracts\KafkaConsumerMessage;
-use Junges\Kafka\Facades\Kafka;
-use Junges\Kafka\Message\Message;
-use Mockery\Exception;
-use Opcodes\LogViewer\Logs\Log;
+use PHPUnit\Logging\Exception;
 
-class CheckoutJob implements ShouldQueue
+class UserCreated implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
     public function __construct(
-        public array $data,
+        public readonly array $user
     )
     {
+        //
     }
 
     /**
      * Execute the job.
+     * @throws \Exception
      */
     public function handle(): void
     {
-        \Log::info('Received message: ' . $this->data['user_id']);
+        (new CreateWallet)([
+            'id' => $this->user['id'],
+        ]);
     }
 }
