@@ -13,6 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class WalletCreated implements ShouldQueue
@@ -45,6 +46,7 @@ class WalletCreated implements ShouldQueue
             ]);
 
             DB::commit();
+            Log::info('Wallet created');
         } catch (\Exception $exception) {
             DB::rollBack();
             throw $exception;

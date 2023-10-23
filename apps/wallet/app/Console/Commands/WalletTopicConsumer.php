@@ -6,9 +6,11 @@ use App\Services\CommandHandler;
 use App\Support\Payload;
 use Carbon\Exceptions\Exception;
 use Illuminate\Console\Command;
+use Junges\Kafka\Config\Sasl;
 use Junges\Kafka\Contracts\KafkaConsumerMessage;
 use Junges\Kafka\Exceptions\KafkaConsumerException;
 use Junges\Kafka\Facades\Kafka;
+use function Laravel\Prompts\password;
 
 class WalletTopicConsumer extends Command
 {
@@ -23,6 +25,12 @@ class WalletTopicConsumer extends Command
     public function handle(): void
     {
         $consumer = Kafka::createConsumer()
+            ->withSasl(new Sasl(
+                username: env('KAFKA_USERNAME'),
+                password: env('KAFKA_PASSWORD'),
+                mechanisms: env('KAFKA_SASL_MECHANISMS'),
+                securityProtocol: env('KAFKA_SECURITY_PROTOCOL'),
+            ))
             ->subscribe('wallet')
             ->withHandler(function (KafkaConsumerMessage $message) {
                 $this->info('[Received Command]: ' . $message->getBody());
