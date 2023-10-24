@@ -27,19 +27,6 @@ Route::get('/', function () {
 
 
 Route::prefix('wallets')->group(function () {
-    Route::get('/', function () {
-        return response()->json([
-            'ok' => true,
-            'message' => 'wallets'
-        ]);
-    });
-
-    Route::get('/some', function () {
-//        throw new \Exception('some');
-        return response()->json([
-            'ok' => true,
-            'message' => 'some'
-        ]);
-    });
+    Route::get('{user}', [WalletController::class, 'index']);
 
 });

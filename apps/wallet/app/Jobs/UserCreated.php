@@ -2,26 +2,22 @@
 
 namespace App\Jobs;
 
-use App\Enums\WalletType;
-use App\Models\User;
-use App\Models\Wallet;
 use App\Services\UserService;
-use App\Services\WalletService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use JetBrains\PhpStorm\ArrayShape;
 
-class WalletCreated implements ShouldQueue
+class UserCreated implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * Create a new job instance.
+     */
     public function __construct(
         #[ArrayShape([
             'id' => "int",
@@ -35,10 +31,9 @@ class WalletCreated implements ShouldQueue
     /**
      * @throws \Exception
      */
-    public function handle(WalletService $walletService): void
+    public function handle(UserService $userService): void
     {
-        UserCreated::dispatch($this->user);
-        $walletService->create([
+        $userService->create([
             'user_id' => $this->user['id'],
         ]);
     }

@@ -12,18 +12,17 @@ use Illuminate\Support\Str;
 
 class WalletController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(User $user)
     {
-        $wallets = $user->with('wallets')->get();
+        $wallets = $user->load('wallets');
 
         return response()->json([
             'meta' => [
                 'status' => 200,
             ],
-            'data' => $wallets,
+            'data' => [
+                'wallets' => $wallets->wallets,
+            ],
         ]);
     }
 
