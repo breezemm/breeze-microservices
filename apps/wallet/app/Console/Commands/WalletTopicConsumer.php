@@ -25,12 +25,12 @@ class WalletTopicConsumer extends Command
     public function handle(): void
     {
         $consumer = Kafka::createConsumer()
-            ->withSasl(new Sasl(
-                username: env('KAFKA_USERNAME') ?? '',
-                password: env('KAFKA_PASSWORD') ?? '',
-                mechanisms: env('KAFKA_SASL_MECHANISMS') ?? '',
-                securityProtocol: env('KAFKA_SECURITY_PROTOCOL') ?? '',
-            ))
+//            ->withSasl(new Sasl(
+//                username: env('KAFKA_USERNAME') ?? '',
+//                password: env('KAFKA_PASSWORD') ?? '',
+//                mechanisms: env('KAFKA_SASL_MECHANISMS') ?? '',
+//                securityProtocol: env('KAFKA_SECURITY_PROTOCOL') ?? '',
+//            ))
             ->subscribe('wallet')
             ->withHandler(function (KafkaConsumerMessage $message) {
                 $this->info('[Received Command]: ' . $message->getBody());
