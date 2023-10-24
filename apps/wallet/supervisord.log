@@ -14460,3 +14460,133 @@ Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open
 time="2023-10-24T22:41:53+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
 time="2023-10-24T22:41:53+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
 time="2023-10-24T22:41:53+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:41:58+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:41:58+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:41:58+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:41:58+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:41:59+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:41:59+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:41:59+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:41:59+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:41:59+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+time="2023-10-24T22:41:59+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:41:59+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:41:59+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:00+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:00+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:00+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:00+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:00+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:00+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:00+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:01+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:01+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:04+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:04+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:05+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:05+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:05+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:05+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:06+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:06+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:06+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:06+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:06+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:06+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:06+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:06+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:06+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:06+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:06+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:07+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:07+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:07+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:07+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:12+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:12+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:12+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:12+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:12+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:12+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:12+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:12+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:13+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:13+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:13+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:13+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:13+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:13+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:18+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:18+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:18+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:18+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:18+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:18+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:18+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:19+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:19+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:19+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:19+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:19+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:19+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:19+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:24+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:24+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:24+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:24+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:24+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:25+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:25+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:25+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:25+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_01
+time="2023-10-24T22:42:25+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:25+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_01
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:25+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:26+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:26+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:26+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:26+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:26+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:26+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+Fail to open log file --/var/log/supervisor-laravel-worker.log-- with error open /var/log/supervisor-laravel-worker.log: permission denied
+time="2023-10-24T22:42:26+06:30" level=debug msg="wait program exit" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:27+06:30" level=info msg="program stopped with status:exit status 1" program=wallet-topic-consumer_02
+time="2023-10-24T22:42:27+06:30" level=error msg="fail to start program because retry times is greater than 3" program=wallet-topic-consumer_02
