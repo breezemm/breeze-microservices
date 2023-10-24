@@ -36,3 +36,10 @@ git diff HEAD^ HEAD --quiet ./
 ```sh
   brew services start supervisor
 ```
+
+## Docker Setup
+
+```sh
+  docker-compose up -d // up all services
+  docker-compose down // down all services
+```

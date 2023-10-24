@@ -1,0 +1,85 @@
+networks:
+  frontend:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.101.0/24"
+          gateway: 172.16.101.1
+
+  backend:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.102.0/24"
+          gateway: 172.16.102.1
+
+volumes:
+  database:
+
+services:
+  nginx:
+    image: nginx:alpine
+    networks:
+      - frontend
+      - backend
+    volumes:
+      - ./infra/docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./apps/gateway/:/mcy/breeze/gateway
+    working_dir: /mcy/breeze/gateway
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    build:
+      args:
+        uid: 1000
+        user: breeze
+      context: ./infra/docker/php
+      dockerfile: fpm.dockerfile
+    volumes:
+      - ./apps/gateway:/mcy/breeze/gateway
+    networks:
+      - backend
+    depends_on:
+      - mysql
+      - redis
+      - nestjs
+    command:
+      - /bin/sh
+      - -c
+      - |
+        composer install
+        composer setup
+
+  mysql:
+    image: mysql:latest
+    env_file: ./apps/gateway/.env.example
+    volumes:
+      - database:/mcy/breeze/mysql
+    networks:
+      - backend
+
+  redis:
+    image: redis:alpine
+    env_file: ./apps/gateway/.env.example
+    volumes:
+      - database:/mcy/breeze/redis
+    networks:
+      - backend
+    command:
+      - /bin/sh
+      - -c
+      - |
+        redis-server --requirepass $$REDIS_PASSWORD
+        sysctl vm.overcommit_memory=1
+
+  nestjs:
+    build:
+      context: ./apps/suggestion
+      dockerfile: nestjs.dockerfile
+    volumes:
+      - ./apps/suggestion:/mcy/breeze/suggestion
+      - /mcy/breeze/suggestion/node_modules
+    networks:
+      - backend
+    command: pnpm run start
