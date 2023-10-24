@@ -21,13 +21,19 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
 
+/*
+ * Auth Routes
+ * @description: This route group contains all the routes related to authentication
+ * */
 Route::prefix('users')->group(function () {
     Route::post('/validate-email', [EmailValidationController::class, 'validateEmail']);
     Route::post('/validate-profile-image', [EmailValidationController::class, 'validateProfileImage']);
-    Route::get('/interests', [InterestController::class, 'index']);
+    Route::get('/interests', InterestController::class);
 
     Route::post('/sign-up', [AuthController::class, 'register']);
     Route::post('/sign-in', [AuthController::class, 'login']);
+
+    Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 });
 
 
@@ -37,7 +43,6 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/me', [AuthController::class, 'getAuthUser']);
         Route::get('/me/activities', ProfileTimeline::class);
 
-        Route::post('/sign-out', [AuthController::class, 'logout']);
 
         Route::post('/{user}/follow', UserFollowController::class);
         Route::post('/{user}/unfollow', UserUnFollowController::class);
@@ -71,7 +76,11 @@ Route::middleware('auth:api')->group(function () {
 });
 
 
-Route::any('/wallets/{any?}', function (Request $request) {
+/*
+ * Wallet Routes
+ * @description: This route group contains all the routes related to wallet service
+ * */
+Route::any('/wallets/{any?}', function () {
     $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
     $threadHold = 10;
 
@@ -95,7 +104,7 @@ Route::any('/wallets/{any?}', function (Request $request) {
             ]);
 
         return response($response->body(), $response->status(), $response->headers());
-    } catch (\Exception $exception) {
+    } catch (Exception $exception) {
 
         RateLimiter::hit($throttleKey);
 

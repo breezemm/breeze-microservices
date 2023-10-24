@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\IntrestResource;
+use App\Http\Resources\V1\InterestResource;
 use App\Models\Interest;
 use Illuminate\Http\Request;
 
 class InterestController extends Controller
 {
-    public function index()
+    public function __invoke()
     {
-        $intrests = Interest::all();
+        $interests = Interest::all();
 
-        return IntrestResource::collection($intrests);
+        return InterestResource::collection($interests);
     }
 }
