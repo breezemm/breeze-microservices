@@ -82,7 +82,7 @@ Route::middleware('auth:api')->group(function () {
  * */
 Route::any('/wallets/{any?}', function () {
     $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
-    $threadHold = 60;
+    $threadHold = 10;
 
     try {
         if (RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
@@ -101,6 +101,7 @@ Route::any('/wallets/{any?}', function () {
             ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
+                'body' => request()->getContent(),
             ]);
 
         return response($response->body(), $response->status(), $response->headers());
@@ -114,6 +115,7 @@ Route::any('/wallets/{any?}', function () {
                 'ok' => false,
                 'message' => 'Wallet service is not available at the moment.',
                 'stack' => $exception->getMessage(),
+                'trace' => $exception->getTrace(),
             ],
             'data' => [],
         ], 500);
