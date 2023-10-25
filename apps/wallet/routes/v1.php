@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\WalletController;
+use App\Http\Controllers\WalletController\GetWalletByUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +27,5 @@ Route::get('/', function () {
 
 
 Route::prefix('wallets')->group(function () {
-    Route::get('{user}', [WalletController::class, 'index']);
-
+    Route::post('/', GetWalletByUserController::class);
 });
