@@ -23,7 +23,7 @@ class EventSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'event_id' => ['required','exists:events,id',new EventSaveDuplicateCheckRule()]
+            'event_id' => ['required', 'exists:events,id', new EventSaveDuplicateCheckRule()],
         ];
     }
 }

@@ -3,8 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Event;
-use App\Models\Interest;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

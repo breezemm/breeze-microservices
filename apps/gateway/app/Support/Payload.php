@@ -7,12 +7,10 @@ class Payload
     public function __construct(
         public readonly string $id,
         public readonly string $topic,
-        public readonly array  $pattern,
-        public readonly array  $data,
-    )
-    {
+        public readonly array $pattern,
+        public readonly array $data,
+    ) {
     }
-
 
     public static function fromArray(array $payload): self
     {
@@ -43,6 +41,4 @@ class Payload
     {
         return $this->__toString();
     }
-
-
 }

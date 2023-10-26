@@ -35,12 +35,10 @@ class EventRepository
         }
     }
 
-
     public function getEventById(Event $event): Event
     {
         return $event->load(['interests', 'phases.tickets']);
     }
-
 
     public function deleteEventById(Event $event): void
     {

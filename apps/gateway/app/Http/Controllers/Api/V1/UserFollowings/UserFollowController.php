@@ -15,7 +15,7 @@ class UserFollowController extends Controller
         auth()->user()->follow($user);
 
         return response()->json([
-            'message' => 'User followed successfully'
+            'message' => 'User followed successfully',
         ]);
     }
 }

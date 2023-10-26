@@ -14,9 +14,10 @@ class EventLikeController extends Controller
     public function __invoke(Event $event)
     {
         auth()->user()->like($event);
+
         return new JsonResponse([
             'message' => 'Event liked successfully',
-            'data' => $event->likers()->count()
+            'data' => $event->likers()->count(),
         ]);
     }
 }

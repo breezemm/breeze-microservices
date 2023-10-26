@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1\Events;
 
-
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\EventRequest;
 use App\Http\Requests\V1\EventUpdateRequest;
 use App\Http\Resources\V1\EventResource;
 use App\Models\Event;
-use Illuminate\Contracts\Database\Query\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Facades\Cache;
 
 class EventUpdateController extends Controller
 {
@@ -31,5 +25,4 @@ class EventUpdateController extends Controller
 
         return new EventResource($event);
     }
-
 }

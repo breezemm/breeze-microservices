@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\V1\Auth;
 
-use App\Enums\PronounType;
 use App\Rules\Base64ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -16,7 +16,7 @@ class EventDestroyed
             $event->clearMediaCollection('event-images');
             $event->delete();
         } catch (\Exception $e) {
-            throw  new EventDestroyFailed();
+            throw new EventDestroyFailed();
         }
     }
 }

@@ -6,5 +6,4 @@ use App\Support\DomainException;
 
 class EventDestroyFailed extends DomainException
 {
-
 }

@@ -23,5 +23,4 @@ class UserResource extends JsonResource
             'interests' => InterestResource::collection($this->interests),
         ];
     }
-
 }

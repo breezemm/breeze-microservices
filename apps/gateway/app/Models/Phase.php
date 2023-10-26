@@ -18,7 +18,6 @@ class Phase extends Model
         'end_date',
     ];
 
-
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);

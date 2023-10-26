@@ -11,8 +11,8 @@ class EventStoreController extends Controller
 {
     public function __construct(
         private readonly EventService $eventService
-    )
-    {}
+    ) {
+    }
 
     public function __invoke(EventRequest $request)
     {
@@ -20,13 +20,12 @@ class EventStoreController extends Controller
             $this->eventService->createEvent($request);
 
             return response()->json([
-                'msg' => 'Event created successfully'
+                'msg' => 'Event created successfully',
             ]);
         } catch (EventCreatedFailed $exception) {
             return response()->json([
-                'msg' => $exception->getMessage()
+                'msg' => $exception->getMessage(),
             ], 500);
         }
     }
-
 }

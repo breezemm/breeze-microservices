@@ -15,12 +15,10 @@ class EventSaveDuplicateCheckRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $saveEvent = SaveEvent::where('user_id',auth()->user()->id)->where('event_id',$value)->first();
+        $saveEvent = SaveEvent::where('user_id', auth()->user()->id)->where('event_id', $value)->first();
 
-        if($saveEvent)
-        {
-            if((int)$value === $saveEvent->event_id && $saveEvent != null)
-            {
+        if ($saveEvent) {
+            if ((int) $value === $saveEvent->event_id && $saveEvent != null) {
                 $fail('You have already saved this event.');
             }
         }

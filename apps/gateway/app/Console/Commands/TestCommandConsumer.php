@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Events\WalletReceived;
 use App\Jobs\CheckoutJob;
 use Carbon\Exceptions\Exception;
 use Illuminate\Console\Command;
@@ -25,10 +24,10 @@ class TestCommandConsumer extends Command
         $consumer = Kafka::createConsumer()
             ->subscribe('test-topic')
             ->withHandler(function (KafkaConsumerMessage $message) {
-                $this->info('Received message: ' . $message->getBody());
-//                CheckoutJob::dispatch(
-//                    json_decode($message->getBody(), true)
-//                );
+                $this->info('Received message: '.$message->getBody());
+                //                CheckoutJob::dispatch(
+                //                    json_decode($message->getBody(), true)
+                //                );
             })
             ->withAutoCommit()
             ->build();

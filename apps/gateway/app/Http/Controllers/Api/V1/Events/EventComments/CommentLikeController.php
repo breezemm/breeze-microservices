@@ -17,7 +17,7 @@ class CommentLikeController extends Controller
 
         return response()->json([
             'message' => 'Comment liked successfully',
-            'data' => $comment->likers()->count()
+            'data' => $comment->likers()->count(),
         ]);
     }
 }

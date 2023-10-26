@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
-
 /*
  * Auth Routes
  * @description: This route group contains all the routes related to authentication
@@ -36,22 +35,18 @@ Route::prefix('users')->group(function () {
     Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 });
 
-
 Route::middleware('auth:api')->group(function () {
 
     Route::group(['prefix' => 'users'], function () {
         Route::get('/me', [AuthController::class, 'getAuthUser']);
         Route::get('/me/activities', ProfileTimeline::class);
 
-
         Route::post('/{user}/follow', UserFollowController::class);
         Route::post('/{user}/unfollow', UserUnFollowController::class);
     });
 
-
     Route::prefix('events')->group(function () {
         Route::post('/', EventStoreController::class);
-
 
         Route::get('/saved', [EventSaveController::class, 'index']);
         Route::post('/{event}/save', [EventSaveController::class, 'store']);
@@ -70,18 +65,16 @@ Route::middleware('auth:api')->group(function () {
 
 });
 
-
 Route::middleware('auth:api')->group(function () {
     Route::get('/timeline', TimelineController::class);
 });
-
 
 /*
  * Wallet Routes
  * @description: This route group contains all the routes related to wallet service
  * */
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
     $threadHold = 10;
 
     try {
@@ -98,7 +91,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),
@@ -121,5 +114,3 @@ Route::any('/wallets/{any?}', function () {
         ], 500);
     }
 })->where('any', '.*');
-
-

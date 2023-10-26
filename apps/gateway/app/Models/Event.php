@@ -18,7 +18,6 @@ class Event extends Model implements HasMedia
     use InteractsWithMedia;
     use Likeable;
 
-
     protected $fillable = [
         'name',
         'start_date',
@@ -32,14 +31,13 @@ class Event extends Model implements HasMedia
     ];
 
     protected $casts = [
-        "is_has_phases" => "boolean",
+        'is_has_phases' => 'boolean',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
 
     public function repost(): HasOne
     {
@@ -51,17 +49,14 @@ class Event extends Model implements HasMedia
         return $this->hasMany(Comment::class);
     }
 
-
     public function interests(): BelongsToMany
     {
-        return $this->belongsToMany(Interest::class,);
+        return $this->belongsToMany(Interest::class);
     }
-
 
     // an event has many phases that can be added to it
     public function phases(): HasMany
     {
         return $this->hasMany(Phase::class);
     }
-
 }

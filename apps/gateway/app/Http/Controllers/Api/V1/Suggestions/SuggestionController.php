@@ -40,11 +40,9 @@ class SuggestionController extends Controller
             ]
         );
 
-
         $suggestedEvents = collect($response->json())
-            ->map(fn($suggestion) => $suggestion['event'])
-            ->map(fn(array $event) => new EventResource(Event::find($event['id'])));
-
+            ->map(fn ($suggestion) => $suggestion['event'])
+            ->map(fn (array $event) => new EventResource(Event::find($event['id'])));
 
         return EventResource::collection($suggestedEvents);
     }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Interest;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class IntrestSeeder extends Seeder
@@ -24,7 +23,6 @@ class IntrestSeeder extends Seeder
             ['name' => 'Charity'],
             ['name' => 'Music & Life'],
         ];
-
 
         Interest::insert($interests);
     }

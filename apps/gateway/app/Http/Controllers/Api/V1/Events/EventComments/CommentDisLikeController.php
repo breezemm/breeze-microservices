@@ -14,7 +14,7 @@ class CommentDisLikeController extends Controller
 
         return response()->json([
             'message' => 'Comment disliked successfully',
-            'data' => $comment->likers()->count()
+            'data' => $comment->likers()->count(),
         ]);
     }
 }

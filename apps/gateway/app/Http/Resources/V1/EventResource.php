@@ -29,5 +29,4 @@ class EventResource extends JsonResource
             'repost' => new RepostEventResource($this->whenLoaded('repost')),
         ];
     }
-
 }
