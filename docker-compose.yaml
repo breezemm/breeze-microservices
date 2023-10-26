@@ -42,26 +42,13 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka:9092"
 
 
-
   kafka-manager:
     image: hlebalbau/kafka-manager:latest
     container_name: kafka-manager
     depends_on:
       - kafka
     ports:
-      - "9000:9000"
+      - "10000:9000"
     environment:
       - ZK_HOSTS=zookeeper:2181
       - APPLICATION_SECRET=letmein
-
-  kafka-ui:
-    container_name: kafka-ui
-    image: provectuslabs/kafka-ui:latest
-    ports:
-      - 8080:8080
-    depends_on:
-      - kafka
-      - schema-registry
-    environment:
-      DYNAMIC_CONFIG_ENABLED: 'true'
-
