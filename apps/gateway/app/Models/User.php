@@ -18,11 +18,11 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
+    use Followable, Follower;
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
     use InteractsWithMedia;
     use Liker;
-    use Follower, Followable;
 
     /**
      * The attributes that are mass assignable.
@@ -48,7 +48,6 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
     ];
 
-
     /**
      * The attributes that should be cast.
      *
@@ -58,7 +57,6 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
 
     public function interests(): BelongsToMany
     {
@@ -70,16 +68,13 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Event::class);
     }
 
-
     public function launchedEvents(): HasMany
     {
         return $this->hasMany(Event::class, 'user_id');
     }
 
-
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class);
     }
-
 }

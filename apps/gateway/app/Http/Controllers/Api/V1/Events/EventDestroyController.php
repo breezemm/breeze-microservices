@@ -13,10 +13,11 @@ class EventDestroyController extends Controller
     {
         try {
             dispatch(new EventDestroyed($event));
+
             return response()->noContent();
         } catch (EventDestroyFailed $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 422);
         }
     }

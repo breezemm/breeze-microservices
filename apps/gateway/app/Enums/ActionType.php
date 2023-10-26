@@ -4,7 +4,6 @@ namespace App\Enums;
 
 enum ActionType: string
 {
-
     case Create = 'create';
 
     case Repost = 'repost';

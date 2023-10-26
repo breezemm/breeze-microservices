@@ -5,6 +5,7 @@
     "type": "module",
     "scripts": {
         "dev": "php artisan serve --port=8000",
+        "queue": "sudo supervisord -c supervisor.conf",
         "build": "vite build"
     },
     "devDependencies": {

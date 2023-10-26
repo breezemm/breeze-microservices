@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -20,19 +19,17 @@ class RolesAndPermissionsSeeder extends Seeder
         $permissions = [
             'create events',
             'edit events',
-            'delete events'
+            'delete events',
         ];
 
         $user = Role::create(['name' => 'user']);
         $organizer = Role::create(['name' => 'organizer']);
 
-        foreach ($permissions as $permission)
-        {
-            $createdPermission =  Permission::create(['name' => $permission]);
+        foreach ($permissions as $permission) {
+            $createdPermission = Permission::create(['name' => $permission]);
             $user->givePermissionTo($createdPermission);
             $organizer->givePermissionTo($createdPermission);
         }
-
 
     }
 }

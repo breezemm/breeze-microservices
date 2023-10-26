@@ -20,16 +20,20 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
-
+/*
+ * Auth Routes
+ * @description: This route group contains all the routes related to authentication
+ * */
 Route::prefix('users')->group(function () {
     Route::post('/validate-email', [EmailValidationController::class, 'validateEmail']);
     Route::post('/validate-profile-image', [EmailValidationController::class, 'validateProfileImage']);
-    Route::get('/interests', [InterestController::class, 'index']);
+    Route::get('/interests', InterestController::class);
 
     Route::post('/sign-up', [AuthController::class, 'register']);
     Route::post('/sign-in', [AuthController::class, 'login']);
-});
 
+    Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
+});
 
 Route::middleware('auth:api')->group(function () {
 
@@ -37,16 +41,12 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/me', [AuthController::class, 'getAuthUser']);
         Route::get('/me/activities', ProfileTimeline::class);
 
-        Route::post('/sign-out', [AuthController::class, 'logout']);
-
         Route::post('/{user}/follow', UserFollowController::class);
         Route::post('/{user}/unfollow', UserUnFollowController::class);
     });
 
-
     Route::prefix('events')->group(function () {
         Route::post('/', EventStoreController::class);
-
 
         Route::get('/saved', [EventSaveController::class, 'index']);
         Route::post('/{event}/save', [EventSaveController::class, 'store']);
@@ -65,14 +65,16 @@ Route::middleware('auth:api')->group(function () {
 
 });
 
-
 Route::middleware('auth:api')->group(function () {
     Route::get('/timeline', TimelineController::class);
 });
 
-
-Route::any('/wallets/{any?}', function (Request $request) {
-    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+/*
+ * Wallet Routes
+ * @description: This route group contains all the routes related to wallet service
+ * */
+Route::any('/wallets/{any?}', function () {
+    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
     $threadHold = 10;
 
     try {
@@ -87,15 +89,16 @@ Route::any('/wallets/{any?}', function (Request $request) {
             ], 429);
         }
 
-        $response = Http::timeout(2)
+        $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
+                'body' => request()->getContent(),
             ]);
 
         return response($response->body(), $response->status(), $response->headers());
-    } catch (\Exception $exception) {
+    } catch (Exception $exception) {
 
         RateLimiter::hit($throttleKey);
 
@@ -105,10 +108,9 @@ Route::any('/wallets/{any?}', function (Request $request) {
                 'ok' => false,
                 'message' => 'Wallet service is not available at the moment.',
                 'stack' => $exception->getMessage(),
+                'trace' => $exception->getTrace(),
             ],
             'data' => [],
         ], 500);
     }
 })->where('any', '.*');
-
-

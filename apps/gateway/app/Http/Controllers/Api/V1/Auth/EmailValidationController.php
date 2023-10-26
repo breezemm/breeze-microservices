@@ -10,11 +10,11 @@ class EmailValidationController extends Controller
 {
     public function validateEmail(EmailRequest $request)
     {
-        return json_response(200, "Email is valid");
+        return json_response(200, 'Email is valid');
     }
 
     public function validateProfileImage(ProfileImageRequest $request)
     {
-        return json_response(200, "Profile image is valid");
+        return json_response(200, 'Profile image is valid');
     }
 }

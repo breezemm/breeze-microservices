@@ -12,6 +12,7 @@ class LaunchedEventController extends Controller
         $events = auth()->user()->launchedEvents()
             ->orderBy('created_at', 'desc')
             ->paginate(5);
+
         return EventResource::collection($events);
     }
 }

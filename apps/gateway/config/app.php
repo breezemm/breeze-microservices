@@ -31,7 +31,6 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
-
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -168,9 +167,10 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class
+        Laravel\Passport\PassportServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -13,7 +13,7 @@ class WalletService
     /**
      * @throws \Exception
      */
-    public function create(array $data): void
+    public function create(#[ArrayShape(['user_id' => 'int'])] array $data): void
     {
         try {
             DB::beginTransaction();

@@ -7,7 +7,6 @@ use App\Models\Event;
 
 class EventCreated
 {
-
     /**
      * @throws EventCreatedFailed
      */
@@ -21,5 +20,4 @@ class EventCreated
             throw new EventCreatedFailed($e->getMessage());
         }
     }
-
 }

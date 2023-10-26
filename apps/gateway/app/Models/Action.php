@@ -15,6 +15,4 @@ class Action extends Model
     protected $casts = [
         'type' => ActionType::class,
     ];
-
-
 }

@@ -11,8 +11,8 @@ class ProfileTimeline extends Controller
 {
     public function __invoke()
     {
-//        get the latest activity id for each event
-//        include action id 5 (event repost)
+        //        get the latest activity id for each event
+        //        include action id 5 (event repost)
         $latestActivities = Activity::selectRaw('MAX(id) as id')
             ->where('user_id', auth()->id())
             ->whereIn('action_id', [5])
@@ -20,8 +20,7 @@ class ProfileTimeline extends Controller
             ->groupBy('event_id')
             ->get();
 
-
-//         get the activities for the latest activity ids
+        //         get the activities for the latest activity ids
         $activities = Activity::whereIn('id', $latestActivities->pluck('id'))
             ->with('user')
             ->with('action')
@@ -29,7 +28,7 @@ class ProfileTimeline extends Controller
                 return $query->with('repost', function (HasOne $query) {
                     return $query->with(
                         'event',
-                        fn(BelongsTo $query) => $query->with('user')
+                        fn (BelongsTo $query) => $query->with('user')
                     );
                 });
             })
@@ -37,6 +36,6 @@ class ProfileTimeline extends Controller
             ->get();
 
         return response()->json($activities);
-//        return UserActivityFeedResource::collection($activities);
+        //        return UserActivityFeedResource::collection($activities);
     }
 }

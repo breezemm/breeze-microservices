@@ -10,20 +10,20 @@ class Base64ValidationRule implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString $fail
+     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // Check if the value is a valid base64 string
-        if (!preg_match('/^data:(image\/(jpeg|jpg|png));base64,/', $value)) {
+        if (! preg_match('/^data:(image\/(jpeg|jpg|png));base64,/', $value)) {
             $fail('The :attribute must be type of jpeg,jpg and png');
         }
 
-        if (!preg_match('/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,(.+)/', $value, $matches)) {
+        if (! preg_match('/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,(.+)/', $value, $matches)) {
             $fail('The :attribute must be valid base64');
         }
 
-        if (isset($matches[2]) && !$this->isBase64($matches[2])) {
+        if (isset($matches[2]) && ! $this->isBase64($matches[2])) {
             $fail('The :attribute must be a valid base64 format');
         }
     }

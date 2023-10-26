@@ -15,7 +15,7 @@ class UserUnFollowController extends Controller
         auth()->user()->unfollow($user);
 
         return response()->json([
-            'message' => 'User unfollowed successfully'
+            'message' => 'User unfollowed successfully',
         ]);
     }
 }

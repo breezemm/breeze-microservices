@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
-use App\Domains\Users\Actions\CreateWallet;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegisterRequest;
@@ -24,7 +23,7 @@ class AuthController extends Controller
 
             $data['password'] = Hash::make($data['password']);
             $data['date_of_birth'] = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
-            $data['username'] = 'user_' . time();
+            $data['username'] = 'user_'.time();
 
             DB::beginTransaction();
             $user = User::create($data);
@@ -39,11 +38,13 @@ class AuthController extends Controller
             UserCreated::dispatch($user->toArray());
 
             DB::commit();
+
             return json_response(Response::HTTP_CREATED, 'User has been created successfully', [
                 'access_token' => $token,
             ]);
         } catch (\Exception $exception) {
             DB::rollBack();
+
             return json_response(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
         }
     }
@@ -52,7 +53,7 @@ class AuthController extends Controller
     {
         $validatedUser = $request->validated();
         $auth = auth()->attempt($validatedUser);
-        if (!$auth) {
+        if (! $auth) {
             return json_response(Response::HTTP_UNPROCESSABLE_ENTITY, 'Invalid credentials');
         }
 
@@ -79,7 +80,7 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
         auth()->user()->interests()->detach();
         Cache::delete(auth()->user()->username);
+
         return \response()->noContent();
     }
-
 }

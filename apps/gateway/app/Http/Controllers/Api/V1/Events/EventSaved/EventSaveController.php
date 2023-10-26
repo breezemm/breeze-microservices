@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Cache;
 
 class EventSaveController extends Controller
 {
-
     public function index()
     {
         $page = request()->get('page', 1);
@@ -18,7 +17,7 @@ class EventSaveController extends Controller
 
         $savedEvents = $user->events()->latest('created_at')->paginate(5);
 
-        return Cache::remember("events_saved_page_$page", 5, fn() => EventResource::collection($savedEvents));
+        return Cache::remember("events_saved_page_$page", 5, fn () => EventResource::collection($savedEvents));
     }
 
     public function store(Event $event)
@@ -29,7 +28,7 @@ class EventSaveController extends Controller
         if ($user->events()->where('event_id', $event->id)->exists()) {
             return response()->json([
                 'message' => 'Event already saved',
-                'data' => $event
+                'data' => $event,
             ], Response::HTTP_OK);
         }
 
@@ -37,7 +36,7 @@ class EventSaveController extends Controller
 
         return response()->json([
             'message' => 'Event saved successfully',
-            'data' => $event
+            'data' => $event,
         ], Response::HTTP_OK);
     }
 
@@ -45,7 +44,7 @@ class EventSaveController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user->events()->where('event_id', $event->id)->exists()) {
+        if (! $user->events()->where('event_id', $event->id)->exists()) {
             return response()->json([
                 'message' => 'Event is not saved yet',
             ], Response::HTTP_NOT_FOUND);
@@ -55,8 +54,7 @@ class EventSaveController extends Controller
 
         return response()->json([
             'message' => 'Event unsaved successfully',
-            'data' => $event
+            'data' => $event,
         ], Response::HTTP_OK);
     }
-
 }

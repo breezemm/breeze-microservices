@@ -17,16 +17,16 @@ class TimelineController extends Controller
             ->followings()
             ->with(
                 'followable',
-                fn(Builder $builder) => $builder->with(
+                fn (Builder $builder) => $builder->with(
                     'activities',
-                    fn(Builder $builder) => $builder->with('action')
+                    fn (Builder $builder) => $builder->with('action')
                         ->with('user')
-                        ->with('event', fn(BelongsTo $query) => $query
+                        ->with('event', fn (BelongsTo $query) => $query
                             ->with('user')
                             ->with('repost', function (HasOne $query) {
                                 return $query->with(
                                     'event',
-                                    fn(BelongsTo $query) => $query->with('user')
+                                    fn (BelongsTo $query) => $query->with('user')
                                 );
                             }))
                         ->latest('id')
@@ -35,11 +35,10 @@ class TimelineController extends Controller
             ->get();
 
         $mapped = collect($events)
-            ->map(fn($item) => $item['followable']['activities'])
+            ->map(fn ($item) => $item['followable']['activities'])
             ->flatten(1)
             ->sortByDesc('id')
             ->values();
-
 
         return response()->json($mapped);
     }

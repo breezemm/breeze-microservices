@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\ActionType;
 use App\Models\Action;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ActionSeeder extends Seeder
@@ -29,7 +28,6 @@ class ActionSeeder extends Seeder
         Action::create([
             'type' => ActionType::Bookmark,
         ]);
-
 
         Action::create([
             'type' => ActionType::Repost,

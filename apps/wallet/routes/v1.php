@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\WalletController;
+use App\Http\Controllers\WalletController\GetWalletByUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,19 +27,5 @@ Route::get('/', function () {
 
 
 Route::prefix('wallets')->group(function () {
-    Route::get('/', function () {
-        return response()->json([
-            'ok' => true,
-            'message' => 'wallets'
-        ]);
-    });
-
-    Route::get('/some', function () {
-//        throw new \Exception('some');
-        return response()->json([
-            'ok' => true,
-            'message' => 'some'
-        ]);
-    });
-
+    Route::post('/', GetWalletByUserController::class);
 });
