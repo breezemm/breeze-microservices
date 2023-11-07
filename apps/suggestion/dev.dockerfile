@@ -1,6 +1,6 @@
 FROM node:21-alpine
 
-WORKDIR /mcy/breeze/suggestion
+WORKDIR /var/www/suggestion
 
 COPY package.json .
 
@@ -11,3 +11,5 @@ RUN pnpm install
 COPY . .
 
 RUN pnpm run build
+
+CMD ["pnpm", "run", "start"]
