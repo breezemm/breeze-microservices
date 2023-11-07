@@ -17,14 +17,14 @@ services:
       args:
         uid: 1000
         user: breeze
-      context: ./nginx
+      context: ./infra/docker/nginx
       dockerfile: dev.dockerfile
     ports:
       - 80:80
     volumes:
-      - ./apps/gateway:/var/www/gateway
-      - ./nginx/logs:/var/log/nginx
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./infra/docker/apps/gateway:/var/www/gateway
+      - ./infra/docker/nginx/logs:/var/log/nginx
+      - ./infra/docker/nginx/conf.d:/etc/nginx/conf.d
     links:
       - gateway
     networks:
