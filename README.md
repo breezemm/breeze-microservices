@@ -14,10 +14,10 @@ The mono repo for the breeze microservices.
 
 | Service              | Endpoint Production                           | Endpoint Development | Port |
 |----------------------|-----------------------------------------------|----------------------|------|
-| API Gateway          | https://breeze-backend-api.vercel.app/        | https://localhost    | 8000 |
-| Suggestion Service   | https://breeze-suggestion-service.vercel.app/ | https://localhost    | 8001 |
-| Wallet Service       |                                               | https://localhost    | 8002 |
-| Notification Service |                                               | https://localhost    | 8003 |
+| API Gateway          | https://breeze-backend-api.vercel.app/        | http://172.16.100.10 | 80 |
+| Wallet Service       |                                               | http://172.16.100.12 | 80 |
+| Suggestion Service   | https://breeze-suggestion-service.vercel.app/ | http://172.16.100.13 | 80 |
+| Notification Service |                                               | http://172.16.100.14 | 80 |
 
 ## Deployment 🚀
 
@@ -34,15 +34,30 @@ git diff HEAD^ HEAD --quiet ./
 # Run SuperVisor
 
 ```sh
-  brew services start supervisor
+brew services start supervisor
 ```
 
 ## Docker Setup
 
-```sh
-  docker-compose up -d // up all services
-  docker-compose down // down all services
-```
+- Step 1 - Start database container
+
+  ```sh
+  docker-compose up --build {gateway,wallet}-mysql redis
+  ```
+
+- Step 2. Start APIs container
+  ``` sh
+  # To use gateway service *You must need to up nginx first*
+  docker-compose up --build nginx
+
+  # To start all APIs containers
+  docker-compose up --build wallet gateway notification suggestion 
+  ```
+
+- To start kafka container
+  ```sh
+  docker-compose up --build kafka
+  ```
 
 # Laravel with MongoDB in Mac
 
