@@ -66,23 +66,25 @@ services:
       dev:
         ipv4_address: 172.16.100.12
 
-#  suggestion:
-#    build:
-#      context: ./apps/suggestion
-#      dockerfile: dev.dockerfile
-#    volumes:
-#      - ./apps/suggestion:/var/www/suggestion
-#      - /var/www/suggestion/node_modules
-#    networks:
-#      dev:
-#        ipv4_address: 172.16.100.13
+  suggestion:
+    build:
+      context: .
+      dockerfile: ./apps/suggestion/dev.dockerfile
+      target: development
+    command: pnpm run dev --filter suggestion
+    volumes:
+      - .:/usr/src/app
+      - /var/www/suggestion/node_modules
+    networks:
+      dev:
+        ipv4_address: 172.16.100.13
 
   notification:
     build:
       context: .
       dockerfile: ./apps/notification/dev.dockerfile
       target: development
-    command: pnpm run dev
+    command: pnpm run dev --filter notification
     volumes:
       - .:/usr/src/app
     networks:
