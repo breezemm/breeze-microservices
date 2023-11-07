@@ -66,24 +66,25 @@ services:
       dev:
         ipv4_address: 172.16.100.12
 
-  suggestion:
-    build:
-      context: ./apps/suggestion
-      dockerfile: dev.dockerfile
-    volumes:
-      - ./apps/suggestion:/var/www/suggestion
-      - /var/www/suggestion/node_modules
-    networks:
-      dev:
-        ipv4_address: 172.16.100.13
+#  suggestion:
+#    build:
+#      context: ./apps/suggestion
+#      dockerfile: dev.dockerfile
+#    volumes:
+#      - ./apps/suggestion:/var/www/suggestion
+#      - /var/www/suggestion/node_modules
+#    networks:
+#      dev:
+#        ipv4_address: 172.16.100.13
 
   notification:
     build:
-      context: ./apps/notification
-      dockerfile: dev.dockerfile
+      context: .
+      dockerfile: ./apps/notification/dev.dockerfile
+      target: development
+    command: pnpm run dev
     volumes:
-      - ./apps/notification:/var/www/notification
-      - /var/www/notification/node_modules
+      - .:/usr/src/app
     networks:
       dev:
         ipv4_address: 172.16.100.14
@@ -92,7 +93,7 @@ services:
     image: mysql/mysql-server:8.0
     env_file: ./apps/gateway/.env.example
     volumes:
-        - gateway-database:/var/lib/mysql
+      - gateway-database:/var/lib/mysql
     networks:
       dev:
         ipv4_address: 172.16.100.21
@@ -101,7 +102,7 @@ services:
     image: mysql/mysql-server:8.0
     env_file: ./apps/wallet/.env.example
     volumes:
-        - wallet-database:/var/lib/mysql
+      - wallet-database:/var/lib/mysql
     networks:
       dev:
         ipv4_address: 172.16.100.22
