@@ -1,3 +1,5 @@
+name: 'breeze-development'
+
 volumes:
   gateway-database:
   wallet-database:
