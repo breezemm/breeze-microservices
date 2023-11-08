@@ -179,6 +179,8 @@ services:
   gateway-mysql:
     image: mysql/mysql-server:8.0
     env_file: ./apps/gateway/.env.example
+    ports:
+      - 3306:3306
     volumes:
       - gateway-database:/var/lib/mysql
     networks:
