@@ -91,6 +91,7 @@ services:
     depends_on:
       - gateway-mysql
       - redis
+      - kafka
     networks:
       - dev
 
@@ -108,6 +109,7 @@ services:
     depends_on:
       - wallet-mysql
       - redis
+      - kafka
     networks:
       - dev
 
@@ -122,6 +124,8 @@ services:
     volumes:
       - .:/usr/src/app
       - /var/www/suggestion/node_modules
+    depends_on:
+      - kafka
     networks:
       - dev
 
@@ -136,6 +140,8 @@ services:
     volumes:
       - .:/usr/src/app
       - /var/www/notification/node_modules
+    depends_on:
+      - kafka
     networks:
       - dev
 
@@ -146,6 +152,8 @@ services:
       - 33061:3306
     volumes:
       - gateway-database:/var/lib/mysql
+    depends_on:
+      - kafka
     networks:
       - dev
 
@@ -156,5 +164,7 @@ services:
       - 33062:3306
     volumes:
       - wallet-database:/var/lib/mysql
+    depends_on:
+      - kafka
     networks:
       - dev
