@@ -1,4 +1,4 @@
-name: 'breeze-development'
+# name: 'breeze-development'
 
 volumes:
   gateway-database:
@@ -8,113 +8,74 @@ volumes:
 networks:
   dev:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.16.100.0/24
-          gateway: 172.16.100.1
 
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.1
+    env_file: .env
     container_name: zookeeper
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 2181:2181
     networks:
-      dev:
-        ipv4_address: 172.16.100.41
+      - dev
 
   kafka:
     image: confluentinc/cp-kafka:7.5.1
+    env_file: .env
     hostname: kafka
     container_name: kafka
     depends_on:
       - zookeeper
     ports:
-      - "29092:29092"
+      - 29092:29092
     expose:
       - 29092
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      CONFLUENT_METRICS_ENABLE: "false"
-      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
     networks:
-      dev:
-        ipv4_address: 172.16.100.42
-
+      - dev
 
   schema-registry:
     image: confluentinc/cp-schema-registry:6.2.0
+    env_file: .env
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
       - zookeeper
       - kafka
     ports:
-      - "8089:8089"
-    environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8089"
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka:9092"
+      - 8089:8089
     networks:
-      dev:
-        ipv4_address: 172.16.100.43
+      - dev
 
   kafka-manager:
     image: hlebalbau/kafka-manager:latest
+    env_file: .env
     container_name: kafka-manager
     depends_on:
       - kafka
     ports:
-      - "10000:9000"
-    environment:
-      - ZK_HOSTS=zookeeper:2181
-      - APPLICATION_SECRET=letmein
+      - 10000:9000
     networks:
-      dev:
-        ipv4_address: 172.16.100.44
+      - dev
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - dev
 
   redis:
     image: redis:alpine
-    env_file: ./.env.dev
+    env_file: .env
+    container_name: redis
     volumes:
       - redis:/data
-    command:
-      - /bin/sh
-      - -c
-      - |
-        redis-server --requirepass $$REDIS_PASSWORD
-        sysctl vm.overcommit_memory=1
-    networks:
-      dev:
-        ipv4_address: 172.16.100.31
-
-
-  nginx:
-    build:
-      args:
-        uid: 1000
-        user: breeze
-      context: ./infra/docker/nginx
-      dockerfile: dev.dockerfile
     ports:
-      - 80:80
-    volumes:
-      - ./infra/docker/apps/gateway:/var/www/gateway
-      - ./infra/docker/nginx/logs:/var/log/nginx
-      - ./infra/docker/nginx/conf.d:/etc/nginx/conf.d
-    links:
-      - gateway
+      - 6379:6379
     networks:
-      dev:
-        ipv4_address: 172.16.100.10
+      - dev
 
   gateway:
     build:
@@ -123,17 +84,15 @@ services:
         user: breeze
       context: ./apps/gateway
       dockerfile: dev.dockerfile
+    ports:
+      - 8001:80
     volumes:
       - ./apps/gateway:/var/www/gateway
     depends_on:
       - gateway-mysql
       - redis
-    links:
-      - gateway-mysql
-      - redis
     networks:
-      dev:
-        ipv4_address: 172.16.100.11
+      - dev
 
   wallet:
     build:
@@ -142,14 +101,15 @@ services:
         user: breeze
       context: ./apps/wallet
       dockerfile: dev.dockerfile
+    ports:
+      - 8002:80
     volumes:
       - ./apps/wallet:/var/www/wallet
     depends_on:
       - wallet-mysql
       - redis
     networks:
-      dev:
-        ipv4_address: 172.16.100.12
+      - dev
 
   suggestion:
     build:
@@ -157,12 +117,13 @@ services:
       dockerfile: ./apps/suggestion/dev.dockerfile
       target: development
     command: pnpm run dev --filter suggestion
+    ports:
+      - 8003:80
     volumes:
       - .:/usr/src/app
       - /var/www/suggestion/node_modules
     networks:
-      dev:
-        ipv4_address: 172.16.100.13
+      - dev
 
   notification:
     build:
@@ -170,33 +131,30 @@ services:
       dockerfile: ./apps/notification/dev.dockerfile
       target: development
     command: pnpm run dev --filter notification
+    ports:
+      - 8004:80
     volumes:
       - .:/usr/src/app
+      - /var/www/notification/node_modules
     networks:
-      dev:
-        ipv4_address: 172.16.100.14
+      - dev
 
   gateway-mysql:
     image: mysql/mysql-server:8.0
-    env_file: ./apps/gateway/.env.example
+    env_file: ./apps/gateway/.env
     ports:
-      - 3306:3306
+      - 33061:3306
     volumes:
       - gateway-database:/var/lib/mysql
     networks:
-      dev:
-        ipv4_address: 172.16.100.21
+      - dev
 
   wallet-mysql:
     image: mysql/mysql-server:8.0
-    env_file: ./apps/wallet/.env.example
+    env_file: ./apps/wallet/.env
+    ports:
+      - 33062:3306
     volumes:
       - wallet-database:/var/lib/mysql
     networks:
-      dev:
-        ipv4_address: 172.16.100.22
-
-
-
-
-
+      - dev
