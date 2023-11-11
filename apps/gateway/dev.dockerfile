@@ -23,7 +23,6 @@ RUN pecl install \
 RUN docker-php-ext-install \
     exif \
     pcntl \
-    sockets \
     pdo_mysql
 
 RUN docker-php-ext-enable \
