@@ -9,7 +9,7 @@ async function bootstrap() {
       transport: Transport.KAFKA,
       options: {
         client: {
-          brokers: ['localhost:29092'],
+          brokers: ['kafka:29092'],
         },
         parser: {
           keepBinary: true,

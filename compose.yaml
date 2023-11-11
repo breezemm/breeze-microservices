@@ -20,6 +20,7 @@ services:
       - dev
 
   kafka:
+    restart: on-failure
     image: confluentinc/cp-kafka:7.5.1
     env_file: .env
     hostname: kafka
@@ -32,6 +33,12 @@ services:
       - 29092
     networks:
       - dev
+    healthcheck:
+      test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
 
   schema-registry:
     image: confluentinc/cp-schema-registry:6.2.0
@@ -76,8 +83,14 @@ services:
       - 6379:6379
     networks:
       - dev
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 5s
+      timeout: 5s
 
   gateway:
+    restart: on-failure
+    container_name: gateway
     build:
       args:
         uid: 1000
@@ -89,9 +102,13 @@ services:
     volumes:
       - ./apps/gateway:/var/www/gateway
     depends_on:
-      - gateway-mysql
-      - redis
-      - kafka
+      kafka:
+        condition: service_healthy
+      gateway-mysql:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+
     networks:
       - dev
 
@@ -152,8 +169,6 @@ services:
       - 33061:3306
     volumes:
       - gateway-database:/var/lib/mysql
-    depends_on:
-      - kafka
     networks:
       - dev
 
@@ -164,7 +179,5 @@ services:
       - 33062:3306
     volumes:
       - wallet-database:/var/lib/mysql
-    depends_on:
-      - kafka
     networks:
       - dev
