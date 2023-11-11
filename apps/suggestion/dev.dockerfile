@@ -4,18 +4,18 @@ WORKDIR /usr/src/app
 
 
 COPY pnpm-lock.yaml ./
-COPY ./apps/notification/package.json package.json
-COPY ./apps/notification/tsconfig.json tsconfig.json
-COPY ./apps/notification/tsconfig.build.json tsconfig.build.json
-COPY ./apps/notification/nest-cli.json nest-cli.json
+COPY ./apps/suggestion/package.json package.json
+COPY ./apps/suggestion/tsconfig.json tsconfig.json
+COPY ./apps/suggestion/tsconfig.build.json tsconfig.build.json
+COPY ./apps/suggestion/nest-cli.json nest-cli.json
 
 RUN npm install -g pnpm
 
 RUN pnpm install
 
-COPY apps/notification apps/notification
+COPY apps/suggestion apps/suggestion
 
-RUN pnpm run build notification
+RUN pnpm run build suggestion
 
 FROM node:alpine as production
 
@@ -33,4 +33,4 @@ RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/apps/notification/main"]
+CMD ["node", "dist/apps/suggestion/main"]

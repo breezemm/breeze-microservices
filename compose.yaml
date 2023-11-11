@@ -20,18 +20,45 @@ services:
       - dev
 
   kafka:
+    restart: on-failure
     image: confluentinc/cp-kafka:7.5.1
-    env_file: .env
+    env_file:
+      .env
     hostname: kafka
     container_name: kafka
     depends_on:
       - zookeeper
     ports:
-      - 29092:29092
+      - 9092:9092
     expose:
       - 29092
     networks:
       - dev
+    healthcheck:
+      test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  init-kafka:
+    image: confluentinc/cp-kafka:7.5.1
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:29092 --list
+
+      echo -e '🙌 Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallet --replication-factor 1 --partitions 3
+
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:29092 --list
+      "
+    networks:
+      - dev
+
 
   schema-registry:
     image: confluentinc/cp-schema-registry:6.2.0
@@ -76,8 +103,13 @@ services:
       - 6379:6379
     networks:
       - dev
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 5s
+      timeout: 5s
 
   gateway:
+    restart: unless-stopped
     build:
       args:
         uid: 1000
@@ -89,9 +121,10 @@ services:
     volumes:
       - ./apps/gateway:/var/www/gateway
     depends_on:
+      - kafka
       - gateway-mysql
       - redis
-      - kafka
+
     networks:
       - dev
 
@@ -152,8 +185,6 @@ services:
       - 33061:3306
     volumes:
       - gateway-database:/var/lib/mysql
-    depends_on:
-      - kafka
     networks:
       - dev
 
@@ -164,7 +195,5 @@ services:
       - 33062:3306
     volumes:
       - wallet-database:/var/lib/mysql
-    depends_on:
-      - kafka
     networks:
       - dev
