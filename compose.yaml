@@ -22,7 +22,8 @@ services:
   kafka:
     restart: on-failure
     image: confluentinc/cp-kafka:7.5.1
-    env_file: .env
+    env_file:
+      .env
     hostname: kafka
     container_name: kafka
     depends_on:
