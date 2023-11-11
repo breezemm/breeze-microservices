@@ -94,3 +94,16 @@ Add the following lines to your php.ini file
 extension = rdkafka.so
 extension = mongodb.so
 ```
+
+# FAQs
+
+```sh
+-----
+ > [gateway internal] load metadata for docker.io/library/php:8.1-cli-alpine:
+------
+failed to solve: php:8.1-cli-alpine: failed to authorize: failed to fetch oauth token: Post "https://auth.docker.io/token": EOF
+```
+
+
+```sh
+- https://github.com/docker/for-mac/issues/3785

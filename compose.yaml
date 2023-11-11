@@ -89,7 +89,7 @@ services:
       timeout: 5s
 
   gateway:
-    restart: on-failure
+    restart: always
     container_name: gateway
     build:
       args:
