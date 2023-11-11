@@ -34,12 +34,11 @@ RUN apk del autoconf g++ make && \
     rm -rf /tmp/* && \
     rm -rf /var/cache/apk/*
 
-RUN set -x ; \
-    addgroup -g $uid -S $user ; \
-    adduser -u $uid -D -S -G $user $user && exit 0 ; exit 1
 
-RUN mkdir -p /home/$user/.composer && \
+RUN adduser -D -u $uid -g '' $user && \
+    mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
+
 
 COPY docker/dev/start-container /usr/local/bin/start-container
 COPY docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
