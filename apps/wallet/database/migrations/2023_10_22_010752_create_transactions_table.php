@@ -13,13 +13,18 @@ return new class extends Migration {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('transaction_id')->unique();
-            $table->foreignId('from_user')->constrained('users');
-            $table->foreignId('to_user')->constrained('users');
+            $table->foreignId('from_user');
+            $table->foreignId('to_user');
+
             $table->enum('transaction_type', ['DEPOSIT', 'WITHDRAW']);
+
             $table->string('transaction_amount');
             $table->string('transaction_currency');
             $table->string('transaction_description');
-            $table->foreignId('wallet_id')->constrained();
+
+            $table->string('from_wallet_id');
+            $table->string('to_wallet_id');
+
             $table->timestamps();
         });
     }

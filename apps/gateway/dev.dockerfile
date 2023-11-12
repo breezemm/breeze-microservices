@@ -22,8 +22,11 @@ RUN pecl install \
 
 RUN docker-php-ext-install \
     exif \
-    pcntl \
     pdo_mysql
+
+RUN docker-php-ext-configure pcntl --enable-pcntl \
+  && docker-php-ext-install \
+    pcntl
 
 RUN docker-php-ext-enable \
     redis \

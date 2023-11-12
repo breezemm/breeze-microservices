@@ -26,9 +26,16 @@ RUN docker-php-ext-install \
     sodium \
     pdo_mysql
 
+RUN docker-php-ext-configure pcntl --enable-pcntl \
+  && docker-php-ext-install \
+    pcntl
+
+
 RUN docker-php-ext-enable \
     redis \
     rdkafka
+
+
 
 RUN apk del autoconf g++ make && \
     rm -rf /tmp/* && \
@@ -42,4 +49,4 @@ COPY ./docker/dev/start-container /usr/local/bin/start-container
 COPY ./docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chmod +x /usr/local/bin/start-container
 
-ENTRYPOINT ["start-container"] 
+ENTRYPOINT ["start-container"]

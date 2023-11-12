@@ -74,8 +74,9 @@ Route::middleware('auth:api')->group(function () {
  * @description: This route group contains all the routes related to wallet service
  * */
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
+    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
     $threadHold = 10;
+
 
     try {
         if (RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
@@ -91,7 +92,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),
@@ -102,15 +103,9 @@ Route::any('/wallets/{any?}', function () {
 
         RateLimiter::hit($throttleKey);
 
-        return response()->json([
-            'meta' => [
-                'status' => 500,
-                'ok' => false,
-                'message' => 'Wallet service is not available at the moment.',
-                'stack' => $exception->getMessage(),
-                'trace' => $exception->getTrace(),
-            ],
-            'data' => [],
-        ], 500);
+        return response()->json(
+            json_decode($exception->response->body(), true),
+            $exception->response->status()
+        );
     }
 })->where('any', '.*');
