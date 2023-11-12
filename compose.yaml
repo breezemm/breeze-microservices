@@ -145,6 +145,9 @@ services:
       - kafka
     networks:
       - dev
+    links:
+      - gateway
+
 
   suggestion:
     build:

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\WalletController\GetWalletByUserController;
+use App\Http\Controllers\TransferBalanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,8 @@ Route::get('/', function () {
 
 Route::prefix('wallets')->group(function () {
     Route::post('/', GetWalletByUserController::class);
+
+    // peer to peer transaction
+    Route::post('/transfer', TransferBalanceController::class);
 });
+

@@ -2,22 +2,15 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Spatie\LaravelData\Data;
 
-class WalletByUserIdDTO extends FormRequest
+class WalletByUserIdDTO extends Data
 {
 
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
+    public function __construct(
+        public readonly int $user_id,
+    )
     {
-        return true;
-    }
-
-    public function getWalletByUserId(): int
-    {
-        return $this->user_id;
     }
 
     /**
@@ -25,7 +18,7 @@ class WalletByUserIdDTO extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public static function rules(): array
     {
         return [
             'user_id' => 'required|integer',
