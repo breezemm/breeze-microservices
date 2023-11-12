@@ -67,7 +67,8 @@
             "@php artisan key:generate --ansi"
         ],
         "setup": [
-            "php artisan migrate:fresh --seed"
+            "php artisan migrate:fresh --seed",
+            "php artisan passport:install"
         ],
         "test": "pest",
         "format": "./vendor/bin/pint"
