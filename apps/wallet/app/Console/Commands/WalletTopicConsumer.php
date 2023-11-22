@@ -14,7 +14,7 @@ use function Laravel\Prompts\password;
 
 class WalletTopicConsumer extends Command
 {
-    protected $signature = 'kafka:wallet-consume';
+    protected $signature = 'consume:wallet-topic';
 
     protected $description = 'Subscribe to wallet topic';
 
