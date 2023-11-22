@@ -55,8 +55,8 @@ forward all the requests to the `index.php` file.
 
 ### Overriding Default Rewrites
 
-- `/(.*)` forward to `/`
-- `/api/(.*)` forward to `/api`
+-   `/(.*)` forward to `/`
+-   `/api/(.*)` forward to `/api`
 
 ```json
 {
@@ -94,7 +94,6 @@ interface TickWithSeat extends Ticket {
     seat: number;
 }
 
-
 interface Phase {
     name: string;
     startDate: Date;
@@ -102,21 +101,19 @@ interface Phase {
     tickets: Array<Ticket | TickWithSeat>;
 }
 
-
 interface Event {
     name: string;
     day: string;
     month: string;
     year: string;
     place: string;
-    organizers: User[],
+    organizers: User[];
     image: string;
     description: string;
     interests: Interest[];
     phases: Phase[];
     isHasPhases: boolean;
 }
-
 
 export const event: Event = {
     name: "Startup Weekend Yangon",
@@ -125,34 +122,29 @@ export const event: Event = {
     end_date: "2023-12-12", // YYYY-MM-DD
     end_time: "15:00",
     place: "Yangon",
-    co_organizers: [
-        1,
-        2,
-        3
-    ],
+    co_organizers: [1, 2, 3],
     description: "Accerlating tech startup come and join with us",
     image: "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
     is_has_phases: true, // if isHasPhases is true, phases will be greater than 1
     interests: [1, 2, 3],
     phases: [
         {
-            name: 'Regular',
+            name: "Regular",
             start_date: "2023-12-10",
             end_date: "2023-12-12",
 
             tickets: [
                 {
-                    name: 'Normal',
-                    information: 'Normal ticket',
+                    name: "Normal",
+                    information: "Normal ticket",
                     price: 0,
                     is_has_seating_plan: false,
                     total_seats: 0,
                 },
             ],
         },
-    ]
-}
-
+    ],
+};
 ```
 
 # Event Naming Convention
@@ -179,7 +171,7 @@ event.
 ```
 
 | Property | Description                                                                                                                      |
-|----------|----------------------------------------------------------------------------------------------------------------------------------|
+| -------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | id       | The unique id for the event                                                                                                      |
 | topic    | The event name for the kafka topic                                                                                               |
 | pattern  | The command name for the event that will be used in the RabbitMQ or Redis when we have to communicate to the NestJS microservice |
@@ -188,7 +180,7 @@ event.
 ## Constraints
 
 | Property | Description         |
-|----------|---------------------|
+| -------- | ------------------- |
 | id       | 64 bit UUID         |
 | topic    | service_name.action |
 | pattern  | service_name.action |

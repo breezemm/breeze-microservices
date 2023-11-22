@@ -4,13 +4,35 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prepare": "husky install",
+    "commit": "./node_modules/cz-customizable/standalone.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "turbo run lint && turbo run format"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.{md}": [
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "eslint": "^8.53.0",
     "prettier": "^3.0.3",
     "tsconfig": "workspace:*",
-    "turbo": "latest"
+    "turbo": "latest",
+    "husky": "^8.0.0",
+    "@commitlint/config-conventional": "^18.1.0",
+    "@commitlint/prompt": "^18.2.0",
+    "commitizen": "^4.3.0",
+    "cz-customizable": "^7.0.0",
+    "prettier": "^2.8.4",
+    "prettier-plugin-tailwindcss": "^0.2.4"
   },
   "packageManager": "pnpm@8.6.10",
   "name": "breeze",

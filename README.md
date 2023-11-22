@@ -5,8 +5,8 @@ The monorepo for the breeze microservices.
 ## Services and Design Decisions
 
 | Service              | Description                                                                                                                 | Tech                            |
-|----------------------|-----------------------------------------------------------------------------------------------------------------------------|---------------------------------|
-| API Gateway          | The API Gateway is the entry point for all clients.<br/> It is responsible for routing requests to the appropriate service. | [Laravel](https://laravel.com/) | 
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| API Gateway          | The API Gateway is the entry point for all clients.<br/> It is responsible for routing requests to the appropriate service. | [Laravel](https://laravel.com/) |
 | Suggestion Service   | The Suggestion Service is responsible for providing suggestions to the user.                                                | [Nest.js](https://nestjs.com/)  |
 | Wallet Service       | The Wallet Service is responsible for managing user's wallet.                                                               | [Laravel](https://laravel.com/) |
 | Notification Service | The Notification Service is responsible for managing user's notification.                                                   | [Nest.js](https://nestjs.com/)  |
@@ -14,7 +14,7 @@ The monorepo for the breeze microservices.
 ## Endpoints
 
 | Service              | Endpoint Production                           | Endpoint Development | Port  |
-|----------------------|-----------------------------------------------|----------------------|-------|
+| -------------------- | --------------------------------------------- | -------------------- | ----- |
 | API Gateway          | https://breeze-backend-api.vercel.app/        | http://localhost     | 8001  |
 | Wallet Service       |                                               | http://localhost     | 8002  |
 | Suggestion Service   | https://breeze-suggestion-service.vercel.app/ | http://localhost     | 8003  |
@@ -32,7 +32,7 @@ The monorepo for the breeze microservices.
 ## Credentials for Development
 
 | Service       | Username | Password | Host      |
-|---------------|----------|----------|-----------|
+| ------------- | -------- | -------- | --------- |
 | Gateway MySQL | admin    | admin    | 127.0.0.1 |
 | Wallet MySQL  | admin    | admin    | 127.0.0.1 |
 
@@ -57,6 +57,7 @@ This service is responsible for routing requests to the appropriate service.
 ## Serving Redis
 
 We use redis for caching and queueing. To serve redis, run the following command:
+
 ```bash
 php artisan queue:listen
 ```

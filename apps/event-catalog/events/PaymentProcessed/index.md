@@ -4,12 +4,12 @@ version: 0.0.1
 summary: |
   Holds information about the payment that has been processed.
 producers:
-    - Payment Service
+  - Payment Service
 consumers:
-    - Orders Service
+  - Orders Service
 owners:
-    - dboyne
-    - mSmith
+  - dboyne
+  - mSmith
 ---
 
 <Admonition>When firing this event make sure you set the `correlation-id` in the headers. Our schemas have standard metadata make sure you read and follow it.</Admonition>

@@ -1,4 +1,3 @@
-
 # Laravel with MongoDB in Mac
 
 ## Install MongoDB

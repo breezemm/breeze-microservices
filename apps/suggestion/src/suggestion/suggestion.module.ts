@@ -4,6 +4,6 @@ import { SuggestionController } from './suggestion.controller';
 
 @Module({
   controllers: [SuggestionController],
-  providers: [SuggestionService]
+  providers: [SuggestionService],
 })
 export class SuggestionModule {}

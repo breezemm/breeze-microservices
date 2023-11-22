@@ -4,12 +4,12 @@ version: 0.0.1
 summary: |
   Event represents when an order has been complete. (Delivered and finished)
 producers:
-    - Orders Service
+  - Orders Service
 consumers:
-    - Data Lake
+  - Data Lake
 owners:
-    - dboyne
-    - mSmith
+  - dboyne
+  - mSmith
 ---
 
 <Admonition>When firing this event make sure you set the `correlation-id` in the headers. Our schemas have standard metadata make sure you read and follow it.</Admonition>

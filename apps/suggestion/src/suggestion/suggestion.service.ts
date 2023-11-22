@@ -14,10 +14,13 @@ export class SuggestionService {
   }
 
   getAllEventSuggestions = async (suggestible: EventDto) => {
-    const interestsMap = suggestible.interests.reduce((acc, interest) => {
-      acc[interest.id] = interest;
-      return acc;
-    }, {} as Record<string, Interest>);
+    const interestsMap = suggestible.interests.reduce(
+      (acc, interest) => {
+        acc[interest.id] = interest;
+        return acc;
+      },
+      {} as Record<string, Interest>,
+    );
 
     this.recommender.trainBidirectional(
       suggestible.events,
