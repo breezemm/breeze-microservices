@@ -50,6 +50,17 @@ bash scripts/start.sh # start all services
 bash scripts/stop.sh # stop all services
 ```
 
+## API Gateway Setup
+
+This service is responsible for routing requests to the appropriate service.
+
+## Serving Redis
+
+We use redis for caching and queueing. To serve redis, run the following command:
+```bash
+php artisan queue:listen
+```
+
 ## Wallet Service Setup
 
 This service is responsible for managing the wallet of the users.
