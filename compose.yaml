@@ -166,7 +166,6 @@ services:
     volumes:
       - .:/usr/src/app
       - /var/www/suggestion/node_modules
-      - ./apps/suggestion:/usr/src/app/suggestion
     depends_on:
       - kafka
     networks:
@@ -183,7 +182,6 @@ services:
     volumes:
       - .:/usr/src/app
       - /var/www/notification/node_modules
-      - ./apps/notification:/usr/src/app/notification
     depends_on:
       - kafka
     networks:
