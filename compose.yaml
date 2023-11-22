@@ -1,4 +1,5 @@
-# name: 'breeze-development'
+name: 'breeze'
+version: '3.9'
 
 volumes:
   gateway-database:
@@ -40,6 +41,7 @@ services:
       timeout: 10s
       retries: 5
 
+  # After initializing kafka and creating topics, this container will exit
   init-kafka:
     image: confluentinc/cp-kafka:7.5.1
     depends_on:
@@ -120,6 +122,8 @@ services:
       - 8001:80
     volumes:
       - ./apps/gateway:/var/www/gateway
+      - ./apps/gateway/vendor:/var/www/gateway/vendor
+      - ./apps/gateway/node_modules:/var/www/gateway/node_modules
     depends_on:
       - kafka
       - gateway-mysql
@@ -139,6 +143,8 @@ services:
       - 8002:80
     volumes:
       - ./apps/wallet:/var/www/wallet
+      - ./apps/wallet/vendor:/var/www/wallet/vendor
+      - ./apps/wallet/node_modules:/var/www/wallet/node_modules
     depends_on:
       - wallet-mysql
       - redis
@@ -160,6 +166,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /var/www/suggestion/node_modules
+      - ./apps/suggestion:/usr/src/app/suggestion
     depends_on:
       - kafka
     networks:
@@ -176,6 +183,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /var/www/notification/node_modules
+      - ./apps/notification:/usr/src/app/notification
     depends_on:
       - kafka
     networks:
