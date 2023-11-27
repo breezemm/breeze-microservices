@@ -58,8 +58,8 @@ importers:
         specifier: 18.2.29
         version: 18.2.29
       autoprefixer:
-        specifier: 10.4.5
-        version: 10.4.5(postcss@8.4.31)
+        specifier: 10.4.16
+        version: 10.4.16(postcss@8.4.31)
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -4984,8 +4984,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /autoprefixer@10.4.5(postcss@8.4.31):
-    resolution: {integrity: sha512-Fvd8yCoA7lNX/OUllvS+aS1I7WRBclGXsepbvT8ZaPgrH24rgXpZzF0/6Hh3ZEkwg+0AES/Osd196VZmYoEFtw==}
+  /autoprefixer@10.4.16(postcss@8.4.31):
+    resolution: {integrity: sha512-7vd3UC6xKp0HLfua5IjZlcXvGAGy7cBAXTg2lyQ/8WpNhd6SiZ8Be+xm3FyBSYJx5GKcpRCzBh7RH4/0dnY+uQ==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
