@@ -119,7 +119,7 @@ services:
       context: ./apps/gateway
       dockerfile: dev.dockerfile
     ports:
-      - 8001:80
+      - "8001:80"
     volumes:
       - ./apps/gateway:/var/www/gateway
       - ./apps/gateway/vendor:/var/www/gateway/vendor
