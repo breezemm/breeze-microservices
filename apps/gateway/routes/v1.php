@@ -69,6 +69,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/timeline', TimelineController::class);
 });
 
+
 /*
  * Wallet Routes
  * @description: This route group contains all the routes related to wallet service
