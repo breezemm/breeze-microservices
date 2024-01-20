@@ -13,7 +13,15 @@ class Wallet extends Model
     use HasFactory;
 
 
-    protected $guarded = [];
+    protected $fillable = [
+        'wallet_id',
+        'balance',
+        'type',
+        'user_id',
+        'qr_code',
+    ];
+
+
     protected $casts = [
         'balance' => 'float',
         'type' => WalletType::class,

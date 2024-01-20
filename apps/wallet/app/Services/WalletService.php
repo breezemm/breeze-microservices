@@ -22,6 +22,7 @@ class WalletService
                 'wallet_id' => Str::uuid(),
                 'balance' => 0,
                 'type' => WalletType::DEBIT,
+                'qr_code' => 'qr code vaule',
             ]);
             DB::commit();
         } catch (\Exception $exception) {

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('balance');
             $table->enum('type', ['DEBIT', 'CREDIT', 'CASH', 'POINT', 'COIN']);
             $table->foreignId('user_id');
+            $table->text('qr_code')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
