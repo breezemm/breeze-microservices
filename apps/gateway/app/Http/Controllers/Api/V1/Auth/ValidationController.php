@@ -14,7 +14,7 @@ class ValidationController extends Controller implements ShouldQueue
 {
     public function validateEmail(ValidationRequest $request)
     {
-        if (! $request->validated()) {
+        if (!$request->validated()) {
             return json_response(422, 'Email (or) Phone Number is not valid');
         }
 
@@ -39,13 +39,13 @@ class ValidationController extends Controller implements ShouldQueue
     public function resendVerificationCode(ValidationRequest $request)
     {
 
-        if (! $request->validated()) {
+        if (!$request->validated()) {
             return json_response(422, 'Email (or) Phone Number is not valid');
         }
 
         $verificationCodeModel = VerificationCode::where('email', $request->email)->first();
 
-        if (! $verificationCodeModel->expires_at->addMinutes(2)->isPast()) {
+        if (!$verificationCodeModel->expires_at->addMinutes(2)->isPast()) {
             return json_response(422, 'Verification code is not expired');
         }
 
