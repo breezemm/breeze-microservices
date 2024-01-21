@@ -32,5 +32,19 @@ Route::prefix('wallets')->group(function () {
 
     // peer to peer transaction
     Route::post('/transfer', TransferBalanceController::class);
+
+//     P2P QR code
+//     validate qr code
+//     ask money amount
+//     confirm transaction
+
+
+//     get ticket id from scanning qr code
+//     validate ticket value
+//    checkout ticket -> deduct ticket value from wallet balance ?
+//    if success -> deduct ticket value from wallet balance
+// transfer money to the ticket owner
+//    if fail -> return error message
+
 });
 
