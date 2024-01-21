@@ -4,7 +4,7 @@ namespace App\Http\Requests\V1\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmailRequest extends FormRequest
+class ValidateOTPRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,12 +17,13 @@ class EmailRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'email' => 'required|email|unique:users,email',
+            'verification_code' => 'required|string|size:6',
+            'email' => 'required|email:rfc,dns|exists:users,email',
         ];
     }
 }

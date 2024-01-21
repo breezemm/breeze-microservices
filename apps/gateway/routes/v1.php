@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Auth\AuthController;
-use App\Http\Controllers\Api\V1\Auth\EmailValidationController;
 use App\Http\Controllers\Api\V1\Auth\InterestController;
+use App\Http\Controllers\Api\V1\Auth\ValidationController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentController;
@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\V1\Timeline\ProfileTimeline;
 use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
+use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
@@ -25,8 +26,10 @@ use Illuminate\Support\Facades\Route;
  * @description: This route group contains all the routes related to authentication
  * */
 Route::prefix('users')->group(function () {
-    Route::post('/validate-email', [EmailValidationController::class, 'validateEmail']);
-    Route::post('/validate-profile-image', [EmailValidationController::class, 'validateProfileImage']);
+    Route::post('/validate', [ValidationController::class, 'validateEmail']);
+    Route::post('/verify', VerifyController::class);
+
+    Route::post('/validate-profile-image', [ValidationController::class, 'validateProfileImage']);
     Route::get('/interests', InterestController::class);
 
     Route::post('/sign-up', [AuthController::class, 'register']);
