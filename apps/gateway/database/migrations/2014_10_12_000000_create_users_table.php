@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->date('date_of_birth');
-            $table->enum('pronoun', ['he', 'she', 'they']);
+            $table->enum('gender', ['male', 'female']);
+            $table->boolean('accept_terms')->default(false);
+            $table->string('city');
 
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

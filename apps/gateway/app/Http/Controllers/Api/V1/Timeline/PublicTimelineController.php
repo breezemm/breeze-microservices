@@ -12,10 +12,17 @@ class PublicTimelineController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $page = request()->get('page', 1);
-        $events = Event::with('user')->latest()->paginate(5);
 
-        return Cache::remember("events_page_$page", 3, fn () => EventResource::collection($events));
+        $page = request()->get('page', 1);
+        $events = Event::with([
+            'user',
+            'comments' => fn ($query) => $query->with('user'),
+        ])
+            ->latest()->paginate(5);
+
+        // TODO: finsih the public timeline
+        return $events;
+        //        return Cache::remember("events_page_$page", 3, fn () => EventResource::collection($events));
 
     }
 }

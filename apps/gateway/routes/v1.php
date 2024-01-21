@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\Events\EventSaved\EventSaveController;
 use App\Http\Controllers\Api\V1\Events\EventStoreController;
 use App\Http\Controllers\Api\V1\Suggestions\SuggestionController;
 use App\Http\Controllers\Api\V1\Timeline\ProfileTimeline;
+use App\Http\Controllers\Api\V1\Timeline\PublicTimelineController;
 use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
@@ -27,8 +28,8 @@ use Illuminate\Support\Facades\Route;
  * */
 Route::prefix('users')->group(function () {
     Route::post('/validate', [ValidationController::class, 'validateEmail']);
-    Route::post('/resend', [ValidationController::class, 'resendVerificationCode']);
-    Route::post('/verify', VerifyController::class);
+    Route::post('/verify', VerifyController::class)->middleware('throttle:5,1');
+    Route::post('/resend', [ValidationController::class, 'resendVerificationCode'])->middleware('throttle:5,1');
 
     Route::post('/validate-profile-image', [ValidationController::class, 'validateProfileImage']);
     Route::get('/interests', InterestController::class);
@@ -38,6 +39,9 @@ Route::prefix('users')->group(function () {
 
     Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 });
+
+// Public Timeline Routes
+Route::get('/public/timeline', PublicTimelineController::class);
 
 Route::middleware('auth:api')->group(function () {
 

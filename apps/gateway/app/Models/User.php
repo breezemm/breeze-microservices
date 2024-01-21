@@ -36,6 +36,8 @@ class User extends Authenticatable implements HasMedia
         'date_of_birth',
         'pronoun',
         'username',
+        'gender',
+        'city',
     ];
 
     /**
@@ -56,6 +58,7 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'accept_terms' => 'boolean',
     ];
 
     public function interests(): BelongsToMany

@@ -27,9 +27,11 @@ class RegisterRequest extends FormRequest
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
             'date_of_birth' => 'required|date_format:d-m-Y',
-            'pronoun' => 'required|in:he,she,they',
+            'gender' => 'required|in:male,female',
             'interests' => 'required|array',
             'profile_image' => ['required', new Base64ValidationRule()],
+            'accept_terms' => 'required|accepted',
+            'city' => 'required|string|in:yangon,mandalay,naypyitaw',
         ];
     }
 }
