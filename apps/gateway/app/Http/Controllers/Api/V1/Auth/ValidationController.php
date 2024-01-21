@@ -20,16 +20,12 @@ class ValidationController extends Controller implements ShouldQueue
 
         $verificationCode = CodeGenerator::generate();
 
-        VerificationCode::updateOrCreate(
-            [
-                'email' => $request->email,
-                'type' => $request->type,
-            ],
+        VerificationCode::create(
             [
                 'email' => $request->email,
                 'code' => $verificationCode,
                 'type' => $request->type,
-                'expires_at' => now()->addMinute(),
+                'expires_at' => now()->addMinutes(2),
             ]);
 
         dispatch(new SendEmailVerificationCode(
@@ -38,6 +34,35 @@ class ValidationController extends Controller implements ShouldQueue
         ));
 
         return json_response(200, 'Email Verification Code sent successfully');
+    }
+
+    public function resendVerificationCode(ValidationRequest $request)
+    {
+
+        if (! $request->validated()) {
+            return json_response(422, 'Email (or) Phone Number is not valid');
+        }
+
+        $verificationCodeModel = VerificationCode::where('email', $request->email)->first();
+
+        if (! $verificationCodeModel->expires_at->addMinutes(2)->isPast()) {
+            return json_response(422, 'Verification code is not expired');
+        }
+
+        $verificationCode = CodeGenerator::generate();
+
+        $verificationCodeModel->update([
+            'code' => $verificationCode,
+            'expires_at' => now()->addMinutes(2),
+        ]);
+
+        dispatch(new SendEmailVerificationCode(
+            email: $request->email,
+            verificationCode: $verificationCode,
+        ));
+
+        return json_response(200, 'Verification code sent successfully');
+
     }
 
     public function validateProfileImage(ProfileImageRequest $request)

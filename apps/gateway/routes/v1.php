@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
  * */
 Route::prefix('users')->group(function () {
     Route::post('/validate', [ValidationController::class, 'validateEmail']);
+    Route::post('/resend', [ValidationController::class, 'resendVerificationCode']);
     Route::post('/verify', VerifyController::class);
 
     Route::post('/validate-profile-image', [ValidationController::class, 'validateProfileImage']);
