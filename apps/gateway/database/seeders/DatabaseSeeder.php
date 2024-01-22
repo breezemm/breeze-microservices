@@ -24,10 +24,13 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(10)
             ->hasAttached(
                 Interest::all()->random(3),
+                [
+                    'least_favorite_id' => 9,
+                ],
             )
             ->create()
             ->each(
-                fn (User $user) => $user->events()->saveMany(
+                fn(User $user) => $user->events()->saveMany(
                     Event::factory()
                         ->count(3)->make()
                 ),
@@ -35,7 +38,7 @@ class DatabaseSeeder extends Seeder
 
         Event::all()
             ->each(
-                fn (Event $event) => $event->interests()->attach(
+                fn(Event $event) => $event->interests()->attach(
                     Interest::all()->random(3)
                 ),
             );
