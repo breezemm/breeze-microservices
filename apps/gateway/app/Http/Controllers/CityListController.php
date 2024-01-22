@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CityListResource;
+use App\Http\Resources\V1\CityListResource;
 use App\Models\CityList;
-use Illuminate\Http\Request;
 
 class CityListController extends Controller
 {
