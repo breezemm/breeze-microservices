@@ -24,7 +24,7 @@ class AuthController extends Controller
 
             $data['password'] = Hash::make($data['password']);
             $data['date_of_birth'] = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
-            $data['username'] = Str::slug($data['name'] . '-' . Str::random(5));
+            $data['username'] = Str::slug($data['name'] . '_' . Str::random(5), '_');
 
             DB::beginTransaction();
             $user = User::create($data);
