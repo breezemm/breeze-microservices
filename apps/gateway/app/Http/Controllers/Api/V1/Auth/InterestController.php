@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\InterestResource;
 use App\Models\Interest;
+use Illuminate\Support\Facades\Cache;
 
 class InterestController extends Controller
 {
@@ -12,6 +13,8 @@ class InterestController extends Controller
     {
         $interests = Interest::all();
 
-        return InterestResource::collection($interests);
+        return Cache::remember('interests', 3600, function () use ($interests) {
+            return InterestResource::collection($interests);
+        });
     }
 }

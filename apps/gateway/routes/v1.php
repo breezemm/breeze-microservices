@@ -31,7 +31,7 @@ Route::prefix('users')->group(function () {
 
     Route::post('/sign-up', [AuthController::class, 'register']);
     Route::post('/sign-in', [AuthController::class, 'login']);
-    
+
     Route::post('/validate', [ValidationController::class, 'validateEmail']);
     Route::post('/verify', VerifyController::class)->middleware('throttle:5,1');
     Route::post('/resend', [ValidationController::class, 'resendVerificationCode'])->middleware('throttle:5,1');
@@ -44,8 +44,6 @@ Route::prefix('users')->group(function () {
     Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 });
 
-// Public Timeline Routes
-Route::get('/public/timeline', PublicTimelineController::class);
 
 Route::middleware('auth:api')->group(function () {
 
@@ -77,9 +75,14 @@ Route::middleware('auth:api')->group(function () {
 
 });
 
+// Public Timeline Routes
+Route::get('/public/timeline', PublicTimelineController::class);
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/timeline', TimelineController::class);
 });
+
+
 
 /*
  * Wallet Routes
