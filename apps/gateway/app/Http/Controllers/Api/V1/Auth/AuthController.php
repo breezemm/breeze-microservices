@@ -75,7 +75,8 @@ class AuthController extends Controller
     public function getAuthUser()
     {
         $user = auth()->user();
-        $user->load('interests:id,name');
+        $user->load('interests:id,name')
+            ->load('address');
 
         return Cache::store('redis')->remember(auth()->user()->username, 60 * 60 * 24, function () use ($user) {
             return new UserResource($user);

@@ -28,6 +28,10 @@ use Illuminate\Support\Facades\Route;
  * @description: This route group contains all the routes related to authentication
  * */
 Route::prefix('users')->group(function () {
+
+    Route::post('/sign-up', [AuthController::class, 'register']);
+    Route::post('/sign-in', [AuthController::class, 'login']);
+    
     Route::post('/validate', [ValidationController::class, 'validateEmail']);
     Route::post('/verify', VerifyController::class)->middleware('throttle:5,1');
     Route::post('/resend', [ValidationController::class, 'resendVerificationCode'])->middleware('throttle:5,1');
@@ -36,8 +40,6 @@ Route::prefix('users')->group(function () {
     Route::get('/interests', InterestController::class);
     Route::get('/cities', CityListController::class);
 
-    Route::post('/sign-up', [AuthController::class, 'register']);
-    Route::post('/sign-in', [AuthController::class, 'login']);
 
     Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 });
