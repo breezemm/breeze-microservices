@@ -35,7 +35,7 @@ class AuthController extends Controller
             $user->address()->create([
                 'city_list_id' => $data['city_id']
             ]);
-            
+
             $user->interests()->attach($data['interests'], [
                 'least_favorite_id' => $data['least_favorite'],
             ]);
@@ -85,7 +85,6 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->user()->tokens()->delete();
-        auth()->user()->interests()->detach();
         Cache::delete(auth()->user()->username);
 
         return \response()->noContent();
