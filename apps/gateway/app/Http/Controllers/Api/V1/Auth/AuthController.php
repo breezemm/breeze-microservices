@@ -32,6 +32,10 @@ class AuthController extends Controller
             $user->addMediaFromBase64($data['profile_image'])
                 ->toMediaCollection('profile-images');
 
+            $user->address()->create([
+                'city_list_id' => $data['city_id']
+            ]);
+            
             $user->interests()->attach($data['interests'], [
                 'least_favorite_id' => $data['least_favorite'],
             ]);

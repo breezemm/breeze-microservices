@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -37,7 +38,6 @@ class User extends Authenticatable implements HasMedia
         'pronoun',
         'username',
         'gender',
-        'city',
     ];
 
     /**
@@ -66,6 +66,12 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsToMany(Interest::class);
     }
 
+    public function address(): HasOne
+    {
+        return $this->hasOne(Address::class);
+    }
+
+
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);
@@ -80,4 +86,6 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Activity::class);
     }
+
+
 }

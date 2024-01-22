@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Activity;
+use App\Models\CityList;
 use App\Models\Event;
 use App\Models\Interest;
 use App\Models\User;
@@ -19,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ActionSeeder::class,
             IntrestSeeder::class,
+            CityListSeeder::class,
         ]);
 
         User::factory()->count(10)
@@ -30,10 +32,18 @@ class DatabaseSeeder extends Seeder
             )
             ->create()
             ->each(
-                fn(User $user) => $user->events()->saveMany(
-                    Event::factory()
-                        ->count(3)->make()
-                ),
+                fn(User $user) => $user
+                    ->events()->saveMany(
+                        Event::factory()
+                            ->count(3)->make()
+                    ),
+            );
+
+        User::all()
+            ->each(
+                fn(User $user) => $user->address()->create([
+                    'city_list_id' => CityList::all()->random()->id
+                ])
             );
 
         Event::all()

@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\V1\Timeline\PublicTimelineController;
 use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
+use App\Http\Controllers\CityListController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
@@ -33,6 +34,7 @@ Route::prefix('users')->group(function () {
 
     Route::post('/validate-profile-image', [ValidationController::class, 'validateProfileImage']);
     Route::get('/interests', InterestController::class);
+    Route::get('/cities', CityListController::class);
 
     Route::post('/sign-up', [AuthController::class, 'register']);
     Route::post('/sign-in', [AuthController::class, 'login']);
@@ -82,7 +84,7 @@ Route::middleware('auth:api')->group(function () {
  * @description: This route group contains all the routes related to wallet service
  * */
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
+    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
     $threadHold = 10;
 
     try {
@@ -99,7 +101,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),

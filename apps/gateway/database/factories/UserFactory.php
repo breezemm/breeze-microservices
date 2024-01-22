@@ -28,7 +28,6 @@ class UserFactory extends Factory
             'date_of_birth' => fake()->date('Y/m/d'),
             'username' => fake()->unique()->userName(),
             'accept_terms' => true,
-            'city' => collect(['yangon', 'mandalay', 'naypyitaw'])->random(),
         ];
     }
 

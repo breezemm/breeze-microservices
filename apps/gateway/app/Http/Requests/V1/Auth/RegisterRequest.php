@@ -31,7 +31,7 @@ class RegisterRequest extends FormRequest
             'interests' => 'required|array',
             'profile_image' => ['required', new Base64ValidationRule()],
             'accept_terms' => 'required|accepted',
-            'city' => 'required|string|in:yangon,mandalay,naypyitaw',
+            'city_id' => 'required|exists:city_lists,id',
             'least_favorite' => 'required|numeric|exists:interests,id',
         ];
     }
