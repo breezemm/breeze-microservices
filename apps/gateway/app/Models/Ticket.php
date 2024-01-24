@@ -13,8 +13,6 @@ class Ticket extends Model
     protected $fillable = [
         'phase_id',
         'ticket_type_id',
-        'name',
-        'price',
         'seat_number',
     ];
 

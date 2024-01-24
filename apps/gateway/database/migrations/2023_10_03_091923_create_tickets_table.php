@@ -14,10 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('phase_id');
             $table->foreignId('ticket_type_id');
-//            TODO: remove namd and price from ticket table
-            $table->string('name');
-            $table->integer('price');
             $table->string('seat_number')->nullable();
+            $table->string('status')->default('available'); // available, sold, reserved if seat number is provided
             $table->timestamps();
         });
     }

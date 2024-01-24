@@ -40,8 +40,6 @@ class EventRepository
                                 Ticket::create([
                                     'phase_id' => $ticketType->phase_id,
                                     'ticket_type_id' => $ticketType->id,
-                                    'name' => $ticketType->name,
-                                    'price' => $ticketType->price,
                                     'seat_number' => $seatNumber,
                                 ]);
                             }
@@ -52,8 +50,6 @@ class EventRepository
                             Ticket::create([
                                 'phase_id' => $ticketType->phase_id,
                                 'ticket_type_id' => $ticketType->id,
-                                'name' => $ticketType->name,
-                                'price' => $ticketType->price,
                                 'seat_number' => null,
                             ]);
                         }
