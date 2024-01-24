@@ -18,9 +18,8 @@ class TicketResource extends JsonResource
             'id' => $this->id,
             'phase_id' => $this->phase_id,
             'ticket_type_id' => $this->ticket_type_id,
-            'name' => $this->name,
-            'price' => $this->price,
             'seat_number' => $this->seat_number,
+            'status' => $this->status,
         ];
     }
 }

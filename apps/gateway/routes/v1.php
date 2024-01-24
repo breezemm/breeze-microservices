@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\CityListController;
+use App\Http\Controllers\EventCheckOutController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
@@ -76,6 +77,19 @@ Route::middleware('auth:api')->prefix('events')->group(function () {
     Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);
 
     //    Route::get('/suggestions', SuggestionController::class);
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/checkout', EventCheckOutController::class);
+    Route::get('/qr-codes/{ticket_id}', function () {
+        return auth()->user()->orders()->where('', request('ticket_id'))->get();
+    });
+    Route::get('/orders', function () {
+        return auth()->user()->orders()->with('ticket')->get();
+    });
+    Route::get('/orders/{order}', function ($order) {
+        return auth()->user()->orders()->where('id', $order)->with('ticket.ticketType.phase.event')->first();
+    });
 });
 
 // Public Timeline Routes

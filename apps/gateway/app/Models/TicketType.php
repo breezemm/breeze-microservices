@@ -22,6 +22,7 @@ class TicketType extends Model
 
     protected $casts = [
         'benefits' => 'array',
+        'is_has_seating_plan' => 'boolean',
     ];
 
     public function phase(): BelongsTo

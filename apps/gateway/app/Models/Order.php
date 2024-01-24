@@ -18,7 +18,6 @@ class Order extends Model
         'qr_code_status',
     ];
 
-
     protected $casts = [
         'qr_code_status' => QRCodeStatus::class,
     ];
@@ -32,6 +31,4 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-
 }
