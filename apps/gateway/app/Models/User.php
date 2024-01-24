@@ -71,7 +71,6 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(Address::class);
     }
 
-
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);
@@ -86,6 +85,4 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Activity::class);
     }
-
-
 }

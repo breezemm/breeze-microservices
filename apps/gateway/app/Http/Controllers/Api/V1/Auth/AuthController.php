@@ -24,7 +24,7 @@ class AuthController extends Controller
 
             $data['password'] = Hash::make($data['password']);
             $data['date_of_birth'] = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
-            $data['username'] = Str::slug($data['name'] . '_' . Str::random(5), '_');
+            $data['username'] = Str::slug($data['name'].'_'.Str::random(5), '_');
 
             DB::beginTransaction();
             $user = User::create($data);
@@ -33,7 +33,7 @@ class AuthController extends Controller
                 ->toMediaCollection('profile-images');
 
             $user->address()->create([
-                'city_list_id' => $data['city_id']
+                'city_list_id' => $data['city_id'],
             ]);
 
             $user->interests()->attach($data['interests'], [
@@ -60,7 +60,7 @@ class AuthController extends Controller
     {
         $validatedUser = $request->validated();
         $auth = auth()->attempt($validatedUser);
-        if (!$auth) {
+        if (! $auth) {
             return json_response(Response::HTTP_UNPROCESSABLE_ENTITY, 'Invalid credentials');
         }
 

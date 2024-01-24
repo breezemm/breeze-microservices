@@ -10,7 +10,6 @@ class Ticket extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'phase_id',
         'ticket_type_id',

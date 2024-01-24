@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             )
             ->create()
             ->each(
-                fn(User $user) => $user
+                fn (User $user) => $user
                     ->events()->saveMany(
                         Event::factory()
                             ->count(3)->make()
@@ -41,14 +41,14 @@ class DatabaseSeeder extends Seeder
 
         User::all()
             ->each(
-                fn(User $user) => $user->address()->create([
-                    'city_list_id' => CityList::all()->random()->id
+                fn (User $user) => $user->address()->create([
+                    'city_list_id' => CityList::all()->random()->id,
                 ])
             );
 
         Event::all()
             ->each(
-                fn(Event $event) => $event->interests()->attach(
+                fn (Event $event) => $event->interests()->attach(
                     Interest::all()->random(3)
                 ),
             );

@@ -13,7 +13,6 @@ use App\Http\Controllers\Api\V1\Events\EventReactions\EventLikeController;
 use App\Http\Controllers\Api\V1\Events\EventSaved\EventSaveController;
 use App\Http\Controllers\Api\V1\Events\EventShowController;
 use App\Http\Controllers\Api\V1\Events\EventStoreController;
-use App\Http\Controllers\Api\V1\Events\EventUpdateController;
 use App\Http\Controllers\Api\V1\Suggestions\SuggestionController;
 use App\Http\Controllers\Api\V1\Timeline\ProfileTimeline;
 use App\Http\Controllers\Api\V1\Timeline\PublicTimelineController;
@@ -36,7 +35,6 @@ Route::prefix('users')->group(function () {
     Route::post('/sign-in', [AuthController::class, 'login']);
     Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 
-
     Route::post('/validate', [ValidationController::class, 'validateEmail']);
     Route::post('/verify', VerifyController::class)->middleware('throttle:5,1');
     Route::post('/resend', [ValidationController::class, 'resendVerificationCode'])->middleware('throttle:5,1');
@@ -46,7 +44,6 @@ Route::prefix('users')->group(function () {
     Route::get('/cities', CityListController::class);
 
 });
-
 
 Route::middleware('auth:api')->group(function () {
 
@@ -58,22 +55,18 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/{user}/unfollow', UserUnFollowController::class);
     });
 
-
 });
-
 
 Route::middleware('auth:api')->prefix('events')->group(function () {
     Route::get('{event}', EventShowController::class);
     Route::post('/', EventStoreController::class);
     Route::delete('{event}', EventDestroyController::class);
 
-
-//    Route::get('/launched', LaunchedEventController::class);
-//    Route::get('/saved', [EventSaveController::class, 'index']);
+    //    Route::get('/launched', LaunchedEventController::class);
+    //    Route::get('/saved', [EventSaveController::class, 'index']);
 
     Route::post('/{event}/save', [EventSaveController::class, 'store']);
     Route::post('/{event}/un-save', [EventSaveController::class, 'destroy']);
-
 
     Route::get('/{event}/comments', EventCommentController::class);
     Route::post('/{event}/like', EventLikeController::class);
@@ -82,9 +75,8 @@ Route::middleware('auth:api')->prefix('events')->group(function () {
     Route::post('/{event}/comments/{comment}/like', CommentLikeController::class);
     Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);
 
-//    Route::get('/suggestions', SuggestionController::class);
+    //    Route::get('/suggestions', SuggestionController::class);
 });
-
 
 // Public Timeline Routes
 Route::get('/public/timeline', PublicTimelineController::class);
@@ -93,13 +85,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/timeline', TimelineController::class);
 });
 
-
 /*
  * Wallet Routes
  * @description: This route group contains all the routes related to wallet service
  * */
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
     $threadHold = 10;
 
     try {
@@ -116,7 +107,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),

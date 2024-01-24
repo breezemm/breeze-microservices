@@ -24,7 +24,7 @@ class EventResource extends JsonResource
             'is_has_phases' => $this->is_has_phases,
             'image' => $this->getFirstMediaUrl('event-images'),
             'user' => new UserResource($this->whenLoaded('user')),
-//            'repost' => new RepostEventResource($this->whenLoaded('repost')),
+            //            'repost' => new RepostEventResource($this->whenLoaded('repost')),
             'phases' => PhaseResource::collection($this->whenLoaded('phases')),
         ];
     }

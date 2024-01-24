@@ -19,7 +19,7 @@ class PhaseResource extends JsonResource
             'name' => $this->name,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            'ticket_types' => TicketTypeResource::collection($this->whenLoaded('ticketTypes'))
+            'ticket_types' => TicketTypeResource::collection($this->whenLoaded('ticketTypes')),
         ];
     }
 }

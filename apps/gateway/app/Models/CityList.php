@@ -14,7 +14,6 @@ class CityList extends Model
         'name',
     ];
 
-
     public function addresses(): BelongsToMany
     {
         return $this->belongsToMany(Address::class);

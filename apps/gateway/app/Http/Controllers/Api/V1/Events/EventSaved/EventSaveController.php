@@ -17,7 +17,7 @@ class EventSaveController extends Controller
 
         $savedEvents = $user->events()->latest('created_at')->paginate(5);
 
-        return Cache::remember("events_saved_page_$page", 5, fn() => EventResource::collection($savedEvents));
+        return Cache::remember("events_saved_page_$page", 5, fn () => EventResource::collection($savedEvents));
     }
 
     public function store(Event $event)
@@ -40,7 +40,7 @@ class EventSaveController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user->events()->where('event_id', $event->id)->exists()) {
+        if (! $user->events()->where('event_id', $event->id)->exists()) {
             abort(Response::HTTP_BAD_REQUEST, 'Event is not saved');
         }
 

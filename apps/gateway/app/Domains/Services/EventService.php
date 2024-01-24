@@ -2,7 +2,6 @@
 
 namespace App\Domains\Services;
 
-use App\Domains\Events\Exceptions\EventCreatedFailed;
 use App\Domains\Repositories\EventRepository;
 use App\Http\Requests\V1\EventRequest;
 

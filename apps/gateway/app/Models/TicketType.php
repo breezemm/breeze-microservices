@@ -24,7 +24,6 @@ class TicketType extends Model
         'benefits' => 'array',
     ];
 
-
     public function phase(): BelongsTo
     {
         return $this->belongsTo(Phase::class);

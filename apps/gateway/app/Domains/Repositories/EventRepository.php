@@ -34,27 +34,37 @@ class EventRepository
                         $isHasSeatingPlan = $ticketType->is_has_seating_plan;
 
                         if ($isHasSeatingPlan && $totalSeats > 0) {
+                            //                             if the ticket type has seating plan and total seats is greater than 0
+                            //                            then we will create the ticket based on the total seats
                             foreach (range(1, $totalSeats) as $seatNumber) {
                                 Ticket::create([
                                     'phase_id' => $ticketType->phase_id,
                                     'ticket_type_id' => $ticketType->id,
-                                    'name' => 'test',
-                                    'price' => 1000,
+                                    'name' => $ticketType->name,
+                                    'price' => $ticketType->price,
                                     'seat_number' => $seatNumber,
                                 ]);
                             }
+                        } else {
+                            //                            if the ticket type has no seating plan and total seats is greater than 0
+                            //                            then we will create the ticket based on the total seats
+                            //                            this can also apply to the ticket that is free
+                            Ticket::create([
+                                'phase_id' => $ticketType->phase_id,
+                                'ticket_type_id' => $ticketType->id,
+                                'name' => $ticketType->name,
+                                'price' => $ticketType->price,
+                                'seat_number' => null,
+                            ]);
                         }
-
 
                     });
             }
 
             DB::commit();
-        } catch
-        (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
-            abort(500, "Event creation failed");
+            abort(500, 'Event creation failed');
         }
     }
-
 }
