@@ -7,13 +7,11 @@ use App\Http\Controllers\Api\V1\Events\EventComments\CommentDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentController;
 use App\Http\Controllers\Api\V1\Events\EventDestroyController;
-use App\Http\Controllers\Api\V1\Events\EventLaunched\LaunchedEventController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventLikeController;
 use App\Http\Controllers\Api\V1\Events\EventSaved\EventSaveController;
 use App\Http\Controllers\Api\V1\Events\EventShowController;
 use App\Http\Controllers\Api\V1\Events\EventStoreController;
-use App\Http\Controllers\Api\V1\Suggestions\SuggestionController;
 use App\Http\Controllers\Api\V1\Timeline\ProfileTimeline;
 use App\Http\Controllers\Api\V1\Timeline\PublicTimelineController;
 use App\Http\Controllers\Api\V1\Timeline\TimelineController;
@@ -21,6 +19,7 @@ use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\CityListController;
 use App\Http\Controllers\EventCheckOutController;
+use App\Http\Controllers\OrderController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
@@ -81,15 +80,9 @@ Route::middleware('auth:api')->prefix('events')->group(function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/checkout', EventCheckOutController::class);
-    Route::get('/qr-codes/{ticket_id}', function () {
-        return auth()->user()->orders()->where('', request('ticket_id'))->get();
-    });
-    Route::get('/orders', function () {
-        return auth()->user()->orders()->with('ticket')->get();
-    });
-    Route::get('/orders/{order}', function ($order) {
-        return auth()->user()->orders()->where('id', $order)->with('ticket.ticketType.phase.event')->first();
-    });
+
+    Route::apiResource('/orders', OrderController::class)->only(['index', 'show']);
+
 });
 
 // Public Timeline Routes
