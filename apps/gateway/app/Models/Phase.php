@@ -23,7 +23,12 @@ class Phase extends Model
         return $this->belongsTo(Event::class);
     }
 
-    public function tickets(): HasMany
+    public function ticketTypes(): HasMany
+    {
+        return $this->hasMany(TicketType::class);
+    }
+
+    public function ticket(): HasMany
     {
         return $this->hasMany(Ticket::class);
     }

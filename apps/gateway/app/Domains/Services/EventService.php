@@ -14,7 +14,7 @@ class EventService
     }
 
     /**
-     * @throws EventCreatedFailed
+     * @throws \Exception
      */
     public function createEvent(EventRequest $request): void
     {

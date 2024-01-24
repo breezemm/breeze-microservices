@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PhaseResource extends JsonResource
+class TicketTypeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +17,11 @@ class PhaseResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
-            'ticket_types' => TicketTypeResource::collection($this->whenLoaded('ticketTypes'))
+            'benefits' => $this->benefits,
+            'price' => $this->price,
+            'is_has_seating_plan' => $this->is_has_seating_plan,
+            'total_seats' => $this->total_seats,
+            'tickets' => TicketResource::collection($this->whenLoaded('tickets')),
         ];
     }
 }

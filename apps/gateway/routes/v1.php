@@ -34,6 +34,8 @@ Route::prefix('users')->group(function () {
 
     Route::post('/sign-up', [AuthController::class, 'register']);
     Route::post('/sign-in', [AuthController::class, 'login']);
+    Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
+
 
     Route::post('/validate', [ValidationController::class, 'validateEmail']);
     Route::post('/verify', VerifyController::class)->middleware('throttle:5,1');
@@ -43,7 +45,6 @@ Route::prefix('users')->group(function () {
     Route::get('/interests', InterestController::class);
     Route::get('/cities', CityListController::class);
 
-    Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 });
 
 
@@ -57,28 +58,33 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/{user}/unfollow', UserUnFollowController::class);
     });
 
-    Route::prefix('events')->group(function () {
-        Route::get('/{event}', EventShowController::class);
-        Route::post('/', EventStoreController::class);
-        Route::put('/', EventUpdateController::class);
-        Route::delete('/{event}', EventDestroyController::class);
-
-        Route::get('/saved', [EventSaveController::class, 'index']);
-        Route::post('/{event}/save', [EventSaveController::class, 'store']);
-        Route::post('/{event}/un-save', [EventSaveController::class, 'destroy']);
-
-        Route::get('/launched', LaunchedEventController::class);
-        Route::get('/{event}/comments', EventCommentController::class);
-        Route::post('/{event}/like', EventLikeController::class);
-        Route::post('/{event}/dislike', EventDisLikeController::class);
-
-        Route::post('/{event}/comments/{comment}/like', CommentLikeController::class);
-        Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);
-
-        Route::get('/suggestions', SuggestionController::class);
-    });
 
 });
+
+
+Route::middleware('auth:api')->prefix('events')->group(function () {
+    Route::get('{event}', EventShowController::class);
+    Route::post('/', EventStoreController::class);
+    Route::delete('{event}', EventDestroyController::class);
+
+
+//    Route::get('/launched', LaunchedEventController::class);
+//    Route::get('/saved', [EventSaveController::class, 'index']);
+
+    Route::post('/{event}/save', [EventSaveController::class, 'store']);
+    Route::post('/{event}/un-save', [EventSaveController::class, 'destroy']);
+
+
+    Route::get('/{event}/comments', EventCommentController::class);
+    Route::post('/{event}/like', EventLikeController::class);
+    Route::post('/{event}/dislike', EventDisLikeController::class);
+
+    Route::post('/{event}/comments/{comment}/like', CommentLikeController::class);
+    Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);
+
+//    Route::get('/suggestions', SuggestionController::class);
+});
+
 
 // Public Timeline Routes
 Route::get('/public/timeline', PublicTimelineController::class);

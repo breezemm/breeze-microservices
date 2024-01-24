@@ -46,13 +46,13 @@ class EventRequest extends FormRequest
             'phases.*.start_date' => 'required|date_format:Y-m-d',
             'phases.*.end_date' => 'required|date_format:Y-m-d',
 
-            // phases have tickets array
-            'phases.*.tickets' => 'required|array',
-            'phases.*.tickets.*.name' => 'required|string',
-            'phases.*.tickets.*.benefits' => 'nullable|array',
-            'phases.*.tickets.*.price' => 'required|integer',
-            'phases.*.tickets.*.is_has_seating_plan' => 'required|boolean',
-            'phases.*.tickets.*.total_seats' => 'required_if:phases.*.tickets.*.is_has_seating_plan,true|integer',
+            // phases have many ticket types
+            'phases.*.ticket_types' => 'required|array',
+            'phases.*.ticket_types.*.name' => 'required|string',
+            'phases.*.ticket_types.*.benefits' => 'nullable|array',
+            'phases.*.ticket_types.*.price' => 'required|integer',
+            'phases.*.ticket_types.*.is_has_seating_plan' => 'required|boolean',
+            'phases.*.ticket_types.*.total_seats' => 'required_if:phases.*.ticket_types.*.is_has_seating_plan,true|integer',
 
         ];
     }
