@@ -13,10 +13,14 @@ class Ticket extends Model
     protected $fillable = [
         'phase_id',
         'name',
-        'information',
+        'benefits',
         'price',
         'is_has_seating_plan',
         'total_seats',
+    ];
+
+    protected $casts = [
+        'benefits' => 'array',
     ];
 
     public function phase(): BelongsTo

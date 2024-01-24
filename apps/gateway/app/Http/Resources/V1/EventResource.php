@@ -16,17 +16,16 @@ class EventResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'date' => $this->date,
-            'time' => $this->time,
+            'name' => $this->name,
+            'start_date' => $this->start_date,
+            'start_time' => $this->start_time,
             'place' => $this->place,
-            'ticket_price' => $this->ticket_price,
-            'information' => $this->information,
-            'visibility' => $this->visibility,
-            'is_shareable' => $this->is_shareable,
+            'description' => $this->description,
+            'is_has_phases' => $this->is_has_phases,
             'image' => $this->getFirstMediaUrl('event-images'),
             'user' => new UserResource($this->whenLoaded('user')),
-            'repost' => new RepostEventResource($this->whenLoaded('repost')),
+//            'repost' => new RepostEventResource($this->whenLoaded('repost')),
+            'phases' => PhaseResource::collection($this->whenLoaded('phases')),
         ];
     }
 }

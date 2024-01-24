@@ -6,11 +6,14 @@ use App\Http\Controllers\Api\V1\Auth\ValidationController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentController;
+use App\Http\Controllers\Api\V1\Events\EventDestroyController;
 use App\Http\Controllers\Api\V1\Events\EventLaunched\LaunchedEventController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventLikeController;
 use App\Http\Controllers\Api\V1\Events\EventSaved\EventSaveController;
+use App\Http\Controllers\Api\V1\Events\EventShowController;
 use App\Http\Controllers\Api\V1\Events\EventStoreController;
+use App\Http\Controllers\Api\V1\Events\EventUpdateController;
 use App\Http\Controllers\Api\V1\Suggestions\SuggestionController;
 use App\Http\Controllers\Api\V1\Timeline\ProfileTimeline;
 use App\Http\Controllers\Api\V1\Timeline\PublicTimelineController;
@@ -40,7 +43,6 @@ Route::prefix('users')->group(function () {
     Route::get('/interests', InterestController::class);
     Route::get('/cities', CityListController::class);
 
-
     Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 });
 
@@ -56,7 +58,10 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::prefix('events')->group(function () {
+        Route::get('/{event}', EventShowController::class);
         Route::post('/', EventStoreController::class);
+        Route::put('/', EventUpdateController::class);
+        Route::delete('/{event}', EventDestroyController::class);
 
         Route::get('/saved', [EventSaveController::class, 'index']);
         Route::post('/{event}/save', [EventSaveController::class, 'store']);
@@ -81,7 +86,6 @@ Route::get('/public/timeline', PublicTimelineController::class);
 Route::middleware('auth:api')->group(function () {
     Route::get('/timeline', TimelineController::class);
 });
-
 
 
 /*

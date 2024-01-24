@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Api\V1\Events;
 
-use App\Domains\Events\Events\EventDestroyed;
-use App\Domains\Events\Exceptions\EventDestroyFailed;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use Mockery\Exception;
 
 class EventDestroyController extends Controller
 {
     public function __invoke(Event $event)
     {
         try {
-            dispatch(new EventDestroyed($event));
+            $event->delete();
+            $event->clearMediaCollection('event-images');
+            $event->interests()->detach();
+            $event->phases()->delete();
 
             return response()->noContent();
-        } catch (EventDestroyFailed $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
             ], 422);

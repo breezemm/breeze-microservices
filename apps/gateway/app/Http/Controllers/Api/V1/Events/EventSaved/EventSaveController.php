@@ -17,19 +17,15 @@ class EventSaveController extends Controller
 
         $savedEvents = $user->events()->latest('created_at')->paginate(5);
 
-        return Cache::remember("events_saved_page_$page", 5, fn () => EventResource::collection($savedEvents));
+        return Cache::remember("events_saved_page_$page", 5, fn() => EventResource::collection($savedEvents));
     }
 
     public function store(Event $event)
     {
         $user = auth()->user();
 
-        // check if the event is already saved
         if ($user->events()->where('event_id', $event->id)->exists()) {
-            return response()->json([
-                'message' => 'Event already saved',
-                'data' => $event,
-            ], Response::HTTP_OK);
+            abort(Response::HTTP_BAD_REQUEST, 'Event is already saved');
         }
 
         $user->events()->attach($event);
@@ -37,17 +33,15 @@ class EventSaveController extends Controller
         return response()->json([
             'message' => 'Event saved successfully',
             'data' => $event,
-        ], Response::HTTP_OK);
+        ], Response::HTTP_CREATED);
     }
 
     public function destroy(Event $event)
     {
         $user = auth()->user();
 
-        if (! $user->events()->where('event_id', $event->id)->exists()) {
-            return response()->json([
-                'message' => 'Event is not saved yet',
-            ], Response::HTTP_NOT_FOUND);
+        if (!$user->events()->where('event_id', $event->id)->exists()) {
+            abort(Response::HTTP_BAD_REQUEST, 'Event is not saved');
         }
 
         $user->events()->detach($event);

@@ -28,7 +28,6 @@ class EventRequest extends FormRequest
             'name' => 'required|string|max:255',
             'start_date' => 'required|date_format:Y-m-d',
             'start_time' => 'required|date_format:H:i',
-            'end_date' => 'required|after:start_date|date_format:Y-m-d',
             'end_time' => 'required|date_format:H:i',
             'place' => 'required',
             'co_organizers' => 'nullable|array|exists:users,id',
@@ -43,14 +42,14 @@ class EventRequest extends FormRequest
             'is_has_phases' => 'required|boolean', // does event have phases or not,
 
             'phases' => 'required|array', // a phase is a part of an event
-            'phases.*.name' => 'required|string',
+            'phases.*.name' => 'required|string', // Period Name
             'phases.*.start_date' => 'required|date_format:Y-m-d',
             'phases.*.end_date' => 'required|date_format:Y-m-d',
 
             // phases have tickets array
             'phases.*.tickets' => 'required|array',
             'phases.*.tickets.*.name' => 'required|string',
-            'phases.*.tickets.*.information' => 'required|string',
+            'phases.*.tickets.*.benefits' => 'nullable|array',
             'phases.*.tickets.*.price' => 'required|integer',
             'phases.*.tickets.*.is_has_seating_plan' => 'required|boolean',
             'phases.*.tickets.*.total_seats' => 'required_if:phases.*.tickets.*.is_has_seating_plan,true|integer',

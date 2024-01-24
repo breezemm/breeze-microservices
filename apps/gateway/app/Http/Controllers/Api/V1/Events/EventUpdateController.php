@@ -17,6 +17,13 @@ class EventUpdateController extends Controller
 
         $event->update($data);
 
+//        $event->phases()->update($data['phases']);
+//        $event->interests()->sync($data['interests']);
+
+//        $event->phases->map(function ($phase, $index) use ($data) {
+//            $phase->tickets()->update($data['phases'][$index]['tickets']);
+//        });
+
         if (isset($data['image'])) {
             $event->clearMediaCollection('event-images');
             $event->addMediaFromBase64($data['image'])
