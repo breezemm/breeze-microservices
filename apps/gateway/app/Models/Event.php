@@ -41,7 +41,7 @@ class Event extends Model implements HasMedia
 
     public function repost(): HasOne
     {
-        return $this->hasOne(Repost::class, 'original_event_id');
+        return $this->hasOne(Repost::class);
     }
 
     public function comments(): HasMany
@@ -52,6 +52,11 @@ class Event extends Model implements HasMedia
     public function interests(): BelongsToMany
     {
         return $this->belongsToMany(Interest::class);
+    }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
     }
 
     // an event has many phases that can be added to it
