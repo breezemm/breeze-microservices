@@ -60,7 +60,7 @@ class EventRepository
             }
 
             auth()->user()->activities()->create([
-                'action_id' => ActionType::CREATE,
+                'action_type' => ActionType::Create,
                 'event_id' => $event->id,
             ]);
             DB::commit();

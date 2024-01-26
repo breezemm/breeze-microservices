@@ -17,15 +17,16 @@ class PublicTimelineController extends Controller
         $page = $request->get('page', 1);
         $events = Event::with([
             'user',
-            'comments' => fn (HasMany $query) => $query->with('user'),
+            'phases.ticketTypes',
+            'comments' => fn(HasMany $query) => $query->with('user'),
         ])
             ->withCount('comments')
             ->withCount('likers')
             ->latest()
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->paginate(5);
 
-        return Cache::remember("events_page_$page", 3, fn () => EventResource::collection($events));
+        return Cache::remember("events_page_$page", 3, fn() => EventResource::collection($events));
 
     }
 }

@@ -24,10 +24,14 @@ class ProfileTimeline extends Controller
             Activity::whereIn('id', $latestActivities->pluck('id'))
                 ->with('user')
                 ->with('event', function (BelongsTo $query) {
-                    return $query->with('comments')
+                    return $query
+                        ->withCount('likers')
+                        ->with('comments')
+                        ->withCount('comments')
                         ->with('repost', function (HasOne $query) {
                             return $query
                                 ->with('comments', fn(HasMany $query) => $query->with('user'))
+                                ->withCount('comments')
                                 ->with(
                                     'event',
                                     fn(BelongsTo $query) => $query->with('user')
