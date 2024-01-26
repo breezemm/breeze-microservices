@@ -25,7 +25,7 @@ class FriendSuggestionController extends Controller
         return Cache::remember(
             $request->fullUrl(),
             now()->addSeconds(30),
-            fn() => UserResource::collection($friends)
+            fn () => UserResource::collection($friends)
         );
     }
 }
