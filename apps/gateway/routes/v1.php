@@ -24,15 +24,16 @@ use App\Http\Controllers\EventCheckOutController;
 use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SearchController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
-/*
- * Auth Routes
- * @description: This route group contains all the routes related to authentication
- * */
+
+Route::get('/public/timeline', PublicTimelineController::class);
+
+
 Route::prefix('users')->group(function () {
 
     Route::post('/sign-up', [AuthController::class, 'register']);
@@ -49,9 +50,10 @@ Route::prefix('users')->group(function () {
 
 });
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api')
+    ->prefix('/users')
+    ->group(function () {
 
-    Route::group(['prefix' => 'users'], function () {
         Route::get('/me', [AuthController::class, 'getAuthUser']);
         Route::get('/me/activities', ProfileTimeline::class);
         Route::get('/me/followers', FollowerController::class);
@@ -61,50 +63,41 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/{user}/unfollow', UserUnFollowController::class);
     });
 
-});
-
-Route::middleware('auth:api')->prefix('events')->group(function () {
-    Route::get('/launched', LaunchedEventController::class);
-    Route::get('/saved', [EventSaveController::class, 'index']);
-    Route::get('/suggestions', SuggestionController::class);
-
-    Route::get('{event}', EventShowController::class);
-    Route::post('/', EventStoreController::class);
-    Route::delete('{event}', EventDestroyController::class);
-
-    Route::post('/{event}/save', [EventSaveController::class, 'store']);
-    Route::post('/{event}/un-save', [EventSaveController::class, 'destroy']);
-
-    Route::get('/{event}/comments', EventCommentController::class);
-    Route::post('/{event}/like', EventLikeController::class);
-    Route::post('/{event}/dislike', EventDisLikeController::class);
-
-    Route::post('/{event}/comments/{comment}/like', CommentLikeController::class);
-    Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);
-
-});
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('/checkout', EventCheckOutController::class);
+    Route::get('/timeline', TimelineController::class); // Private timeline
+    Route::get('/search', SearchController::class);
 
     Route::apiResource('/orders', OrderController::class)->only(['index', 'show']);
-
+    Route::post('/checkout', EventCheckOutController::class);
 });
 
-// Public Timeline
-Route::get('/public/timeline', PublicTimelineController::class);
 
-// Private Timeline
-Route::middleware('auth:api')->group(function () {
-    Route::get('/timeline', TimelineController::class);
-});
+Route::middleware('auth:api')
+    ->prefix('events')->group(function () {
+        Route::get('/launched', LaunchedEventController::class);
+        Route::get('/saved', [EventSaveController::class, 'index']);
+        Route::get('/suggestions', SuggestionController::class);
 
-/*
- * Wallet Routes
- * @description: This route group contains all the routes related to wallet service
- * */
+        Route::get('{event}', EventShowController::class);
+        Route::post('/', EventStoreController::class);
+        Route::delete('{event}', EventDestroyController::class);
+
+        Route::post('/{event}/save', [EventSaveController::class, 'store']);
+        Route::post('/{event}/un-save', [EventSaveController::class, 'destroy']);
+
+        Route::get('/{event}/comments', EventCommentController::class);
+        Route::post('/{event}/like', EventLikeController::class);
+        Route::post('/{event}/dislike', EventDisLikeController::class);
+
+        Route::post('/{event}/comments/{comment}/like', CommentLikeController::class);
+        Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);
+
+    });
+
+
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
+    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
     $threadHold = 10;
 
     try {
@@ -121,7 +114,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),
