@@ -19,6 +19,8 @@ use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\CityListController;
 use App\Http\Controllers\EventCheckOutController;
+use App\Http\Controllers\FollowerController;
+use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\OrderController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Http;
@@ -50,6 +52,8 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['prefix' => 'users'], function () {
         Route::get('/me', [AuthController::class, 'getAuthUser']);
         Route::get('/me/activities', ProfileTimeline::class);
+        Route::get('/me/followers', FollowerController::class);
+        Route::get('/me/followings', FollowingController::class);
 
         Route::post('/{user}/follow', UserFollowController::class);
         Route::post('/{user}/unfollow', UserUnFollowController::class);
@@ -98,7 +102,7 @@ Route::middleware('auth:api')->group(function () {
  * @description: This route group contains all the routes related to wallet service
  * */
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
+    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
     $threadHold = 10;
 
     try {
@@ -115,7 +119,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),
