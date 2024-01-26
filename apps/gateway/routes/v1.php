@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Events\EventComments\CommentDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentController;
 use App\Http\Controllers\Api\V1\Events\EventDestroyController;
+use App\Http\Controllers\Api\V1\Events\EventLaunched\LaunchedEventController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventLikeController;
 use App\Http\Controllers\Api\V1\Events\EventSaved\EventSaveController;
@@ -62,12 +63,12 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::middleware('auth:api')->prefix('events')->group(function () {
+    Route::get('/launched', LaunchedEventController::class);
+    Route::get('/saved', [EventSaveController::class, 'index']);
+
     Route::get('{event}', EventShowController::class);
     Route::post('/', EventStoreController::class);
     Route::delete('{event}', EventDestroyController::class);
-
-    //    Route::get('/launched', LaunchedEventController::class);
-    //    Route::get('/saved', [EventSaveController::class, 'index']);
 
     Route::post('/{event}/save', [EventSaveController::class, 'store']);
     Route::post('/{event}/un-save', [EventSaveController::class, 'destroy']);
