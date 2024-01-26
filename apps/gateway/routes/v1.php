@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Auth\ValidationController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentController;
+use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentIndexController;
 use App\Http\Controllers\Api\V1\Events\EventDestroyController;
 use App\Http\Controllers\Api\V1\Events\EventLaunched\LaunchedEventController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventDisLikeController;
@@ -81,22 +82,22 @@ Route::middleware('auth:api')
 
         Route::get('{event}', EventShowController::class);
         Route::post('/', EventStoreController::class);
-        Route::delete('{event}', EventDestroyController::class);
+
 
         Route::post('/{event}/save', [EventSaveController::class, 'store']);
         Route::post('/{event}/un-save', [EventSaveController::class, 'destroy']);
-
-        Route::get('/{event}/comments', EventCommentController::class);
         Route::post('/{event}/like', EventLikeController::class);
         Route::post('/{event}/dislike', EventDisLikeController::class);
 
+        Route::get('/{event}/comments', EventCommentIndexController::class);
+        Route::post('/{event}/comments', EventCommentController::class);
         Route::post('/{event}/comments/{comment}/like', CommentLikeController::class);
         Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);
 
     });
 
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
+    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
     $threadHold = 10;
 
     try {
@@ -113,7 +114,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),
