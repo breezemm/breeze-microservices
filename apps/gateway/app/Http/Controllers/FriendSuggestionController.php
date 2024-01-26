@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class FriendSuggestionController extends Controller
 {
-
     public function __invoke(Request $request)
     {
         $searchTerm = trim($request->input('search', ''));
