@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Timeline;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\EventResource;
 use App\Models\Event;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -13,16 +14,18 @@ class PublicTimelineController extends Controller
     public function __invoke(Request $request)
     {
 
-        $page = request()->get('page', 1);
+        $page = $request->get('page', 1);
         $events = Event::with([
             'user',
-            'comments' => fn ($query) => $query->with('user'),
+            'comments' => fn (HasMany $query) => $query->with('user'),
         ])
-            ->latest()->paginate(5);
+            ->withCount('comments')
+            ->withCount('likers')
+            ->latest()
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
 
-        // TODO: finsih the public timeline
-        return $events;
-        //        return Cache::remember("events_page_$page", 3, fn () => EventResource::collection($events));
+        return Cache::remember("events_page_$page", 3, fn () => EventResource::collection($events));
 
     }
 }

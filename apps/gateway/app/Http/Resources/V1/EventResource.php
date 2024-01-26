@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Http\Resources\CommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,6 +27,9 @@ class EventResource extends JsonResource
             'user' => new UserResource($this->whenLoaded('user')),
             //            'repost' => new RepostEventResource($this->whenLoaded('repost')),
             'phases' => PhaseResource::collection($this->whenLoaded('phases')),
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'likers_count' => $this->whenCounted('likers'),
+            'comments_count' => $this->whenCounted('comments'),
         ];
     }
 }

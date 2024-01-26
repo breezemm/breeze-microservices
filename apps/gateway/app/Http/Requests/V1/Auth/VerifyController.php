@@ -9,13 +9,13 @@ class VerifyController extends Controller
 {
     public function __invoke(ValidationRequest $request)
     {
-        if (!$request->validated()) {
+        if (! $request->validated()) {
             abort(422, 'Validation failed');
         }
 
         try {
             VerificationCode::where(
-                fn($query) => $query->where('email', $request->email)
+                fn ($query) => $query->where('email', $request->email)
                     ->orWhere('phone', $request->phone)
             )
                 ->where('code', $request->code)
@@ -23,7 +23,7 @@ class VerifyController extends Controller
                 ->firstOrFail();
 
             return response()->json([
-                'message' => 'Verification Code is valid'
+                'message' => 'Verification Code is valid',
             ]);
         } catch (\Exception $exception) {
             abort(422, 'Verification Code is not valid');
