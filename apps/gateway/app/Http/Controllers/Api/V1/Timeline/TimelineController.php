@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Timeline;
 
 use App\Http\Controllers\Controller;
+use App\Pagination;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 
 class TimelineController extends Controller
 {
+    use Pagination;
+
     public function __invoke(Request $request)
     {
         $events = auth()
@@ -19,14 +22,19 @@ class TimelineController extends Controller
                 'followable',
                 fn (Builder $builder) => $builder->with(
                     'activities',
-                    fn (Builder $builder) => $builder->with('action')
-                        ->with('user')
+                    fn (Builder $builder) => $builder->with('user')
                         ->with('event', fn (BelongsTo $query) => $query
                             ->with('user')
+                            ->with('comments')
+                            ->withCount('comments')
+                            ->withCount('likers')
                             ->with('repost', function (HasOne $query) {
                                 return $query->with(
                                     'event',
                                     fn (BelongsTo $query) => $query->with('user')
+                                        ->with('comments')
+                                        ->withCount('comments')
+                                        ->withCount('likers')
                                 );
                             }))
                         ->latest('id')
@@ -34,12 +42,12 @@ class TimelineController extends Controller
             )
             ->get();
 
-        $mapped = collect($events)
+        $mappedEvents = collect($events)
             ->map(fn ($item) => $item['followable']['activities'])
             ->flatten(1)
             ->sortByDesc('id')
             ->values();
 
-        return response()->json($mapped);
+        return response()->json($this->paginate(collect($mappedEvents), 5));
     }
 }
