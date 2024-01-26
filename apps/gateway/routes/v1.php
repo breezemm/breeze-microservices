@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\Events\EventReactions\EventLikeController;
 use App\Http\Controllers\Api\V1\Events\EventSaved\EventSaveController;
 use App\Http\Controllers\Api\V1\Events\EventShowController;
 use App\Http\Controllers\Api\V1\Events\EventStoreController;
+use App\Http\Controllers\Api\V1\Suggestions\SuggestionController;
 use App\Http\Controllers\Api\V1\Timeline\ProfileTimeline;
 use App\Http\Controllers\Api\V1\Timeline\PublicTimelineController;
 use App\Http\Controllers\Api\V1\Timeline\TimelineController;
@@ -65,6 +66,8 @@ Route::middleware('auth:api')->group(function () {
 Route::middleware('auth:api')->prefix('events')->group(function () {
     Route::get('/launched', LaunchedEventController::class);
     Route::get('/saved', [EventSaveController::class, 'index']);
+    Route::get('/suggestions', SuggestionController::class);
+
 
     Route::get('{event}', EventShowController::class);
     Route::post('/', EventStoreController::class);
@@ -80,7 +83,6 @@ Route::middleware('auth:api')->prefix('events')->group(function () {
     Route::post('/{event}/comments/{comment}/like', CommentLikeController::class);
     Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);
 
-    //    Route::get('/suggestions', SuggestionController::class);
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -103,7 +105,7 @@ Route::middleware('auth:api')->group(function () {
  * @description: This route group contains all the routes related to wallet service
  * */
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
+    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
     $threadHold = 10;
 
     try {
@@ -120,7 +122,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),
