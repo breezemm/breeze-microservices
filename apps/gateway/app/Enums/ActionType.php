@@ -6,7 +6,6 @@ enum ActionType: string
 {
     case Create = 'create';
 
-
     case Comment = 'comment';
 
     case Like = 'like';

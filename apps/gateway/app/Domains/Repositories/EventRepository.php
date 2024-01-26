@@ -4,7 +4,6 @@ namespace App\Domains\Repositories;
 
 use App\Enums\ActionType;
 use App\Http\Requests\V1\EventRequest;
-use App\Models\Action;
 use App\Models\Event;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\DB;

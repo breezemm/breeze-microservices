@@ -29,6 +29,6 @@ class Repost extends Model
 
     public function comments(): HasMany
     {
-        return $this->hasMany(Comment::class, 'event_id',);
+        return $this->hasMany(Comment::class, 'event_id');
     }
 }

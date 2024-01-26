@@ -20,6 +20,7 @@ class ProfileTimeline extends Controller
             ->orWhereNotIn('action_type', [ActionType::Repost])
             ->groupBy('event_id')
             ->get();
+
         return response()->json(
             Activity::whereIn('id', $latestActivities->pluck('id'))
                 ->with('user')
@@ -30,11 +31,11 @@ class ProfileTimeline extends Controller
                         ->withCount('comments')
                         ->with('repost', function (HasOne $query) {
                             return $query
-                                ->with('comments', fn(HasMany $query) => $query->with('user'))
+                                ->with('comments', fn (HasMany $query) => $query->with('user'))
                                 ->withCount('comments')
                                 ->with(
                                     'event',
-                                    fn(BelongsTo $query) => $query->with('user')
+                                    fn (BelongsTo $query) => $query->with('user')
                                 );
                         });
                 })

@@ -18,7 +18,7 @@ class PublicTimelineController extends Controller
         $events = Event::with([
             'user',
             'phases.ticketTypes',
-            'comments' => fn(HasMany $query) => $query->with('user'),
+            'comments' => fn (HasMany $query) => $query->with('user'),
         ])
             ->withCount('comments')
             ->withCount('likers')
@@ -26,7 +26,7 @@ class PublicTimelineController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(5);
 
-        return Cache::remember("events_page_$page", 3, fn() => EventResource::collection($events));
+        return Cache::remember("events_page_$page", 3, fn () => EventResource::collection($events));
 
     }
 }
