@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\CityListController;
+use App\Http\Controllers\EventByInterestsController;
 use App\Http\Controllers\EventCheckOutController;
 use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\FollowingController;
@@ -49,6 +50,7 @@ Route::prefix('users')->group(function () {
 
 });
 
+
 Route::middleware('auth:api')
     ->prefix('/users')
     ->group(function () {
@@ -73,6 +75,7 @@ Route::middleware('auth:api')->group(function () {
 
 Route::middleware('auth:api')
     ->prefix('events')->group(function () {
+        Route::get('/interests', EventByInterestsController::class);
         Route::get('/launched', LaunchedEventController::class);
         Route::get('/saved', [EventSaveController::class, 'index']);
         Route::get('/suggestions', SuggestionController::class);
@@ -94,7 +97,7 @@ Route::middleware('auth:api')
     });
 
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
+    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
     $threadHold = 10;
 
     try {
@@ -111,7 +114,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),
