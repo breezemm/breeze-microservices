@@ -14,8 +14,8 @@ class ValidationController extends Controller implements ShouldQueue
 {
     public function validateEmail(ValidationRequest $request)
     {
-        if (! $request->validated()) {
-            return json_response(422, 'Email (or) Phone Number is not valid');
+        if (!$request->validated()) {
+            abort(422, 'Email (or) Phone Number is not valid');
         }
 
         $verificationCode = CodeGenerator::generate();
@@ -33,20 +33,22 @@ class ValidationController extends Controller implements ShouldQueue
             verificationCode: $verificationCode,
         ));
 
-        return json_response(200, 'Email Verification Code sent successfully');
+        return response()->json([
+            'message' => 'Email Verification Code sent successfully',
+        ]);
     }
 
     public function resendVerificationCode(ValidationRequest $request)
     {
 
-        if (! $request->validated()) {
-            return json_response(422, 'Email (or) Phone Number is not valid');
+        if (!$request->validated()) {
+            abort(422, 'Email (or) Phone Number is not valid');
         }
 
         $verificationCodeModel = VerificationCode::where('email', $request->email)->first();
 
-        if (! $verificationCodeModel->expires_at->addMinutes(2)->isPast()) {
-            return json_response(422, 'Verification code is not expired');
+        if (!$verificationCodeModel->expires_at->addMinutes(2)->isPast()) {
+            abort(422, 'Verification code is not expired yet');
         }
 
         $verificationCode = CodeGenerator::generate();
@@ -61,12 +63,15 @@ class ValidationController extends Controller implements ShouldQueue
             verificationCode: $verificationCode,
         ));
 
-        return json_response(200, 'Verification code sent successfully');
-
+        return response()->json([
+            'message' => 'Verification code sent successfully',
+        ]);
     }
 
     public function validateProfileImage(ProfileImageRequest $request)
     {
-        return json_response(200, 'Profile image is valid');
+        return response()->json([
+            'message' => 'Profile image is valid'
+        ]);
     }
 }
