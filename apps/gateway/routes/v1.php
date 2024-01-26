@@ -23,6 +23,7 @@ use App\Http\Controllers\CityListController;
 use App\Http\Controllers\EventCheckOutController;
 use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\FollowingController;
+use App\Http\Controllers\FriendSuggestionController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Requests\V1\Auth\VerifyController;
@@ -30,9 +31,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/public/timeline', PublicTimelineController::class);
-
 
 Route::prefix('users')->group(function () {
 
@@ -63,15 +62,14 @@ Route::middleware('auth:api')
         Route::post('/{user}/unfollow', UserUnFollowController::class);
     });
 
-
 Route::middleware('auth:api')->group(function () {
     Route::get('/timeline', TimelineController::class); // Private timeline
     Route::get('/search', SearchController::class);
+    Route::get('/suggested-friends', FriendSuggestionController::class);
 
     Route::apiResource('/orders', OrderController::class)->only(['index', 'show']);
     Route::post('/checkout', EventCheckOutController::class);
 });
-
 
 Route::middleware('auth:api')
     ->prefix('events')->group(function () {
@@ -94,7 +92,6 @@ Route::middleware('auth:api')
         Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);
 
     });
-
 
 Route::any('/wallets/{any?}', function () {
     $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();

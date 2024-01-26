@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'username' => $this->username,
             'profile_image' => $this->getFirstMediaUrl('profile-images'),
             'email' => $this->email,
-            'date_of_birth' => $this->date_of_birth ,
+            'date_of_birth' => $this->date_of_birth,
             'interests' => InterestResource::collection($this->interests),
             'address' => new AddressResource($this->address),
         ];

@@ -8,7 +8,6 @@ use App\Models\Event;
 use App\Models\Interest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\In;
 
 class SearchController extends Controller
 {
@@ -24,7 +23,7 @@ class SearchController extends Controller
 
         $events = Event::with('interests')->get();
 
-//         Get all the events that have the interest and it should be unique
+        //         Get all the events that have the interest and it should be unique
         $interestEvents = $events->flatMap(function ($event) {
             return $event->interests;
         })
@@ -42,12 +41,11 @@ class SearchController extends Controller
             ->latest('id')
             ->get();
 
-
         return response()->json([
             'data' => [
                 'suggested_friends' => UserResource::collection($latestUsers),
                 'events' => EventResource::collection($eventsByInterest),
-            ]
+            ],
         ]);
     }
 }
