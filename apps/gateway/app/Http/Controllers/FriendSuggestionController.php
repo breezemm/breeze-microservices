@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class FriendSuggestionController extends Controller
 {
@@ -21,6 +22,10 @@ class FriendSuggestionController extends Controller
             ->latest('created_at')
             ->paginate(10);
 
-        return UserResource::collection($friends);
+        return Cache::remember(
+            $request->fullUrl(),
+            now()->addSeconds(30),
+            fn() => UserResource::collection($friends)
+        );
     }
 }
