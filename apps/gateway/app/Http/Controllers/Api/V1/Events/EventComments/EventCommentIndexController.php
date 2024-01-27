@@ -3,32 +3,30 @@
 namespace App\Http\Controllers\Api\V1\Events\EventComments;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateCommentReqeust;
 use App\Models\Event;
 
 class EventCommentIndexController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(Event $event)
     {
-        return $event->with('comments', fn($query) => $query->with('user'))
+
+        $event = $event->with('media')
             ->withCount('comments')
             ->withCount('likers')
-            ->get();
+            ->first();
 
-//        return response()->json([
-//            'data' => [
-//                'event' => $event->with('user')->first(),
-//                'comments' => $event
-//                    ->comments()
-//                    ->withCount('comments')
-//                    ->withCount('likers')
-//                    ->with('user')
-//                    ->get()
-//                    ->toTree()
-//            ]
-//        ]);
+        $comments = $event->comments()
+            ->with('user.media')
+            ->withCount('likers')
+            ->withCount('replies')
+            ->get()
+            ->toTree('replies');
+
+        return response()->json([
+            'data' => [
+                'event' => auth()->user()->attachLikeStatus($event),
+                'comments' => auth()->user()->attachLikeStatus($comments),
+            ],
+        ]);
     }
 }

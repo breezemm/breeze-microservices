@@ -18,7 +18,6 @@ class Event extends Model implements HasMedia
     use InteractsWithMedia;
     use Likeable;
 
-
     protected $fillable = [
         'name',
         'start_date',
@@ -49,12 +48,6 @@ class Event extends Model implements HasMedia
     {
         return $this->hasMany(Comment::class);
     }
-
-    public function replies(): HasMany
-    {
-        return $this->hasMany(Comment::class)->whereNotNull('parent_id');
-    }
-
 
     public function interests(): BelongsToMany
     {

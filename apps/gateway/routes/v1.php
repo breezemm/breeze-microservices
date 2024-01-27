@@ -7,7 +7,6 @@ use App\Http\Controllers\Api\V1\Events\EventComments\CommentDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentController;
 use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentIndexController;
-use App\Http\Controllers\Api\V1\Events\EventDestroyController;
 use App\Http\Controllers\Api\V1\Events\EventLaunched\LaunchedEventController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventReactions\EventLikeController;
@@ -83,7 +82,6 @@ Route::middleware('auth:api')
         Route::get('{event}', EventShowController::class);
         Route::post('/', EventStoreController::class);
 
-
         Route::post('/{event}/save', [EventSaveController::class, 'store']);
         Route::post('/{event}/un-save', [EventSaveController::class, 'destroy']);
         Route::post('/{event}/like', EventLikeController::class);
@@ -97,7 +95,7 @@ Route::middleware('auth:api')
     });
 
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
     $threadHold = 10;
 
     try {
@@ -114,7 +112,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),
