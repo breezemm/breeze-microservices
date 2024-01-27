@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\V1\UserResource;
 use Illuminate\Http\Request;
 
 class FollowingController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(Request $request)
     {
-        return response()->json(
-            auth()->user()->followings()->with('user')->get()
-        );
+        $user = auth()->user();
+        $followings = $user->followings()
+            ->with('followable')
+            ->get()
+            ->map(function ($following) {
+                return $following->followable;
+            });
+
+        return UserResource::collection($user->attachFollowStatus($followings));
     }
 }

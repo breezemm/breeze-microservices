@@ -5324,16 +5324,16 @@
         },
         {
             "name": "overtrue/laravel-follow",
-            "version": "5.1.0",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/overtrue/laravel-follow.git",
-                "reference": "47482cb257f0ebe6842d1f7f4ef0770294e8c74a"
+                "reference": "69b56bd278a504dab937b1890db3d4fca8ef6ac3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/overtrue/laravel-follow/zipball/47482cb257f0ebe6842d1f7f4ef0770294e8c74a",
-                "reference": "47482cb257f0ebe6842d1f7f4ef0770294e8c74a",
+                "url": "https://api.github.com/repos/overtrue/laravel-follow/zipball/69b56bd278a504dab937b1890db3d4fca8ef6ac3",
+                "reference": "69b56bd278a504dab937b1890db3d4fca8ef6ac3",
                 "shasum": ""
             },
             "require": {
@@ -5383,7 +5383,7 @@
             "description": "User follow unfollow system for Laravel.",
             "support": {
                 "issues": "https://github.com/overtrue/laravel-follow/issues",
-                "source": "https://github.com/overtrue/laravel-follow/tree/5.1.0"
+                "source": "https://github.com/overtrue/laravel-follow/tree/5.1.1"
             },
             "funding": [
                 {
@@ -5391,7 +5391,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-15T06:15:49+00:00"
+            "time": "2024-01-22T00:45:49+00:00"
         },
         {
             "name": "overtrue/laravel-like",
