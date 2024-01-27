@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Glorand\Model\Settings\Traits\HasSettingsField;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,10 +21,36 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements HasMedia
 {
     use Followable, Follower;
-    use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
     use InteractsWithMedia;
     use Liker;
+    use HasSettingsField;
+    use HasApiTokens, HasFactory, Notifiable;
+
+    public $defaultSettings = [
+        'bio' => '',
+        'social_links' => [
+            'facebook' => '',
+            'telegram' => '',
+            'instagram' => '',
+            'tiktok' => '',
+            'snapchat' => '',
+            'website' => '',
+        ],
+        'language' => 'en',
+
+    ];
+
+    public $settingsRules = [
+        'social_links' => 'array',
+        'social_links.facebook' => 'url',
+        'social_links.telegram' => 'url',
+        'social_links.instagram' => 'url',
+        'social_links.tiktok' => 'url',
+        'social_links.snapchat' => 'url',
+        'social_links.website' => 'url',
+        'language' => 'string|in:en,my',
+    ];
 
     /**
      * The attributes that are mass assignable.
