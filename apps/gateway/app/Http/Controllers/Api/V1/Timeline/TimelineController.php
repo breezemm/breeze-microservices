@@ -31,7 +31,8 @@ class TimelineController extends Controller
                             ->with('repost', function (HasOne $query) {
                                 return $query->with(
                                     'event',
-                                    fn (BelongsTo $query) => $query->with('user')
+                                    fn (BelongsTo $query) => $query
+                                        ->with('user')
                                         ->with('comments')
                                         ->withCount('comments')
                                         ->withCount('likers')
@@ -45,6 +46,12 @@ class TimelineController extends Controller
         $mappedEvents = collect($events)
             ->map(fn ($item) => $item['followable']['activities'])
             ->flatten(1)
+            ->map(fn ($item) => [
+                'id' => $item['id'],
+                'action_type' => $item['action_type'],
+                'user' => $item['user'],
+                'event' => auth()->user()->attachLikeStatus($item['event']),
+            ])
             ->sortByDesc('id')
             ->values();
 

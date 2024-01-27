@@ -13,7 +13,7 @@ trait Pagination
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
 
         if (! isset($options['path'])) {
-            $options['path'] = '/'.request()->url();
+            $options['path'] = request()->url();
         }
 
         $items = $items instanceof Collection ? $items : Collection::make($items);
