@@ -6,12 +6,15 @@ use App\Enums\ActionType;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\User;
+use App\Pagination;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ProfileTimeline extends Controller
 {
+    use Pagination;
+
     public function __invoke(string $username)
     {
 
@@ -42,8 +45,14 @@ class ProfileTimeline extends Controller
                     });
             })
             ->latest('id')
-            ->get();
+            ->get()
+            ->map(fn ($item) => [
+                'id' => $item['id'],
+                'action_type' => $item['action_type'],
+                'user' => $item['user'],
+                'event' => auth()->user()->attachLikeStatus($item['event']),
+            ]);
 
-        return response()->json($activities);
+        return response()->json($this->paginate(collect($activities), 5));
     }
 }
