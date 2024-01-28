@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('phase_id');
             $table->foreignId('ticket_type_id');
             $table->string('seat_number')->nullable();
-            $table->string('status')->default('available'); // available, sold, reserved if seat number is provided
+            $table->text('remark')->nullable();
+            $table->string('status')->default('available'); // available, unavailable, sold
             $table->timestamps();
         });
     }

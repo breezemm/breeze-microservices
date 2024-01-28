@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Enums\TicketStatus;
+use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,7 +29,7 @@ class EventCheckOutController extends Controller
                 ], 400);
             }
 
-            //             if ticket has no seating number and it's free for all
+            //             if ticket has no seating number, and it's free for all
             if (Ticket::find($request->ticket_id)->seat_number === null) {
                 return auth()->user()
                     ->orders()

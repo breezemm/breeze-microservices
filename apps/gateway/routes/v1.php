@@ -3,6 +3,9 @@
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\InterestController;
 use App\Http\Controllers\Api\V1\Auth\ValidationController;
+use App\Http\Controllers\Api\V1\CityListController;
+use App\Http\Controllers\Api\V1\EventByInterestsController;
+use App\Http\Controllers\Api\V1\EventCheckOutController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentDisLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\CommentLikeController;
 use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentController;
@@ -13,20 +16,18 @@ use App\Http\Controllers\Api\V1\Events\EventReactions\EventLikeController;
 use App\Http\Controllers\Api\V1\Events\EventSaved\EventSaveController;
 use App\Http\Controllers\Api\V1\Events\EventShowController;
 use App\Http\Controllers\Api\V1\Events\EventStoreController;
+use App\Http\Controllers\Api\V1\FollowerController;
+use App\Http\Controllers\Api\V1\FollowingController;
+use App\Http\Controllers\Api\V1\FriendSuggestionController;
+use App\Http\Controllers\Api\V1\OrderController;
+use App\Http\Controllers\Api\V1\SearchController;
 use App\Http\Controllers\Api\V1\Suggestions\SuggestionController;
 use App\Http\Controllers\Api\V1\Timeline\ProfileTimeline;
 use App\Http\Controllers\Api\V1\Timeline\PublicTimelineController;
 use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
-use App\Http\Controllers\CityListController;
-use App\Http\Controllers\EventByInterestsController;
-use App\Http\Controllers\EventCheckOutController;
-use App\Http\Controllers\FollowerController;
-use App\Http\Controllers\FollowingController;
-use App\Http\Controllers\FriendSuggestionController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\SearchController;
+use App\Http\Controllers\EventSeatingPlanController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
@@ -49,8 +50,7 @@ Route::prefix('users')->group(function () {
     Route::get('/cities', CityListController::class);
 });
 
-Route::middleware('auth:api')
-    ->prefix('/users')
+Route::middleware('auth:api')->prefix('/users')
     ->group(function () {
         Route::get('/me', [AuthController::class, 'getAuthUser']);
 
@@ -64,24 +64,25 @@ Route::middleware('auth:api')
         Route::post('/{user}/unfollow', UserUnFollowController::class);
     });
 
-Route::middleware('auth:api')->group(function () {
-    Route::get('/timeline', TimelineController::class); // Private timeline
-    Route::get('/search', SearchController::class);
-    Route::get('/suggested-friends', FriendSuggestionController::class);
-
-    Route::apiResource('/orders', OrderController::class)->only(['index', 'show']);
-    Route::post('/checkout', EventCheckOutController::class);
-});
-
 Route::middleware('auth:api')
-    ->prefix('events')->group(function () {
+    ->group(function () {
+        Route::get('/timeline', TimelineController::class); // Private timeline
+        Route::get('/search', SearchController::class);
+        Route::get('/suggested-friends', FriendSuggestionController::class);
+
+        Route::apiResource('/orders', OrderController::class)->only(['index', 'show']);
+        Route::post('/checkout', EventCheckOutController::class);
+    });
+
+Route::middleware('auth:api')->prefix('events')
+    ->group(function () {
         Route::get('/interests', EventByInterestsController::class);
         Route::get('/launched', LaunchedEventController::class);
         Route::get('/saved', [EventSaveController::class, 'index']);
         Route::get('/suggestions', SuggestionController::class);
 
-        Route::get('{event}', EventShowController::class);
         Route::post('/', EventStoreController::class);
+        Route::get('{event}', EventShowController::class);
 
         Route::post('/{event}/save', [EventSaveController::class, 'store']);
         Route::post('/{event}/un-save', [EventSaveController::class, 'destroy']);
@@ -95,8 +96,13 @@ Route::middleware('auth:api')
 
     });
 
+Route::middleware('auth:api')->prefix('event-dashboard')
+    ->group(function () {
+        Route::get('/events/{event}/seating-plan', EventSeatingPlanController::class);
+    });
+
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
     $threadHold = 10;
 
     try {
@@ -113,7 +119,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),
