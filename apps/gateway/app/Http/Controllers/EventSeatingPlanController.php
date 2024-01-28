@@ -15,7 +15,7 @@ class EventSeatingPlanController extends Controller
             ->find($event->id);
         $availableSeatsCount = $event->phases->map(function ($phase) {
             return $phase->ticketTypes->map(function ($ticketType) {
-                if (!$ticketType->is_has_seating_plan) {
+                if (! $ticketType->is_has_seating_plan) {
                     return 0;
                 }
 
@@ -24,7 +24,7 @@ class EventSeatingPlanController extends Controller
         })->sum();
         $soldSeatsCount = $event->phases->map(function ($phase) {
             return $phase->ticketTypes->map(function ($ticketType) {
-                if (!$ticketType->is_has_seating_plan) {
+                if (! $ticketType->is_has_seating_plan) {
                     return 0;
                 }
 
@@ -33,7 +33,7 @@ class EventSeatingPlanController extends Controller
         })->sum();
         $unAvailableSeatsCount = $event->phases->map(function ($phase) {
             return $phase->ticketTypes->map(function ($ticketType) {
-                if (!$ticketType->is_has_seating_plan) {
+                if (! $ticketType->is_has_seating_plan) {
                     return 0;
                 }
 

@@ -69,7 +69,8 @@
         ],
         "setup": [
             "php artisan migrate:fresh --seed",
-            "php artisan passport:install"
+            "php artisan passport:install",
+            "php artisan storage:link"
         ],
         "test": "pest",
         "format": "./vendor/bin/pint"

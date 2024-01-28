@@ -10,16 +10,15 @@ use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
-
     public function show(Ticket $ticket)
     {
         return response()->json([
             'data' => Order::where('ticket_id', $ticket->id)
-                    ->with('ticket.ticketType')
-                    ->with('user')
-                    ->first() ?? [
-                    'ticket' => $ticket->with('ticketType')->first()
-                ],
+                ->with('ticket.ticketType')
+                ->with('user')
+                ->first() ?? [
+                        'ticket' => $ticket->with('ticketType')->first(),
+                    ],
         ]);
 
     }
@@ -43,12 +42,11 @@ class TicketController extends Controller
             ]);
         } catch (\Exception $exception) {
             DB::rollBack();
+
             return response()->json([
                 'message' => 'Ticket update failed',
-                'error' => $exception->getMessage()
+                'error' => $exception->getMessage(),
             ], 500);
         }
     }
-
-
 }
