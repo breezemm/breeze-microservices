@@ -24,11 +24,11 @@ class FollowingController extends Controller
                 'data' => [
                     'total_followings' => $user->followings()->count(),
                     'followings' => UserResource::collection($user->attachFollowStatus($followings)),
-                ]
+                ],
             ]);
         } catch (\Exception $exception) {
             return response()->json([
-                'message' => 'User not found'
+                'message' => 'User not found',
             ], 404);
         }
     }

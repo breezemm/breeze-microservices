@@ -49,14 +49,14 @@ Route::prefix('users')->group(function () {
     Route::get('/cities', CityListController::class);
 });
 
-
 Route::middleware('auth:api')
     ->prefix('/users')
     ->group(function () {
         Route::get('/me', [AuthController::class, 'getAuthUser']);
-        Route::get('/me/activities', ProfileTimeline::class);
 
+        Route::get('/{user:username}/activities', ProfileTimeline::class);
 
+        Route::get('/{user:username}/profile', [AuthController::class, 'getProfile']);
         Route::get('/{user:username}/followers', FollowerController::class);
         Route::get('/{user:username}/followings', FollowingController::class);
 
@@ -96,7 +96,7 @@ Route::middleware('auth:api')
     });
 
 Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()) . '-' . Str::lower(request()->path()) . '-' . request()->ip();
+    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
     $threadHold = 10;
 
     try {
@@ -113,7 +113,7 @@ Route::any('/wallets/{any?}', function () {
 
         $response = Http::timeout(3)
             ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet') . request()->getRequestUri(), [
+            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
                 'query' => request()->query(),
                 'headers' => request()->headers->all(),
                 'body' => request()->getContent(),

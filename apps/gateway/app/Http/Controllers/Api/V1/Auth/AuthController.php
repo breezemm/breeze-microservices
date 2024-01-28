@@ -72,6 +72,14 @@ class AuthController extends Controller
 
     }
 
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+        Cache::delete(auth()->user()->username);
+
+        return \response()->noContent();
+    }
+
     public function getAuthUser()
     {
         $user = auth()->user();
@@ -85,11 +93,18 @@ class AuthController extends Controller
         });
     }
 
-    public function logout()
+    public function getProfile(string $username)
     {
-        auth()->user()->tokens()->delete();
-        Cache::delete(auth()->user()->username);
+        $user = User::whereUsername($username)->firstOrFail();
+        auth()->user()->attachFollowStatus($user);
 
-        return \response()->noContent();
+        return response()->json([
+            'data' => [
+                'followers_count' => $user->followers()->count(),
+                'followings_count' => $user->followings()->count(),
+                'is_auth_user' => auth()->user()->is($user),
+                'user' => new UserResource($user),
+            ],
+        ]);
     }
 }

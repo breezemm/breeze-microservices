@@ -95,5 +95,16 @@ class DatabaseSeeder extends Seeder
             'content' => 'repost content',
         ]);
 
+        Activity::create([
+            'action_type' => ActionType::Create,
+            'user_id' => 1,
+            'event_id' => 1,
+        ]);
+        Activity::create([
+            'action_type' => ActionType::Create,
+            'user_id' => 1,
+            'event_id' => 2,
+        ]);
+
     }
 }

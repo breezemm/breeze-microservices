@@ -16,12 +16,12 @@ class FollowerController extends Controller
             return response()->json([
                 'data' => [
                     'total_followers' => $user->followers()->count(),
-                    'followers' => UserResource::collection($followers)
-                ]
+                    'followers' => UserResource::collection($followers),
+                ],
             ]);
         } catch (\Exception $exception) {
             return response()->json([
-                'message' => 'User not found'
+                'message' => 'User not found',
             ], 404);
         }
 
