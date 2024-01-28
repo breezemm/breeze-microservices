@@ -98,7 +98,7 @@ Route::middleware('auth:api')->prefix('events')
     });
 
 Route::middleware('auth:api')->group(function () {
-    Route::apiResource('/tickets', TicketController::class)->only('show');
+    Route::apiResource('/tickets', TicketController::class)->only('show','update');
 });
 
 Route::middleware('auth:api')->prefix('event-dashboard')->group(function () {
