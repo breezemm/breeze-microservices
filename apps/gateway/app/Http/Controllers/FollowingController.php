@@ -22,7 +22,7 @@ class FollowingController extends Controller
 
             return response()->json([
                 'data' => [
-                    'total_followings' => $user->followings()->count(),
+                    'followings_count' => $user->followings()->count(),
                     'followings' => UserResource::collection($user->attachFollowStatus($followings)),
                 ],
             ]);

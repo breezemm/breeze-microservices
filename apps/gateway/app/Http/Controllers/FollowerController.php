@@ -15,7 +15,7 @@ class FollowerController extends Controller
 
             return response()->json([
                 'data' => [
-                    'total_followers' => $user->followers()->count(),
+                    'followers_count' => $user->followers()->count(),
                     'followers' => UserResource::collection($followers),
                 ],
             ]);
