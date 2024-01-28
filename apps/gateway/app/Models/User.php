@@ -17,6 +17,7 @@ use Overtrue\LaravelLike\Traits\Liker;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -87,6 +88,11 @@ class User extends Authenticatable implements HasMedia
         'password' => 'hashed',
         'accept_terms' => 'boolean',
     ];
+
+    public function scopeWhereUsername(Builder $query, string $username): void
+    {
+        $query->where('username', $username);
+    }
 
     public function interests(): BelongsToMany
     {

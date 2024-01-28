@@ -3,15 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\V1\UserResource;
-use Illuminate\Http\Request;
+use App\Models\User;
 
 class FollowerController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(string $username)
     {
-        $user = auth()->user();
-        $followers = $user->followers;
+        try {
+            $user = User::whereUsername($username)->firstOrFail();
+            $followers = $user->followers;
 
-        return UserResource::collection($user->attachFollowStatus($followers));
+            return response()->json([
+                'data' => [
+                    'total_followers' => $user->followers()->count(),
+                    'followers' => UserResource::collection($followers)
+                ]
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
     }
 }
