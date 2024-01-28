@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Enums\TicketStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCheckOutReqeust;
-use App\Models\Order;
 use App\Models\Ticket;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class EventCheckOutController extends Controller

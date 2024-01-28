@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Order;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class GuestListController extends Controller
@@ -14,7 +13,6 @@ class GuestListController extends Controller
         $guests = Order::where('event_id', $event->id)
             ->with('user.media')
             ->get();
-
 
         return response()->json([
             'guests' => $guests,
