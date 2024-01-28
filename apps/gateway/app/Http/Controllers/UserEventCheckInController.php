@@ -25,6 +25,12 @@ class UserEventCheckInController extends Controller
         $order = Order::where('qr_code', $request->qr_code)
             ->firstOrFail();
 
+        if ($order->qr_code_status === QRCodeStatus::USED) {
+            return response()->json([
+                'message' => 'QR Code already used.',
+            ], 422);
+        }
+
         $order->update([
             'qr_code_status' => QRCodeStatus::USED,
         ]);
