@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\EventSeatingPlanController;
 use App\Http\Controllers\GuestListController;
+use App\Http\Controllers\ShowEventRevenueController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserEventCheckInController;
 use App\Http\Requests\V1\Auth\VerifyController;
@@ -104,6 +105,7 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::middleware('auth:api')->prefix('event-dashboard')->group(function () {
+    Route::get('/events/{event}/revenue', ShowEventRevenueController::class);
     Route::get('/events/{event}/seating-plan', EventSeatingPlanController::class);
     Route::get('/events/{event}/guests', GuestListController::class);
 

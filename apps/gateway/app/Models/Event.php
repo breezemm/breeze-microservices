@@ -64,4 +64,9 @@ class Event extends Model implements HasMedia
     {
         return $this->hasMany(Phase::class);
     }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
 }
