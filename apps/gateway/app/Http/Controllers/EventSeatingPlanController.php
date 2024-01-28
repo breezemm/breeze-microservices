@@ -15,16 +15,25 @@ class EventSeatingPlanController extends Controller
             ->find($event->id);
         $availableSeatsCount = $event->phases->map(function ($phase) {
             return $phase->ticketTypes->map(function ($ticketType) {
-                if (! $ticketType->is_has_seating_plan) {
+                if (!$ticketType->is_has_seating_plan) {
                     return 0;
                 }
 
                 return $ticketType->tickets->where('status', TicketStatus::AVAILABLE)->count();
             })->sum();
         })->sum();
+        $soldSeatsCount = $event->phases->map(function ($phase) {
+            return $phase->ticketTypes->map(function ($ticketType) {
+                if (!$ticketType->is_has_seating_plan) {
+                    return 0;
+                }
+
+                return $ticketType->tickets->where('status', TicketStatus::SOLD)->count();
+            })->sum();
+        })->sum();
         $unAvailableSeatsCount = $event->phases->map(function ($phase) {
             return $phase->ticketTypes->map(function ($ticketType) {
-                if (! $ticketType->is_has_seating_plan) {
+                if (!$ticketType->is_has_seating_plan) {
                     return 0;
                 }
 
@@ -34,6 +43,7 @@ class EventSeatingPlanController extends Controller
 
         return response()->json([
             'available_count' => $availableSeatsCount,
+            'sold_count' => $soldSeatsCount,
             'unavailable_count' => $unAvailableSeatsCount,
             'event' => new EventResource($event),
         ]);
