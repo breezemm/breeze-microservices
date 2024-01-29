@@ -13,7 +13,7 @@ class EventCheckOutController extends Controller
     public function __invoke(CreateCheckOutReqeust $request)
     {
         try {
-            if (auth()->user()->orders()->where('ticket_id', $request->ticket_id)->exists()) {
+            if (auth()->user()->orders()->where('ticket_id', $request->validated('ticket_id'))->exists()) {
                 return response()->json([
                     'message' => 'You already purchased this ticket',
                 ], 400);
