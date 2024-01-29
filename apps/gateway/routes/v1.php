@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\EventSeatingPlanController;
+use App\Http\Controllers\GuestInvitationController;
 use App\Http\Controllers\GuestListController;
 use App\Http\Controllers\ShowEventRevenueController;
 use App\Http\Controllers\TicketController;
@@ -108,6 +109,7 @@ Route::middleware('auth:api')->prefix('event-dashboard')->group(function () {
     Route::get('/events/{event}/revenue', ShowEventRevenueController::class);
     Route::get('/events/{event}/seating-plan', EventSeatingPlanController::class);
     Route::get('/events/{event}/guests', GuestListController::class);
+    Route::post('/events/{event}/guests/{user}/invite', GuestInvitationController::class);
 
     Route::post('/scan-qr-code', [UserEventCheckInController::class, 'getTicketByQRCode']);
     Route::post('/check-in', [UserEventCheckInController::class, 'checkInEvent']);

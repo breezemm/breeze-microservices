@@ -17,8 +17,8 @@ class TicketController extends Controller
                 ->with('ticket.ticketType')
                 ->with('user')
                 ->first() ?? [
-                        'ticket' => $ticket->with('ticketType')->first(),
-                    ],
+                    'ticket' => $ticket->with('ticketType')->first(),
+                ],
         ]);
 
     }
