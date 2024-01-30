@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
-use App\Actions\CreateWallet;
+use App\Actions\CreateWalletAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegisterRequest;
@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 class AuthController extends Controller
 {
     public function __construct(
-        public readonly CreateWallet $createWallet,
+        public readonly CreateWalletAction $createWallet,
     )
     {
     }

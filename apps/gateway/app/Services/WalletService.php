@@ -2,19 +2,27 @@
 
 namespace App\Services;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Arr;
+use App\Models\User;
 use Illuminate\Support\Facades\Http;
 
 class WalletService
 {
-    public function getMyWallet()
+    public function getMyWallet(?User $user = null)
     {
-        $wallets = Http::wallet()
-            ->post('/wallets', [
-                'user_id' => auth()->id(),
-            ])
-            ->json('user.wallets');
-        return $wallets[0];
+        try {
+            $response = Http::wallet()
+                ->async()
+                ->post('/wallets', [
+                    'user_id' => $user->id ?? auth()->id(),
+                ])
+                ->then(fn($response) => $response->json());
+            $wallets = $response->wait();
+            return $wallets['user']['wallets'][0];
+        } catch (\Exception $exception) {
+            info('[ERROR]' . $exception->getMessage());
+            abort(500, 'Internal Server Error');
+        }
+
     }
+
 }

@@ -7,7 +7,7 @@ use App\Support\Payload;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 
-class CreateWallet
+class CreateWalletAction
 {
     /**
      * @throws \Exception
