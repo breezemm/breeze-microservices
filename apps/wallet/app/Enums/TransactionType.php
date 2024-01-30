@@ -7,5 +7,7 @@ enum TransactionType: string
     case DEPOSIT = 'DEPOSIT';
     case WITHDRAW = 'WITHDRAW';
 
+    case TRANSFER = 'TRANSFER';
+
 
 }

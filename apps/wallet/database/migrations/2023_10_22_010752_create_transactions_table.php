@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('from_user');
             $table->foreignId('to_user');
 
-            $table->enum('transaction_type', ['DEPOSIT', 'WITHDRAW']);
+            $table->string('transaction_type');
 
             $table->string('transaction_amount');
             $table->string('transaction_currency')->default('MMK');
