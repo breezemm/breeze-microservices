@@ -40,25 +40,10 @@ class TransferBalanceController extends Controller
             $to_wallet->save();
 
             return response()->json([
-                'message' => 'Transaction successful',
+                'message' => 'Deposit Transaction successful',
             ]);
         }
-
-        // if the transaction type is WITHDRAW, then subtract the transaction amount from the to_wallet_id
-        // and add the transaction amount to the from_wallet_id
-        if ($transferBalanceDTO->transaction_type === TransactionType::WITHDRAW->value) {
-            $from_wallet = Wallet::where('wallet_id', $transferBalanceDTO->from_wallet_id)->first();
-            $from_wallet->balance = (float)$from_wallet->balance + (float)$transferBalanceDTO->transaction_amount;
-            $from_wallet->save();
-
-            $to_wallet = Wallet::where('wallet_id', $transferBalanceDTO->to_wallet_id)->first();
-            $to_wallet->balance = (float)$to_wallet->balance - (float)$transferBalanceDTO->transaction_amount;
-            $to_wallet->save();
-
-            return response()->json([
-                'message' => 'Transaction successful',
-            ]);
-        }
+        
 
         return response()->json([
             'message' => 'Invalid transaction type',
@@ -78,10 +63,13 @@ class TransferBalanceController extends Controller
 
     private function createTransaction(TransferBalanceDTO $transferBalanceDTO)
     {
+        $fromWallet = Wallet::where('wallet_id', $transferBalanceDTO->from_wallet_id)->first();
+        $toWallet = Wallet::where('wallet_id', $transferBalanceDTO->to_wallet_id)->first();
+
         return Transaction::create([
             'transaction_id' => $transferBalanceDTO->transaction_id,
-            'from_user' => $transferBalanceDTO->from_user,
-            'to_user' => $transferBalanceDTO->to_user,
+            'from_user' => $fromWallet->user_id,
+            'to_user' => $toWallet->user_id,
             'transaction_type' => $transferBalanceDTO->transaction_type,
 
             'transaction_amount' => $transferBalanceDTO->transaction_amount,
@@ -92,7 +80,6 @@ class TransferBalanceController extends Controller
             'to_wallet_id' => $transferBalanceDTO->to_wallet_id,
         ]);
     }
-
 
 
 }

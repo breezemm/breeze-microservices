@@ -8,8 +8,6 @@ use Spatie\LaravelData\Data;
 class TransferBalanceDTO extends Data
 {
     public function __construct(
-        public readonly string $from_user,
-        public readonly string $to_user,
         public readonly string $transaction_type,
         public readonly string $transaction_amount,
         public readonly string $transaction_currency,
@@ -24,8 +22,6 @@ class TransferBalanceDTO extends Data
     public static function rules(): array
     {
         return [
-            'from_user' => 'required|integer|exists:users,user_id',
-            'to_user' => 'required|integer|exists:users,user_id|different:from_user',
             'transaction_type' => 'required|in:DEPOSIT,WITHDRAW',
             'transaction_amount' => 'required|string',
             'transaction_currency' => 'required|string|in:MMK,USD',
