@@ -14,7 +14,6 @@ class TransferBalanceDTO extends Data
         public readonly string $transaction_description,
         public readonly string $from_wallet_id,
         public readonly string $to_wallet_id,
-        public readonly string $transaction_id,
     )
     {
     }
@@ -28,7 +27,6 @@ class TransferBalanceDTO extends Data
             'transaction_description' => 'required|string',
             'from_wallet_id' => 'required|string|exists:wallets,wallet_id',
             'to_wallet_id' => 'required|string|exists:wallets,wallet_id',
-            'transaction_id' => 'required|string|unique:transactions,transaction_id',
         ];
     }
 

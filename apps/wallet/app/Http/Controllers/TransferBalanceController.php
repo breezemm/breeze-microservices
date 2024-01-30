@@ -6,6 +6,7 @@ use App\Enums\TransactionType;
 use App\Http\DataTransferObjects\TransferBalanceDTO;
 use App\Models\Transaction;
 use App\Models\Wallet;
+use Illuminate\Support\Str;
 
 class TransferBalanceController extends Controller
 {
@@ -43,7 +44,7 @@ class TransferBalanceController extends Controller
                 'message' => 'Deposit Transaction successful',
             ]);
         }
-        
+
 
         return response()->json([
             'message' => 'Invalid transaction type',
@@ -67,7 +68,6 @@ class TransferBalanceController extends Controller
         $toWallet = Wallet::where('wallet_id', $transferBalanceDTO->to_wallet_id)->first();
 
         return Transaction::create([
-            'transaction_id' => $transferBalanceDTO->transaction_id,
             'from_user' => $fromWallet->user_id,
             'to_user' => $toWallet->user_id,
             'transaction_type' => $transferBalanceDTO->transaction_type,

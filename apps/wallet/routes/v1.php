@@ -12,7 +12,9 @@ Route::get('/', function () {
             'message' => 'Welcome to the Wallet API'
         ]);
     } catch (\Exception $exception) {
-        return abort(500, $exception->getMessage());
+        info('[ERROR]' . $exception->getMessage());
+        abort(500, 'Internal Server Error');
+
     }
 });
 
