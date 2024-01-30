@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Actions\CreateWallet;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegisterRequest;
 use App\Http\Resources\V1\UserResource;
-use App\Jobs\UserCreated;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -17,6 +17,12 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    public function __construct(
+        public readonly CreateWallet $createWallet,
+    )
+    {
+    }
+
     public function register(RegisterRequest $request)
     {
         try {
@@ -24,7 +30,7 @@ class AuthController extends Controller
 
             $data['password'] = Hash::make($data['password']);
             $data['date_of_birth'] = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
-            $data['username'] = Str::slug($data['name'].'_'.Str::random(5), '_');
+            $data['username'] = Str::slug($data['name'] . '_' . Str::random(5), '_');
 
             DB::beginTransaction();
             $user = User::create($data);
@@ -42,7 +48,7 @@ class AuthController extends Controller
 
             $token = $user->createToken('access_token')->accessToken;
 
-            UserCreated::dispatch($user->toArray());
+            $this->createWallet->handle($user);
 
             DB::commit();
 
@@ -60,7 +66,7 @@ class AuthController extends Controller
     {
         $validatedUser = $request->validated();
         $auth = auth()->attempt($validatedUser);
-        if (! $auth) {
+        if (!$auth) {
             return json_response(Response::HTTP_UNPROCESSABLE_ENTITY, 'Invalid credentials');
         }
 

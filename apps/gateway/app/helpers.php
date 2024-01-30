@@ -3,7 +3,7 @@
 use Illuminate\Http\JsonResponse;
 use JetBrains\PhpStorm\ArrayShape;
 
-if (! function_exists('json_response')) {
+if (!function_exists('json_response')) {
     function json_response($status, $message, $data = null): JsonResponse
     {
         return response()->json([
@@ -16,21 +16,19 @@ if (! function_exists('json_response')) {
     }
 }
 
-if (! function_exists('createPayload')) {
+if (!function_exists('createKafkaPayload')) {
 
-    function createPayload(
+    function createKafkaPayload(
         string $topic,
-        #[ArrayShape(['cmd' => 'string'])]
-        array $pattern,
-        array $data,
-    ): string {
-        return json_encode(
-            [
-                'id' => Str::uuid(),
-                'topic' => $topic,
-                'pattern' => $pattern,
-                'data' => $data,
-            ]
-        );
+        mixed  $pattern,
+        array  $data,
+    ): string
+    {
+        return json_encode([
+            'id' => Str::uuid(),
+            'topic' => $topic,
+            'pattern' => $pattern,
+            'data' => $data,
+        ]);
     }
 }

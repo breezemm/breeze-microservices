@@ -28,15 +28,18 @@ use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\EventSeatingPlanController;
+use App\Http\Controllers\GetMyWalletController;
 use App\Http\Controllers\GuestInvitationController;
 use App\Http\Controllers\GuestListController;
 use App\Http\Controllers\ShowEventRevenueController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserEventCheckInController;
+use App\Http\Controllers\WalletController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/public/timeline', PublicTimelineController::class);
 
@@ -115,38 +118,12 @@ Route::middleware('auth:api')->prefix('event-dashboard')->group(function () {
     Route::post('/check-in', [UserEventCheckInController::class, 'checkInEvent']);
 });
 
-Route::any('/wallets/{any?}', function () {
-    $throttleKey = Str::lower(request()->method()).'-'.Str::lower(request()->path()).'-'.request()->ip();
-    $threadHold = 10;
+Route::middleware('auth:api')->prefix('wallets')->group(function () {
+    Route::get('/me', GetMyWalletController::class);
+});
 
-    try {
-        if (RateLimiter::tooManyAttempts($throttleKey, $threadHold)) {
-            return response()->json([
-                'meta' => [
-                    'status' => 429,
-                    'ok' => false,
-                    'message' => 'Too many attempts, please try again later.',
-                ],
-                'data' => [],
-            ], 429);
-        }
 
-        $response = Http::timeout(3)
-            ->retry(3, 200)
-            ->send(request()->method(), config('services.breeze.wallet').request()->getRequestUri(), [
-                'query' => request()->query(),
-                'headers' => request()->headers->all(),
-                'body' => request()->getContent(),
-            ]);
 
-        return response($response->body(), $response->status(), $response->headers());
-    } catch (Exception $exception) {
 
-        RateLimiter::hit($throttleKey);
 
-        return response()->json(
-            json_decode($exception->response->body(), true),
-            $exception->response->status()
-        );
-    }
-})->where('any', '.*');
+
