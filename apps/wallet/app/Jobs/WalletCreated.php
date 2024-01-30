@@ -23,10 +23,7 @@ class WalletCreated implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        #[ArrayShape([
-            'id' => "int",
-        ])]
-        public readonly array $user,
+        public readonly int $user_id,
     )
     {
         //
@@ -37,9 +34,11 @@ class WalletCreated implements ShouldQueue
      */
     public function handle(WalletService $walletService): void
     {
-        UserCreated::dispatch($this->user);
+        User::create([
+            'user_id' => $this->user_id,
+        ]);
         $walletService->create([
-            'user_id' => $this->user['id'],
+            'user_id' => $this->user_id,
         ]);
     }
 }

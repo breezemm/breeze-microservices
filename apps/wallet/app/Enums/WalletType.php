@@ -2,11 +2,8 @@
 
 namespace App\Enums;
 
-enum WalletType
+enum WalletType: string
 {
-    case DEBIT;
-    case CREDIT;
-    case CASH;
-    case POINT;
-    case COIN;
+    case DEBIT = 'debit';
+    case CREDIT = 'credit';
 }

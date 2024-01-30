@@ -60,4 +60,9 @@ return [
      | The cache driver that will be used
      */
     'cache_driver' => env('KAFKA_CACHE_DRIVER', env('CACHE_DRIVER', 'file')),
+
+    'topics' => env('KAFKA_TOPICS','wallets'),
+
+    'dlq' => env('KAFKA_DLQ','wallets-dlq'),
+
 ];

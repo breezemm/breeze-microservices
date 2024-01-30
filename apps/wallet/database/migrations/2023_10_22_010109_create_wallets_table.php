@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\WalletType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,10 +14,11 @@ return new class extends Migration {
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->string('wallet_id')->unique();
-            $table->string('balance');
-            $table->enum('type', ['DEBIT', 'CREDIT', 'CASH', 'POINT', 'COIN']);
             $table->foreignId('user_id');
-            $table->text('qr_code')->nullable();
+            $table->string('balance');
+            $table->string('currency')->default('MMK');
+            $table->string('type')->default(WalletType::DEBIT);
+            $table->string('qr_code')->unique();
             $table->softDeletes();
             $table->timestamps();
         });

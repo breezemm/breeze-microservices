@@ -13,16 +13,16 @@ class WalletService
     /**
      * @throws \Exception
      */
-    public function create(#[ArrayShape(['user_id' => 'int'])] array $data): void
+    public function create(#[ArrayShape(['user_id' => 'int'])] array $user): void
     {
         try {
             DB::beginTransaction();
             Wallet::create([
-                'user_id' => $data['user_id'],
+                'user_id' => $user['user_id'],
                 'wallet_id' => Str::uuid(),
                 'balance' => 0,
                 'type' => WalletType::DEBIT,
-                'qr_code' => 'qr code vaule',
+                'qr_code' => Str::uuid(),
             ]);
             DB::commit();
         } catch (\Exception $exception) {
@@ -31,7 +31,4 @@ class WalletService
         }
     }
 
-    public function findAll()
-    {
-    }
 }

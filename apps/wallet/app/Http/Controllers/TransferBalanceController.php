@@ -3,7 +3,7 @@
 namespace app\Http\Controllers;
 
 use App\Enums\TransactionType;
-use App\Http\Requests\TransferBalanceDTO;
+use App\Http\DataTransferObjects\TransferBalanceDTO;
 use App\Models\Transaction;
 use App\Models\Wallet;
 
@@ -14,22 +14,14 @@ class TransferBalanceController extends Controller
         // check if the transaction ID has been processed before
         if ($this->transactionIdExists($transferBalanceDTO->transaction_id)) {
             return response()->json([
-                'meta' => [
-                    'status' => 400,
-                    'message' => 'Transaction ID already exists',
-                ],
-                'data' => [],
+                'message' => 'Transaction already exists',
             ], 400);
         }
 
         // check if the user has enough balance to transfer
         if (!$this->hasEnoughBalance($transferBalanceDTO->from_wallet_id, $transferBalanceDTO->transaction_amount)) {
             return response()->json([
-                'meta' => [
-                    'status' => 400,
-                    'message' => 'Insufficient balance',
-                ],
-                'data' => [],
+                'message' => 'Insufficient balance',
             ], 400);
         }
 
@@ -48,14 +40,8 @@ class TransferBalanceController extends Controller
             $to_wallet->save();
 
             return response()->json([
-                'meta' => [
-                    'status' => 200,
-                    'message' => 'Transaction successful',
-                ],
-                'data' => [
-                    'transaction' => $transaction,
-                ],
-            ], 200);
+                'message' => 'Transaction successful',
+            ]);
         }
 
         // if the transaction type is WITHDRAW, then subtract the transaction amount from the to_wallet_id
@@ -70,22 +56,12 @@ class TransferBalanceController extends Controller
             $to_wallet->save();
 
             return response()->json([
-                'meta' => [
-                    'status' => 200,
-                    'message' => 'Transaction successful',
-                ],
-                'data' => [
-                    'transaction' => $transaction,
-                ],
-            ], 200);
+                'message' => 'Transaction successful',
+            ]);
         }
 
         return response()->json([
-            'meta' => [
-                'status' => 400,
-                'message' => 'Invalid transaction type',
-            ],
-            'data' => [],
+            'message' => 'Invalid transaction type',
         ], 400);
     }
 
@@ -116,6 +92,7 @@ class TransferBalanceController extends Controller
             'to_wallet_id' => $transferBalanceDTO->to_wallet_id,
         ]);
     }
+
 
 
 }

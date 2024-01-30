@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->enum('transaction_type', ['DEPOSIT', 'WITHDRAW']);
 
             $table->string('transaction_amount');
-            $table->string('transaction_currency');
+            $table->string('transaction_currency')->default('MMK');
             $table->string('transaction_description');
 
             $table->string('from_wallet_id');

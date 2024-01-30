@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\WalletController;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\WalletByUserIdDTO;
+use App\Http\DataTransferObjects\WalletByUserIdDTO;
 use App\Models\User;
 
 class GetWalletByUserController extends Controller
@@ -12,24 +12,15 @@ class GetWalletByUserController extends Controller
     {
         try {
             $user = User::where('user_id', $walletByUserIdDTO->user_id)->first();
-            $user?->load('wallets');
+            $user?->load('wallets')
+                ->get();
 
             return response()->json([
-                'meta' => [
-                    'status' => 200,
-                    'message' => 'Wallet retrieved successfully.',
-                ],
-                'data' => $user->wallets,
+                'user' => $user,
             ], 200);
 
         } catch (\Exception $exception) {
-            return response()->json([
-                'meta' => [
-                    'status' => 404,
-                    'message' => 'Wallet with the given user id is not found.',
-                ],
-                'data' => [],
-            ], 404);
+            abort(404, 'Wallet not found');
         }
 
 

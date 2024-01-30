@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\DataTransferObjects;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\Data;

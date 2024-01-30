@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\DataTransferObjects;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Spatie\LaravelData\Data;
 
 class WalletByUserIdDTO extends Data
@@ -16,7 +17,7 @@ class WalletByUserIdDTO extends Data
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public static function rules(): array
     {

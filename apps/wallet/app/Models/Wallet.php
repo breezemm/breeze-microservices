@@ -15,9 +15,10 @@ class Wallet extends Model
 
     protected $fillable = [
         'wallet_id',
-        'balance',
-        'type',
         'user_id',
+        'balance',
+        'currency',
+        'type',
         'qr_code',
     ];
 
@@ -25,6 +26,13 @@ class Wallet extends Model
     protected $casts = [
         'balance' => 'float',
         'type' => WalletType::class,
+        'currency' => 'string',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function user(): BelongsTo

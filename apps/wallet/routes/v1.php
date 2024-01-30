@@ -1,14 +1,10 @@
 <?php
 
-use App\Http\Controllers\WalletController\GetWalletByUserController;
+use App\Http\Controllers\ScanToPayController;
 use App\Http\Controllers\TransferBalanceController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\WalletController\GetWalletByUserController;
 use Illuminate\Support\Facades\Route;
 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::get('/', function () {
     try {
@@ -16,13 +12,7 @@ Route::get('/', function () {
             'message' => 'Welcome to the Wallet API'
         ]);
     } catch (\Exception $exception) {
-        return response()->json([
-            'meta' => [
-                'status' => 500,
-                'message' => 'Wallet service is not available at the moment.',
-            ],
-            'data' => [],
-        ], 500);
+        return abort(500, $exception->getMessage());
     }
 });
 
@@ -32,19 +22,6 @@ Route::prefix('wallets')->group(function () {
 
     // peer to peer transaction
     Route::post('/transfer', TransferBalanceController::class);
-
-//     P2P QR code
-//     validate qr code
-//     ask money amount
-//     confirm transaction
-
-
-//     get ticket id from scanning qr code
-//     validate ticket value
-//    checkout ticket -> deduct ticket value from wallet balance ?
-//    if success -> deduct ticket value from wallet balance
-// transfer money to the ticket owner
-//    if fail -> return error message
+    Route::post('/scan-to-pay', ScanToPayController::class);
 
 });
-
