@@ -1,5 +1,5 @@
-
 .turbo
+frankenphp
 /.phpunit.cache
 /node_modules
 /public/build
@@ -22,3 +22,7 @@ yarn-error.log
 /.vscode
 rr
 .rr.yaml
+
+/caddy
+frankenphp
+frankenphp-worker.php

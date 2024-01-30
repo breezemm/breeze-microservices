@@ -1,4 +1,4 @@
-FROM php:8.1-cli-alpine
+FROM php:8.2-cli-alpine
 
 ARG uid
 ARG user
@@ -16,13 +16,21 @@ RUN apk update && apk add --no-cache \
     make \
     autoconf
 
+# Install PHP Extensions installer
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions
+
 RUN pecl install \
     redis \
     rdkafka
 
 RUN docker-php-ext-install \
     exif \
-    pdo_mysql
+    pdo_mysql \
+    zip
+
+
+RUN install-php-extensions sockets
 
 RUN docker-php-ext-configure pcntl --enable-pcntl \
   && docker-php-ext-install \
@@ -44,6 +52,16 @@ RUN adduser -D -u $uid -g '' $user && \
 
 COPY docker/dev/start-container /usr/local/bin/start-container
 COPY docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-RUN chmod +x /usr/local/bin/start-container
+
+ADD --chown=${NON_ROOT_USER}:${NON_ROOT_USER} https://github.com/dunglas/frankenphp/releases/download/v1.0.3/frankenphp-linux-x86_64 ./frankenphp
+
+RUN chmod +x /usr/local/bin/start-container frankenphp
+
+EXPOSE 80
+EXPOSE 443
+EXPOSE 443/udp
+EXPOSE 2019
 
 ENTRYPOINT ["start-container"]
+
+HEALTHCHECK --start-period=5s --interval=2s --timeout=5s --retries=8 CMD php artisan octane:status || exit 1
