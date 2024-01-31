@@ -53,7 +53,7 @@ RUN adduser -D -u $uid -g '' $user && \
 COPY docker/dev/start-container /usr/local/bin/start-container
 COPY docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-ADD --chown=${NON_ROOT_USER}:${NON_ROOT_USER} https://github.com/dunglas/frankenphp/releases/download/v1.0.3/frankenphp-linux-x86_64 ./frankenphp
+ADD --chown=${user} https://github.com/dunglas/frankenphp/releases/download/v1.0.3/frankenphp-linux-aarch64 ./frankenphp
 
 RUN chmod +x /usr/local/bin/start-container frankenphp
 
