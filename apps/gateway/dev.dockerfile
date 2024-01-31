@@ -3,9 +3,15 @@ FROM php:8.2-cli-alpine
 ARG uid
 ARG user
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+RUN adduser -D -u $uid -g '' $user && \
+    mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
+
 WORKDIR /var/www/gateway
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY . .
 
 RUN apk update && apk add --no-cache \
     libzip-dev \
@@ -16,53 +22,36 @@ RUN apk update && apk add --no-cache \
     make \
     autoconf
 
-# Install PHP Extensions installer
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN chmod +x /usr/local/bin/install-php-extensions
-
-RUN pecl install \
-    redis \
-    rdkafka
-
-RUN docker-php-ext-install \
-    exif \
-    pdo_mysql \
-    zip
-
-
-RUN install-php-extensions sockets
-
-RUN docker-php-ext-configure pcntl --enable-pcntl \
-  && docker-php-ext-install \
-    pcntl
-
-RUN docker-php-ext-enable \
-    redis \
-    rdkafka
-
 RUN apk del autoconf g++ make && \
     rm -rf /tmp/* && \
     rm -rf /var/cache/apk/*
 
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-RUN adduser -D -u $uid -g '' $user && \
-    mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
+RUN install-php-extensions \
+    redis \
+    rdkafka \
+    exif \
+    pdo_mysql \
+    zip \
+    sockets \
+    pcntl \
+    swoole
 
+
+COPY docker/dev/octane.ini /usr/local/etc/php/octane.ini
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN composer install
 
 COPY docker/dev/start-container /usr/local/bin/start-container
+
 COPY docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-ADD --chown=${user} https://github.com/dunglas/frankenphp/releases/download/v1.0.3/frankenphp-linux-aarch64 ./frankenphp
-
-# RUN chmod +x /usr/local/bin/start-container
-
-RUN chmod +x /usr/local/bin/start-container frankenphp
+RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 80
-EXPOSE 443
-EXPOSE 443/udp
-EXPOSE 2019
 
 ENTRYPOINT ["start-container"]
 
