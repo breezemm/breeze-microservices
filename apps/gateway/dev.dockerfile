@@ -55,6 +55,8 @@ COPY docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ADD --chown=${user} https://github.com/dunglas/frankenphp/releases/download/v1.0.3/frankenphp-linux-aarch64 ./frankenphp
 
+# RUN chmod +x /usr/local/bin/start-container
+
 RUN chmod +x /usr/local/bin/start-container frankenphp
 
 EXPOSE 80

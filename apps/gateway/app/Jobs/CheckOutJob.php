@@ -40,3 +40,4 @@ class CheckOutJob implements ShouldQueue
         $checkOutOrderAction->handle($this->event, $this->ticket);
     }
 }
+
