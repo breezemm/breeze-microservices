@@ -98,19 +98,19 @@ services:
       - dev
 
   redis:
-    image: redis:alpine
+    image: redis:alpine3.8
     env_file: .env
-    container_name: redis
     volumes:
       - redis:/data
     ports:
-      - 6379:6379
+      - "6379:6379"
     networks:
       - dev
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 5s
       timeout: 5s
+
 
   gateway:
     restart: unless-stopped
@@ -130,7 +130,6 @@ services:
       - kafka
       - gateway-mysql
       - redis
-
     networks:
       - dev
 
