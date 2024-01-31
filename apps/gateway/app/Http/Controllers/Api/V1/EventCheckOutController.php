@@ -6,6 +6,7 @@ use App\Actions\CheckOutOrderAction;
 use App\Enums\TicketStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCheckOutReqeust;
+use App\Jobs\CheckOutJob;
 use App\Models\Event;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\DB;
@@ -13,12 +14,6 @@ use Illuminate\Support\Str;
 
 class EventCheckOutController extends Controller
 {
-
-    public function __construct(
-        public readonly CheckOutOrderAction $checkOutOrder
-    )
-    {
-    }
 
     public function __invoke(CreateCheckOutReqeust $request)
     {
@@ -46,7 +41,7 @@ class EventCheckOutController extends Controller
                 ]);
 
                 $event = Event::findOrFail($request->validated('event_id'));
-                $this->checkOutOrder->handle($event, $ticket);
+                dispatch(new CheckOutJob($event, $ticket));
             }
 
 
