@@ -1,4 +1,4 @@
-FROM php:8.2-cli-alpine
+FROM dunglas/frankenphp:alpine
 
 ARG uid
 ARG user
@@ -8,6 +8,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN adduser -D -u $uid -g '' $user && \
     mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
+
 
 WORKDIR /var/www/gateway
 
@@ -26,8 +27,6 @@ RUN apk del autoconf g++ make && \
     rm -rf /tmp/* && \
     rm -rf /var/cache/apk/*
 
-COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
-
 RUN install-php-extensions \
     redis \
     rdkafka \
@@ -36,7 +35,7 @@ RUN install-php-extensions \
     zip \
     sockets \
     pcntl \
-    swoole
+    opcache
 
 
 COPY docker/dev/octane.ini /usr/local/etc/php/octane.ini
@@ -52,6 +51,9 @@ COPY docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 80
+EXPOSE 443
+EXPOSE 443/udp
+EXPOSE 2019
 
 ENTRYPOINT ["start-container"]
 

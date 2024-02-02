@@ -1,0 +1,5 @@
+CREATE DATABASE IF NOT EXISTS `gateway`;
+CREATE DATABASE IF NOT EXISTS `wallet`;
+
+CREATE USER 'root'@'localhost' IDENTIFIED BY 'local';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';

@@ -2,8 +2,7 @@ name: 'breeze'
 version: '3.9'
 
 volumes:
-  gateway-database:
-  wallet-database:
+  mysql-db:
   redis:
 
 networks:
@@ -126,9 +125,10 @@ services:
       - ./apps/gateway:/var/www/gateway
       - ./apps/gateway/vendor:/var/www/gateway/vendor
       - ./apps/gateway/node_modules:/var/www/gateway/node_modules
+      - ./apps/gateway/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - kafka
-      - gateway-mysql
+      - mysql-db
       - redis
     networks:
       - dev
@@ -147,7 +147,7 @@ services:
       - ./apps/wallet/vendor:/var/www/wallet/vendor
       - ./apps/wallet/node_modules:/var/www/wallet/node_modules
     depends_on:
-      - wallet-mysql
+      - mysql-db
       - redis
       - kafka
     networks:
@@ -188,22 +188,23 @@ services:
     networks:
       - dev
 
-  gateway-mysql:
-    image: mysql/mysql-server:8.0
-    env_file: ./apps/gateway/.env
-    ports:
-      - 33061:3306
+  mysql-db:
+    image: mysql:8.0
+    restart: always
+    command: --default-authentication-plugin=caching_sha2_password
     volumes:
-      - gateway-database:/var/lib/mysql
-    networks:
-      - dev
-
-  wallet-mysql:
-    image: mysql/mysql-server:8.0
-    env_file: ./apps/wallet/.env
+      - ./infra/databases/mysql/init:/docker-entrypoint-initdb.d
+      - mysql-db:/var/lib/mysql
     ports:
-      - 33062:3306
-    volumes:
-      - wallet-database:/var/lib/mysql
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - dev
