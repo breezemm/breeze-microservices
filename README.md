@@ -15,8 +15,8 @@ The monorepo for the breeze microservices.
 
 | Service              | Endpoint Production                           | Endpoint Development | Port  |
 | -------------------- | --------------------------------------------- | -------------------- | ----- |
-| API Gateway          | https://breeze-backend-api.vercel.app/        | http://localhost     | 8001  |
-| Wallet Service       |                                               | http://localhost     | 8002  |
+| API Gateway          | https://breeze-backend-api.vercel.app/        | http://0.0.0.0       | 8001  |
+| Wallet Service       |                                               | http://0.0.0.0       | 8002  |
 | Suggestion Service   | https://breeze-suggestion-service.vercel.app/ | http://localhost     | 8003  |
 | Notification Service |                                               | http://localhost     | 8004  |
 | ZooKeeper            |                                               | http://localhost     | 2181  |
@@ -49,22 +49,6 @@ The monorepo for the breeze microservices.
 bash scripts/start.sh # start all services
 bash scripts/stop.sh # stop all services
 ```
-
-## API Gateway Setup
-
-This service is responsible for routing requests to the appropriate service.
-
-## Serving Redis
-
-We use redis for caching and queueing. To serve redis, run the following command:
-
-```bash
-php artisan queue:listen
-```
-
-## Wallet Service Setup
-
-This service is responsible for managing the wallet of the users.
 
 ### Consuming Wallet Topic
 
