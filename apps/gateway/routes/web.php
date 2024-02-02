@@ -21,4 +21,3 @@ use Junges\Kafka\Message\Message;
 Route::get('/', function () {
     return view('welcome');
 });
-
