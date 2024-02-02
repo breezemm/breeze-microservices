@@ -34,12 +34,8 @@ use App\Http\Controllers\GuestListController;
 use App\Http\Controllers\ShowEventRevenueController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserEventCheckInController;
-use App\Http\Controllers\WalletController;
 use App\Http\Requests\V1\Auth\VerifyController;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-
 
 Route::get('/public/timeline', PublicTimelineController::class);
 
@@ -122,9 +118,3 @@ Route::middleware('auth:api')->prefix('event-dashboard')
 Route::middleware('auth:api')->prefix('wallets')->group(function () {
     Route::get('/me', GetMyWalletController::class);
 });
-
-
-
-
-
-

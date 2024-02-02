@@ -2,11 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use JetBrains\PhpStorm\ArrayShape;
-use Junges\Kafka\Config\Sasl;
-use Junges\Kafka\Facades\Kafka;
-use Junges\Kafka\Message\Message;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes

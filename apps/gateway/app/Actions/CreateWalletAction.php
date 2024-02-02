@@ -3,7 +3,6 @@
 namespace App\Actions;
 
 use App\Models\User;
-use App\Support\Payload;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 

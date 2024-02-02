@@ -4,7 +4,6 @@ namespace App\Actions;
 
 use App\Models\Event;
 use App\Models\Ticket;
-use App\Models\User;
 use App\Services\WalletService;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
@@ -13,8 +12,7 @@ class CheckOutOrderAction
 {
     public function __construct(
         public readonly WalletService $walletService
-    )
-    {
+    ) {
     }
 
     /**
