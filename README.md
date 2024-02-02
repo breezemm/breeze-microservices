@@ -31,10 +31,10 @@ The monorepo for the breeze microservices.
 
 ## Credentials for Development
 
-| Service       | Username | Password | Host      |
+| Database      | Username | Password | Host      |
 | ------------- | -------- | -------- | --------- |
-| Gateway MySQL | admin    | admin    | 127.0.0.1 |
-| Wallet MySQL  | admin    | admin    | 127.0.0.1 |
+| Gateway MySQL | root     | password | 127.0.0.1 |
+| Wallet MySQL  | root     | password | 127.0.0.1 |
 
 ## Development
 

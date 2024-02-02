@@ -12,7 +12,9 @@ RUN adduser -D -u $uid -g '' $user && \
 
 WORKDIR /var/www/gateway
 
-COPY . .
+COPY ./apps/gateway .
+
+COPY ./packages .
 
 RUN apk update && apk add --no-cache \
     libzip-dev \
@@ -22,6 +24,7 @@ RUN apk update && apk add --no-cache \
     g++ \
     make \
     autoconf
+
 
 RUN apk del autoconf g++ make && \
     rm -rf /tmp/* && \
@@ -38,22 +41,22 @@ RUN install-php-extensions \
     opcache
 
 
-COPY docker/dev/octane.ini /usr/local/etc/php/octane.ini
+COPY ./apps/gateway/docker/dev/octane.ini /usr/local/etc/php/octane.ini
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN composer install
 
-COPY docker/dev/start-container /usr/local/bin/start-container
+COPY ./apps/gateway/docker/dev/start-container /usr/local/bin/start-container
 
-COPY docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./apps/gateway/docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 80
-EXPOSE 443
-EXPOSE 443/udp
-EXPOSE 2019
+#EXPOSE 443
+#EXPOSE 443/udp
+#EXPOSE 2019
 
 ENTRYPOINT ["start-container"]
 

@@ -117,8 +117,8 @@ services:
       args:
         uid: 1000
         user: breeze
-      context: ./apps/gateway
-      dockerfile: dev.dockerfile
+      context: .
+      dockerfile: ./apps/gateway/dev.Dockerfile
     ports:
       - "8001:80"
     volumes:
