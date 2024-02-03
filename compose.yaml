@@ -146,6 +146,7 @@ services:
       - ./apps/wallet:/var/www/wallet
       - ./apps/wallet/vendor:/var/www/wallet/vendor
       - ./apps/wallet/node_modules:/var/www/wallet/node_modules
+      - ./apps/wallet/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - mysql-db
       - redis
