@@ -16,7 +16,10 @@ class KafkaCommandHandler
     {
         info('KafkaCommandHandler: ' . print_r($payload, true));
 
-        $transferMoneyAction = new TransferMoneyAction();
+
+        $walletService = app(WalletService::class);
+        $transferMoneyAction = new TransferMoneyAction($walletService);
+
         match ($payload->pattern) {
             'wallets.created' => WalletCreated::dispatch($payload->data['user_id']),
             'wallets.transfer' => $transferMoneyAction->handle($payload->data['from_user'], $payload->data['to_user'], $payload->data['amount']),

@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id');
-            $table->foreignId('from_user');
-            $table->foreignId('to_user');
+            $table->foreignId('sender_user_id');
+            $table->foreignId('receiver_user_id');
 
             $table->string('transaction_type');
 
@@ -21,8 +21,8 @@ return new class extends Migration {
             $table->string('transaction_currency')->default('MMK');
             $table->string('transaction_description')->nullable();
 
-            $table->string('from_wallet_id');
-            $table->string('to_wallet_id');
+            $table->string('sender_wallet_id');
+            $table->string('receiver_wallet_id');
 
             $table->timestamps();
         });

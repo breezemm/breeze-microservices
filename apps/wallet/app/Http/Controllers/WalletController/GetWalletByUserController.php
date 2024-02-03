@@ -22,7 +22,5 @@ class GetWalletByUserController extends Controller
         } catch (\Exception $exception) {
             abort(404, 'Wallet not found');
         }
-
-
     }
 }

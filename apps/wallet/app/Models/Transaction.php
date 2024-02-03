@@ -13,7 +13,16 @@ class Transaction extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'sender_user_id',
+        'receiver_user_id',
+        'transaction_type',
+        'transaction_amount',
+        'transaction_currency',
+        'transaction_description',
+        'sender_wallet_id',
+        'receiver_wallet_id',
+    ];
 
     protected $casts = [
         'transaction_amount' => 'float',

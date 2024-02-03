@@ -7,6 +7,7 @@ use App\Models\Wallet;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use JetBrains\PhpStorm\ArrayShape;
+use function Laravel\Prompts\error;
 
 class WalletService
 {
@@ -31,4 +32,54 @@ class WalletService
         }
     }
 
+    /**
+     * @throws \Exception
+     * @return Wallet[]
+     */
+    public function transferMoney(int $senderUserId, int $receiverUserId, float $amount): array
+    {
+        try {
+            DB::beginTransaction();
+
+            $senderWallet = Wallet::where('user_id', $senderUserId)
+                ->where('type', WalletType::DEBIT)
+                ->first();
+
+            if (!$this->hasEnoughBalance($senderWallet, $amount)) {
+                error('Insufficient balance: Sender User ID ' . $senderUserId . ' ' . $amount);
+                throw new \Exception('Insufficient balance');
+            }
+
+            $receiverWallet = Wallet::where('user_id', $receiverUserId)
+                ->where('type', WalletType::DEBIT)
+                ->first();
+
+            if ($senderWallet->wallet_id === $receiverWallet->wallet_id) {
+                throw new \Exception('Same wallet transfer');
+            }
+
+            // Deduct from the sender's wallet
+            $senderWallet->balance = (float)$senderWallet->balance - $amount;
+            $senderWallet->save();
+
+            // Add to the receiver's wallet
+            $receiverWallet->balance = (float)$receiverWallet->balance + $amount;
+            $receiverWallet->save();
+
+            DB::commit();
+
+            return [
+                $senderWallet,
+                $receiverWallet
+            ];
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+    }
+
+    private function hasEnoughBalance(Wallet $wallet, float $amount): bool
+    {
+        return $wallet->balance >= $amount;
+    }
 }
