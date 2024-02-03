@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\WalletType;
+use App\Models\Wallet;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    $fromWallet = Wallet::where('user_id', 11)
+        ->where('type', WalletType::DEBIT)
+        ->first();
+    $fromWallet->balance = (float)$fromWallet->balance - 100;
+    $fromWallet->save();
+    return  $fromWallet;
     return view('welcome');
 });
 

@@ -19,7 +19,7 @@ return new class extends Migration {
 
             $table->string('transaction_amount');
             $table->string('transaction_currency')->default('MMK');
-            $table->string('transaction_description');
+            $table->string('transaction_description')->nullable();
 
             $table->string('from_wallet_id');
             $table->string('to_wallet_id');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CurrencyType;
 use App\Enums\TransactionType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +18,7 @@ class Transaction extends Model
     protected $casts = [
         'transaction_amount' => 'float',
         'transaction_type' => TransactionType::class,
+        'transaction_currency' => CurrencyType::class,
     ];
 
     public function wallet(): BelongsTo
