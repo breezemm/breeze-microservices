@@ -12,7 +12,8 @@ class CheckOutOrderAction
 {
     public function __construct(
         public readonly WalletService $walletService
-    ) {
+    )
+    {
     }
 
     /**
@@ -20,8 +21,9 @@ class CheckOutOrderAction
      */
     public function handle(Event $event, Ticket $ticket): void
     {
-        $authUserWalletId = $this->walletService->getMyWallet()['wallet_id'];
-        $eventOwnerWalletId = $this->walletService->getMyWallet($event->user)['wallet_id'];
+
+        $fromUser = auth()->id();
+        $toUser = $event->user->id;
 
         $ticketPrice = $ticket->ticketType->price;
 
@@ -29,9 +31,9 @@ class CheckOutOrderAction
             topic: 'wallets',
             pattern: 'wallets.transfer',
             data: [
+                'from_user' => $fromUser,
+                'to_user' => $toUser,
                 'amount' => $ticketPrice,
-                'from_wallet_id' => $authUserWalletId,
-                'to_wallet_id' => $eventOwnerWalletId,
             ],
         ));
         Kafka::publishOn('wallets')
