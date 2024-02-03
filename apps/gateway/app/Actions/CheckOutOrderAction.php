@@ -22,8 +22,8 @@ class CheckOutOrderAction
     public function handle(Event $event, Ticket $ticket): void
     {
 
-        $fromUser = auth()->id();
-        $toUser = $event->user->id;
+        $senderUserId = auth()->id();
+        $receiverUserId = $event->user->id;
 
         $ticketPrice = $ticket->ticketType->price;
 
@@ -31,8 +31,8 @@ class CheckOutOrderAction
             topic: 'wallets',
             pattern: 'wallets.transfer',
             data: [
-                'from_user' => $fromUser,
-                'to_user' => $toUser,
+                'sender_user_id' => $senderUserId,
+                'receiver_user_id' => $receiverUserId,
                 'amount' => $ticketPrice,
             ],
         ));

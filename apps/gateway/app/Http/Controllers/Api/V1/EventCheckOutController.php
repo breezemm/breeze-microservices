@@ -27,6 +27,15 @@ class EventCheckOutController extends Controller
             $event = Event::findOrFail($request->validated('event_id'));
             $ticket = Ticket::findOrFail($request->validated('ticket_id'));
 
+            $senderUser = auth()->id();
+            $receiverUser = $event->user->id;
+
+            if ($senderUser === $receiverUser) {
+                return response()->json([
+                    'message' => 'You cannot purchase your own ticket',
+                ], 400);
+            }
+
             $isAlreadyPurchased = auth()->user()->orders()->where('ticket_id', $request->validated('ticket_id'))->exists();
             if ($isAlreadyPurchased) {
                 return response()->json([
