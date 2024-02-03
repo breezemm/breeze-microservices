@@ -24,13 +24,14 @@ class EventCheckOutController extends Controller
     {
         try {
             DB::beginTransaction();
+
             $event = Event::findOrFail($request->validated('event_id'));
             $ticket = Ticket::findOrFail($request->validated('ticket_id'));
 
-            $senderUser = auth()->id();
-            $receiverUser = $event->user->id;
+            $buyerUserId = auth()->id();
+            $sellerUserId = $event->user->id;
 
-            if ($senderUser === $receiverUser) {
+            if ($buyerUserId === $sellerUserId) {
                 return response()->json([
                     'message' => 'You cannot purchase your own ticket',
                 ], 400);
