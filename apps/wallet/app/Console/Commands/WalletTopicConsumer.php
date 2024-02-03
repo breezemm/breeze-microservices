@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\KafkaCommandHandler;
+use App\Kafka\KafkaCommandHandler;
 use App\Support\Payload;
 use Carbon\Exceptions\Exception;
 use Illuminate\Console\Command;
@@ -15,9 +15,9 @@ use Junges\Kafka\Handlers\RetryStrategies\DefaultRetryStrategy;
 
 class WalletTopicConsumer extends Command
 {
-    protected $signature = 'consume:wallet-topic';
+    protected $signature = 'consume:wallets';
 
-    protected $description = 'Subscribe to wallet topic';
+    protected $description = 'Subscribe to the wallets topic';
 
     /**
      * @throws Exception
