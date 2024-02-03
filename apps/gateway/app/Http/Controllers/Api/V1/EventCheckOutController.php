@@ -57,6 +57,13 @@ class EventCheckOutController extends Controller
                     'qr_code' => Str::uuid(),
                 ]);
 
+            $myBalance = $this->walletService->getMyWallet()['balance'];
+            if ($myBalance < $ticket->ticketType->price) {
+                return response()->json([
+                    'message' => 'Insufficient balance',
+                ], 400);
+            }
+
 
             // We will use the CheckOutOrderAction to handle the checkout process, and then we will send
             // the event and ticket to the handle method of the CheckOutOrderAction
