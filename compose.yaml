@@ -156,6 +156,28 @@ services:
     links:
       - gateway
 
+  notification:
+    restart: unless-stopped
+    build:
+      args:
+        uid: 1000
+        user: breeze
+      context: .
+      dockerfile: ./apps/notification/dev.Dockerfile
+    ports:
+      - "8004:80"
+    volumes:
+      - ./apps/notification:/var/www/notification
+      - ./apps/notification/vendor:/var/www/notification/vendor
+      - ./apps/notification/node_modules:/var/www/notification/node_modules
+      - ./apps/notification/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    depends_on:
+      - kafka
+      - redis
+      - mongo-db
+    networks:
+      - dev
+
 
   suggestion:
     build:
@@ -195,3 +217,20 @@ services:
     networks:
       - dev
 
+  mongo-db:
+    image: mongo
+    restart: always
+    volumes:
+      - ./infra/databases/mongo:/data/db
+    ports:
+      - "27017:27017"
+    #    environment:
+    #      - MONGO_INITDB_ROOT_USERNAME=root
+    #      - MONGO_INITDB_ROOT_PASSWORD=password
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dev

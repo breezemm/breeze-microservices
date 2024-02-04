@@ -38,7 +38,8 @@ RUN install-php-extensions \
     zip \
     sockets \
     pcntl \
-    opcache
+    opcache \
+    mongodb
 
 
 COPY ./apps/notification/docker/dev/octane.ini /usr/local/etc/php/octane.ini
@@ -61,3 +62,5 @@ EXPOSE 80
 ENTRYPOINT ["start-container"]
 
 HEALTHCHECK --start-period=5s --interval=2s --timeout=5s --retries=8 CMD php artisan octane:status || exit 1
+
+VOLUME /var/www/notification

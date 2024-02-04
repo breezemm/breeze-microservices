@@ -38,7 +38,8 @@ RUN install-php-extensions \
     zip \
     sockets \
     pcntl \
-    opcache
+    opcache \
+    mongodb
 
 
 COPY ./apps/gateway/docker/dev/octane.ini /usr/local/etc/php/octane.ini
