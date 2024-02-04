@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Junges\Kafka\Facades\Kafka;
+use Junges\Kafka\Message\Message;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    $message = new Message(body: createKafkaPayload(
+        topic: 'wallets',
+        pattern: [
+            'cmd' => 'checkout',
+        ],
+        data: [
+            'user_id' => 1,
+        ],
+    ));
+    Kafka::publishOn('wallets.created')
+        ->withMessage($message)
+        ->send();
+
     return view('welcome');
 });

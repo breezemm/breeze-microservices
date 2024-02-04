@@ -173,21 +173,6 @@ services:
     networks:
       - dev
 
-  notification:
-    build:
-      context: .
-      dockerfile: ./apps/notification/dev.dockerfile
-      target: development
-    command: pnpm run dev --filter notification
-    ports:
-      - 8004:80
-    volumes:
-      - .:/usr/src/app
-      - /var/www/notification/node_modules
-    depends_on:
-      - kafka
-    networks:
-      - dev
 
   mysql-db:
     image: mysql:8.0
