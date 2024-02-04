@@ -19,6 +19,9 @@ class TransferMoneyAction implements ActionInterface
     {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function execute(array $data): void
     {
         $senderUserId = $data['sender_user_id'];
