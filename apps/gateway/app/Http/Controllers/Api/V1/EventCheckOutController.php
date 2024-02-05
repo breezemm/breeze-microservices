@@ -9,6 +9,7 @@ use App\Http\Requests\CreateCheckOutReqeust;
 use App\Models\Event;
 use App\Models\Ticket;
 use App\Services\WalletService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -30,6 +31,10 @@ class EventCheckOutController extends Controller
 
             $buyerUserId = auth()->id();
             $sellerUserId = $event->user->id;
+
+            Cache::lock($buyerUserId . '_buying_ticket' . $ticket->id)->block(5, function () use ($buyerUserId, $ticket) {
+                $ticket->lockForUpdate()->first();
+            });
 
             if ($buyerUserId === $sellerUserId) {
                 return response()->json([

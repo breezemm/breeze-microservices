@@ -1,31 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method App\\\\Console\\\\Commands\\\\WalletConsumer\\:\\:handle\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: app/Console/Commands/WalletConsumer.php
-
-		-
-			message: "#^Method App\\\\Kafka\\\\ActionMapper\\:\\:mapPatternToAction\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: app/Kafka/ActionMapper.php
-
-		-
-			message: "#^Method class@anonymous/Kafka/ActionMapper\\.php\\:13\\:\\:handle\\(\\) has parameter \\$message with no type specified\\.$#"
-			count: 1
-			path: app/Kafka/ActionMapper.php
-
-		-
-			message: "#^Method class@anonymous/Kafka/ActionMapper\\.php\\:20\\:\\:handle\\(\\) has parameter \\$message with no type specified\\.$#"
-			count: 1
-			path: app/Kafka/ActionMapper.php
-
-		-
 			message: "#^Class User not found\\.$#"
-			count: 1
-			path: app/Models/Notification.php
-
-		-
-			message: "#^Method Notification\\:\\:notifications\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: app/Models/Notification.php

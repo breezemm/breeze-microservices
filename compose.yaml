@@ -243,3 +243,7 @@ services:
       - "4321:4321"
     environment:
       - MONGO_URL=mongodb://mongo:27017
+    depends_on:
+      - mongo
+    networks:
+      - dev
