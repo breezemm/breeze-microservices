@@ -1,6 +1,9 @@
+"use client";
 import Image from "next/image";
 import { Card } from "ui";
 import styles from "./page.module.css";
+import { requestPermission, requestToken } from "../lib/firebase";
+import { useEffect } from "react";
 
 function Gradient({
   conic,
@@ -49,7 +52,21 @@ const LINKS = [
   },
 ];
 
-export default function Page(): JSX.Element {
+export default function Page() {
+  useEffect(() => {
+    const init = async () => {
+      const isGranted = await requestPermission();
+      if (isGranted) {
+        const token = await requestToken();
+        console.table({
+          token,
+        });
+      } else {
+        console.log("Permission not granted");
+      }
+    };
+    init();
+  }, []);
   return (
     <main className={styles.main}>
       <div className={styles.description}>
