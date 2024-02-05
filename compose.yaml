@@ -174,7 +174,7 @@ services:
     depends_on:
       - kafka
       - redis
-      - mongo-db
+      - mongo
     networks:
       - dev
 
@@ -217,7 +217,7 @@ services:
     networks:
       - dev
 
-  mongo-db:
+  mongo:
     image: mongo
     restart: always
     volumes:
@@ -234,3 +234,12 @@ services:
       retries: 5
     networks:
       - dev
+
+  mongo-gui:
+    container_name: "mongo-gui"
+    image: ugleiton/mongo-gui
+    restart: always
+    ports:
+      - "4321:4321"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
