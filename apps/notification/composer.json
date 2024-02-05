@@ -19,12 +19,14 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
+        "larastan/larastan": "^2.0",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
+        "phpstan/phpstan": "^1.10",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
@@ -52,6 +54,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "phpstan": [
+            "./vendor/bin/phpstan analyse --generate-baseline"
         ]
     },
     "extra": {

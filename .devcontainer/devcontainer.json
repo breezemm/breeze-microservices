@@ -5,7 +5,7 @@
   "runServices": [
     "mailpit",
   ],
-  "service": "workspace",
+  "service": "mailpit",
   "workspaceFolder": "/var/www",
   "shutdownAction": "stopCompose",
   "postCreateCommand": "uname -a"
