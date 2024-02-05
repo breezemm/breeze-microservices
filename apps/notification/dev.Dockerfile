@@ -3,6 +3,9 @@ FROM dunglas/frankenphp:alpine
 ARG uid
 ARG user
 
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN adduser -D -u $uid -g '' $user && \
@@ -23,7 +26,14 @@ RUN apk update && apk add --no-cache \
     supervisor \
     g++ \
     make \
-    autoconf
+    autoconf \
+    nodejs \
+    npm
+
+
+RUN npm install pnpm --global
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 
 RUN apk del autoconf g++ make && \
@@ -53,6 +63,7 @@ COPY ./apps/notification/docker/dev/start-container /usr/local/bin/start-contain
 COPY ./apps/notification/docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN chmod +x /usr/local/bin/start-container
+
 
 EXPOSE 80
 #EXPOSE 443

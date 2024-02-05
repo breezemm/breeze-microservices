@@ -9,44 +9,21 @@ class ActionMapper
     public function mapPatternToAction(string $pattern)
     {
         switch ($pattern) {
-            case 'wallets.created':
+            case 'wallets.done':
                 return new class {
                     public function handle($message): void
                     {
-                        print_r($message->getBody());
+                        echo 'wallet done';
                     }
                 };
-            case 'wallets.updated':
+            case 'wallets.failed':
                 return new class {
                     public function handle($message): void
                     {
-                        print_r([
-                            'message' => $message->getBody(),
-                            'action' => 'wallets.updated',
-                        ]);
-                    }
-                };
-            case 'wallets.deleted':
-                return new class {
-                    public function handle($message): void
-                    {
-                        print_r([
-                            'message' => $message->getBody(),
-                            'action' => 'wallets.deleted',
-                        ]);
+                        echo 'wallet failed';
                     }
                 };
 
-            case 'wallets.received':
-                return new class {
-                    public function handle($message): void
-                    {
-                        print_r([
-                            'message' => $message->getBody(),
-                            'action' => 'wallets.received',
-                        ]);
-                    }
-                };
             default:
                 Log::error('No action mapped for pattern: ' . $pattern);
                 return null;

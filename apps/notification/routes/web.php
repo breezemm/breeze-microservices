@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Junges\Kafka\Contracts\KafkaConsumerMessage;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 
@@ -17,15 +16,14 @@ use Junges\Kafka\Message\Message;
 */
 
 Route::get('/', function () {
-
     return view('welcome');
 });
 
 
 Route::get('/push', function () {
     $message = new Message(body: [
-        'user_id' => 3,
-        'pattern' => 'wallets.received',
+        'user_id' => 4,
+        'pattern' => 'wallets.failed',
     ]);
     Kafka::publishOn('wallets')
         ->withMessage($message)

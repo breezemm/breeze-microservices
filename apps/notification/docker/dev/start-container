@@ -1,5 +1,3 @@
 #!/usr/bin/env sh
 
-composer install
-composer setup
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
