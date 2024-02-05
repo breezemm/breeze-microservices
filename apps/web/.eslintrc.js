@@ -1,3 +1,3 @@
-module.exports = {
-  extends: ["custom/next"],
-};
+// module.exports = {
+//   extends: ["custom/next"],
+// };
