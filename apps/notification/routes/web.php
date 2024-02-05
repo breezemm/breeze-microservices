@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
@@ -16,6 +17,12 @@ use Junges\Kafka\Message\Message;
 */
 
 Route::get('/', function () {
+    User::create([
+        'user_id' => 1,
+        'notification_settings' => 'all',
+        'hey' => 'hey',
+    ]);
+
     return view('welcome');
 });
 

@@ -2,43 +2,39 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use MongoDB\Laravel\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'user_id'
-    ];
+
+    protected $guarded = [];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Specifies the user's FCM tokens
      *
-     * @var array<int, string>
+     * @return string|array
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function routeNotificationForFcm()
+    {
+        return $this->getDeviceTokens();
+    }
 
     /**
-     * The attributes that should be cast.
+     * Get the user's device tokens
      *
-     * @var array<string, string>
+     * @return array<string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function getDeviceTokens()
+    {
+        return $this->deviceTokens->pluck('token')->toArray();
+    }
 
 }

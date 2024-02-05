@@ -10,10 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
+        MongoDB\Laravel\Schema\Schema::create('users', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->unique();
-            $table->timestamps();
+            $table->json('notification_settings');
         });
     }
 
