@@ -13,6 +13,12 @@ return new class extends Migration {
         MongoDB\Laravel\Schema\Schema::create('users', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->unique();
             $table->json('notification_settings');
+            $table->string('email')->unique();
+            $table->string('phone_number')->unique();
+            $table->json('push_tokens');
+            $table->json('web_push_tokens');
+
+            $table->index('user_id');
         });
     }
 

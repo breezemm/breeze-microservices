@@ -17,14 +17,24 @@ class User extends Model
      */
 
     protected $fillable = [
-        'user-id',
-        'tokens',
+        'user_id',
+        'notification_settings',
+        'email',
+        'email',
+        'phone_number',
+        'push_tokens',
+        'web_push_tokens',
     ];
 
 
+    public function notificationTypes(): HasMany|\MongoDB\Laravel\Relations\HasMany
+    {
+        return $this->hasMany(NotificationType::class, 'user_id', 'user_id');
+    }
+
     public function notificationLists(): HasMany|\MongoDB\Laravel\Relations\HasMany
     {
-        return $this->hasMany(NotificationList::class);
+        return $this->hasMany(NotificationList::class, 'user_id', 'user_id');
     }
 
 

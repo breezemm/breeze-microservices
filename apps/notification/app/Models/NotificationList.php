@@ -14,13 +14,14 @@ final class NotificationList extends Model
         'user_id',
     ];
 
-    protected $casts = [
-        'type' => NotificationType::class,
-        'channel' => NotificationChannel::class,
-    ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
+    public function notificationType(): \Illuminate\Database\Eloquent\Relations\BelongsTo|BelongsTo
+    {
+        return $this->belongsTo(NotificationType::class);
     }
 }

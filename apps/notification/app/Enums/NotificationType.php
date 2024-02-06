@@ -30,4 +30,5 @@ enum NotificationType: string
     case WalletTransfer = 'wallet_transfer';
 
 
+
 }

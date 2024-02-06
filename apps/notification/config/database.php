@@ -38,7 +38,7 @@ return [
         'mongodb' => [
             'driver' => 'mongodb',
             'dsn' => env('MONGODB_URI', 'mongodb+srv://username:password@<atlas-cluster-uri>/myappdb?retryWrites=true&w=majority'),
-            'database' => 'myappdb',
+            'database' => env('MONGODB_DB', 'myappdb'),
         ],
 
         'sqlite' => [
