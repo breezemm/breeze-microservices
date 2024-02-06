@@ -1,9 +1,7 @@
 <?php
 
-use App\Models\User;
+use App\Http\Controllers\NotificationPreferencesController;
 use Illuminate\Support\Facades\Route;
-use Junges\Kafka\Facades\Kafka;
-use Junges\Kafka\Message\Message;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,24 +14,8 @@ use Junges\Kafka\Message\Message;
 |
 */
 
-Route::get('/', function () {
-    User::create([
-        'user_id' => 1,
-        'notification_settings' => 'all',
-        'hey' => 'hey',
-    ]);
 
+Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/push', function () {
-    $message = new Message(body: [
-        'user_id' => 4,
-        'pattern' => 'wallets.failed',
-    ]);
-    Kafka::publishOn('wallets')
-        ->withMessage($message)
-        ->send();
-    return 'Message sent';
-});

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use MongoDB\Laravel\Eloquent\Model;
 
@@ -15,26 +16,16 @@ class User extends Model
      * @var array<int, string>
      */
 
-    protected $guarded = [];
+    protected $fillable = [
+        'user-id',
+        'tokens',
+    ];
 
-    /**
-     * Specifies the user's FCM tokens
-     *
-     * @return string|array
-     */
-    public function routeNotificationForFcm()
+
+    public function notificationLists(): HasMany|\MongoDB\Laravel\Relations\HasMany
     {
-        return $this->getDeviceTokens();
+        return $this->hasMany(NotificationList::class);
     }
 
-    /**
-     * Get the user's device tokens
-     *
-     * @return array<string>
-     */
-    public function getDeviceTokens()
-    {
-        return $this->deviceTokens->pluck('token')->toArray();
-    }
 
 }
