@@ -7,8 +7,15 @@ use App\Models\User;
 
 class UserIdentifyController extends Controller
 {
-    public function __invoke(UserIdentifyRequest $request)
+    public function create(UserIdentifyRequest $request)
     {
-        return User::create($request->validated());
+        $validated = $request->validated();
+        User::create($validated);
+    }
+
+    public function update(UserIdentifyRequest $request, User $user)
+    {
+        $validated = $request->validated();
+        $user->update($validated);
     }
 }

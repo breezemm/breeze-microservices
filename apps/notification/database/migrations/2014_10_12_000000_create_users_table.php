@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('phone_number')->unique();
             $table->json('push_tokens');
             $table->json('web_push_tokens');
+            $table->json('settings');
 
         });
     }

@@ -10,40 +10,29 @@ use Spatie\LaravelData\Support\Validation\ValidationContext;
 class UserIdentifyDTO extends Data
 {
 
-    public function __construct(
-        public string $id,
-        #[Unique('users', 'user_id')]
-        public int    $userId,
-        #[Unique('users', 'email')]
-        #[Nullable]
-        public string $email,
-        #[Unique('users', 'phone_number')]
-        #[Nullable]
-        public string $phoneNumber,
-        #[Nullable]
-        public array  $pushTokens,
-        #[Nullable]
-        public array  $webPushTokens
-    )
-    {
-    }
 
     public static function rules(ValidationContext $context): array
     {
         return [
-            'id' => 'required|string',
-            'email' => 'required|email',
-            'phoneNumber' => 'required|regex:/^\+[1-9]\d{1,14}$/',
-            'pushTokens' => 'nullable|array',
-            'pushTokens.*.type' => 'required|in:FCM,APN',
-            'pushTokens.*.token' => 'required|string',
-            'pushTokens.*.device' => 'required|array',
-            'pushTokens.*.device.app_id' => 'required|string',
-            'pushTokens.*.device.ad_id' => 'required|string',
-            'pushTokens.*.device.device_id' => 'required|string',
-            'pushTokens.*.device.platform' => 'required|in:android,ios',
-            'webPushTokens' => 'nullable|array',
-
+            'user_id' => 'required|unique:users,user_id', // The ID of the user in your system. Required.
+            'email' => 'nullable|email',
+            'phone_number' => 'nullable|regex:/^\+[1-9]\d{1,14}$/',
+            'push_tokens' => 'nullable|array',
+            'push_tokens.*.type' => 'required|in:FCM,APN',
+            'push_tokens.*.token' => 'required|string',
+            'push_tokens.*.device' => 'required|array',
+            'push_tokens.*.device.app_id' => 'nullable|string',
+            'push_tokens.*.device.ad_id' => 'nullable|string',
+            'push_tokens.*.device.device_id' => 'required|string',
+            'push_tokens.*.device.platform' => 'nullable|in:android,ios',
+            'push_tokens.*.device.manufacturer' => 'nullable|string',
+            'push_tokens.*.device.model' => 'nullable|string',
+            'web_push_tokens' => 'nullable|array',
+            'web_push_tokens.*.sub' => 'required|array',
+            'web_push_tokens.*.sub.endpoint' => 'required|string',
+            'web_push_tokens.*.sub.keys' => 'required|array',
+            'web_push_tokens.*.sub.keys.p256dh' => 'required|string',
+            'web_push_tokens.*.sub.keys.auth' => 'required|string',
         ];
     }
 

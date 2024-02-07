@@ -22,9 +22,13 @@ class User extends Model
         'phone_number',
         'push_tokens',
         'web_push_tokens',
-        'notification_settings',
+        'settings', // Global settings for the user
     ];
 
+    public function notificationTypes(): HasMany|\MongoDB\Laravel\Relations\HasMany
+    {
+        return $this->hasMany(NotificationType::class);
+    }
 
 
 }
