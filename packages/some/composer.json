@@ -1,0 +1,25 @@
+{
+    "name": "breeze/laravel-mongodb-passport",
+    "description": "Laravel Passport for MongoDB",
+    "license": "MIT",
+    "keywords": [],
+    "version": "1.0.0",
+    "require": {
+        "php": ">=8.2",
+        "illuminate/support": "^10.43",
+        "laravel/passport": "^11.10",
+        "mongodb/laravel-mongodb": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Breeze\\MongoDB\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Breeze\\MongoDB\\MongodbPassportServiceProvider"
+            ]
+        }
+    }
+}
