@@ -168,6 +168,7 @@ services:
       - "8004:80"
     volumes:
       - ./apps/notification:/var/www/notification
+      - ./packages:/var/www/notification/packages
       - ./apps/notification/vendor:/var/www/notification/vendor
       - ./apps/notification/node_modules:/var/www/notification/node_modules
       - ./apps/notification/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
