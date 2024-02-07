@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         MongoDB\Laravel\Schema\Schema::create('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->unique();
+            $table->string('user_id')->unique(); // The ID of the user in your system. Required.
             $table->json('notification_settings');
             $table->string('email')->unique();
             $table->string('phone_number')->unique();

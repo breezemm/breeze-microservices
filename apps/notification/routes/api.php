@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\UserIdentifyController;
+
 $user = [
     'id' => 1,
     'email' => 'spongebob@squarepants.com',
@@ -31,4 +33,7 @@ $user = [
     ]
 ];
 
-
+Route::prefix('users')
+    ->group(function () {
+        Route::post('/identify', UserIdentifyController::class);
+    });
