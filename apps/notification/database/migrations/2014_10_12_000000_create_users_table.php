@@ -5,7 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 return new class extends Migration {
 
-    protected $connection = 'mongodb';
 
     /**
      * Run the migrations.
@@ -14,16 +13,15 @@ return new class extends Migration {
     {
 
 
-        Schema::connection($this->connection)
-            ->create('users', function (Blueprint $table) {
-                $table->string('user_id')->unique(); // The ID of the user in your system. Required.
-                $table->json('notification_settings');
-                $table->string('email')->unique();
-                $table->string('phone_number')->unique();
-                $table->json('push_tokens');
-                $table->json('web_push_tokens');
+        Schema::create('users', function (Blueprint $table) {
+            $table->string('user_id')->unique(); // The ID of the user in your system. Required.
+            $table->json('notification_settings');
+            $table->string('email')->unique();
+            $table->string('phone_number')->unique();
+            $table->json('push_tokens');
+            $table->json('web_push_tokens');
 
-            });
+        });
     }
 
     /**
