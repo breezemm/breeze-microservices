@@ -18,21 +18,23 @@ class NotificationController extends Controller
         $notification = NotificationType::create([
             'notification_id' => $validation['notification_id'],
             'settings' => [
-                'email' => [
-                    'enabled' => true,
-                    'frequency' => 'instant'
-                ],
-                'sms' => [
-                    'enabled' => true,
-                    'frequency' => 'instant'
-                ],
-                'push' => [
-                    'enabled' => true,
-                    'frequency' => 'instant'
-                ],
-                'web_push' => [
-                    'enabled' => true,
-                    'frequency' => 'instant'
+                'channels' => [
+                    'email' => [
+                        'enabled' => true,
+                        'frequency' => 'instant'
+                    ],
+                    'sms' => [
+                        'enabled' => true,
+                        'frequency' => 'instant'
+                    ],
+                    'push' => [
+                        'enabled' => true,
+                        'frequency' => 'instant'
+                    ],
+                    'web_push' => [
+                        'enabled' => true,
+                        'frequency' => 'instant'
+                    ]
                 ]
             ]
         ]);
@@ -40,6 +42,23 @@ class NotificationController extends Controller
 
     public function send(NotificationSendRequest $request)
     {
+        // notification_id
+        // user_id
+        // message -> have type of channel and message
 
+        $payload = [
+            'notification_id' => 'notification_id',
+            'user' => [
+                'user_id' => 'user_id', // must
+                'email' => 'email',
+                'phone_number' => 'phone',
+            ],
+            'message' => [
+                'notification' => [
+                    ''
+                ]
+            ]
+        ];
+        return $payload;
     }
 }

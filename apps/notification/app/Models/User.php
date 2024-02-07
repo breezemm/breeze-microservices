@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
-use MongoDB\Laravel\Eloquent\Model;
+use Breeze\MongoDB\Auth\User as Authenticatable;
 
-class User extends Model
+
+class User extends Authenticatable
 {
-    use Notifiable;
+    use  Notifiable;
+
 
     /**
      * The attributes that are mass assignable.
