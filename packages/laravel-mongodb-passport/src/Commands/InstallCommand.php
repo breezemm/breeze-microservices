@@ -9,12 +9,7 @@ use Laravel\Passport\Passport;
 
 class InstallCommand extends BaseInstallCommand
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'passport-mongodb:install
+    protected  $signature = 'passport-mongodb:install
                             {--uuids : Use UUIDs for all client IDs}
                             {--force : Overwrite keys they already exist}
                             {--length=4096 : The length of the private key}';
