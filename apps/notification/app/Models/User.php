@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+//use Breeze\MongoDB\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
-use Breeze\MongoDB\Auth\User as Authenticatable;
+use MongoDB\Laravel\Eloquent\Model;
 
 
-class User extends Authenticatable
+class User extends Model
 {
     use  Notifiable;
 
@@ -27,7 +28,7 @@ class User extends Authenticatable
         'settings', // Global settings for the user
     ];
 
-    public function notificationTypes(): HasMany|\MongoDB\Laravel\Relations\HasMany
+    public function notificationTypes()
     {
         return $this->hasMany(NotificationType::class);
     }

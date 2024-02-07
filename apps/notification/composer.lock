@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e98d350b08bab6675c6de0ada644843f",
+    "content-hash": "f96d9ddc25dc2a4608385b7602e67d04",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1063,8 +1063,8 @@
             "version": "1.0.0",
             "dist": {
                 "type": "path",
-                "url": "packages/laravel-mongodb-passport",
-                "reference": "dc41f731bfbddb0d458b00a72d3e65e7b4497ae4"
+                "url": "./packages/laravel-mongodb-passport",
+                "reference": "bfb78b847bf83f2cfafe6f87e9d3b01946d7b994"
             },
             "require": {
                 "illuminate/support": "^10.43",
@@ -1090,6 +1090,7 @@
             ],
             "description": "Laravel Passport for MongoDB",
             "transport-options": {
+                "symlink": true,
                 "relative": true
             }
         },
@@ -10688,16 +10689,16 @@
         },
         {
             "name": "fidry/cpu-core-counter",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theofidry/cpu-core-counter.git",
-                "reference": "85193c0b0cb5c47894b5eaec906e946f054e7077"
+                "reference": "f92996c4d5c1a696a6a970e20f7c4216200fcc42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theofidry/cpu-core-counter/zipball/85193c0b0cb5c47894b5eaec906e946f054e7077",
-                "reference": "85193c0b0cb5c47894b5eaec906e946f054e7077",
+                "url": "https://api.github.com/repos/theofidry/cpu-core-counter/zipball/f92996c4d5c1a696a6a970e20f7c4216200fcc42",
+                "reference": "f92996c4d5c1a696a6a970e20f7c4216200fcc42",
                 "shasum": ""
             },
             "require": {
@@ -10737,7 +10738,7 @@
             ],
             "support": {
                 "issues": "https://github.com/theofidry/cpu-core-counter/issues",
-                "source": "https://github.com/theofidry/cpu-core-counter/tree/1.0.0"
+                "source": "https://github.com/theofidry/cpu-core-counter/tree/1.1.0"
             },
             "funding": [
                 {
@@ -10745,7 +10746,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-17T21:38:23+00:00"
+            "time": "2024-02-07T09:43:46+00:00"
         },
         {
             "name": "filp/whoops",

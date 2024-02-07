@@ -1,10 +1,20 @@
 <?php
 
-use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\CreateNotificationTypeController;
+use App\Http\Controllers\SendNotificationController;
+use App\Http\Controllers\UpdateNotificationController;
 use App\Http\Controllers\UserIdentifyController;
+use App\Models\NotificationType;
 
 
-Route::post('/users/identify', [UserIdentifyController::class, 'create']);
+Route::post('/identify', [UserIdentifyController::class, 'create']);
 
-Route::post('/send', [NotificationController::class, 'send']);
-Route::post('/notifications', [NotificationController::class, 'create']);
+Route::post('/notification-types/create', CreateNotificationTypeController::class);
+
+
+Route::post('/update-notifications-type-settings', UpdateNotificationController::class);
+
+
+Route::post('/send', SendNotificationController::class);
+
+

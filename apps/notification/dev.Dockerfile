@@ -20,9 +20,9 @@ COPY ./apps/notification .
 COPY ./packages .
 
 RUN apk update && apk add --no-cache \
-    libzip-dev \
-    libxml2-dev \
-    librdkafka-dev \
+#    libzip-dev \
+#    libxml2-dev \
+#    librdkafka-dev \
     supervisor \
     g++ \
     make \
@@ -55,6 +55,8 @@ RUN install-php-extensions \
 COPY ./apps/notification/docker/dev/octane.ini /usr/local/etc/php/octane.ini
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN composer self-update --snapshot
 
 RUN composer install
 

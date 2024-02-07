@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class NotificationSendRequest extends FormRequest
 {
@@ -23,9 +24,17 @@ class NotificationSendRequest extends FormRequest
     {
         return [
             'notification_id' => 'required|exists:notification_types,notification_id',
-            'user_id' => 'required|exists:users,user_id',
-            'message' => 'required|array',
-            'message.no' => 'required|string',
+            'user' => 'required|array',
+            'user.user_id' => 'required|string',
+            'user.email' => 'required|string',
+            'user.phone_number' => 'required|string',
+
+            'channels' => 'required|array',
+            'channels.push' => 'required|array',
+            'channels.push.title' => 'required|string',
+            'channels.push.body' => 'required|string',
+            'channels.push.data' => 'nullable|array',
+
         ];
     }
 }
