@@ -3,16 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NotificationSendRequest;
+use App\Models\User;
+use NotificationChannels\Fcm\FcmMessage;
 
 class SendNotificationController extends Controller
 {
 
-
-    /**
-     * @param NotificationSendRequest $request
-     * @return void
-     *
-     */
 
 //    [
 //            'notification_id' => 'notification_id',
@@ -34,11 +30,15 @@ class SendNotificationController extends Controller
     public function __invoke(NotificationSendRequest $request)
     {
         $data = $request->validated();
-        $notification = $data['notification_id'];
-        $user = $data['user'];
-        $channels = $data['channels'];
 
         // send notification to user
-         $notification->send($user, $channels);
+        $userId = $data['user']['user_id'];
+        $user = User::where('user_id', $userId)->first();
+
+        FcmMessage::create()
+            ->token()
+            ->name($data['channels']['push']['title'])
+            ->topic('news');
+
     }
 }

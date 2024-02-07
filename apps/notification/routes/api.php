@@ -4,7 +4,6 @@ use App\Http\Controllers\CreateNotificationTypeController;
 use App\Http\Controllers\SendNotificationController;
 use App\Http\Controllers\UpdateNotificationController;
 use App\Http\Controllers\UserIdentifyController;
-use App\Models\NotificationType;
 
 
 Route::post('/identify', [UserIdentifyController::class, 'create']);

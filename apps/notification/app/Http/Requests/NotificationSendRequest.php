@@ -25,7 +25,7 @@ class NotificationSendRequest extends FormRequest
         return [
             'notification_id' => 'required|exists:notification_types,notification_id',
             'user' => 'required|array',
-            'user.user_id' => 'required|string',
+            'user.user_id' => 'required|integer',
             'user.email' => 'required|string',
             'user.phone_number' => 'required|string',
 

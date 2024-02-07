@@ -25,13 +25,20 @@ class User extends Model
         'phone_number',
         'push_tokens',
         'web_push_tokens',
-        'settings', // Global settings for the user
+        'settings', // Global settings for the user, high priority.
     ];
 
-    public function notificationTypes()
+    public function notificationTypes(): HasMany|\MongoDB\Laravel\Relations\HasMany
     {
         return $this->hasMany(NotificationType::class);
     }
 
+
+    public function routeNotificationForFcm(): array|string
+    {
+        return collect($this->push_tokens)
+            ->filter(fn($pushToken) => $pushToken['type'] === 'FCM')
+            ->map(fn($pushToken) => $pushToken['token']);
+    }
 
 }
