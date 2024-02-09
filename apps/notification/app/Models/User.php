@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-//use Breeze\MongoDB\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use MongoDB\Laravel\Eloquent\Model;

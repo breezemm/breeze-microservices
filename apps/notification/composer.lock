@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f96d9ddc25dc2a4608385b7602e67d04",
+    "content-hash": "8e4b5ecefb8f391c39c99752745aa496",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1057,42 +1057,6 @@
                 }
             ],
             "time": "2023-11-30T22:41:32+00:00"
-        },
-        {
-            "name": "breeze/laravel-mongodb-passport",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "./packages/laravel-mongodb-passport",
-                "reference": "bfb78b847bf83f2cfafe6f87e9d3b01946d7b994"
-            },
-            "require": {
-                "illuminate/support": "^10.43",
-                "laravel/passport": "^11.10",
-                "mongodb/laravel-mongodb": "^4.1",
-                "php": ">=8.2"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Breeze\\MongoDB\\MongodbPassportServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Breeze\\MongoDB\\": "src"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Laravel Passport for MongoDB",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
         },
         {
             "name": "brick/math",

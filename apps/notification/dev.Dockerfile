@@ -15,14 +15,12 @@ RUN adduser -D -u $uid -g '' $user && \
 
 WORKDIR /var/www/notification
 
-COPY ./apps/notification .
 
-COPY ./packages .
 
 RUN apk update && apk add --no-cache \
-#    libzip-dev \
-#    libxml2-dev \
-#    librdkafka-dev \
+    libzip-dev \
+    libxml2-dev \
+    librdkafka-dev \
     supervisor \
     g++ \
     make \
@@ -32,8 +30,6 @@ RUN apk update && apk add --no-cache \
 
 
 RUN npm install pnpm --global
-
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 
 RUN apk del autoconf g++ make && \
@@ -56,9 +52,13 @@ COPY ./apps/notification/docker/dev/octane.ini /usr/local/etc/php/octane.ini
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN composer self-update --snapshot
+COPY ./apps/notification .
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
 
 RUN composer install
+
 
 COPY ./apps/notification/docker/dev/start-container /usr/local/bin/start-container
 
