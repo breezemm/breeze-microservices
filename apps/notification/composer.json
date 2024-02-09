@@ -18,11 +18,13 @@
         "laravel/tinker": "^2.8",
         "mateusjunges/laravel-kafka": "^1.13",
         "mongodb/laravel-mongodb": "^4.1",
+        "myanmarcyberyouths/passport-mongodb": "^1.0",
         "spatie/laravel-data": "^3.11"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "larastan/larastan": "^2.0",
+        "laravel/breeze": "*",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",

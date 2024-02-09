@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e4b5ecefb8f391c39c99752745aa496",
+    "content-hash": "a150e90798169d1fb9ccf71c3162d951",
     "packages": [
         {
             "name": "amphp/amp",
@@ -5450,6 +5450,86 @@
                 "source": "https://github.com/jmespath/jmespath.php/tree/2.7.0"
             },
             "time": "2023-08-25T10:54:48+00:00"
+        },
+        {
+            "name": "myanmarcyberyouths/passport-mongodb",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myanmarcyberyouths/passport-mongodb.git",
+                "reference": "5f2bcb81c5fa8b51275fce9d137b00c932782821"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myanmarcyberyouths/passport-mongodb/zipball/5f2bcb81c5fa8b51275fce9d137b00c932782821",
+                "reference": "5f2bcb81c5fa8b51275fce9d137b00c932782821",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mongodb": "^1.15",
+                "illuminate/contracts": "^10.0",
+                "illuminate/support": "^10.43",
+                "laravel/passport": "^11.10",
+                "mongodb/laravel-mongodb": "^4.1",
+                "php": ">=8.2"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.0.1",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.8",
+                "orchestra/testbench": "^8.8",
+                "pestphp/pest": "^2.20",
+                "pestphp/pest-plugin-arch": "^2.5",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MyanmarCyberYouths\\Laravel\\MongoDB\\PassportMongoDBServiceProvider"
+                    ],
+                    "aliases": {
+                        "Passport": "MyanmarCyberYouths\\Laravel\\MongoDB\\Facades\\Passport"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MyanmarCyberYouths\\Laravel\\MongoDB\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aung Myat Moe",
+                    "email": "aungmyatmoe834@gmail.com",
+                    "homepage": "https://github.com/amm834",
+                    "role": "CTO"
+                }
+            ],
+            "description": "Laravel Passport for MongoDB",
+            "homepage": "https://github.com/myanmarcyberyouths/passport-mongodb",
+            "keywords": [
+                "database",
+                "eloquent",
+                "laravel",
+                "model",
+                "mongo",
+                "mongodb",
+                "passport"
+            ],
+            "support": {
+                "issues": "https://github.com/myanmarcyberyouths/passport-mongodb/issues",
+                "source": "https://github.com/myanmarcyberyouths/passport-mongodb/tree/v1.0.0"
+            },
+            "time": "2024-02-09T20:21:27+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -10934,6 +11014,68 @@
                 }
             ],
             "time": "2024-01-08T09:11:17+00:00"
+        },
+        {
+            "name": "laravel/breeze",
+            "version": "v1.28.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/breeze.git",
+                "reference": "e853918e770822780efd160a73fd676992340aca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/e853918e770822780efd160a73fd676992340aca",
+                "reference": "e853918e770822780efd160a73fd676992340aca",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^10.17",
+                "illuminate/filesystem": "^10.17",
+                "illuminate/support": "^10.17",
+                "illuminate/validation": "^10.17",
+                "php": "^8.1.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan": "^1.10"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Breeze\\BreezeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Breeze\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Minimal Laravel authentication scaffolding with Blade and Tailwind.",
+            "keywords": [
+                "auth",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/breeze/issues",
+                "source": "https://github.com/laravel/breeze"
+            },
+            "time": "2024-01-15T16:14:10+00:00"
         },
         {
             "name": "laravel/pint",

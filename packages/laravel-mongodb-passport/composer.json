@@ -10,7 +10,7 @@
         "laravel/passport": "^11.10",
         "mongodb/laravel-mongodb": "^4.1"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Breeze\\MongoDB\\": "src"
