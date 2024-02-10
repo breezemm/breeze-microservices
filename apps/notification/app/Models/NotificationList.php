@@ -3,7 +3,8 @@
 namespace App\Models;
 
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class NotificationList extends Model
 {
@@ -12,12 +13,12 @@ class NotificationList extends Model
         'message',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
-    public function notificationType(): \Illuminate\Database\Eloquent\Relations\BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+    public function notificationType(): BelongsTo
     {
         return $this->belongsTo(NotificationType::class);
     }

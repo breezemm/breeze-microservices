@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
-use MongoDB\Laravel\Schema\Blueprint;
+use Illuminate\Database\Schema\Blueprint;
 
 return new class extends Migration {
     /**
@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('notification_lists', function (Blueprint $table) {
             $table->id();
-            $table->unique('user_id');
+            $table->foreignId('user_id');
             $table->json('message');
             $table->timestamps();
         });

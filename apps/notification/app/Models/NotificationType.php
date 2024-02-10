@@ -3,23 +3,25 @@
 namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use MongoDB\Laravel\Eloquent\Model;
+
 
 class NotificationType extends Model
 {
     protected $fillable = [
+        'user_id', // The ID of the user in your system. Required.
         'notification_id',
-        'settings'
+        'settings',
     ];
 
-    public function user(): BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function notificationLists(): HasMany|\MongoDB\Laravel\Relations\HasMany
+    public function notificationLists(): HasMany
     {
         return $this->hasMany(NotificationList::class);
     }

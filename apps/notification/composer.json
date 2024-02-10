@@ -17,8 +17,6 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "mateusjunges/laravel-kafka": "^1.13",
-        "mongodb/laravel-mongodb": "^4.1",
-        "myanmarcyberyouths/passport-mongodb": "^1.0",
         "spatie/laravel-data": "^3.11"
     },
     "require-dev": {

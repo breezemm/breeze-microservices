@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use MyanmarCyberYouths\Laravel\MongoDB\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -16,9 +16,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-
-    protected
-        $fillable = [
+    protected $fillable = [
         'user_id', // The ID of the user in your system. Required.
         'email',
         'phone_number',
@@ -27,19 +25,9 @@ class User extends Authenticatable
         'settings', // Global settings for the user, high priority.
     ];
 
-    public
-    function notificationTypes(): HasMany|\MongoDB\Laravel\Relations\HasMany
+    public function notificationTypes(): HasMany
     {
         return $this->hasMany(NotificationType::class);
-    }
-
-
-    public
-    function routeNotificationForFcm(): array|string
-    {
-        return collect($this->push_tokens)
-            ->filter(fn($pushToken) => $pushToken['type'] === 'FCM')
-            ->map(fn($pushToken) => $pushToken['token']);
     }
 
 }

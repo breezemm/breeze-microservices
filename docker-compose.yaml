@@ -175,7 +175,7 @@ services:
     depends_on:
       - kafka
       - redis
-      - mongo
+      - mysql-db
     networks:
       - dev
 
@@ -215,36 +215,5 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-    networks:
-      - dev
-
-  mongo:
-    image: mongo
-    restart: always
-    volumes:
-      - ./infra/databases/mongo:/data/db
-    ports:
-      - "27017:27017"
-    #    environment:
-    #      - MONGO_INITDB_ROOT_USERNAME=root
-    #      - MONGO_INITDB_ROOT_PASSWORD=password
-    healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - dev
-
-  mongo-gui:
-    container_name: "mongo-gui"
-    image: ugleiton/mongo-gui
-    restart: always
-    ports:
-      - "4321:4321"
-    environment:
-      - MONGO_URL=mongodb://mongo:27017
-    depends_on:
-      - mongo
     networks:
       - dev
