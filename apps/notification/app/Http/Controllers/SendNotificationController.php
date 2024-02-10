@@ -9,36 +9,24 @@ use NotificationChannels\Fcm\FcmMessage;
 class SendNotificationController extends Controller
 {
 
-
-//    [
-//            'notification_id' => 'notification_id',
-//            'user' => [
-//                'user_id' => 'user_id', // receiver user id
-//                'email' => 'email',
-//                'phone_number' => 'phone',
-//            ],
-//            'channels' => [
-//                'push' => [
-//                    'title' => 'notification_title',
-//                    'body' => 'notification_body',
-//                    'data' => [
-//                        'key' => 'value',
-//                    ],
-//                ],
-//            ]
-//        ];
     public function __invoke(NotificationSendRequest $request)
     {
         $data = $request->validated();
+        $userId = $request->validated('user.user_id');
 
-        // send notification to user
-        $userId = $data['user']['user_id'];
-        $user = User::where('user_id', $userId)->first();
+        $user = User::where('id', $userId)->first();
+        $fcmTokens = collect($user->push_tokens)->map(function ($token) {
+            return [
+                'token' => $token['token'],
+                'platform' => $token['type'],
+            ];
+        })->toArray();
 
         FcmMessage::create()
-            ->token()
-            ->name($data['channels']['push']['title'])
-            ->topic('news');
+            ->name($request->validated('channels.push.title'))
+            ->topic('notification')
+            ->data(['a' => 'b']);
+
 
     }
 }

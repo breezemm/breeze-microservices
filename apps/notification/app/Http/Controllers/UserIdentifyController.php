@@ -10,8 +10,12 @@ class UserIdentifyController extends Controller
     public function create(UserIdentifyRequest $request)
     {
         $validated = $request->validated();
-        $user = User::create($validated);
-        $user->update([
+        $user = User::create([
+            'user_id' => $validated['user_id'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone_number'],
+            'push_tokens' => $validated['push_tokens'],
+            'web_push_tokens' => $validated['web_push_tokens'],
             'settings' => [
                 'channels' => [
                     'email' => [
@@ -33,6 +37,7 @@ class UserIdentifyController extends Controller
                 ]
             ]
         ]);
+
 
         return response()->json([
             'message' => 'User created successfully.',

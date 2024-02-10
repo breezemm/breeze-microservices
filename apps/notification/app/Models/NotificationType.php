@@ -16,6 +16,11 @@ class NotificationType extends Model
         'settings',
     ];
 
+
+    protected $casts = [
+        'settings' => 'array',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

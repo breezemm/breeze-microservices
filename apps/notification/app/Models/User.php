@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -17,13 +17,21 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', // The ID of the user in your system. Required.
+        'user_id',
+        'notification_settings',
         'email',
         'phone_number',
         'push_tokens',
         'web_push_tokens',
-        'settings', // Global settings for the user, high priority.
+        'settings',
     ];
+
+    protected $casts = [
+        'settings' => 'array',
+        'push_tokens' => 'array',
+        'web_push_tokens' => 'array',
+    ];
+
 
     public function notificationTypes(): HasMany
     {

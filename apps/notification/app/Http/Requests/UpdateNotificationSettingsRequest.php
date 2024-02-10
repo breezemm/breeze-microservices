@@ -22,7 +22,7 @@ class UpdateNotificationSettingsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|integer',
+            'user_id' => 'required|exists:users,user_id',
             'notification_types' => 'required|array',
             'notification_types.*.notification_id' => 'required|string',
             'notification_types.*.settings' => 'required|array',

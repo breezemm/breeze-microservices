@@ -25,12 +25,12 @@ class NotificationSendRequest extends FormRequest
         return [
             'notification_id' => 'required|exists:notification_types,notification_id',
             'user' => 'required|array',
-            'user.user_id' => 'required|integer',
-            'user.email' => 'required|string',
-            'user.phone_number' => 'required|string',
+            'user.user_id' => 'required|exists:users,user_id',
+            'user.email' => 'nullable|email',
+            'user.phone_number' => 'nullable|string',
 
-            'channels' => 'required|array',
-            'channels.push' => 'required|array',
+            'channels' => 'nullable|array',
+            'channels.push' => 'nullable|array',
             'channels.push.title' => 'required|string',
             'channels.push.body' => 'required|string',
             'channels.push.data' => 'nullable|array',

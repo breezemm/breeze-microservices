@@ -10,23 +10,16 @@ class UpdateNotificationController extends Controller
 {
     public function __invoke(UpdateNotificationSettingsRequest $request)
     {
+        $data = $request->validated();
 
-        $payload = $request->validated();
-        $notificationTypes = collect($request->validated('notification_types'));
-
-        $user = User::where('user_id', $payload['user_id'])->first();
+        $user = User::where('user_id', $data['user_id'])->first();
+        $notificationTypes = collect($data['notification_types']);
 
         $notificationTypes->each(function ($notificationType) use ($user) {
-            $settings = $user->notificationTypes()
-                ->where('notification_id', $notificationType['notification_id'])
-                ->first();
-
-            $settings->update([
+            $user->notificationTypes()->update([
                 'settings' => $notificationType['settings']
             ]);
         });
 
-
-        return response()->json(['message' => 'Settings updated successfully']);
     }
 }
