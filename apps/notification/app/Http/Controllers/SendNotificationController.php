@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NotificationSendRequest;
 use App\Models\User;
+use Kreait\Firebase\Messaging\CloudMessage;
 use NotificationChannels\Fcm\FcmMessage;
 
 class SendNotificationController extends Controller
@@ -22,5 +23,12 @@ class SendNotificationController extends Controller
             ];
         })->toArray();
 
+        CloudMessage::fromArray([
+            'token' => $fcmTokens,
+            'notification' => [
+                'title' => $data['title'],
+                'body' => $data['body'],
+            ],
+        ]);
     }
 }
