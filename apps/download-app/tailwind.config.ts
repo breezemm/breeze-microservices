@@ -17,6 +17,10 @@ const config: Config = {
       green: {
         6: "#6DB24D",
       },
+      blue: {
+        2: "#CCEAFF",
+        7: "#0077CC",
+      },
       white: "#FFFFFF",
     },
     extend: {

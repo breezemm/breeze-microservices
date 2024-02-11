@@ -9,7 +9,7 @@ import EventCategory from "./EventCategory";
 const HeroSection = () => {
   return (
     <section>
-      <div className="grid grid-cols-2 gap-28">
+      <div className="grid grid-cols-2 gap-28 pb-64">
         <div className="text-center col-span-full lg:col-span-1">
           <div className="mb-16">
             <div className="mb-4 flex items-center justify-center gap-2">
@@ -29,12 +29,12 @@ const HeroSection = () => {
             <p className="mb-4">Only in 3 mins. For Real. No Cap.</p>
           </div>
           <div className="relative mb-4">
-            <button className="w-full rounded-md bg-primary py-3 text-center text-neutral-1">
+            <a href="#" className="block w-full rounded-md bg-primary py-3 text-center text-neutral-1">
               <div className="flex items-center justify-center gap-4 text-sm">
                 <MdOutlineFileDownload size={20} />
                 <p>Download App</p>
               </div>
-            </button>
+            </a>
             <div className="absolute -right-6 -top-3 rounded-full bg-green-6 px-2 py-1">
               <p className="text-xs uppercase text-neutral-1">100% free</p>
             </div>
