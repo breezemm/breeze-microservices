@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class NotificationType extends Model
 {
     protected $fillable = [
-        'user_id', // The ID of the user in your system. Required.
         'notification_id',
         'settings',
     ];
@@ -21,10 +20,6 @@ class NotificationType extends Model
         'settings' => 'array',
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function notificationLists(): HasMany
     {

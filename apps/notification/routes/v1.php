@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\CreateNewUserController;
 use App\Http\Controllers\CreateNotificationTypeController;
 use App\Http\Controllers\NotificationListController;
 use App\Http\Controllers\SendNotificationController;
 use App\Http\Controllers\UpdateNotificationController;
-use App\Http\Controllers\CreateNewUserController;
 
 
 Route::post('/users/identify', CreateNewUserController::class);
