@@ -23,6 +23,7 @@ class SendFirebasePushNotification implements ShouldQueue
     }
 
 
+
     public
     function handle(Messaging $messaging): void
     {
