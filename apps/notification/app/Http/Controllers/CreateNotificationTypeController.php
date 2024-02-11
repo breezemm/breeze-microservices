@@ -2,24 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NotificationAlreadyExisits;
 use App\Http\Requests\CreateNotificationRequest;
+use App\Jobs\SubscribeFirebaseTopicJob;
 use App\Models\NotificationType;
+use App\Models\User;
+use Kreait\Firebase\Contract\Messaging;
 
 class CreateNotificationTypeController extends Controller
 {
 
 
+    public function __construct(public readonly Messaging $messaging)
+    {
+    }
+
+    /**
+     * @throws NotificationAlreadyExisits
+     */
     public function __invoke(CreateNotificationRequest $request)
     {
-        $notificationId = $request->validated('notification_id');
         $userId = $request->validated('user_id');
+        $notificationId = $request->validated('notification_id');
 
-        $isNotificationTypeExists = NotificationType::where('user_id', $userId)->where('notification_id', $notificationId)->exists();
 
-        if ($isNotificationTypeExists) {
-            return response()->json(['message' => 'Notification type already exists'], 400);
+        $notificationType = NotificationType::where('user_id', $userId)
+            ->where('notification_id', $notificationId)
+            ->first();
+
+
+        $isNotificationTypeAlreadyExists = NotificationType::where('user_id', $userId)
+            ->where('notification_id', $notificationId)
+            ->exists();
+
+        if ($isNotificationTypeAlreadyExists) {
+            throw new NotificationAlreadyExisits("Notification type already exists");
         }
-
 
         $notificationType = NotificationType::create([
             'user_id' => $userId,
@@ -45,6 +63,19 @@ class CreateNotificationTypeController extends Controller
                 ]
             ]
         ]);
+
+        $user = User::where('id', $userId)->first();
+        $firebaseTokens = collect($user->push_tokens)
+            ->map(function ($token) {
+                if ($token['type'] !== 'FCM') {
+                    return false;
+                }
+                return $token['token'];
+            })
+            ->toArray();
+
+
+        SubscribeFirebaseTopicJob::dispatch($notificationId, $firebaseTokens);
 
         return response()->json($notificationType, 201);
     }

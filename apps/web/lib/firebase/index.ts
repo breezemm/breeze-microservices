@@ -5,6 +5,7 @@ import {
   getToken,
   onMessage,
 } from "firebase/messaging";
+import { toast } from "react-toastify";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBVT2gFzOAjOJBPtOS4awmTuOsUjz2xr8M",
@@ -48,4 +49,27 @@ export async function requestPermission() {
   }
   alert("Notification permission granted.");
   return false;
+}
+
+export function subscribeTokenToTopic(token: string, topic: string) {
+  const FCM_SERVER_KEY: string =
+    "AAAApMIfDg0:APA91bE4XKQ1bqNK1IpTd422GGtJ3yVqR1HTNbqdnCVz-B-TnGyxCgJW-1L2O3baVEFPri5xMV50zdfKgp3hzLt1CIppgRvvhNn1G6MP-39VCfZSh2DvZF6aLO3VnUlPqmdXNwO_2duk";
+  fetch(`https://iid.googleapis.com/iid/v1/${token}/rel/topics/${topic}`, {
+    method: "POST",
+    headers: new Headers({
+      Authorization: `key=${FCM_SERVER_KEY}`,
+    }),
+  })
+    .then((response) => {
+      if (response.status < 200 || response.status >= 400) {
+        console.log(response.status, response);
+      }
+      console.log(response);
+      console.log(`"${topic}" is subscribed`);
+      toast("Subscribed to " + topic);
+    })
+    .catch((error) => {
+      console.error(error.result);
+    });
+  return true;
 }
