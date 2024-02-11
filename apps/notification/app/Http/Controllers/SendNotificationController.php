@@ -22,11 +22,5 @@ class SendNotificationController extends Controller
             ];
         })->toArray();
 
-        FcmMessage::create()
-            ->name($request->validated('channels.push.title'))
-            ->topic('notification')
-            ->data(['a' => 'b']);
-
-
     }
 }
