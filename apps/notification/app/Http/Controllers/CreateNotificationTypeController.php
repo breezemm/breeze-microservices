@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateNotificationRequest;
 use App\Models\NotificationType;
+use App\Models\User;
+use Kreait\Firebase\Contract\Messaging;
 
 class CreateNotificationTypeController extends Controller
 {
 
+
+    public function __construct(public readonly Messaging $messaging)
+    {
+    }
 
     public function __invoke(CreateNotificationRequest $request)
     {
@@ -45,6 +51,19 @@ class CreateNotificationTypeController extends Controller
                 ]
             ]
         ]);
+
+
+        $user = User::where('id', $userId)->first();
+        $firebaseTokens = collect($user->push_tokens)
+            ->map(function ($token) {
+                if ($token['type'] !== 'FCM') {
+                    return false;
+                }
+                return $token['token'];
+            })
+            ->toArray();
+
+        $this->messaging->subscribeToTopic($notificationId, $firebaseTokens);
 
         return response()->json($notificationType, 201);
     }

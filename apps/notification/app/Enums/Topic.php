@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum NotificationType: string
+enum Topic: string
 {
     case NewFollower = 'new_follower';
 
