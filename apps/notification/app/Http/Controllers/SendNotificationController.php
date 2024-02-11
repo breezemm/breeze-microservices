@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NotificationSendRequest;
 use App\Models\User;
+use Kreait\Firebase\Contract\Messaging;
 use Kreait\Firebase\Messaging\CloudMessage;
-use NotificationChannels\Fcm\FcmMessage;
+
 
 class SendNotificationController extends Controller
 {
+
+    public function __construct(public readonly Messaging $messaging)
+    {
+    }
 
     public function __invoke(NotificationSendRequest $request)
     {
@@ -16,19 +21,24 @@ class SendNotificationController extends Controller
         $userId = $request->validated('user.user_id');
 
         $user = User::where('id', $userId)->first();
-        $fcmTokens = collect($user->push_tokens)->map(function ($token) {
-            return [
-                'token' => $token['token'],
-                'platform' => $token['type'],
-            ];
-        })->toArray();
+        $firebaseTokens = collect($user->push_tokens)
+            ->map(function ($token) {
+                if ($token['type'] === 'FCM') {
+                    return $token['token'];
+                }
+                return false;
+            })
+            ->toArray();
 
-        CloudMessage::fromArray([
-            'token' => $fcmTokens,
+        $message = CloudMessage::fromArray([
             'notification' => [
-                'title' => $data['title'],
-                'body' => $data['body'],
+                'title' => $request->validated('channels.push.title'),
+                'body' => $request->validated('channels.push.body'),
             ],
+            'data' => $request->validated('channels.push.data'),
         ]);
+        $this->messaging->sendMulticast($message, $firebaseTokens);
+
+        return $firebaseTokens;
     }
 }

@@ -12,7 +12,6 @@ Route::post('/identify', [UserIdentifyController::class, 'create']);
 
 Route::post('/notification-types/create', CreateNotificationTypeController::class);
 
-
 Route::post('/update-notifications-type-settings', UpdateNotificationController::class);
 
 
@@ -28,7 +27,7 @@ Route::get('/push', function () use ($token) {
             'token' => $token,
             'notification' => [
                 'title' => "Hello world",
-                'body' => "Hello mother fuckers"
+                'body' => "Dear, my Valentine"
             ],
             'data' => [
                 'key' => 'value',
