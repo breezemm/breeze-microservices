@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NotificationSendRequest;
 use App\Jobs\SendFirebasePushNotification;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Kreait\Firebase\Contract\Messaging;
 use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Firebase\Exception\MessagingException;
@@ -23,13 +24,18 @@ class SendNotificationController extends Controller
             $user = $this->getUser($request->validated('user.user_id'));
             $userSetting = $user->settings;
 
-            $pushEnabled = $userSetting['channels']['push']['enabled'] ?? false;
+            $pushEnabled = $userSetting['channels']['push']['enabled'];
 
             if (!$pushEnabled) {
                 return response()->noContent(); // Indicate success without message
             }
 
-            SendFirebasePushNotification::dispatch($request->validated());
+            $message = [
+                'uuid' => Str::uuid(),
+                ...$request->validated(),
+            ];
+
+            SendFirebasePushNotification::dispatch($message);
 
             return response()->json(['message' => 'Notification sent']);
         } catch (MessagingException|FirebaseException $e) {
@@ -43,6 +49,7 @@ class SendNotificationController extends Controller
     {
         return User::findOrFail($userId);
     }
+
 
 
 }
