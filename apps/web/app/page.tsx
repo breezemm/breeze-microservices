@@ -2,8 +2,14 @@
 import Image from "next/image";
 import { Card } from "ui";
 import styles from "./page.module.css";
-import { requestPermission, requestToken } from "../lib/firebase";
+import {
+  requestPermission,
+  requestToken,
+  subscribeTokenToTopic,
+} from "../lib/firebase";
 import { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Gradient({
   conic,
@@ -58,9 +64,12 @@ export default function Page() {
       const isGranted = await requestPermission();
       if (isGranted) {
         const token = await requestToken();
-        console.table({
-          token,
-        });
+        if (token) {
+          subscribeTokenToTopic(token, "all");
+          console.table({
+            token,
+          });
+        }
       } else {
         console.log("Permission not granted");
       }
@@ -69,6 +78,7 @@ export default function Page() {
   }, []);
   return (
     <main className={styles.main}>
+      <ToastContainer />
       <div className={styles.description}>
         <p>
           examples/basic&nbsp;
