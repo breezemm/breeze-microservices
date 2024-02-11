@@ -4,30 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NotificationSendRequest;
 use App\Jobs\SendFirebasePushNotification;
+use App\Models\NotificationType;
 use App\Models\User;
 use Illuminate\Support\Str;
-use Kreait\Firebase\Contract\Messaging;
 use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Firebase\Exception\MessagingException;
-
 
 class SendNotificationController extends Controller
 {
 
-    public function __construct(public readonly Messaging $messaging)
-    {
-    }
-
     public function __invoke(NotificationSendRequest $request)
     {
         try {
-            $user = $this->getUser($request->validated('user.user_id'));
-            $userSetting = $user->settings;
+            $userId = $request->validated('user.user_id');
+            $notificationId = $request->validated('notification_id');
 
-            $pushEnabled = $userSetting['channels']['push']['enabled'];
+            $user = $this->getUser($userId);
+            $notificationType = $this->getNotificationType($userId, $notificationId);
 
-            if (!$pushEnabled) {
-                return response()->noContent(); // Indicate success without message
+            if (!$this->isPushEnabled($user, $notificationType)) {
+                return response()->noContent();
             }
 
             $message = [
@@ -39,7 +35,9 @@ class SendNotificationController extends Controller
 
             return response()->json(['message' => 'Notification sent']);
         } catch (MessagingException|FirebaseException $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Error sending notification',
+            ], 400); // 400 for client-side errors
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal error'], 500);
         }
@@ -50,6 +48,16 @@ class SendNotificationController extends Controller
         return User::findOrFail($userId);
     }
 
+    private function getNotificationType(int $userId, string $notificationId): NotificationType
+    {
+        return NotificationType::where('user_id', $userId)
+            ->where('notification_id', $notificationId)
+            ->firstOrFail();
+    }
 
-
+    private function isPushEnabled(User $user, NotificationType $notificationType): bool
+    {
+        return $user->settings['channels']['push']['enabled'] ||
+            $notificationType->settings['channels']['push']['enabled'];
+    }
 }

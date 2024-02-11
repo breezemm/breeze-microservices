@@ -12,5 +12,4 @@ Route::post('/notification-types/create', CreateNotificationTypeController::clas
 
 Route::post('/update-notifications-type-settings', UpdateNotificationController::class);
 
-
 Route::post('/send', SendNotificationController::class);

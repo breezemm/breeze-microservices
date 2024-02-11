@@ -24,6 +24,12 @@ class CreateNotificationTypeController extends Controller
         $userId = $request->validated('user_id');
         $notificationId = $request->validated('notification_id');
 
+
+        $notificationType = NotificationType::where('user_id', $userId)
+            ->where('notification_id', $notificationId)
+            ->first();
+
+
         $isNotificationTypeAlreadyExists = NotificationType::where('user_id', $userId)
             ->where('notification_id', $notificationId)
             ->exists();
