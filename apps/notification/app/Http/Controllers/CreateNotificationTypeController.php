@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\NotificationAlreadyExisits;
 use App\Http\Requests\CreateNotificationRequest;
+use App\Jobs\SubscribeFirebaseTopicJob;
 use App\Models\NotificationType;
 use App\Models\User;
 use Kreait\Firebase\Contract\Messaging;
@@ -63,7 +64,6 @@ class CreateNotificationTypeController extends Controller
             ]
         ]);
 
-
         $user = User::where('id', $userId)->first();
         $firebaseTokens = collect($user->push_tokens)
             ->map(function ($token) {
@@ -74,7 +74,8 @@ class CreateNotificationTypeController extends Controller
             })
             ->toArray();
 
-        $this->messaging->subscribeToTopic($notificationId, $firebaseTokens);
+
+        SubscribeFirebaseTopicJob::dispatch($notificationId, $firebaseTokens);
 
         return response()->json($notificationType, 201);
     }
