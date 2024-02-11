@@ -14,6 +14,18 @@ class UserFollowController extends Controller
     {
         auth()->user()->follow($user);
 
+        $data = [
+            'notification_id' => 'new_follower',
+            'user_id' => $user->id,
+            'notification' => [
+                'title' => 'New Follower',
+                'body' => auth()->user()->name . ' started following you',
+            ],
+            'data' => [
+                'user' => auth()->user()->with('media')->first(),
+            ],
+        ];
+
         return response()->json([
             'message' => 'User followed successfully',
         ]);

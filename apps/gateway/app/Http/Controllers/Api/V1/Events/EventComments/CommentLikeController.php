@@ -15,6 +15,18 @@ class CommentLikeController extends Controller
     {
         auth()->user()->like($comment);
 
+        $data = [
+            'notification_id' => 'comment_liked',
+            'user_id' => $event->user->id,
+            'notification' => [
+                'title' => 'New Follower',
+                'body' => auth()->user()->name . ' liked your comment',
+            ],
+            'data' => [
+                'user' => auth()->user()->with('media')->first(),
+                'post_id' => $event->id,
+            ],
+        ];
         return response()->json([
             'message' => 'Comment liked successfully',
             'data' => $comment->likers()->count(),

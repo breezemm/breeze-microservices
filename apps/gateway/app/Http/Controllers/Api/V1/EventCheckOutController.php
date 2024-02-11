@@ -86,6 +86,8 @@ class EventCheckOutController extends Controller
             $checkOutAction = new CheckOutOrderAction($this->walletService);
             $checkOutAction->handle($event, $ticket);
 
+
+
             DB::commit();
 
             return response()->json([
