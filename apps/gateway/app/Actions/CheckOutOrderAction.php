@@ -25,6 +25,7 @@ class CheckOutOrderAction
         $senderUserId = auth()->id();
         $receiverUserId = $event->user->id;
 
+        // send notification to the ticket seller that the ticket has been sold
         (new SendPushNotification())->handle([
             'notification_id' => 'ticket_sold',
             'user' => [
