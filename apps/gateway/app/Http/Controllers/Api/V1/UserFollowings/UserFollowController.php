@@ -14,7 +14,22 @@ class UserFollowController extends Controller
      */
     public function __invoke(User $user)
     {
+
+        if ($user->id === auth()->id()) {
+            return response()->json([
+                'message' => 'You cannot follow yourself',
+            ], 400);
+        }
+
+        if (auth()->user()->isFollowing($user)) {
+            return response()->json([
+                'message' => 'You are already following this user',
+            ], 400);
+        }
+
+
         auth()->user()->follow($user);
+
 
         (new SendPushNotification())->handle([
             'notification_id' => 'new_follower',
