@@ -1,6 +1,7 @@
 import React from "react";
 import { allPosts, Post } from "contentlayer/generated";
 import MdxComponent from "@/components/MdxComponent";
+import TermsClientWrapper from "@/app/components/TermsClientWrapper";
 
 export async function generateStaticParams() {
   return allPosts.map((post) => ({
@@ -12,8 +13,10 @@ export default async function Terms({ params }: { params: { slug: string } }) {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
 
   return (
-    <div className="p-4 py-20 md:px-24">
-      {post && <MdxComponent code={post.body.code} />}
+    <div className="p-5 py-20 md:px-24">
+      <TermsClientWrapper>
+        {post && <MdxComponent code={post.body.code} />}
+      </TermsClientWrapper>
     </div>
   );
 }

@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
-
+import { IntersectorProvider } from "@/context/interSectorContext";
+import { WrapContextComponent } from "@/components/ContextProviderWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,10 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-      <NavBar/>
-      {children}
-      <Footer/>
+      <body className={`inter.className`}>
+        <WrapContextComponent>
+          <NavBar />
+          {children}
+          <Footer />
+        </WrapContextComponent>
       </body>
     </html>
   );

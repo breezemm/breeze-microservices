@@ -8,13 +8,13 @@ import { ContactInfoData, SocialList  ,Stores} from "@/data/contact";
 
 const Footer = () => {
   return (
-    <div  className="bg-neutral-10 text-neutral-1 px-5 py-10 md:px-16 md:py-10 ">
+    <footer  className="bg-neutral-10 text-neutral-1 px-5 py-10 md:px-16 md:py-10 ">
       <Image src={Breeze } alt="water mark"/>
       <div className="flex-col flex  gap-10 md:justify-between mt-7 md:flex-row  ">
           <ContactSection ContactInfoData={ContactInfoData} />
          <SocialSection SocialList={SocialList}  storesDownload={Stores}/>
       </div>
-    </div>
+    </footer>
   );
 };
 
