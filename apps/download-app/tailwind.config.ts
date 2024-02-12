@@ -12,6 +12,7 @@ const config: Config = {
       neutral: {
         1: "#FCFCFC",
         7: "#646668",
+        9:"#323334",
         10: "#191A1A",
       },
       green: {
@@ -31,6 +32,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 };
 export default config;
