@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
+composer migrate:fresh --seed
+composer passport:install --force
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

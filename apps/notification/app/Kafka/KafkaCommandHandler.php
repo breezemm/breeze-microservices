@@ -8,10 +8,9 @@ class KafkaCommandHandler
 {
     public static function handle(KafkaConsumerMessage $message): void
     {
-        $body = $message->getBody();
+        $body = json_decode($message->getBody(), true);
         $pattern = $body['pattern'];
         $action = (new ActionMapper())->mapPatternToAction($pattern);
-        print_r($message->getBody());
-        $action?->handle($message);
+        $action?->handle($body['data']);
     }
 }
