@@ -11,7 +11,6 @@ class EventShowController extends Controller
 {
     public function __invoke(Event $event)
     {
-
         return new EventResource($event->load([
             'user',
             'phases' => function (HasMany $query) {

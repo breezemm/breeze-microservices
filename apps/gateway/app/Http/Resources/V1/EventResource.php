@@ -17,6 +17,7 @@ class EventResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'is_my_event' => $this->whenLoaded('user', fn() => $this->user->id === auth()->id()),
             'name' => $this->name,
             'start_date' => $this->start_date,
             'start_time' => $this->start_time,
