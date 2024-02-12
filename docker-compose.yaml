@@ -217,3 +217,16 @@ services:
       retries: 5
     networks:
       - dev
+
+  kafka-go:
+    build:
+      context: .
+      dockerfile: ./apps/kafka-go/Dockerfile
+    ports:
+      - 8005:3000
+    volumes:
+      - ./apps/kafka-go:/app
+    depends_on:
+      - kafka
+    networks:
+      - dev
