@@ -53,7 +53,7 @@ services:
 
       echo -e '🙌 Creating kafka topics'
       kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallets --replication-factor 1 --partitions 3
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallets-dlq --replication-factor 1 --partitions 3
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic notifications --replication-factor 1 --partitions 3
 
 
       echo -e '🐙 Successfully created the following topics:'
@@ -215,5 +215,18 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - dev
+
+  kafka-go:
+    build:
+      context: .
+      dockerfile: ./apps/kafka-go/Dockerfile
+    ports:
+      - 8005:3000
+    volumes:
+      - ./apps/kafka-go:/app
+    depends_on:
+      - kafka
     networks:
       - dev

@@ -3,30 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NotificationSendRequest;
+use App\Jobs\SendFirebasePushNotification;
+use App\Models\NotificationList;
+use App\Models\NotificationType;
 use App\Models\User;
-use NotificationChannels\Fcm\FcmMessage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Kreait\Firebase\Exception\FirebaseException;
+use Kreait\Firebase\Exception\MessagingException;
 
 class SendNotificationController extends Controller
 {
 
     public function __invoke(NotificationSendRequest $request)
     {
-        $data = $request->validated();
-        $userId = $request->validated('user.user_id');
+        try {
+            DB::beginTransaction();
+            $userId = $request->validated('user.user_id');
 
-        $user = User::where('id', $userId)->first();
-        $fcmTokens = collect($user->push_tokens)->map(function ($token) {
-            return [
-                'token' => $token['token'],
-                'platform' => $token['type'],
+            $message = [
+                'uuid' => Str::uuid(),
+                ...$request->validated(),
             ];
-        })->toArray();
 
-        FcmMessage::create()
-            ->name($request->validated('channels.push.title'))
-            ->topic('notification')
-            ->data(['a' => 'b']);
+            NotificationList::create([
+                'user_id' => $userId,
+                'message' => $request->validated('channels'),
+            ]);
 
+            DB::commit();
+            SendFirebasePushNotification::dispatch($message);
 
+            return response()->json(['message' => 'Notification sent']);
+        } catch (MessagingException|FirebaseException $e) {
+
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Error sending notification',
+            ], 400); // 400 for client-side errors
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Internal error'], 500);
+        }
     }
+
 }

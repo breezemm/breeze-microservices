@@ -25,6 +25,27 @@ class CheckOutOrderAction
         $senderUserId = auth()->id();
         $receiverUserId = $event->user->id;
 
+        // send notification to the ticket seller that the ticket has been sold
+        (new SendPushNotification())->handle([
+            'notification_id' => 'ticket_sold',
+            'user' => [
+                'user_id' => $receiverUserId,
+            ],
+            'channels' => [
+                'push' => [
+                    'title' => 'Ticket Sold',
+                    'body' => auth()->user()->name . ' joins ' . $event->name . ' event.',
+                    'data' => [
+                        'type' => 'ticket_sold',
+                        'user' => auth()->user()->with('media')->get(),
+                        'content' => 'joins',
+                        'event' => $event,
+                    ]
+                ]
+            ],
+        ]);
+
+
         $ticketPrice = $ticket->ticketType->price;
 
         $message = new Message(body: createKafkaPayload(

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0b24e5b61cfba089ef53e00f5f98068",
+    "content-hash": "cb22c6ee38a5c6486f1561fc99c224ec",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1991,6 +1991,80 @@
             "time": "2021-01-19T18:06:19+00:00"
         },
         {
+            "name": "glushkovds/laravel-kafka-queue",
+            "version": "v0.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/glushkovds/laravel-kafka-queue.git",
+                "reference": "4168e75e8a0bd15c74a0f902f04809d02e814b21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/glushkovds/laravel-kafka-queue/zipball/4168e75e8a0bd15c74a0f902f04809d02e814b21",
+                "reference": "4168e75e8a0bd15c74a0f902f04809d02e814b21",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-rdkafka": "*",
+                "laravel/framework": ">=9",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "nunomaduro/larastan": "^1.0",
+                "orchestra/testbench": "^6.24",
+                "phpstan/phpstan-mockery": "^1.0",
+                "phpunit/phpunit": "^9.5",
+                "slevomat/coding-standard": "^6.4",
+                "squizlabs/php_codesniffer": "^3.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelKafka\\KafkaQueueServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LaravelKafka\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Mein",
+                    "email": "petermein@gmail.com"
+                },
+                {
+                    "name": "lukaszaleckas",
+                    "email": "lukas.zaleckas@hostinger.com"
+                },
+                {
+                    "name": "Denis Glushkov",
+                    "email": "amkarovec@gmail.com",
+                    "homepage": "https://github.com/glushkovds"
+                }
+            ],
+            "description": "Laravel Kafka Queue Driver",
+            "homepage": "https://github.com/glushkovds/laravel-kafka-queue",
+            "keywords": [
+                "kafka",
+                "laravel",
+                "php",
+                "queue"
+            ],
+            "support": {
+                "source": "https://github.com/glushkovds/laravel-kafka-queue/tree/v0.1.3"
+            },
+            "time": "2023-10-06T11:43:51+00:00"
+        },
+        {
             "name": "google/auth",
             "version": "v1.35.0",
             "source": {
@@ -2050,21 +2124,21 @@
         },
         {
             "name": "google/cloud-core",
-            "version": "v1.54.0",
+            "version": "v1.55.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-core.git",
-                "reference": "cd3f670dbb7f6a5b9b550b0d1b8e5b6ed148fb58"
+                "reference": "45c8e6e0511944b410bb788a940b2a1ab75975ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/cd3f670dbb7f6a5b9b550b0d1b8e5b6ed148fb58",
-                "reference": "cd3f670dbb7f6a5b9b550b0d1b8e5b6ed148fb58",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/45c8e6e0511944b410bb788a940b2a1ab75975ff",
+                "reference": "45c8e6e0511944b410bb788a940b2a1ab75975ff",
                 "shasum": ""
             },
             "require": {
                 "google/auth": "^1.34",
-                "google/gax": "^1.26.3",
+                "google/gax": "^1.27.0",
                 "guzzlehttp/guzzle": "^6.5.8|^7.4.4",
                 "guzzlehttp/promises": "^1.4||^2.0",
                 "guzzlehttp/psr7": "^2.6",
@@ -2110,9 +2184,9 @@
             ],
             "description": "Google Cloud PHP shared dependency, providing functionality useful to all components.",
             "support": {
-                "source": "https://github.com/googleapis/google-cloud-php-core/tree/v1.54.0"
+                "source": "https://github.com/googleapis/google-cloud-php-core/tree/v1.55.0"
             },
-            "time": "2024-01-26T20:27:24+00:00"
+            "time": "2024-02-09T19:51:53+00:00"
         },
         {
             "name": "google/cloud-storage",
@@ -2225,16 +2299,16 @@
         },
         {
             "name": "google/gax",
-            "version": "v1.26.3",
+            "version": "v1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/gax-php.git",
-                "reference": "b7c782dcc40957ad84c9da947cc201f42e97859e"
+                "reference": "7d2533e84480018a351e9c3e20a284342ea7a75e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/gax-php/zipball/b7c782dcc40957ad84c9da947cc201f42e97859e",
-                "reference": "b7c782dcc40957ad84c9da947cc201f42e97859e",
+                "url": "https://api.github.com/repos/googleapis/gax-php/zipball/7d2533e84480018a351e9c3e20a284342ea7a75e",
+                "reference": "7d2533e84480018a351e9c3e20a284342ea7a75e",
                 "shasum": ""
             },
             "require": {
@@ -2274,9 +2348,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/gax-php/issues",
-                "source": "https://github.com/googleapis/gax-php/tree/v1.26.3"
+                "source": "https://github.com/googleapis/gax-php/tree/v1.27.0"
             },
-            "time": "2024-01-18T20:24:45+00:00"
+            "time": "2024-02-07T23:12:02+00:00"
         },
         {
             "name": "google/grpc-gcp",
@@ -3317,57 +3391,6 @@
                 }
             ],
             "time": "2023-10-26T11:01:07+00:00"
-        },
-        {
-            "name": "laravel-notification-channels/fcm",
-            "version": "4.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel-notification-channels/fcm.git",
-                "reference": "5291e6aa485650e4097e787cf20cf02fdd5cf711"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel-notification-channels/fcm/zipball/5291e6aa485650e4097e787cf20cf02fdd5cf711",
-                "reference": "5291e6aa485650e4097e787cf20cf02fdd5cf711",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^7.0",
-                "illuminate/notifications": "^10.0",
-                "illuminate/support": "^10.0",
-                "kreait/laravel-firebase": "^5.0",
-                "php": ">= 8.2"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.5.1",
-                "phpunit/phpunit": "^10.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "NotificationChannels\\Fcm\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Bautista",
-                    "email": "chris.bautista@coreproc.ph",
-                    "homepage": "https://coreproc.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "FCM (Firebase Cloud Messaging) Notifications Driver for Laravel",
-            "homepage": "https://github.com/laravel-notification-channels/fcm",
-            "support": {
-                "issues": "https://github.com/laravel-notification-channels/fcm/issues",
-                "source": "https://github.com/laravel-notification-channels/fcm/tree/4.1.0"
-            },
-            "time": "2023-12-24T22:12:05+00:00"
         },
         {
             "name": "laravel/framework",

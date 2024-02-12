@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\CheckOutOrderAction;
+use App\Actions\SendPushNotification;
 use App\Enums\TicketStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCheckOutReqeust;
 use App\Models\Event;
+use App\Models\Order;
 use App\Models\Ticket;
 use App\Services\WalletService;
 use Illuminate\Support\Facades\Cache;
@@ -86,7 +88,12 @@ class EventCheckOutController extends Controller
             $checkOutAction = new CheckOutOrderAction($this->walletService);
             $checkOutAction->handle($event, $ticket);
 
+
             DB::commit();
+
+            // send push notification to the buyers of the ticket
+//            $event->orders()->where()
+
 
             return response()->json([
                 'message' => 'Ticket purchased successfully',

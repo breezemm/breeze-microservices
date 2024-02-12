@@ -12,8 +12,7 @@ return new class extends Migration {
     {
         Schema::create('notification_types', function (Blueprint $table) {
             $table->id();
-            $table->string('notification_id');
-            $table->foreignId('user_id');
+            $table->string('notification_id')->unique();
             $table->json('settings');
             $table->timestamps();
         });

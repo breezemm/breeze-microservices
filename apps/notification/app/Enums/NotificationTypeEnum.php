@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum NotificationType: string
+enum NotificationTypeEnum: string
 {
     case NewFollower = 'new_follower';
 
@@ -28,7 +28,6 @@ enum NotificationType: string
     case WalletCashOut = 'wallet_cash_out';
 
     case WalletTransfer = 'wallet_transfer';
-
 
 
 }
