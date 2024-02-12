@@ -10,28 +10,8 @@ class SendPushNotification
     /**
      * @throws \Exception
      */
-    public function handle(
-        $recipientUserId,
-        $title,
-        $body,
-        $image = null,
-        $data = [],
-    )
+    public function handle(array $data = []): void
     {
-        $data = [
-            'notification_id' => 'new_follower',
-            'user' => [
-                'user_id' => $recipientUserId,
-            ],
-            'channels' => [
-                'push' => [
-                    'title' => $title,
-                    'body' => $body,
-                    'data' => $data,
-                ],
-            ],
-        ];
-
         $message = new Message(body: createKafkaPayload(
             topic: 'notifications',
             pattern: 'notifications.send',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\UserFollowings;
 
+use App\Actions\SendPushNotification;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
@@ -9,22 +10,29 @@ class UserFollowController extends Controller
 {
     /**
      * Handle the incoming request.
+     * @throws \Exception
      */
     public function __invoke(User $user)
     {
         auth()->user()->follow($user);
 
-        $data = [
+        (new SendPushNotification())->handle([
             'notification_id' => 'new_follower',
-            'user_id' => $user->id,
-            'notification' => [
-                'title' => 'New Follower',
-                'body' => auth()->user()->name . ' started following you',
+            'user' => [
+                'user_id' => $user->id,
             ],
-            'data' => [
-                'user' => auth()->user()->with('media')->first(),
+            'channels' => [
+                'push' => [
+                    'title' => 'New Follower',
+                    'body' => auth()->user()->name . ' follows you.',
+                    'data' => [
+                        'type' => 'new_follower',
+                        'user' => auth()->user()->with('media')->get(),
+                        'content' => 'follows you.',
+                    ]
+                ]
             ],
-        ];
+        ]);
 
         return response()->json([
             'message' => 'User followed successfully',

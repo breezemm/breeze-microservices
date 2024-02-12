@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\SendPushNotification;
 use App\Enums\BuyerType;
 use App\Enums\GuestInvitationStatus;
 use App\Enums\QRCodeStatus;
@@ -57,8 +58,26 @@ class GuestInvitationController extends Controller
 
             DB::commit();
 
+            (new SendPushNotification())->handle([
+                'notification_id' => 'event_invitation',
+                'user' => [
+                    'user_id' => $user->id,
+                ],
+                'channels' => [
+                    'push' => [
+                        'title' => 'Event Invitation',
+                        'body' => auth()->user()->name . ' invites you to the event.',
+                        'data' => [
+                            'type' => 'event_invitation',
+                            'user' => auth()->user()->with('media')->get(),
+                            'content' => 'invites you to the event.',
+                        ]
+                    ]
+                ]
+            ]);
+
             return response()->json([
-                'message' => 'Invitation sent successfully to '.$user->name.'!',
+                'message' => 'Invitation sent successfully to ' . $user->name . '!',
             ]);
         } catch (\Exception $exception) {
             DB::rollBack();

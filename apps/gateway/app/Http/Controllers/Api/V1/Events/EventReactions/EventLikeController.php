@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Events\EventReactions;
 
+use App\Actions\SendPushNotification;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\JsonResponse;
@@ -15,18 +16,24 @@ class EventLikeController extends Controller
     {
         auth()->user()->like($event);
 
-        $data = [
+        (new SendPushNotification())->handle([
             'notification_id' => 'post_liked',
-            'user_id' => $event->user->id,
-            'notification' => [
-                'title' => 'New Follower',
-                'body' => auth()->user()->name . ' likes your post',
+            'user' => [
+                'user_id' => $event->user->id,
             ],
-            'data' => [
-                'user' => auth()->user()->with('media')->first(),
-                'post_id' => $event->id,
-            ],
-        ];
+            'channels' => [
+                'push' => [
+                    'title' => 'Post Liked',
+                    'body' => auth()->user()->name . ' likes your post.',
+                    'data' => [
+                        'type' => 'new_follower',
+                        'user' => auth()->user()->with('media')->get(),
+                        'content' => 'likes your post.',
+                    ]
+                ]
+            ]
+        ]);
+
 
         return new JsonResponse([
             'message' => 'Event liked successfully',

@@ -39,21 +39,6 @@ use Illuminate\Support\Facades\Route;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 
-Route::middleware('auth:api')->get('/push', function () {
-
-    (new \App\Actions\SendPushNotification())->handle(
-        1,
-        'New Follower',
-        auth()->user()->name . ' not following you',
-        'https://avatars.githubusercontent.com/u/65492233?s=400&u=ce98093c5b78320d3b7e7d11918dc627390b1f4d&v=4',
-        [
-            'follower_id' => 2,
-        ]
-    );
-    return response()->json([
-        'message' => 'User followed successfully',
-    ]);
-});
 
 
 Route::get('/public/timeline', PublicTimelineController::class);
@@ -72,6 +57,7 @@ Route::prefix('users')->group(function () {
     Route::get('/interests', InterestController::class);
     Route::get('/cities', CityListController::class);
 });
+
 
 Route::middleware('auth:api')->prefix('/users')
     ->group(function () {
