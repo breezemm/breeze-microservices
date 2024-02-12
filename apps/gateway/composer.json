@@ -68,11 +68,6 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "setup": [
-            "php artisan migrate:fresh --seed",
-            "php artisan passport:install",
-            "php artisan storage:link"
-        ],
         "test": "pest",
         "format": "./vendor/bin/pint"
     },

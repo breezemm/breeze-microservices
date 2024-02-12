@@ -36,6 +36,25 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserEventCheckInController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Route;
+use Junges\Kafka\Facades\Kafka;
+use Junges\Kafka\Message\Message;
+
+Route::middleware('auth:api')->get('/push', function () {
+
+    (new \App\Actions\SendPushNotification())->handle(
+        1,
+        'New Follower',
+        'You have a new follower',
+        'https://avatars.githubusercontent.com/u/65492233?s=400&u=ce98093c5b78320d3b7e7d11918dc627390b1f4d&v=4',
+        [
+            'follower_id' => 2,
+        ]
+    );
+    return response()->json([
+        'message' => 'User followed successfully',
+    ]);
+});
+
 
 Route::get('/public/timeline', PublicTimelineController::class);
 
