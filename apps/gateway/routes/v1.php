@@ -36,9 +36,8 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserEventCheckInController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Route;
-use Junges\Kafka\Facades\Kafka;
-use Junges\Kafka\Message\Message;
-
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 
 
 Route::get('/public/timeline', PublicTimelineController::class);
@@ -122,4 +121,15 @@ Route::middleware('auth:api')->prefix('event-dashboard')
 
 Route::middleware('auth:api')->prefix('wallets')->group(function () {
     Route::get('/me', GetMyWalletController::class);
+});
+
+Route::middleware('auth:api')->group(function () {
+
+    Route::get('/notifications', function (Request $request) {
+        $response = Http::notification()->get('/notifications', [
+            'user_id' => 1,
+        ]);
+
+        return $response->json();
+    });
 });
