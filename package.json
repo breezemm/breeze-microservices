@@ -35,10 +35,13 @@
     "tsconfig": "workspace:*",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@8.6.10",
   "name": "breeze",
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "contentlayer": "^0.3.4",
+    "next-contentlayer": "^0.3.4"
+  }
 }
