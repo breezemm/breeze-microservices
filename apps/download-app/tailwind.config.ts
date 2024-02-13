@@ -7,12 +7,16 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    listStyleType: {
+      alpha: "lower-alpha",
+      disc: 'disc',
+    },
     colors: {
       primary: "#323334",
       neutral: {
         1: "#FCFCFC",
         7: "#646668",
-        9:"#323334",
+        9: "#323334",
         10: "#191A1A",
       },
       green: {
@@ -32,8 +36,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [require("@tailwindcss/typography")],
 };
 export default config;
