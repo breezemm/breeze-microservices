@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\ProfileImageRequest;
 use App\Http\Requests\V1\Auth\ValidationRequest;
-use App\Jobs\SendEmailVerificationCode;
+use App\Jobs\SendEmailVerificationCodeJob;
 use App\Models\VerificationCode;
 use App\Support\CodeGenerator;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -28,7 +28,7 @@ class ValidationController extends Controller implements ShouldQueue
                 'expires_at' => now()->addMinutes(2),
             ]);
 
-        dispatch(new SendEmailVerificationCode(
+        dispatch(new SendEmailVerificationCodeJob(
             email: $request->email,
             verificationCode: $verificationCode,
         ));
@@ -58,7 +58,7 @@ class ValidationController extends Controller implements ShouldQueue
             'expires_at' => now()->addMinutes(2),
         ]);
 
-        dispatch(new SendEmailVerificationCode(
+        dispatch(new SendEmailVerificationCodeJob(
             email: $request->email,
             verificationCode: $verificationCode,
         ));

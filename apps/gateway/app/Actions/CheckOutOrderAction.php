@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Jobs\SendUserJoinedPushNotificationJob;
 use App\Models\Event;
 use App\Models\Ticket;
 use App\Services\WalletService;
@@ -25,6 +26,22 @@ class CheckOutOrderAction
         $senderUserId = auth()->id();
         $receiverUserId = $event->user->id;
 
+        $ticketPrice = $ticket->ticketType->price;
+
+        $message = new Message(body: createKafkaPayload(
+            topic: 'wallets',
+            pattern: 'wallets.transfer',
+            data: [
+                'sender_user_id' => $senderUserId,
+                'receiver_user_id' => $receiverUserId,
+                'amount' => $ticketPrice,
+            ],
+        ));
+        Kafka::publishOn('wallets')
+            ->withMessage($message)
+            ->send();
+
+
         // send notification to the ticket seller that the ticket has been sold
         (new SendPushNotification())->handle([
             'notification_id' => 'ticket_sold',
@@ -45,20 +62,12 @@ class CheckOutOrderAction
             ],
         ]);
 
+        // Send notification to all the users who joined the event
+        $event->orders()->chunk(100, function ($orders) {
+            foreach ($orders as $order) {
+                SendUserJoinedPushNotificationJob::dispatch($order);
+            }
+        });
 
-        $ticketPrice = $ticket->ticketType->price;
-
-        $message = new Message(body: createKafkaPayload(
-            topic: 'wallets',
-            pattern: 'wallets.transfer',
-            data: [
-                'sender_user_id' => $senderUserId,
-                'receiver_user_id' => $receiverUserId,
-                'amount' => $ticketPrice,
-            ],
-        ));
-        Kafka::publishOn('wallets')
-            ->withMessage($message)
-            ->send();
     }
 }

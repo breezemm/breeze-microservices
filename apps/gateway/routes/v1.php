@@ -123,6 +123,9 @@ Route::middleware('auth:api')->prefix('wallets')->group(function () {
     Route::get('/me', GetMyWalletController::class);
 });
 
+
+
+
 Route::middleware('auth:api')->group(function () {
 
     Route::get('/notifications', function (Request $request) {

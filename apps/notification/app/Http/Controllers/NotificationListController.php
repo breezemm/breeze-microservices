@@ -12,10 +12,11 @@ class NotificationListController extends Controller
     public function index(NotificationListIndexRequest $request)
     {
         $page = $request->input('page', 1);
-        return Cache::remember('notifications' . $page, 60, function () use ($request) {
-            return NotificationList::where('user_id', $request->validated('user_id'))
+        $userId = $request->validated('user_id');
+
+        return Cache::remember($userId . '_notifications_' . $page, 60,
+            fn() => NotificationList::where('user_id', $userId)
                 ->orderBy('created_at', 'desc')
-                ->paginate(10);
-        });
+                ->paginate(10));
     }
 }

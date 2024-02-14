@@ -19,6 +19,8 @@ enum NotificationTypeEnum: string
 
     case TicketSold = 'ticket_sold';
 
+    case EventJoined = 'event_joined';
+
     case EventInvitation = 'event_invitation';
 
     case EventInvitationAccepted = 'event_invitation_accepted';

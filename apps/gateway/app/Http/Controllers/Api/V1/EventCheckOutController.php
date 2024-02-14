@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\CheckOutOrderAction;
-use App\Actions\SendPushNotification;
 use App\Enums\TicketStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCheckOutReqeust;
 use App\Models\Event;
-use App\Models\Order;
 use App\Models\Ticket;
 use App\Services\WalletService;
 use Illuminate\Support\Facades\Cache;
@@ -34,9 +32,10 @@ class EventCheckOutController extends Controller
             $buyerUserId = auth()->id();
             $sellerUserId = $event->user->id;
 
-            Cache::lock($buyerUserId . '_buying_ticket' . $ticket->id)->block(5, function () use ($buyerUserId, $ticket) {
-                $ticket->lockForUpdate()->first();
-            });
+            Cache::lock('event:' . $event->id . ':ticket:' . $ticket->id . ':checkout')
+                ->block(5, function () use ($buyerUserId, $ticket) {
+                    $ticket->lockForUpdate()->first();
+                });
 
             if ($buyerUserId === $sellerUserId) {
                 return response()->json([
@@ -85,14 +84,10 @@ class EventCheckOutController extends Controller
             // We will use the CheckOutOrderAction to handle the checkout process, and then we will send
             // the event and ticket to the handle method of the CheckOutOrderAction
             // so that we can know the wallet and ticket price to be transferred
-            $checkOutAction = new CheckOutOrderAction($this->walletService);
-            $checkOutAction->handle($event, $ticket);
-
+            (new CheckOutOrderAction($this->walletService))
+                ->handle($event, $ticket);
 
             DB::commit();
-
-            // send push notification to the buyers of the ticket
-//            $event->orders()->where()
 
 
             return response()->json([
