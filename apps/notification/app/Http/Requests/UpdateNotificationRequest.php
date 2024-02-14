@@ -22,7 +22,7 @@ class UpdateNotificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'exists:users,user_id'],
+            'user_id' => ['required', 'integer', 'exists:users,user_id'],
         ];
     }
 }

@@ -21,11 +21,6 @@ class NotificationList extends Model
     ];
 
 
-    public function scopeMarkedAsRead(): void
-    {
-        $this->update(['is_read' => true]);
-    }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
