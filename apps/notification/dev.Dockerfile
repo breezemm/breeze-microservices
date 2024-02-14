@@ -64,6 +64,7 @@ COPY ./apps/notification/docker/dev/start-container /usr/local/bin/start-contain
 
 COPY ./apps/notification/docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+
 RUN chmod +x /usr/local/bin/start-container
 
 

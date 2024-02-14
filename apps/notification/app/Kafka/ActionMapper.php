@@ -2,8 +2,10 @@
 
 namespace App\Kafka;
 
+use App\Enums\TokenType;
 use App\Jobs\SendFirebasePushNotification;
 use App\Models\NotificationList;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -20,6 +22,7 @@ class ActionMapper
                         try {
                             DB::beginTransaction();
                             $userId = $data['user']['user_id'];
+
                             $message = [
                                 'uuid' => Str::uuid(),
                                 ...$data,
@@ -29,7 +32,31 @@ class ActionMapper
                                 'message' => $data['channels'],
                             ]);
                             DB::commit();
-                            SendFirebasePushNotification::dispatch($message);
+
+
+                            $tokens = collect(User::where('user_id', $userId)
+                                ->select('push_tokens')
+                                ->get()
+                                ->pluck('push_tokens')
+                                ->toArray())
+                                ->flatten(1)
+                                ->map(function ($token) {
+                                    if ($token['type'] === TokenType::FIREBASE->value) {
+                                        return $token['token'];
+                                    }
+                                    return false;
+                                })
+                                ->toArray();
+
+
+                            foreach ($tokens as $token) {
+                                $message = [
+                                    'uuid' => Str::uuid(),
+                                    ...$data,
+                                    'token' => $token,
+                                ];
+                                SendFirebasePushNotification::dispatch($message);
+                            }
                         } catch (\Exception $e) {
                             DB::rollBack();
                             Log::error('Error sending notification: ' . $e->getMessage());
