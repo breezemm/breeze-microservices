@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-composer install
-composer migrate:fresh  --seed
+php artisan migrate:fresh --seed
 php artisan passport:install --force
+php artisan storage:link
+
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

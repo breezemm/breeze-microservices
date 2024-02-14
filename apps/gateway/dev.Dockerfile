@@ -3,6 +3,9 @@ FROM dunglas/frankenphp:alpine
 ARG uid
 ARG user
 
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN adduser -D -u $uid -g '' $user && \
@@ -12,9 +15,7 @@ RUN adduser -D -u $uid -g '' $user && \
 
 WORKDIR /var/www/gateway
 
-COPY ./apps/gateway .
 
-COPY ./packages .
 
 RUN apk update && apk add --no-cache \
     libzip-dev \
@@ -23,7 +24,12 @@ RUN apk update && apk add --no-cache \
     supervisor \
     g++ \
     make \
-    autoconf
+    autoconf \
+    nodejs \
+    npm
+
+
+RUN npm install pnpm --global
 
 
 RUN apk del autoconf g++ make && \
@@ -46,13 +52,20 @@ COPY ./apps/gateway/docker/dev/octane.ini /usr/local/etc/php/octane.ini
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+COPY ./apps/gateway .
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+
 RUN composer install
+
 
 COPY ./apps/gateway/docker/dev/start-container /usr/local/bin/start-container
 
 COPY ./apps/gateway/docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN chmod +x /usr/local/bin/start-container
+
 
 EXPOSE 80
 #EXPOSE 443
@@ -62,3 +75,5 @@ EXPOSE 80
 ENTRYPOINT ["start-container"]
 
 HEALTHCHECK --start-period=5s --interval=2s --timeout=5s --retries=8 CMD php artisan octane:status || exit 1
+
+VOLUME /var/www/gateway
