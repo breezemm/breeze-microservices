@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserIdentifyRequest extends FormRequest
+class StoreTokenRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,6 +12,12 @@ class UserIdentifyRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+
+    public function user($guard = null)
+    {
+        return \App\Models\User::where('user_id', $this->user_id)->first();
     }
 
     /**
@@ -22,14 +28,9 @@ class UserIdentifyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|unique:users,user_id', // The ID of the user in your system. Required.
-            'email' => 'nullable|email',
-            'phone_number' => 'nullable|regex:/^\+[1-9]\d{1,14}$/',
-
-            'push_tokens' => 'nullable|array',
-            'push_tokens.*.type' => 'required|in:FCM,APN',
-            'push_tokens.*.token' => 'required|string',
-
+            'user_id' => 'required|exists:users,user_id',
+            'token' => 'required|string',
+            'type' => 'required|string|in:FCM,APN'
         ];
     }
 }

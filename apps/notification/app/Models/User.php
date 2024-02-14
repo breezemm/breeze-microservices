@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use App\Enums\TokenType;
 
 class User extends Authenticatable
 {
@@ -23,14 +22,12 @@ class User extends Authenticatable
         'email',
         'phone_number',
         'push_tokens',
-        'web_push_tokens',
         'settings',
     ];
 
     protected $casts = [
         'settings' => 'array',
         'push_tokens' => 'array',
-        'web_push_tokens' => 'array',
     ];
 
 

@@ -36,9 +36,22 @@ class SendFirebasePushNotification implements ShouldQueue, ShouldBeUnique
     function handle(Messaging $messaging): void
     {
 
+        if (isset($this->data['topic'])) {
+            $topicMessage = CloudMessage::withTarget('topic', $this->data['topic'])
+                ->withNotification([
+                    'title' => $this->data['channels']['push']['title'],
+                    'body' => $this->data['channels']['push']['body'],
+                    'image' => $this->data['channels']['push']['image'] ?? null,
+                ])
+                ->withData($this->data['data'] ?? []);
+
+            $messaging->send($topicMessage);
+            return;
+        }
+
+
         $topicMessage = CloudMessage::fromArray([
             'token' => $this->data['token'],
-//            'topic' => $this->data['notification_id'],
             'notification' => [
                 'title' => $this->data['channels']['push']['title'],
                 'body' => $this->data['channels']['push']['body'],

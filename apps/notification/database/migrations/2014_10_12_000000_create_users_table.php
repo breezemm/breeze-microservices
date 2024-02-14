@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->string('email')->unique()->nullable();
             $table->string('phone_number')->unique()->nullable();
             $table->json('push_tokens')->nullable();
-            $table->json('web_push_tokens')->nullable();
             $table->json('settings');
             $table->timestamps();
 
