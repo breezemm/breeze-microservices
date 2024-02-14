@@ -25,6 +25,7 @@ class UserIdentifyRequest extends FormRequest
             'user_id' => 'required|unique:users,user_id', // The ID of the user in your system. Required.
             'email' => 'nullable|email',
             'phone_number' => 'nullable|regex:/^\+[1-9]\d{1,14}$/',
+
             'push_tokens' => 'nullable|array',
             'push_tokens.*.type' => 'required|in:FCM,APN',
             'push_tokens.*.token' => 'required|string',
@@ -35,6 +36,7 @@ class UserIdentifyRequest extends FormRequest
             'push_tokens.*.device.platform' => 'nullable|in:android,ios',
             'push_tokens.*.device.manufacturer' => 'nullable|string',
             'push_tokens.*.device.model' => 'nullable|string',
+
             'web_push_tokens' => 'nullable|array',
             'web_push_tokens.*.sub' => 'required|array',
             'web_push_tokens.*.sub.endpoint' => 'required|string',

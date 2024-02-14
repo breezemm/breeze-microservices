@@ -22,7 +22,7 @@ class NotificationListIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|integer',
+            'user_id' => 'required|exists:users,user_id',
         ];
     }
 }
