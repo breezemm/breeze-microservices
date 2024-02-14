@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\CheckOutOrderAction;
-use App\Actions\SendPushNotification;
 use App\Enums\TicketStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCheckOutReqeust;
 use App\Models\Event;
-use App\Models\Order;
 use App\Models\Ticket;
 use App\Services\WalletService;
 use Illuminate\Support\Facades\Cache;
@@ -34,9 +32,10 @@ class EventCheckOutController extends Controller
             $buyerUserId = auth()->id();
             $sellerUserId = $event->user->id;
 
-            Cache::lock($buyerUserId . '_buying_ticket' . $ticket->id)->block(5, function () use ($buyerUserId, $ticket) {
-                $ticket->lockForUpdate()->first();
-            });
+            Cache::lock('event:' . $event->id . ':ticket:' . $ticket->id . ':checkout')
+                ->block(5, function () use ($buyerUserId, $ticket) {
+                    $ticket->lockForUpdate()->first();
+                });
 
             if ($buyerUserId === $sellerUserId) {
                 return response()->json([

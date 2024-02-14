@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Jobs\SendUserJoinedPushNotificationJob;
 use App\Models\Event;
 use App\Models\Ticket;
 use App\Services\WalletService;
@@ -64,24 +65,7 @@ class CheckOutOrderAction
         // Send notification to all the users who joined the event
         $event->orders()->chunk(100, function ($orders) {
             foreach ($orders as $order) {
-                (new SendPushNotification())->handle([
-                    'notification_id' => 'event_joined',
-                    'user' => [
-                        'user_id' => $order->user_id,
-                    ],
-                    'channels' => [
-                        'push' => [
-                            'title' => 'Join Event',
-                            'body' => auth()->user()->name . ' joins ' . $order->event->name . ' event.',
-                            'data' => [
-                                'type' => 'event_joined',
-                                'user' => auth()->user()->with('media')->get(),
-                                'content' => 'joins',
-                                'event' => $order->event,
-                            ]
-                        ]
-                    ],
-                ]);
+                SendUserJoinedPushNotificationJob::dispatch($order);
             }
         });
 
