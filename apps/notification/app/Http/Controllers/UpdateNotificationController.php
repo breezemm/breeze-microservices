@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\NotificationType;
-use App\Http\Requests\UpdateNotificationSettingsRequest;
-use App\Models\User;
+use App\Http\Requests\UpdateNotificationRequest;
+use App\Models\NotificationList;
+
 
 class UpdateNotificationController extends Controller
 {
-    public function __invoke(UpdateNotificationSettingsRequest $request)
+    public function __invoke(UpdateNotificationRequest $request, NotificationList $notification)
     {
-        $data = $request->validated();
 
-        $user = User::where('user_id', $data['user_id'])->first();
-        $notificationTypes = collect($data['notification_types']);
+        if ($notification->user_id !== $request->user_id) {
+            return response()->json([
+                'message' => 'You are not authorized to update this notification'
+            ], 403);
+        }
 
-        $notificationTypes->each(function ($notificationType) use ($user) {
-            $user->notificationTypes()->update([
-                'settings' => $notificationType['settings']
-            ]);
-        });
+        $notification->markedAsRead();
 
+        return response()->json([
+            'message' => 'Notification has been updated'
+        ]);
     }
 }

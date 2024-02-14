@@ -11,6 +11,8 @@ use App\Http\Controllers\UpdateNotificationController;
 Route::prefix('/notifications')->group(function () {
 
     Route::post('/', [NotificationListController::class, 'index']);
+    Route::post('/{notification_list}/read', UpdateNotificationController::class);
+
 
     Route::post('/send', SendNotificationController::class);
     Route::put('/tokens', StoreTokenController::class);
@@ -19,5 +21,6 @@ Route::prefix('/notifications')->group(function () {
 
     Route::post('/users/identify', CreateNewUserController::class);
 });
+
 
 
