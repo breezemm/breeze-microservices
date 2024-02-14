@@ -39,11 +39,11 @@ class StoreTokenController extends Controller
                 ]
             ];
             $user->save();
+
             return response()->json(['message' => 'Push token added successfully']);
         } catch (MessagingException|FirebaseException $e) {
             return response()->json(['message' => 'Invalid push token'], 422);
         }
-
 
     }
 }
