@@ -8,14 +8,17 @@ use App\Http\Controllers\StoreTokenController;
 use App\Http\Controllers\UpdateNotificationController;
 
 
-Route::post('/users/identify', CreateNewUserController::class);
 
 Route::prefix('/notifications')->group(function () {
+
     Route::post('/', [NotificationListController::class, 'index']);
 
     Route::post('/send', SendNotificationController::class);
-    Route::post('/types/create', CreateNotificationTypeController::class);
     Route::put('tokens', StoreTokenController::class);
+
+    Route::post('/types', CreateNotificationTypeController::class);
+
+    Route::post('/users/identify', CreateNewUserController::class);
 });
 
 
