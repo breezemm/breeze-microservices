@@ -6,7 +6,7 @@ use App\Models\User;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 
-class IdentifyUser
+class IdentifyUserAction
 {
     /**
      * @throws \Exception

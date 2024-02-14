@@ -125,7 +125,6 @@ Route::middleware('auth:api')->prefix('wallets')->group(function () {
 
 
 
-
 Route::middleware('auth:api')->group(function () {
 
     Route::get('/notifications', function (Request $request) {
