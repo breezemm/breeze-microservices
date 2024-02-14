@@ -25,6 +25,22 @@ class CheckOutOrderAction
         $senderUserId = auth()->id();
         $receiverUserId = $event->user->id;
 
+        $ticketPrice = $ticket->ticketType->price;
+
+        $message = new Message(body: createKafkaPayload(
+            topic: 'wallets',
+            pattern: 'wallets.transfer',
+            data: [
+                'sender_user_id' => $senderUserId,
+                'receiver_user_id' => $receiverUserId,
+                'amount' => $ticketPrice,
+            ],
+        ));
+        Kafka::publishOn('wallets')
+            ->withMessage($message)
+            ->send();
+
+
         // send notification to the ticket seller that the ticket has been sold
         (new SendPushNotification())->handle([
             'notification_id' => 'ticket_sold',
@@ -45,20 +61,29 @@ class CheckOutOrderAction
             ],
         ]);
 
+        // Send notification to all the users who joined the event
+        $event->orders()->chunk(100, function ($orders) {
+            foreach ($orders as $order) {
+                (new SendPushNotification())->handle([
+                    'notification_id' => 'event_joined',
+                    'user' => [
+                        'user_id' => $order->user_id,
+                    ],
+                    'channels' => [
+                        'push' => [
+                            'title' => 'Join Event',
+                            'body' => auth()->user()->name . ' joins ' . $order->event->name . ' event.',
+                            'data' => [
+                                'type' => 'event_joined',
+                                'user' => auth()->user()->with('media')->get(),
+                                'content' => 'joins',
+                                'event' => $order->event,
+                            ]
+                        ]
+                    ],
+                ]);
+            }
+        });
 
-        $ticketPrice = $ticket->ticketType->price;
-
-        $message = new Message(body: createKafkaPayload(
-            topic: 'wallets',
-            pattern: 'wallets.transfer',
-            data: [
-                'sender_user_id' => $senderUserId,
-                'receiver_user_id' => $receiverUserId,
-                'amount' => $ticketPrice,
-            ],
-        ));
-        Kafka::publishOn('wallets')
-            ->withMessage($message)
-            ->send();
     }
 }
