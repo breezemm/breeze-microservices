@@ -54,16 +54,16 @@ This event is used to send a notification to a user. The event payload should be
 ]
 ```
 
-| Field               | Type   | Description                                                                                                  | Required |
-|---------------------|--------|--------------------------------------------------------------------------------------------------------------|----------|
-| notification_id     | string | The  [Notification Types](#notification-types). This is used to send the notification type of the user.      | ✅        |                        
-| user                | array  | The user to send the notification to. This should contain the user id.                                       | ✅        |
-| channels            | array  | The channels to send the notification to. This should contain the channel type and the notification payload. | ✅        |
-| channels.push       | array  | The push notification payload.                                                                               | ✅        |
-| channels.push.title | string | The title of the push notification.                                                                          | ✅        |
-| channels.push.body  | string | The body of the push notification.                                                                           | ✅        |
-| channels.push.image | string | The image URL                                                                                                | Optional |
-| channels.push.data  | array  | The data to send with the push notification.                                                                 | Optional |
+| Field               | Type   | Description                                                                                                                             | Required |
+|---------------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------|----------|
+| notification_id     | string | The  [Notification ID](#notification-types) is used to send the notification type of the user who is subscribed to that notifcation ID. | ✅        |                        
+| user                | array  | The user to send the notification to. This should contain the user id.                                                                  | ✅        |
+| channels            | array  | The channels to send the notification to. This should contain the channel type and the notification payload.                            | ✅        |
+| channels.push       | array  | The push notification payload.                                                                                                          | ✅        |
+| channels.push.title | string | The title of the push notification.                                                                                                     | ✅        |
+| channels.push.body  | string | The body of the push notification.                                                                                                      | ✅        |
+| channels.push.image | string | The image URL                                                                                                                           | Optional |
+| channels.push.data  | array  | The data to send with the push notification.                                                                                            | Optional |
 
 ## [Notification Types](#notification-types)
 
