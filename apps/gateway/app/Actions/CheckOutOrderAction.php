@@ -54,7 +54,7 @@ class CheckOutOrderAction
                     'body' => auth()->user()->name . ' joins ' . $event->name . ' event.',
                     'data' => [
                         'type' => 'ticket_sold',
-                        'user' => auth()->user()->with('media')->get(),
+                        'user' => auth()->user()->load('media'),
                         'content' => 'joins',
                         'event' => $event,
                     ]

@@ -15,9 +15,7 @@ class SendPushNotification
         $message = new Message(body: createKafkaPayload(
             topic: 'notifications',
             pattern: 'notifications.send',
-            data: [
-                ...$data,
-            ],
+            data: $data,
         ));
 
         Kafka::publishOn('notifications')

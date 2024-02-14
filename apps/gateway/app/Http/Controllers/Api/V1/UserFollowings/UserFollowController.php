@@ -42,7 +42,7 @@ class UserFollowController extends Controller
                     'body' => auth()->user()->name . ' follows you.',
                     'data' => [
                         'type' => 'new_follower',
-                        'user' => auth()->user()->with('media')->get(),
+                        'user' => auth()->user()->load('media'),
                         'content' => 'follows you.',
                     ]
                 ]
