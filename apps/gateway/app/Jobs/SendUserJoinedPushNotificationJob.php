@@ -25,6 +25,7 @@ class SendUserJoinedPushNotificationJob implements ShouldQueue, ShouldBeUnique
 
     /**
      * Execute the job.
+     * @throws \Exception
      */
     public function handle(): void
     {
@@ -39,7 +40,7 @@ class SendUserJoinedPushNotificationJob implements ShouldQueue, ShouldBeUnique
                     'body' => auth()->user()->name . ' joins ' . $this->order->event->name . ' event.',
                     'data' => [
                         'type' => 'event_joined',
-                        'user' => auth()->user()->with('media')->get(),
+                        'user' => auth()->user()->load('media'),
                         'content' => 'joins',
                         'event' => $this->order->event,
                     ]

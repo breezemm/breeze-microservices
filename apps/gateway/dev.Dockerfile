@@ -64,9 +64,6 @@ COPY ./apps/gateway/docker/dev/start-container /usr/local/bin/start-container
 
 COPY ./apps/gateway/docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN php artisan migrate:fresh --seed
-RUN php artisan passport:install --force
-RUN php artisan storage:link
 
 RUN chmod +x /usr/local/bin/start-container
 

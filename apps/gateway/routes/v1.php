@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\EventSeatingPlanController;
+use App\Http\Controllers\GetAllNotificationController;
 use App\Http\Controllers\GetMyWalletController;
 use App\Http\Controllers\GuestInvitationController;
 use App\Http\Controllers\GuestListController;
@@ -124,14 +125,6 @@ Route::middleware('auth:api')->prefix('wallets')->group(function () {
 });
 
 
-
 Route::middleware('auth:api')->group(function () {
-
-    Route::get('/notifications', function (Request $request) {
-        $response = Http::notification()->get('/notifications', [
-            'user_id' => 1,
-        ]);
-
-        return $response->json();
-    });
+    Route::get('/notifications', GetAllNotificationController::class);
 });
