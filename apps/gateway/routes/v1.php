@@ -33,13 +33,12 @@ use App\Http\Controllers\GetAllNotificationController;
 use App\Http\Controllers\GetMyWalletController;
 use App\Http\Controllers\GuestInvitationController;
 use App\Http\Controllers\GuestListController;
+use App\Http\Controllers\MarkedAsReadController;
 use App\Http\Controllers\ShowEventRevenueController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserEventCheckInController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Request;
 
 
 Route::get('/public/timeline', PublicTimelineController::class);
@@ -129,4 +128,5 @@ Route::middleware('auth:api')->prefix('wallets')->group(function () {
 Route::middleware('auth:api')->group(function () {
     Route::get('/notifications', GetAllNotificationController::class);
     Route::post('/notifications/tokens', AddFirebaseToken::class);
+    Route::post('/notifications/{notificationId}/read', MarkedAsReadController::class);
 });
