@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddFirebaseToken;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\InterestController;
 use App\Http\Controllers\Api\V1\Auth\ValidationController;
@@ -127,4 +128,5 @@ Route::middleware('auth:api')->prefix('wallets')->group(function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/notifications', GetAllNotificationController::class);
+    Route::post('/notifications/tokens', AddFirebaseToken::class);
 });
