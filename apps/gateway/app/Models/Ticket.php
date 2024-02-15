@@ -12,6 +12,7 @@ class Ticket extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'phase_id',
         'ticket_type_id',
         'seat_number',
@@ -21,6 +22,11 @@ class Ticket extends Model
     protected $casts = [
         'status' => TicketStatus::class,
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function phase(): BelongsTo
     {

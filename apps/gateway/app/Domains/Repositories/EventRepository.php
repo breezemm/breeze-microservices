@@ -39,6 +39,7 @@ class EventRepository
                             //                            then we will create the ticket based on the total seats
                             foreach (range(1, $totalSeats) as $seatNumber) {
                                 Ticket::create([
+                                    'user_id' => auth()->id(),
                                     'phase_id' => $ticketType->phase_id,
                                     'ticket_type_id' => $ticketType->id,
                                     'seat_number' => $seatNumber,
@@ -49,6 +50,7 @@ class EventRepository
                             //                            then we will create the ticket based on the total seats
                             //                            this can also apply to the ticket that is free
                             Ticket::create([
+                                'user_id' => auth()->id(),
                                 'phase_id' => $ticketType->phase_id,
                                 'ticket_type_id' => $ticketType->id,
                                 'seat_number' => null,
