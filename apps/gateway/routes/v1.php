@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\V1\Timeline\TimelineController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\EventSeatingPlanController;
+use App\Http\Controllers\GetAllCommentLikers;
 use App\Http\Controllers\GetAllNotificationController;
 use App\Http\Controllers\GetMyWalletController;
 use App\Http\Controllers\GuestInvitationController;
@@ -107,6 +108,7 @@ Route::middleware('auth:api')->prefix('events')
         Route::post('/{event}/comments/{comment}/like', CommentLikeController::class);
         Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);
 
+        Route::get('/{event}/comments/{comment}/likers', GetAllCommentLikers::class);
     });
 
 Route::middleware('auth:api')->group(function () {
