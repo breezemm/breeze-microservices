@@ -81,11 +81,11 @@ class EventCheckOutController extends Controller
             }
 
 
-            // We will use the CheckOutOrderAction to handle the checkout process, and then we will send
-            // the event and ticket to the handle method of the CheckOutOrderAction
-            // so that we can know the wallet and ticket price to be transferred
-            (new CheckOutOrderAction($this->walletService))
-                ->handle($event, $ticket);
+            /** We will use the CheckOutOrderAction to handle the checkout process, and then we will send
+             * the event and ticket to the handle method of the CheckOutOrderAction
+             * so that we can know the wallet and ticket price to be transferred
+             **/
+            (new CheckOutOrderAction($this->walletService))->handle($event, $ticket);
 
             DB::commit();
 

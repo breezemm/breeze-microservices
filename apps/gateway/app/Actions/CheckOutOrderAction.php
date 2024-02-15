@@ -9,10 +9,10 @@ use App\Services\WalletService;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 
-class CheckOutOrderAction
+readonly class CheckOutOrderAction
 {
     public function __construct(
-        public readonly WalletService $walletService
+        public WalletService $walletService
     )
     {
     }

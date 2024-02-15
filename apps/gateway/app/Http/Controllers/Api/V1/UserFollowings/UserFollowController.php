@@ -30,7 +30,6 @@ class UserFollowController extends Controller
 
         auth()->user()->follow($user);
 
-
         (new SendPushNotification())->handle([
             'notification_id' => 'new_follower',
             'user' => [

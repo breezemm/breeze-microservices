@@ -37,7 +37,7 @@ class SendUserJoinedPushNotificationJob implements ShouldQueue, ShouldBeUnique
             'channels' => [
                 'push' => [
                     'title' => 'Join Event',
-                    'body' => auth()->user()->name . ' joins ' . $this->order->event->name . ' event.',
+                    'body' => auth()->user()->name . ' joins ' . $this->order->event->name,
                     'data' => [
                         'type' => 'event_joined',
                         'user' => auth()->user()->load('media'),

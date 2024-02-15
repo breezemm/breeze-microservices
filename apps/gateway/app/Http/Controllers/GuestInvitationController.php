@@ -69,8 +69,10 @@ class GuestInvitationController extends Controller
                         'body' => auth()->user()->name . ' invites you to the event.',
                         'data' => [
                             'type' => 'event_invitation',
-                            'user' => auth()->user()->with('media')->get(),
+                            'user' => auth()->user()->load('media'),
                             'content' => 'invites you to the event.',
+                            'event' => $event,
+                            'ticket_id' => $request->validated('ticket_id'),
                         ]
                     ]
                 ]
