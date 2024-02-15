@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AcceptGuestInvitationController;
 use App\Http\Controllers\AddFirebaseToken;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\InterestController;
@@ -80,10 +81,10 @@ Route::middleware('auth:api')
         Route::get('/suggested-friends', FriendSuggestionController::class);
 
         Route::apiResource('/orders', OrderController::class)->only(['index', 'show']);
-        Route::post('/checkout', EventCheckOutController::class);
 
-//        TODO: Add the following routes
-        Route::post('/accept-invitation', [GuestInvitationController::class, 'accept']);
+
+        Route::post('/checkout', EventCheckOutController::class);
+        Route::post('/accept-invitation', AcceptGuestInvitationController::class);
     });
 
 Route::middleware('auth:api')->prefix('events')
@@ -134,4 +135,4 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/notifications/{notificationId}/read', MarkedAsReadController::class);
 });
 
-// TODO: event_joined, event_invitation_accepted, wallet_cash_in, wallet_cash_out, wallet_transfer
+// TODO: event_joined, wallet_cash_in, wallet_cash_out, wallet_transfer
