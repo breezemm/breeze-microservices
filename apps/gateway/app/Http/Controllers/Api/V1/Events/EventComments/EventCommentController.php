@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCommentRequest;
 use App\Models\Event;
 
+// TODO: refactor this class
 class EventCommentController extends Controller
 {
     /**
@@ -15,7 +16,9 @@ class EventCommentController extends Controller
     public function __invoke(Event $event, CreateCommentRequest $createCommentReqeust)
     {
 
+
         if (!$createCommentReqeust->parent_id) {
+
             (new SendPushNotification())->handle([
                 'notification_id' => 'post_commented',
                 'user' => [
@@ -27,32 +30,41 @@ class EventCommentController extends Controller
                         'body' => auth()->user()->name . ' commented on your post.',
                         'data' => [
                             'type' => 'post_commented',
-                            'user' => auth()->user()->with('media')->get(),
+                            'user' => auth()->user()->load('media'),
                             'content' => 'commented on your post.',
                         ]
                     ]
-                ]
+                ],
             ]);
+
         } else {
             $parentComment = $event->comments()->find($createCommentReqeust->parent_id);
+
+            if ($parentComment->user->id === auth()->id()) {
+                return response()->json([
+                    'message' => 'You can not reply to your own comment',
+                ], 422);
+            }
+
             (new SendPushNotification())->handle([
-                'notification_id' => 'comment_replied',
+                'notification_id' => 'post_commented',
                 'user' => [
                     'user_id' => $parentComment->user->id,
                 ],
                 'channels' => [
                     'push' => [
-                        'title' => 'Comment Replied',
-                        'body' => auth()->user()->name . ' replies you.',
+                        'title' => 'Post Replied',
+                        'body' => auth()->user()->name . ' replied you',
                         'data' => [
-                            'type' => 'comment_replied',
-                            'user' => auth()->user()->with('media')->get(),
+                            'type' => 'post_commented',
+                            'user' => auth()->user()->load('media'),
                             'content' => 'replies you.',
                         ]
                     ]
-                ]
+                ],
             ]);
         }
+
 
         $event->comments()->create([
             'comment' => $createCommentReqeust->comment,

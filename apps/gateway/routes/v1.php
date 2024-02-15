@@ -81,6 +81,9 @@ Route::middleware('auth:api')
 
         Route::apiResource('/orders', OrderController::class)->only(['index', 'show']);
         Route::post('/checkout', EventCheckOutController::class);
+
+//        TODO: Add the following routes
+        Route::post('/accept-invitation', [GuestInvitationController::class, 'accept']);
     });
 
 Route::middleware('auth:api')->prefix('events')
@@ -130,3 +133,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/notifications/tokens', AddFirebaseToken::class);
     Route::post('/notifications/{notificationId}/read', MarkedAsReadController::class);
 });
+
+// TODO: event_joined, event_invitation_accepted, wallet_cash_in, wallet_cash_out, wallet_transfer

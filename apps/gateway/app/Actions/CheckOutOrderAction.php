@@ -51,7 +51,7 @@ readonly class CheckOutOrderAction
             'channels' => [
                 'push' => [
                     'title' => 'Ticket Sold',
-                    'body' => auth()->user()->name . ' joins ' . $event->name . ' event.',
+                    'body' => auth()->user()->name . ' bought ' . $event->name . ' event.',
                     'data' => [
                         'type' => 'ticket_sold',
                         'user' => auth()->user()->load('media'),

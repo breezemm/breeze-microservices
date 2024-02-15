@@ -59,13 +59,11 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN composer install
 
-COPY scripts/wait-for-it.sh /usr/local/bin/wait-for-it
 
 COPY ./apps/gateway/docker/dev/start-container /usr/local/bin/start-container
 
 COPY ./apps/gateway/docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN chmod +x /usr/local/bin/wait-for-it
 
 RUN chmod +x /usr/local/bin/start-container
 

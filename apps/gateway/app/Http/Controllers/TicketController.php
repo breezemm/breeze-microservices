@@ -19,7 +19,10 @@ class TicketController extends Controller
                     ->with('user')
                     ->first() ?? [
                     'ticket' => $ticket
-                        ->with('ticketType.phase.event.media')
+                        ->with([
+                            'phase.event.media',
+                            'ticketType.phase.event.user.media',
+                        ])
                         ->first(),
                 ],
         ]);
