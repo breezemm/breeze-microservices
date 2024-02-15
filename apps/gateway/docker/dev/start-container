@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
+set -e
 
+wait-for-it.sh -t zookeeper-test:2181
+wait-for-it.sh -t kafka:9092
 
 composer setup
+
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
