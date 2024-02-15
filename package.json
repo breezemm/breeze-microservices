@@ -38,7 +38,8 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "research/*"
+    "research/*",
+    "docs/*"
   ],
   "dependencies": {
     "contentlayer": "^0.3.4",
