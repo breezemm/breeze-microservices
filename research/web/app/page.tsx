@@ -1,25 +1,13 @@
-"use client";
-import Image from "next/image";
-import { Card } from "ui";
-import styles from "./page.module.css";
-import {
-  requestPermission,
-  requestToken,
-  subscribeTokenToTopic,
-} from "../lib/firebase";
-import { useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+'use client'
+import Image from 'next/image'
+import { Card } from 'ui'
+import styles from './page.module.css'
+import { requestPermission, requestToken, subscribeTokenToTopic } from '../lib/firebase'
+import { useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-function Gradient({
-  conic,
-  className,
-  small,
-}: {
-  small?: boolean;
-  conic?: boolean;
-  className?: string;
-}): JSX.Element {
+function Gradient({ conic, className, small }: { small?: boolean; conic?: boolean; className?: string }): JSX.Element {
   return (
     <span
       className={[
@@ -29,53 +17,52 @@ function Gradient({
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
     />
-  );
+  )
 }
 
 const LINKS = [
   {
-    title: "Docs",
-    href: "https://turbo.build/repo/docs",
-    description: "Find in-depth information about Turborepo features and API.",
+    title: 'Docs',
+    href: 'https://turbo.build/repo/docs',
+    description: 'Find in-depth information about Turborepo features and API.',
   },
   {
-    title: "Learn",
-    href: "https://turbo.build/repo/docs/handbook",
-    description: "Learn more about monorepos with our handbook.",
+    title: 'Learn',
+    href: 'https://turbo.build/repo/docs/handbook',
+    description: 'Learn more about monorepos with our handbook.',
   },
   {
-    title: "Templates",
-    href: "https://turbo.build/repo/docs/getting-started/from-example",
-    description: "Choose from over 15 examples and deploy with a single click.",
+    title: 'Templates',
+    href: 'https://turbo.build/repo/docs/getting-started/from-example',
+    description: 'Choose from over 15 examples and deploy with a single click.',
   },
   {
-    title: "Deploy",
-    href: "https://vercel.com/new",
-    description:
-      " Instantly deploy your Turborepo to a shareable URL with Vercel.",
+    title: 'Deploy',
+    href: 'https://vercel.com/new',
+    description: ' Instantly deploy your Turborepo to a shareable URL with Vercel.',
   },
-];
+]
 
 export default function Page() {
   useEffect(() => {
     const init = async () => {
-      const isGranted = await requestPermission();
+      const isGranted = await requestPermission()
       if (isGranted) {
-        const token = await requestToken();
+        const token = await requestToken()
         if (token) {
-          subscribeTokenToTopic(token, "all");
+          subscribeTokenToTopic(token, 'all')
           console.table({
             token,
-          });
+          })
         }
       } else {
-        console.log("Permission not granted");
+        console.log('Permission not granted')
       }
-    };
-    init();
-  }, []);
+    }
+    init()
+  }, [])
   return (
     <main className={styles.main}>
       <ToastContainer />
@@ -90,15 +77,8 @@ export default function Page() {
             rel="noopener noreferrer"
             target="_blank"
           >
-            By{" "}
-            <Image
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              height={24}
-              priority
-              src="/vercel.svg"
-              width={100}
-            />
+            By{' '}
+            <Image alt="Vercel Logo" className={styles.vercelLogo} height={24} priority src="/vercel.svg" width={100} />
           </a>
         </div>
       </div>
@@ -107,25 +87,14 @@ export default function Page() {
         <div className={styles.heroContent}>
           <div className={styles.logos}>
             <div className={styles.circles}>
-              <Image
-                alt="Turborepo"
-                height={614}
-                src="circles.svg"
-                width={614}
-              />
+              <Image alt="Turborepo" height={614} src="circles.svg" width={614} />
             </div>
             <div className={styles.logoGradientContainer}>
               <Gradient className={styles.logoGradient} conic small />
             </div>
 
             <div className={styles.logo}>
-              <Image
-                alt=""
-                height={120}
-                priority
-                src="turborepo.svg"
-                width={120}
-              />
+              <Image alt="" height={120} priority src="turborepo.svg" width={120} />
             </div>
           </div>
           <Gradient className={styles.backgroundGradient} conic />
@@ -159,5 +128,5 @@ export default function Page() {
         ))}
       </div>
     </main>
-  );
+  )
 }

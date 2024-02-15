@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react'
 
 export function Card({
   className,
@@ -6,10 +6,10 @@ export function Card({
   children,
   href,
 }: {
-  className?: string;
-  title: string;
-  children: React.ReactNode;
-  href: string;
+  className?: string
+  title: string
+  children: React.ReactNode
+  href: string
 }): JSX.Element {
   return (
     <a
@@ -23,5 +23,5 @@ export function Card({
       </h2>
       <p>{children}</p>
     </a>
-  );
+  )
 }
