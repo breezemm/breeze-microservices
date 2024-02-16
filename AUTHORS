@@ -1,4 +1,4 @@
-This is a list of authors/contributors to the mgmt project.
+This is a list of authors/contributors to the Breeze project.
 If you're a core contributor, we might ask you to send a patch with your name.
 If you appreciate the work of one of the contributors, thank them a beverage!
 For a more exhaustive list please run: git log --format='%aN' | sort -u
@@ -8,8 +8,5 @@ Aung Myat Moe
 Kaung Myat Thu
 Min Kaung Kyaw
 Thet Paing Hein
-Turbobot
-dependabot[bot]
-minkgkyaw
 ngwe_sin_sandar
 
