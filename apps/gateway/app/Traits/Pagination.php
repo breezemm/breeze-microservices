@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Traits;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1\Timeline;
 
-use App\Enums\ActionType;
+use App\Enums\UserActionTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\User;
-use App\Pagination;
+use App\Traits\Pagination;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -22,8 +22,8 @@ class ProfileTimeline extends Controller
 
         $latestActions = Activity::selectRaw('MAX(id) as id')
             ->where('user_id', $user->id)
-            ->whereIn('action_type', [ActionType::Repost])
-            ->orWhereNotIn('action_type', [ActionType::Repost])
+            ->whereIn('action_type', [UserActionTypeEnum::Repost])
+            ->orWhereNotIn('action_type', [UserActionTypeEnum::Repost])
             ->groupBy('event_id')
             ->get();
 

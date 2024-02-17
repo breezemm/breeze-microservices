@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Enums\ActionType;
+use App\Enums\UserActionTypeEnum;
 use App\Http\Requests\V1\EventRequest;
 use App\Models\Event;
 use App\Models\Ticket;
@@ -62,7 +62,7 @@ class PostRepository
 
             auth()->user()->activities()->create([
                 'event_id' => $event->id,
-                'action_type' => ActionType::Create,
+                'action_type' => UserActionTypeEnum::Create,
             ]);
             DB::commit();
         } catch (\Exception $exception) {

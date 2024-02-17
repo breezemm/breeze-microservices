@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\CheckOutOrderAction;
-use App\Enums\TicketStatus;
+use App\Enums\TicketStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCheckOutReqeust;
 use App\Models\Event;
@@ -45,7 +45,7 @@ class OrderCheckOutController extends Controller
                 ], 400);
             }
 
-            if ($ticket->status === TicketStatus::SOLD) {
+            if ($ticket->status === TicketStatusEnum::SOLD) {
                 return response()->json([
                     'message' => 'Ticket already sold',
                 ], 400);
@@ -55,7 +55,7 @@ class OrderCheckOutController extends Controller
             // if ticket has seating number
             if ($ticket->seat_number) {
                 $ticket->update([
-                    'status' => TicketStatus::SOLD,
+                    'status' => TicketStatusEnum::SOLD,
                 ]);
             }
 

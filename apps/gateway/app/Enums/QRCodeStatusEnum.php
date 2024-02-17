@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum QRCodeStatus: string
+enum QRCodeStatusEnum: string
 {
     case PENDING = 'pending';
     case USED = 'used';

@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum BuyerType: string
+enum BuyerTypeEnum: string
 {
     case USER = 'user';
     case GUEST = 'guest';

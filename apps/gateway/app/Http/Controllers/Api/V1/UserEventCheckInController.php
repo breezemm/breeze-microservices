@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Enums\QRCodeStatus;
+use App\Enums\QRCodeStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ScanQRCodeRequest;
 use App\Models\Order;
@@ -26,14 +26,14 @@ class UserEventCheckInController extends Controller
         $order = Order::where('qr_code', $request->qr_code)
             ->firstOrFail();
 
-        if ($order->qr_code_status === QRCodeStatus::USED) {
+        if ($order->qr_code_status === QRCodeStatusEnum::USED) {
             return response()->json([
                 'message' => 'QR Code already used.',
             ], 422);
         }
 
         $order->update([
-            'qr_code_status' => QRCodeStatus::USED,
+            'qr_code_status' => QRCodeStatusEnum::USED,
         ]);
 
         return response()->json([

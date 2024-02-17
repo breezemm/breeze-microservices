@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Enums\BuyerType;
-use App\Enums\QRCodeStatus;
+use App\Enums\BuyerTypeEnum;
+use App\Enums\QRCodeStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Order;
@@ -22,19 +22,19 @@ class GuestListController extends Controller
 
         if ($filter === 'checked_in') {
             $guests = $guests->filter(function ($order) {
-                return $order->qr_code_status === QRCodeStatus::USED;
+                return $order->qr_code_status === QRCodeStatusEnum::USED;
             });
         } elseif ($filter === 'left') {
             $guests = $guests->filter(function ($order) {
-                return $order->qr_code_status === QRCodeStatus::PENDING;
+                return $order->qr_code_status === QRCodeStatusEnum::PENDING;
             });
         } elseif ($filter === 'buyers') {
             $guests = $guests->filter(function ($order) {
-                return $order->buyer_type === BuyerType::USER;
+                return $order->buyer_type === BuyerTypeEnum::USER;
             });
         } elseif ($filter === 'invitees') {
             $guests = $guests->filter(function ($order) {
-                return $order->buyer_type === BuyerType::GUEST;
+                return $order->buyer_type === BuyerTypeEnum::GUEST;
             });
         }
 

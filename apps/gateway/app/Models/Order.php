@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Enums\BuyerType;
-use App\Enums\GuestInvitationStatus;
-use App\Enums\QRCodeStatus;
+use App\Enums\BuyerTypeEnum;
+use App\Enums\GuestInvitationStatusEnum;
+use App\Enums\QRCodeStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,9 +24,9 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'qr_code_status' => QRCodeStatus::class,
-        'buyer_type' => BuyerType::class,
-        'guest_invitation_status' => GuestInvitationStatus::class,
+        'qr_code_status' => QRCodeStatusEnum::class,
+        'buyer_type' => BuyerTypeEnum::class,
+        'guest_invitation_status' => GuestInvitationStatusEnum::class,
     ];
 
     public function event(): BelongsTo

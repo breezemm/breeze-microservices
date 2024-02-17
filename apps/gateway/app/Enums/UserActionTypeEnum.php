@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum ActionType: string
+enum UserActionTypeEnum: string
 {
     case Create = 'create';
 

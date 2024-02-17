@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Enums\BuyerType;
+use App\Enums\BuyerTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Order;
@@ -16,7 +16,7 @@ class ShowEventRevenueController extends Controller
             ->with('ticket.ticketType')
             ->get()
             ->sum(function ($order) {
-                if ($order->buyer_type === BuyerType::GUEST) {
+                if ($order->buyer_type === BuyerTypeEnum::GUEST) {
                     return 0;
                 }
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Timeline;
 
 use App\Http\Controllers\Controller;
-use App\Pagination;
+use App\Traits\Pagination;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;

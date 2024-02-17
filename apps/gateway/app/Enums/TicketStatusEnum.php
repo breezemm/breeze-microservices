@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum TicketStatus: string
+enum TicketStatusEnum: string
 {
     case AVAILABLE = 'available';
     case UNAVAILABLE = 'unavailable';

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Enums\TicketStatus;
+use App\Enums\TicketStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Ticket;
@@ -40,7 +40,7 @@ class TicketController extends Controller
             ]);
             $ticket->update([
                 ...$validation,
-                'status' => $request->is_available ? TicketStatus::AVAILABLE : TicketStatus::UNAVAILABLE,
+                'status' => $request->is_available ? TicketStatusEnum::AVAILABLE : TicketStatusEnum::UNAVAILABLE,
             ]);
             DB::commit();
 

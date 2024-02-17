@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\SendPushNotification;
-use App\Enums\BuyerType;
-use App\Enums\GuestInvitationStatus;
-use App\Enums\QRCodeStatus;
-use App\Enums\TicketStatus;
+use App\Enums\BuyerTypeEnum;
+use App\Enums\GuestInvitationStatusEnum;
+use App\Enums\QRCodeStatusEnum;
+use App\Enums\TicketStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InviteGuestRequest;
 use App\Models\Event;
@@ -23,7 +23,7 @@ class GuestInvitationController extends Controller
         $isGuestAlreadyInvited = Order::where('event_id', $event->id)
             ->where('ticket_id', $request->validated('ticket_id'))
             ->where('user_id', $user->id)
-            ->where('buyer_type', BuyerType::GUEST)
+            ->where('buyer_type', BuyerTypeEnum::GUEST)
             ->exists();
 
         if ($isGuestAlreadyInvited) {
@@ -35,10 +35,10 @@ class GuestInvitationController extends Controller
         try {
             DB::beginTransaction();
             $user->orders()->create([
-                'buyer_type' => BuyerType::GUEST,
-                'qr_code_status' => QRCodeStatus::PENDING,
+                'buyer_type' => BuyerTypeEnum::GUEST,
+                'qr_code_status' => QRCodeStatusEnum::PENDING,
                 'qr_code' => Str::uuid(),
-                'guest_invitation_status' => GuestInvitationStatus::PENDING,
+                'guest_invitation_status' => GuestInvitationStatusEnum::PENDING,
                 'ticket_id' => $request->validated('ticket_id'),
                 'event_id' => $event->id,
             ]);
@@ -53,7 +53,7 @@ class GuestInvitationController extends Controller
 
             if ($hasSeatingPlan) {
                 $ticket->update([
-                    'status' => TicketStatus::UNAVAILABLE,
+                    'status' => TicketStatusEnum::UNAVAILABLE,
                 ]);
             }
 

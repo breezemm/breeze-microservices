@@ -1,7 +1,7 @@
 <?php
 
-use App\Enums\BuyerType;
-use App\Enums\QRCodeStatus;
+use App\Enums\BuyerTypeEnum;
+use App\Enums\QRCodeStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreignId('event_id')->index()->constrained('events')->cascadeOnDelete();
             $table->foreignId('ticket_id')->index()->constrained('tickets')->cascadeOnDelete();
             $table->uuid('qr_code')->unique()->index();
-            $table->string('qr_code_status')->default(QRCodeStatus::PENDING);
+            $table->string('qr_code_status')->default(QRCodeStatusEnum::PENDING);
 
-            $table->string('buyer_type')->default(BuyerType::USER); // USER, GUEST
+            $table->string('buyer_type')->default(BuyerTypeEnum::USER); // USER, GUEST
             $table->string('guest_invitation_status')->nullable(); // PENDING, ACCEPTED, REJECTED
             $table->timestamps();
         });

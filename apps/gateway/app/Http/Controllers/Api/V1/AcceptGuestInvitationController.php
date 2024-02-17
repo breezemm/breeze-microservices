@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\SendPushNotification;
-use App\Enums\BuyerType;
-use App\Enums\GuestInvitationStatus;
-use App\Enums\TicketStatus;
+use App\Enums\BuyerTypeEnum;
+use App\Enums\GuestInvitationStatusEnum;
+use App\Enums\TicketStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AcceptGuestInvitationRequest;
 use App\Models\Event;
@@ -24,15 +24,15 @@ class AcceptGuestInvitationController extends Controller
 
             Order::where('ticket_id', $request->validated('ticket_id'))
                 ->where('user_id', auth()->id())
-                ->where('buyer_type', BuyerType::GUEST)
+                ->where('buyer_type', BuyerTypeEnum::GUEST)
                 ->update([
-                    'guest_invitation_status' => GuestInvitationStatus::ACCEPTED,
+                    'guest_invitation_status' => GuestInvitationStatusEnum::ACCEPTED,
                 ]);
 
             $ticket = Ticket::findOrFail($request->validated('ticket_id'));
 
             $ticket->update([
-                'status' => TicketStatus::UNAVAILABLE,
+                'status' => TicketStatusEnum::UNAVAILABLE,
             ]);
 
             $event = Event::findOrFail($request->validated('event_id'));
@@ -43,7 +43,7 @@ class AcceptGuestInvitationController extends Controller
                 ], 400);
             }
 
-            if ($ticket->status === TicketStatus::UNAVAILABLE) {
+            if ($ticket->status === TicketStatusEnum::UNAVAILABLE) {
                 return response()->json([
                     'message' => 'Ticket is not available',
                 ], 400);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Enums\TicketStatus;
+use App\Enums\TicketStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\EventResource;
 use App\Models\Event;
@@ -20,7 +20,7 @@ class EventSeatingPlanController extends Controller
                     return 0;
                 }
 
-                return $ticketType->tickets->where('status', TicketStatus::AVAILABLE)->count();
+                return $ticketType->tickets->where('status', TicketStatusEnum::AVAILABLE)->count();
             })->sum();
         })->sum();
         $soldSeatsCount = $event->phases->map(function ($phase) {
@@ -29,7 +29,7 @@ class EventSeatingPlanController extends Controller
                     return 0;
                 }
 
-                return $ticketType->tickets->where('status', TicketStatus::SOLD)->count();
+                return $ticketType->tickets->where('status', TicketStatusEnum::SOLD)->count();
             })->sum();
         })->sum();
         $unAvailableSeatsCount = $event->phases->map(function ($phase) {
@@ -38,7 +38,7 @@ class EventSeatingPlanController extends Controller
                     return 0;
                 }
 
-                return $ticketType->tickets->where('status', TicketStatus::UNAVAILABLE)->count();
+                return $ticketType->tickets->where('status', TicketStatusEnum::UNAVAILABLE)->count();
             })->sum();
         })->sum();
 
