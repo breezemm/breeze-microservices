@@ -13,7 +13,6 @@ class PublicTimelineController extends Controller
 {
     public function __invoke(Request $request)
     {
-
         $page = $request->get('page', 1);
         $events = Event::with([
             'user',

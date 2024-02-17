@@ -1,6 +1,6 @@
 <?php
 
-use App\Domains\SpatieMedia\Services\MediaPathGeneratorService;
+use App\Spatie\MediaPathGeneratorService;
 
 return [
 

@@ -1,44 +1,44 @@
 <?php
 
-use App\Http\Controllers\AcceptGuestInvitationController;
-use App\Http\Controllers\AddFirebaseToken;
+use App\Http\Controllers\Api\V1\AcceptGuestInvitationController;
+use App\Http\Controllers\Api\V1\AddFirebaseToken;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\InterestController;
 use App\Http\Controllers\Api\V1\Auth\ValidationController;
 use App\Http\Controllers\Api\V1\CityListController;
-use App\Http\Controllers\Api\V1\EventByInterestsController;
-use App\Http\Controllers\Api\V1\EventCheckOutController;
-use App\Http\Controllers\Api\V1\Events\EventComments\CommentDisLikeController;
-use App\Http\Controllers\Api\V1\Events\EventComments\CommentLikeController;
-use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentController;
-use App\Http\Controllers\Api\V1\Events\EventComments\EventCommentIndexController;
-use App\Http\Controllers\Api\V1\Events\EventLaunched\LaunchedEventController;
-use App\Http\Controllers\Api\V1\Events\EventReactions\EventDisLikeController;
-use App\Http\Controllers\Api\V1\Events\EventReactions\EventLikeController;
-use App\Http\Controllers\Api\V1\Events\EventSaved\EventSaveController;
-use App\Http\Controllers\Api\V1\Events\EventShowController;
-use App\Http\Controllers\Api\V1\Events\EventStoreController;
+use App\Http\Controllers\Api\V1\EventSeatingPlanController;
 use App\Http\Controllers\Api\V1\FollowerController;
 use App\Http\Controllers\Api\V1\FollowingController;
 use App\Http\Controllers\Api\V1\FriendSuggestionController;
+use App\Http\Controllers\Api\V1\GetAllCommentLikers;
+use App\Http\Controllers\Api\V1\GuestInvitationController;
+use App\Http\Controllers\Api\V1\GuestListController;
+use App\Http\Controllers\Api\V1\MarkedAsReadController;
+use App\Http\Controllers\Api\V1\Notifications\GetAllNotificationController;
+use App\Http\Controllers\Api\V1\OrderCheckOutController;
 use App\Http\Controllers\Api\V1\OrderController;
+use App\Http\Controllers\Api\V1\PostByUserInterestsController;
+use App\Http\Controllers\Api\V1\Posts\PostComments\CommentDisLikeController;
+use App\Http\Controllers\Api\V1\Posts\PostComments\CommentLikeController;
+use App\Http\Controllers\Api\V1\Posts\PostComments\EventCommentController;
+use App\Http\Controllers\Api\V1\Posts\PostComments\EventCommentIndexController;
+use App\Http\Controllers\Api\V1\Posts\PostCreated\LaunchedEventController;
+use App\Http\Controllers\Api\V1\Posts\PostReactions\PostLikeController;
+use App\Http\Controllers\Api\V1\Posts\PostReactions\PostUnLikeController;
+use App\Http\Controllers\Api\V1\Posts\PostSaved\PostSaveController;
+use App\Http\Controllers\Api\V1\Posts\PostShowController;
+use App\Http\Controllers\Api\V1\Posts\PostStoreController;
 use App\Http\Controllers\Api\V1\SearchController;
+use App\Http\Controllers\Api\V1\ShowEventRevenueController;
 use App\Http\Controllers\Api\V1\Suggestions\SuggestionController;
+use App\Http\Controllers\Api\V1\TicketController;
+use App\Http\Controllers\Api\V1\Timeline\PrivateTimelineController;
 use App\Http\Controllers\Api\V1\Timeline\ProfileTimeline;
 use App\Http\Controllers\Api\V1\Timeline\PublicTimelineController;
-use App\Http\Controllers\Api\V1\Timeline\TimelineController;
+use App\Http\Controllers\Api\V1\UserEventCheckInController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
-use App\Http\Controllers\EventSeatingPlanController;
-use App\Http\Controllers\GetAllCommentLikers;
-use App\Http\Controllers\GetAllNotificationController;
-use App\Http\Controllers\GetMyWalletController;
-use App\Http\Controllers\GuestInvitationController;
-use App\Http\Controllers\GuestListController;
-use App\Http\Controllers\MarkedAsReadController;
-use App\Http\Controllers\ShowEventRevenueController;
-use App\Http\Controllers\TicketController;
-use App\Http\Controllers\UserEventCheckInController;
+use App\Http\Controllers\Api\V1\Wallet\GetMyWalletController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Route;
 
@@ -77,31 +77,31 @@ Route::middleware('auth:api')->prefix('/users')
 
 Route::middleware('auth:api')
     ->group(function () {
-        Route::get('/timeline', TimelineController::class); // Private timeline
+        Route::get('/timeline', PrivateTimelineController::class);
         Route::get('/search', SearchController::class);
         Route::get('/suggested-friends', FriendSuggestionController::class);
 
         Route::apiResource('/orders', OrderController::class)->only(['index', 'show']);
 
 
-        Route::post('/checkout', EventCheckOutController::class);
+        Route::post('/checkout', OrderCheckOutController::class);
         Route::post('/accept-invitation', AcceptGuestInvitationController::class);
     });
 
 Route::middleware('auth:api')->prefix('events')
     ->group(function () {
-        Route::get('/interests', EventByInterestsController::class);
+        Route::get('/interests', PostByUserInterestsController::class);
         Route::get('/launched', LaunchedEventController::class);
-        Route::get('/saved', [EventSaveController::class, 'index']);
+        Route::get('/saved', [PostSaveController::class, 'index']);
         Route::get('/suggestions', SuggestionController::class);
 
-        Route::post('/', EventStoreController::class);
-        Route::get('{event}', EventShowController::class);
+        Route::post('/', PostStoreController::class);
+        Route::get('{event}', PostShowController::class);
 
-        Route::post('/{event}/save', [EventSaveController::class, 'store']);
-        Route::post('/{event}/un-save', [EventSaveController::class, 'destroy']);
-        Route::post('/{event}/like', EventLikeController::class);
-        Route::post('/{event}/dislike', EventDisLikeController::class);
+        Route::post('/{event}/save', [PostSaveController::class, 'store']);
+        Route::post('/{event}/un-save', [PostSaveController::class, 'destroy']);
+        Route::post('/{event}/like', PostLikeController::class);
+        Route::post('/{event}/dislike', PostUnLikeController::class);
 
         Route::get('/{event}/comments', EventCommentIndexController::class);
         Route::post('/{event}/comments', EventCommentController::class);
@@ -117,7 +117,7 @@ Route::middleware('auth:api')->group(function () {
 
 Route::middleware('auth:api')->prefix('event-dashboard')
     ->group(function () {
-        Route::get('/events/{event}/revenue', ShowEventRevenueController::class);
+        Route::get('C{event}/revenue', ShowEventRevenueController::class);
         Route::get('/events/{event}/seating-plan', EventSeatingPlanController::class);
         Route::get('/events/{event}/guests', GuestListController::class);
         Route::post('/events/{event}/guests/{user}/invite', GuestInvitationController::class);
