@@ -15,10 +15,7 @@ class SendUserJoinedPushNotificationJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
-    public function __construct(private Order $order)
+    public function __construct(private readonly Order $order)
     {
         //
     }

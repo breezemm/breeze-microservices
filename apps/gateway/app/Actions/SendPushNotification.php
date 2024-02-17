@@ -12,11 +12,12 @@ class SendPushNotification
      */
     public function handle(array $data = []): void
     {
-        $message = new Message(body: createKafkaPayload(
-            topic: 'notifications',
-            pattern: 'notifications.send',
-            data: $data,
-        ));
+        $message = new Message(
+            body: createKafkaPayload(
+                topic: 'notifications',
+                pattern: 'notifications.send',
+                data: $data,
+            ));
 
         Kafka::publishOn('notifications')
             ->withMessage($message)

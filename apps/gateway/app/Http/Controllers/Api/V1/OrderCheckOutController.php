@@ -15,11 +15,6 @@ use Illuminate\Support\Str;
 
 class OrderCheckOutController extends Controller
 {
-    public function __construct(
-        public readonly WalletService $walletService
-    )
-    {
-    }
 
     public function __invoke(CreateCheckOutReqeust $request)
     {
@@ -85,7 +80,7 @@ class OrderCheckOutController extends Controller
              * the event and ticket to the handle method of the CheckOutOrderAction
              * so that we can know the wallet and ticket price to be transferred
              **/
-            (new CheckOutOrderAction($this->walletService))->handle($event, $ticket);
+            (new CheckOutOrderAction)->handle($event, $ticket);
 
             DB::commit();
 
