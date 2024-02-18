@@ -1,0 +1,162 @@
+networks:
+  staging:
+    name: breeze_staging
+    ipam:
+      driver: default
+      config:
+        - subnet:  172.28.100.0/24
+          ip_range: 172.28.100.0/24
+          gateway:  172.28.100.1
+
+services:
+  gateway:
+    build:
+      args:
+        UID: 1000
+        USER: breeze
+      context: ./apps/gateway
+      dockerfile: staging.dockerfile
+    container_name: breeze_gateway
+    env_file: ./apps/gateway/.env
+    environment:
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    depends_on:
+      - kafka
+      - mysql
+      - redis
+      - notification
+      - wallet
+      - suggestion
+    networks:
+      staging:
+        ipv4_address: 172.28.100.11
+
+  notification:
+    build:
+      args:
+        UID: 1000
+        USER: breeze
+      context: ./apps/notification
+      dockerfile: staging.dockerfile
+    container_name: breeze_notification
+    env_file: ./apps/notification/.env
+    environment:
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    depends_on:
+      - kafka
+      - mysql
+      - redis
+    networks:
+      staging:
+        ipv4_address: 172.28.100.12
+
+  wallet:
+    build:
+      args:
+        UID: 1000
+        USER: breeze
+      context: ./apps/wallet
+      dockerfile: staging.dockerfile
+    container_name: breeze_wallet
+    env_file: ./apps/wallet/.env
+    environment:
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    depends_on:
+      - kafka
+      - mysql
+      - redis
+    networks:
+      staging:
+        ipv4_address: 172.28.100.13
+
+  suggestion:
+    build:
+      context: ./apps/suggestion
+      dockerfile: staging.dockerfile
+    container_name: breeze_suggestion
+    command: pnpm run dev --filter suggestion
+    depends_on:
+      - kafka
+    networks:
+      staging:
+        ipv4_address: 172.28.100.14
+
+  mysql:
+    build:
+      context: ./infra/docker/mysql
+      dockerfile: staging.dockerfile
+    container_name: breeze_mysql
+    env_file: .env
+    volumes:
+      - './infra/docker/mysql/create-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${MYSQL_PASSWORD}"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+        ipv4_address: 172.28.100.15
+
+  redis:
+    build:
+      context: ./infra/docker/redis
+      dockerfile: staging.dockerfile
+    container_name: breeze_redis
+    env_file: .env
+    command: /bin/sh -c 'redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}'
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+        ipv4_address: 172.28.100.16
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.0
+    container_name: breeze_zookeeper
+    env_file: .env
+    networks:
+      staging:
+        ipv4_address: 172.28.100.17
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: breeze_kafka
+    env_file: .env
+    depends_on:
+      - zookeeper
+    entrypoint: ['/bin/bash', '-c']
+    command: |
+      "
+      echo 'Waiting for Zookeeper to be ready...'
+      while ! nc -z zookeeper 2181; do sleep 1; done
+      echo 'Zookeeper is ready!'
+
+      echo 'Starting Kafka server...'
+      exec /etc/confluent/docker/run &
+
+      echo 'Waiting for Kafka to be ready...'
+      while ! nc -z kafka 9092; do sleep 1; done
+      echo 'Kafka is ready!'
+
+      kafka-topics --bootstrap-server kafka:9092 --list || true
+      echo -e '🙌 Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic wallets --replication-factor 1 --partitions 3
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic wallets-dlq --replication-factor 1 --partitions 3
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic notifications --replication-factor 1 --partitions 3
+
+      echo -e '🐙 Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:9092 --list
+
+      tail -f /dev/null
+      "
+    networks:
+      staging:
+        ipv4_address: 172.28.100.18

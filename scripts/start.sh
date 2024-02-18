@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 
 echo  "Docker Compose is Starting 🐳"
@@ -8,4 +9,4 @@ if [ -f stop.sh ]; then
     ./stop.sh
 fi
 
-docker-compose up
+docker-compose up --build
