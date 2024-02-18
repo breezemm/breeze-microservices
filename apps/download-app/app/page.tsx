@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 
 const HomePage = () => {
   return (
-    <main className=" p-4 md:p-16">
+    <main>
       <HeroSection />
       <FeatCardsSection />
     </main>

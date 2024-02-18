@@ -18,7 +18,7 @@ const HeroSection = () => {
   }, [isIntersecting]);
   return (
     <section ref={heroSectionRef}>
-      <div className="mt-20 grid grid-cols-2 gap-28 pb-64 md:mt-10">
+      <div className="grid grid-cols-2 gap-28 pb-64 ">
         <div className="col-span-full text-center lg:col-span-1">
           <div className="mb-16">
             <div className="mb-4 flex items-center justify-center gap-2">

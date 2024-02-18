@@ -22,7 +22,9 @@ export default function RootLayout({
       <body className={`inter.className`}>
         <WrapContextComponent>
           <NavBar />
-          {children}
+          <div className="pb-[168px] pe-6 ps-6 pt-[152px] md:pb-[260px] md:pe-[145px] md:ps-36 md:pt-[188px]">
+            {children}
+          </div>
           <Footer />
         </WrapContextComponent>
       </body>

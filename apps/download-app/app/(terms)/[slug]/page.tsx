@@ -13,7 +13,7 @@ export default async function Terms({ params }: { params: { slug: string } }) {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
 
   return (
-    <div className="p-5 py-20 md:px-24">
+    <div>
       <TermsClientWrapper>
         {post && <MdxComponent code={post.body.code} />}
       </TermsClientWrapper>
