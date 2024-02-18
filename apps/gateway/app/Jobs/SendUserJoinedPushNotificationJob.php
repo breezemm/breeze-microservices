@@ -15,16 +15,14 @@ class SendUserJoinedPushNotificationJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
-    public function __construct(private Order $order)
+    public function __construct(private readonly Order $order)
     {
         //
     }
 
     /**
      * Execute the job.
+     * @throws \Exception
      */
     public function handle(): void
     {
@@ -36,10 +34,10 @@ class SendUserJoinedPushNotificationJob implements ShouldQueue, ShouldBeUnique
             'channels' => [
                 'push' => [
                     'title' => 'Join Event',
-                    'body' => auth()->user()->name . ' joins ' . $this->order->event->name . ' event.',
+                    'body' => auth()->user()->name . ' joins ' . $this->order->event->name,
                     'data' => [
                         'type' => 'event_joined',
-                        'user' => auth()->user()->with('media')->get(),
+                        'user' => auth()->user()->load('media'),
                         'content' => 'joins',
                         'event' => $this->order->event,
                     ]

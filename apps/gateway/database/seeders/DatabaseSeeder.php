@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Enums\ActionType;
+use App\Enums\UserActionTypeEnum;
 use App\Models\Activity;
 use App\Models\CityList;
 use App\Models\Event;
@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            ActionSeeder::class,
             IntrestSeeder::class,
             CityListSeeder::class,
         ]);
@@ -56,25 +55,25 @@ class DatabaseSeeder extends Seeder
             );
 
         Activity::create([
-            'action_type' => ActionType::Create,
+            'action_type' => UserActionTypeEnum::Create,
             'user_id' => 11,
             'event_id' => 4,
         ]);
 
         Activity::create([
-            'action_type' => ActionType::Like, // like
+            'action_type' => UserActionTypeEnum::Like, // like
             'user_id' => 11,
             'event_id' => 5,
         ]);
 
         Activity::create([
-            'action_type' => ActionType::Bookmark, // bookmark
+            'action_type' => UserActionTypeEnum::Bookmark, // bookmark
             'user_id' => 11,
             'event_id' => 5,
         ]);
 
         Activity::create([
-            'action_type' => ActionType::Comment, // bookmark
+            'action_type' => UserActionTypeEnum::Comment, // bookmark
             'user_id' => 11,
             'event_id' => 8,
         ]);
@@ -85,7 +84,7 @@ class DatabaseSeeder extends Seeder
 
         //        when user repost something, it will create activity and repost
         Activity::create([
-            'action_type' => ActionType::Repost, // repost
+            'action_type' => UserActionTypeEnum::Repost, // repost
             'user_id' => 11,
             'event_id' => 5,
         ]);
@@ -96,12 +95,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Activity::create([
-            'action_type' => ActionType::Create,
+            'action_type' => UserActionTypeEnum::Create,
             'user_id' => 1,
             'event_id' => 1,
         ]);
         Activity::create([
-            'action_type' => ActionType::Create,
+            'action_type' => UserActionTypeEnum::Create,
             'user_id' => 1,
             'event_id' => 2,
         ]);

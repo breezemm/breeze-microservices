@@ -5,17 +5,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use PhpParser\Node\Expr\AssignOp\Mod;
 
 class NotificationList extends Model
 {
     protected $fillable = [
         'user_id', // The ID of the user in your system. Required.
         'message',
+        'is_read',
     ];
 
     protected $casts = [
         'message' => 'array',
+        'is_read' => 'boolean',
     ];
+
 
     public function user(): BelongsTo
     {

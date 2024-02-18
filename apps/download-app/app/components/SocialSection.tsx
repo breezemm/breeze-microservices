@@ -1,21 +1,18 @@
-import Image from "next/image";
-import Link from "next/link";
-import { SocialSectonProps } from "@/interfaces/Footer";
+import Image from 'next/image'
+import Link from 'next/link'
+import { SocialSectonProps } from '@/interfaces/Footer'
 
-export const SocialSection = ({
-  SocialList,
-  storesDownload,
-}: SocialSectonProps) => {
+export const SocialSection = ({ SocialList, storesDownload }: SocialSectonProps) => {
   return (
     <div>
       <div className="flex flex-col items-center gap-10 md:items-end ">
         <div className="flex  gap-4">
-          {storesDownload?.map((store, index:number) => {
+          {storesDownload?.map((store, index: number) => {
             return (
               <Link key={index} href={store.link} target="_black">
                 <Image src={store.icon as string} alt="store" />
               </Link>
-            );
+            )
           })}
         </div>
 
@@ -23,17 +20,9 @@ export const SocialSection = ({
           {SocialList.map((data, index) => {
             return (
               <Link href={data.link} key={index} target="_black">
-                {index === 3 ? (
-                  <Image
-                    src={data.icon as string}
-                    className="h-8 w-8"
-                    alt="toptalk"
-                  />
-                ) : (
-                  data.icon
-                )}
+                {index === 3 ? <Image src={data.icon as string} className="h-8 w-8" alt="toptalk" /> : data.icon}
               </Link>
-            );
+            )
           })}
         </div>
         <div className="flex gap-4">
@@ -46,5 +35,5 @@ export const SocialSection = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

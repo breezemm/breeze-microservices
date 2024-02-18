@@ -75,68 +75,68 @@ forward all the requests to the `index.php` file.
 
 ```ts
 interface User {
-    name: string;
-    email: string;
+    name: string
+    email: string
 }
 
 interface Interest {
-    name: string;
+    name: string
 }
 
 interface Ticket {
-    name: string;
-    description: string;
-    hasSeat: boolean;
-    price: number;
+    name: string
+    description: string
+    hasSeat: boolean
+    price: number
 }
 
 interface TickWithSeat extends Ticket {
-    seat: number;
+    seat: number
 }
 
 interface Phase {
-    name: string;
-    startDate: Date;
-    endDate: Date;
-    tickets: Array<Ticket | TickWithSeat>;
+    name: string
+    startDate: Date
+    endDate: Date
+    tickets: Array<Ticket | TickWithSeat>
 }
 
 interface Event {
-    name: string;
-    day: string;
-    month: string;
-    year: string;
-    place: string;
-    organizers: User[];
-    image: string;
-    description: string;
-    interests: Interest[];
-    phases: Phase[];
-    isHasPhases: boolean;
+    name: string
+    day: string
+    month: string
+    year: string
+    place: string
+    organizers: User[]
+    image: string
+    description: string
+    interests: Interest[]
+    phases: Phase[]
+    isHasPhases: boolean
 }
 
 export const event: Event = {
-    name: "Startup Weekend Yangon",
-    start_date: "2023-12-10",
-    start_time: "09:30", // HH:MM in 24 hours format
-    end_date: "2023-12-12", // YYYY-MM-DD
-    end_time: "15:00",
-    place: "Yangon",
+    name: 'Startup Weekend Yangon',
+    start_date: '2023-12-10',
+    start_time: '09:30', // HH:MM in 24 hours format
+    end_date: '2023-12-12', // YYYY-MM-DD
+    end_time: '15:00',
+    place: 'Yangon',
     co_organizers: [1, 2, 3],
-    description: "Accerlating tech startup come and join with us",
-    image: "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+    description: 'Accerlating tech startup come and join with us',
+    image: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
     is_has_phases: true, // if isHasPhases is true, phases will be greater than 1
     interests: [1, 2, 3],
     phases: [
         {
-            name: "Regular",
-            start_date: "2023-12-10",
-            end_date: "2023-12-12",
+            name: 'Regular',
+            start_date: '2023-12-10',
+            end_date: '2023-12-12',
 
             tickets: [
                 {
-                    name: "Normal",
-                    information: "Normal ticket",
+                    name: 'Normal',
+                    information: 'Normal ticket',
                     price: 0,
                     is_has_seating_plan: false,
                     total_seats: 0,
@@ -144,7 +144,7 @@ export const event: Event = {
             ],
         },
     ],
-};
+}
 ```
 
 # Event Naming Convention

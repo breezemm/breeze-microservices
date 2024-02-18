@@ -44,6 +44,11 @@ class SendNotificationController extends Controller
                 ->toArray();
 
 
+            if (!$tokens) {
+                return response()->json(['message' => 'No push token found'], 422);
+            }
+
+
             foreach ($tokens as $token) {
                 $message = [
                     'uuid' => Str::uuid(),
@@ -62,6 +67,7 @@ class SendNotificationController extends Controller
             ], 400); // 400 for client-side errors
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['error' => 'Internal error'], 500);
         }
     }

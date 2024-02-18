@@ -1,4 +1,4 @@
 interface IconPropsInterface {
-  width?: string;
-  height?: string;
+  width?: string
+  height?: string
 }

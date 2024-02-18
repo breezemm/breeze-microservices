@@ -1,0 +1,220 @@
+name: 'breeze'
+version: '3.9'
+
+volumes:
+  mysql-db:
+  redis:
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.1
+    env_file: .env
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+    networks:
+      - dev
+
+  kafka:
+    restart: on-failure
+    image: confluentinc/cp-kafka:7.5.1
+    env_file:
+      .env
+    hostname: kafka
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    expose:
+      - 29092
+    networks:
+      - dev
+    healthcheck:
+      test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  # After initializing kafka and creating topics, this container will exit
+  init-kafka:
+    image: confluentinc/cp-kafka:7.5.1
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:29092 --list
+
+      echo -e '🙌 Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallets --replication-factor 1 --partitions 3
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic notifications --replication-factor 1 --partitions 3
+
+
+      echo -e '🐙 Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:29092 --list
+      "
+    networks:
+      - dev
+
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:6.2.0
+    env_file: .env
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - zookeeper
+      - kafka
+    ports:
+      - 8089:8089
+    networks:
+      - dev
+
+  kafka-manager:
+    image: hlebalbau/kafka-manager:latest
+    env_file: .env
+    container_name: kafka-manager
+    depends_on:
+      - kafka
+    ports:
+      - 10000:9000
+    networks:
+      - dev
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - dev
+
+  redis:
+    image: redis:alpine3.8
+    env_file: .env
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - dev
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 5s
+      timeout: 5s
+
+
+  gateway:
+    restart: unless-stopped
+    build:
+      args:
+        uid: 1000
+        user: breeze
+      context: .
+      dockerfile: ./apps/gateway/dev.Dockerfile
+    ports:
+      - "8001:80"
+    volumes:
+      - ./apps/gateway:/var/www/gateway
+      - ./apps/gateway/vendor:/var/www/gateway/vendor
+      - ./apps/gateway/node_modules:/var/www/gateway/node_modules
+      - ./apps/gateway/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    depends_on:
+      - kafka
+      - mysql-db
+      - redis
+    networks:
+      - dev
+
+  wallet:
+    build:
+      args:
+        uid: 1000
+        user: breeze
+      context: ./apps/wallet
+      dockerfile: dev.dockerfile
+    ports:
+      - 8002:80
+    volumes:
+      - ./apps/wallet:/var/www/wallet
+      - ./apps/wallet/vendor:/var/www/wallet/vendor
+      - ./apps/wallet/node_modules:/var/www/wallet/node_modules
+      - ./apps/wallet/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    depends_on:
+      - mysql-db
+      - redis
+      - kafka
+    networks:
+      - dev
+    links:
+      - gateway
+
+  notification:
+    restart: unless-stopped
+    build:
+      args:
+        uid: 1000
+        user: breeze
+      context: .
+      dockerfile: ./apps/notification/dev.Dockerfile
+    ports:
+      - "8004:80"
+    volumes:
+      - ./apps/notification:/var/www/notification
+      - ./packages:/var/www/notification/packages
+      - ./apps/notification/vendor:/var/www/notification/vendor
+      - ./apps/notification/node_modules:/var/www/notification/node_modules
+      - ./apps/notification/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    depends_on:
+      - kafka
+      - redis
+      - mysql-db
+    networks:
+      - dev
+
+
+  suggestion:
+    build:
+      context: .
+      dockerfile: ./apps/suggestion/dev.dockerfile
+      target: development
+    command: pnpm run dev --filter suggestion
+    ports:
+      - 8003:80
+    volumes:
+      - .:/usr/src/app
+      - /var/www/suggestion/node_modules
+    depends_on:
+      - kafka
+    networks:
+      - dev
+
+
+  mysql-db:
+    image: mysql:8.0
+    restart: always
+    command: --default-authentication-plugin=caching_sha2_password
+    volumes:
+      - ./infra/databases/mysql/init:/docker-entrypoint-initdb.d
+      - mysql-db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dev
+

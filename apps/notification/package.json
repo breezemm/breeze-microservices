@@ -7,11 +7,11 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "axios": "^1.6.4",
-        "laravel-vite-plugin": "^1.0.0",
-        "vite": "^5.0.0"
+        "axios": "^1.6.7",
+        "laravel-vite-plugin": "^1.0.1",
+        "vite": "^5.1.2"
     },
     "dependencies": {
-        "chokidar": "^3.5.3"
+        "chokidar": "^3.6.0"
     }
 }

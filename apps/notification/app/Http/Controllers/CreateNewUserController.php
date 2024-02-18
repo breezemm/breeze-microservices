@@ -21,7 +21,6 @@ class CreateNewUserController extends Controller
                 'email' => $request->validated('email'),
                 'phone' => $request->validated('phone'),
                 'push_tokens' => $request->validated('push_tokens'),
-                'web_push_tokens' => $request->validated('web_push_tokens'),
                 'settings' => [
                     'channels' => [
                         'email' => [

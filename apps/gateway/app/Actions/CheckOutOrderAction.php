@@ -5,26 +5,21 @@ namespace App\Actions;
 use App\Jobs\SendUserJoinedPushNotificationJob;
 use App\Models\Event;
 use App\Models\Ticket;
-use App\Services\WalletService;
+use Exception;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 
-class CheckOutOrderAction
-{
-    public function __construct(
-        public readonly WalletService $walletService
-    )
-    {
-    }
 
+readonly class CheckOutOrderAction
+{
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle(Event $event, Ticket $ticket): void
     {
 
-        $senderUserId = auth()->id();
-        $receiverUserId = $event->user->id;
+        $buyerUserId = auth()->id();
+        $sellerUserId = $event->user->id;
 
         $ticketPrice = $ticket->ticketType->price;
 
@@ -32,26 +27,27 @@ class CheckOutOrderAction
             topic: 'wallets',
             pattern: 'wallets.transfer',
             data: [
-                'sender_user_id' => $senderUserId,
-                'receiver_user_id' => $receiverUserId,
+                'sender_user_id' => $buyerUserId,
+                'receiver_user_id' => $sellerUserId,
                 'amount' => $ticketPrice,
             ],
         ));
+
         Kafka::publishOn('wallets')
             ->withMessage($message)
             ->send();
 
 
-        // send notification to the ticket seller that the ticket has been sold
+        // send push notification to the ticket seller after the buyer has bought the ticket
         (new SendPushNotification())->handle([
             'notification_id' => 'ticket_sold',
             'user' => [
-                'user_id' => $receiverUserId,
+                'user_id' => $sellerUserId,
             ],
             'channels' => [
                 'push' => [
                     'title' => 'Ticket Sold',
-                    'body' => auth()->user()->name . ' joins ' . $event->name . ' event.',
+                    'body' => auth()->user()->name . ' bought ' . $event->name . ' event.',
                     'data' => [
                         'type' => 'ticket_sold',
                         'user' => auth()->user()->load('media'),
@@ -62,12 +58,11 @@ class CheckOutOrderAction
             ],
         ]);
 
-        // Send notification to all the users who joined the event
-        $event->orders()->chunk(100, function ($orders) {
-            foreach ($orders as $order) {
-                SendUserJoinedPushNotificationJob::dispatch($order);
-            }
-        });
+        // Send push notification to all the users who joined early to the event
+        $orders = $event->orders()
+            ->whereNot('user_id', $buyerUserId)
+            ->lazy(200);
+        $orders->each(fn($order) => SendUserJoinedPushNotificationJob::dispatch($order));
 
     }
 }

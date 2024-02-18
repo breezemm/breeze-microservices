@@ -14,7 +14,8 @@ class NotificationListController extends Controller
         $page = $request->input('page', 1);
         $userId = $request->validated('user_id');
 
-        return Cache::remember($userId . '_notifications_' . $page, 60,
+        return Cache::remember(
+            "notifications:{$userId}:page:{$page}", 60,
             fn() => NotificationList::where('user_id', $userId)
                 ->orderBy('created_at', 'desc')
                 ->paginate(10));
