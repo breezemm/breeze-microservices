@@ -326,6 +326,9 @@ importers:
       eslint:
         specifier: ^8.56.0
         version: 8.56.0
+      eslint-config-custom:
+        specifier: '*'
+        version: link:../../packages/eslint-config-custom
       eslint-plugin-react-hooks:
         specifier: ^4.6.0
         version: 4.6.0(eslint@8.56.0)
