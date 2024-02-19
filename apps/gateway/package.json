@@ -13,7 +13,7 @@
         "chokidar": "^3.6.0",
         "kafkajs-snappy": "^1.1.0",
         "laravel-vite-plugin": "^0.8.1",
-        "vite": "^5.1.2"
+        "vite": "^5.1.3"
     },
     "dependencies": {
         "kafkajs": "^2.2.4",

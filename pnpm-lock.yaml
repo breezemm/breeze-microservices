@@ -53,10 +53,12 @@ importers:
         version: 1.6.7
       laravel-vite-plugin:
         specifier: ^1.0.0
-        version: 1.0.1(vite@5.1.2)
+
+        version: 1.0.1(vite@5.1.3)
       vite:
-        specifier: ^5.0.0
-        version: 5.1.2(@types/node@20.11.17)
+        specifier: ^5.1.3
+        version: 5.1.3(@types/node@20.11.17)
+
 
   apps/download-app:
     dependencies:
@@ -154,10 +156,10 @@ importers:
         version: 3.6.0
       laravel-vite-plugin:
         specifier: ^0.8.1
-        version: 0.8.1(vite@5.1.2)
+        version: 0.8.1(vite@5.1.3)
       vite:
-        specifier: ^5.1.2
-        version: 5.1.2(@types/node@20.11.17)
+        specifier: ^5.1.3
+        version: 5.1.3(@types/node@20.11.17)
 
   apps/notification:
     dependencies:
@@ -170,10 +172,10 @@ importers:
         version: 1.6.7
       laravel-vite-plugin:
         specifier: ^1.0.1
-        version: 1.0.1(vite@5.1.2)
+        version: 1.0.1(vite@5.1.3)
       vite:
-        specifier: ^5.1.2
-        version: 5.1.2(@types/node@20.11.17)
+        specifier: ^5.1.3
+        version: 5.1.3(@types/node@20.11.17)
 
   apps/suggestion:
     dependencies:
@@ -294,10 +296,123 @@ importers:
         version: 1.6.7
       laravel-vite-plugin:
         specifier: ^0.8.1
-        version: 0.8.1(vite@5.0.2)
+        version: 0.8.1(vite@5.1.3)
       vite:
-        specifier: ^5.0.2
-        version: 5.0.2(@types/node@20.11.17)
+        specifier: ^5.1.3
+        version: 5.1.3(@types/node@20.11.17)
+
+  apps/web-admin-panel:
+    dependencies:
+      '@tanstack/react-router':
+        specifier: ^1.16.6
+        version: 1.16.6(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/router-cli':
+        specifier: ^1.16.5
+        version: 1.16.5
+      '@tanstack/router-devtools':
+        specifier: ^1.16.6
+        version: 1.16.6(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/router-vite-plugin':
+        specifier: ^1.16.5
+        version: 1.16.5
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.2.55
+        version: 18.2.56
+      '@types/react-dom':
+        specifier: ^18.2.19
+        version: 18.2.19
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6.21.0
+        version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.56.0)(typescript@5.3.3)
+      '@typescript-eslint/parser':
+        specifier: ^6.21.0
+        version: 6.21.0(eslint@8.56.0)(typescript@5.3.3)
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.5.0
+        version: 3.6.0(vite@5.1.3)
+      eslint:
+        specifier: ^8.56.0
+        version: 8.56.0
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-custom
+      eslint-plugin-react-hooks:
+        specifier: ^4.6.0
+        version: 4.6.0(eslint@8.56.0)
+      eslint-plugin-react-refresh:
+        specifier: ^0.4.5
+        version: 0.4.5(eslint@8.56.0)
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+      typescript:
+        specifier: ^5.2.2
+        version: 5.3.3
+      vite:
+        specifier: ^5.1.3
+        version: 5.1.3(@types/node@20.11.17)
+
+  apps/web-admin-portal:
+    dependencies:
+      '@tanstack/react-router':
+        specifier: ^1.16.6
+        version: 1.16.6(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/router-cli':
+        specifier: ^1.16.5
+        version: 1.16.5
+      '@tanstack/router-devtools':
+        specifier: ^1.16.6
+        version: 1.16.6(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@tanstack/router-vite-plugin':
+        specifier: ^1.16.5
+        version: 1.16.5
+      '@types/react':
+        specifier: ^18.2.55
+        version: 18.2.56
+      '@types/react-dom':
+        specifier: ^18.2.19
+        version: 18.2.19
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6.21.0
+        version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.56.0)(typescript@5.3.3)
+      '@typescript-eslint/parser':
+        specifier: ^6.21.0
+        version: 6.21.0(eslint@8.56.0)(typescript@5.3.3)
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.5.0
+        version: 3.6.0(vite@5.1.3)
+      eslint:
+        specifier: ^8.56.0
+        version: 8.56.0
+      eslint-config-custom:
+        specifier: '*'
+        version: link:../../packages/eslint-config-custom
+      eslint-plugin-react-hooks:
+        specifier: ^4.6.0
+        version: 4.6.0(eslint@8.56.0)
+      eslint-plugin-react-refresh:
+        specifier: ^0.4.5
+        version: 0.4.5(eslint@8.56.0)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.3.3
+      vite:
+        specifier: ^5.1.3
+        version: 5.1.3(@types/node@20.11.17)
 
   apps/web-admin-panel:
     dependencies:
@@ -4160,6 +4275,78 @@ packages:
     resolution: {integrity: sha512-GnolmC8Fr4mvsHE1fGQmR3Nm0eBO3KnZjDU0a+P3TeQNM/dDscFGxtA7p31NplQNW3KwBw4t1RVFmz0VeKLxcw==}
     dev: false
 
+  /@tanstack/history@1.15.13:
+    resolution: {integrity: sha512-ToaeMtK5S4YaxCywAlYexc7KPFN0esjyTZ4vXzJhXEWAkro9iHgh7m/4ozPJb7oTo65WkHWX0W9GjcZbInSD8w==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /@tanstack/react-router@1.16.6(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-d1Kjs38IF3bH7jKwihMBrdnh7BMVOHSNhJ9sltCiP4gLHcZkG7V9BwwJn5yL4V7YHIPNxdrJ3v4yrkvdrPJ0Ww==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/history': 1.15.13
+      '@tanstack/react-store': 0.2.1(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      tiny-invariant: 1.3.1
+      tiny-warning: 1.0.3
+    dev: false
+
+  /@tanstack/react-store@0.2.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-tEbMCQjbeVw9KOP/202LfqZMSNAVi6zYkkp1kBom8nFuMx/965Hzes3+6G6b/comCwVxoJU8Gg9IrcF8yRPthw==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/store': 0.1.3
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
+  /@tanstack/router-cli@1.16.5:
+    resolution: {integrity: sha512-opoPg9UCZS0wd4CZugukP4tjeTTRuDQH/h/DG0YQrIjCGrri/fFydTYOI95HoW1xnheZ4EG4Ehtdd3jbBSqCFQ==}
+    engines: {node: '>=12'}
+    hasBin: true
+    dependencies:
+      '@tanstack/router-generator': 1.16.5
+      chokidar: 3.6.0
+      yargs: 17.7.2
+    dev: false
+
+  /@tanstack/router-devtools@1.16.6(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-zjyLuStYA1TM4L1IfgQJ1ZCq36o3UVaLLCVmBBHukxbc6n2cKR2U11BXJW5RpkNZDyAPyGcPLEgJ2qcZCYSDcQ==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/react-router': 1.16.6(react-dom@18.2.0)(react@18.2.0)
+      date-fns: 2.30.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@tanstack/router-generator@1.16.5:
+    resolution: {integrity: sha512-np9+DASQvD4ff+FrCZ4XqRMGpVC6Y2213kma/X05mvo241yh0D5C6paUY7N7pSBPpuTlJbYKi+73cm/xRtK3Hg==}
+    engines: {node: '>=12'}
+    dependencies:
+      prettier: 3.2.5
+      zod: 3.22.4
+
+  /@tanstack/router-vite-plugin@1.16.5:
+    resolution: {integrity: sha512-rNfAuWIScl0KnjWOda5hzQYgHdwpLu1OljvqZa260UrCB6e32882X2Ci687+OUBfydhZT/V53XtQ+la7/AO5Rw==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@tanstack/router-generator': 1.16.5
+
+  /@tanstack/store@0.1.3:
+    resolution: {integrity: sha512-GnolmC8Fr4mvsHE1fGQmR3Nm0eBO3KnZjDU0a+P3TeQNM/dDscFGxtA7p31NplQNW3KwBw4t1RVFmz0VeKLxcw==}
+    dev: false
+
   /@tokenizer/token@0.3.0:
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
     dev: true
@@ -5076,13 +5263,16 @@ packages:
       - supports-color
     dev: true
 
-  /@vitejs/plugin-react-swc@3.6.0(vite@5.1.2):
+  /@vitejs/plugin-react-swc@3.6.0(vite@5.1.3):
+
     resolution: {integrity: sha512-XFRbsGgpGxGzEV5i5+vRiro1bwcIaZDIdBRP16qwm+jP68ue/S8FJTBEgOeojtVDYrbSua3XFp71kC8VJE6v+g==}
     peerDependencies:
       vite: ^4 || ^5
     dependencies:
       '@swc/core': 1.4.2
-      vite: 5.1.2(@types/node@20.11.17)
+
+      vite: 5.1.3(@types/node@20.11.17)
+
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: true
@@ -7232,6 +7422,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': 6.20.0(eslint@8.56.0)(typescript@5.2.2)
+
       debug: 3.2.7
       eslint: 8.56.0
       eslint-import-resolver-node: 0.3.9
@@ -7265,6 +7456,7 @@ packages:
       debug: 3.2.7
       eslint: 8.56.0
       eslint-import-resolver-node: 0.3.9
+
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.21.0)(eslint-plugin-import@2.28.1)(eslint@8.56.0)
     transitivePeerDependencies:
       - supports-color
@@ -10242,29 +10434,18 @@ packages:
       language-subtag-registry: 0.3.22
     dev: true
 
-  /laravel-vite-plugin@0.8.1(vite@5.0.2):
+  /laravel-vite-plugin@0.8.1(vite@5.1.3):
     resolution: {integrity: sha512-fxzUDjOA37kOsYq8dP+3oPIlw8/kJVXwu0hOXLun82R1LpV02shGeWGYKx2lbpKffL5I0sfPPjfqbYxuqBluAA==}
     engines: {node: '>=14'}
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0
     dependencies:
       picocolors: 1.0.0
-      vite: 5.0.2(@types/node@20.11.17)
-      vite-plugin-full-reload: 1.0.5(vite@5.0.2)
+      vite: 5.1.3(@types/node@20.11.17)
+      vite-plugin-full-reload: 1.0.5(vite@5.1.3)
     dev: true
 
-  /laravel-vite-plugin@0.8.1(vite@5.1.2):
-    resolution: {integrity: sha512-fxzUDjOA37kOsYq8dP+3oPIlw8/kJVXwu0hOXLun82R1LpV02shGeWGYKx2lbpKffL5I0sfPPjfqbYxuqBluAA==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      vite: ^3.0.0 || ^4.0.0
-    dependencies:
-      picocolors: 1.0.0
-      vite: 5.1.2(@types/node@20.11.17)
-      vite-plugin-full-reload: 1.0.5(vite@5.1.2)
-    dev: true
-
-  /laravel-vite-plugin@1.0.1(vite@5.1.2):
+  /laravel-vite-plugin@1.0.1(vite@5.1.3):
     resolution: {integrity: sha512-laLEZUnSskIDZtLb2FNRdcjsRUhh1VOVvapbVGVTeaBPJTCF/b6gbPiX2dZdcH1RKoOE0an7L+2gnInk6K33Zw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -10272,7 +10453,7 @@ packages:
       vite: ^5.0.0
     dependencies:
       picocolors: 1.0.0
-      vite: 5.1.2(@types/node@20.11.17)
+      vite: 5.1.3(@types/node@20.11.17)
       vite-plugin-full-reload: 1.1.0
     dev: true
 
@@ -14789,24 +14970,14 @@ packages:
       vfile-message: 4.0.2
     dev: false
 
-  /vite-plugin-full-reload@1.0.5(vite@5.0.2):
+  /vite-plugin-full-reload@1.0.5(vite@5.1.3):
     resolution: {integrity: sha512-kVZFDFWr0DxiHn6MuDVTQf7gnWIdETGlZh0hvTiMXzRN80vgF4PKbONSq8U1d0WtHsKaFODTQgJeakLacoPZEQ==}
     peerDependencies:
       vite: ^2 || ^3 || ^4
     dependencies:
       picocolors: 1.0.0
       picomatch: 2.3.1
-      vite: 5.0.2(@types/node@20.11.17)
-    dev: true
-
-  /vite-plugin-full-reload@1.0.5(vite@5.1.2):
-    resolution: {integrity: sha512-kVZFDFWr0DxiHn6MuDVTQf7gnWIdETGlZh0hvTiMXzRN80vgF4PKbONSq8U1d0WtHsKaFODTQgJeakLacoPZEQ==}
-    peerDependencies:
-      vite: ^2 || ^3 || ^4
-    dependencies:
-      picocolors: 1.0.0
-      picomatch: 2.3.1
-      vite: 5.1.2(@types/node@20.11.17)
+      vite: 5.1.3(@types/node@20.11.17)
     dev: true
 
   /vite-plugin-full-reload@1.1.0:
@@ -14816,44 +14987,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /vite@5.0.2(@types/node@20.11.17):
-    resolution: {integrity: sha512-6CCq1CAJCNM1ya2ZZA7+jS2KgnhbzvxakmlIjN24cF/PXhRMzpM/z8QgsVJA/Dm5fWUWnVEsmtBoMhmerPxT0g==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^18.0.0 || >=20.0.0
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      '@types/node': 20.11.17
-      esbuild: 0.19.8
-      postcss: 8.4.31
-      rollup: 4.6.0
-    optionalDependencies:
-      fsevents: 2.3.3
-    dev: true
-
-  /vite@5.1.2(@types/node@20.11.17):
-    resolution: {integrity: sha512-uwiFebQbTWRIGbCaTEBVAfKqgqKNKMJ2uPXsXeLIZxM8MVMjoS3j0cG8NrPxdDIadaWnPSjrkLWffLSC+uiP3Q==}
+  /vite@5.1.3(@types/node@20.11.17):
+    resolution: {integrity: sha512-UfmUD36DKkqhi/F75RrxvPpry+9+tTkrXfMNZD+SboZqBCMsxKtO52XeGzzuh7ioz+Eo/SYDBbdb0Z7vgcDJew==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
