@@ -1,4 +1,4 @@
-.pnpm-store
+.pnpm-store/
 .turbo
 frankenphp
 /.phpunit.cache
