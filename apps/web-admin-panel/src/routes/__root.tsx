@@ -34,6 +34,14 @@ function RootComponent() {
           Home
         </Link>{' '}
         <Link
+          to={'/about'}
+          activeProps={{
+            className: 'font-bold',
+          }}
+        >
+          About Us
+        </Link>
+        <Link
           to={'/posts'}
           activeProps={{
             className: 'font-bold',
@@ -41,6 +49,17 @@ function RootComponent() {
         >
           Posts
         </Link>
+
+        <Link
+          to={'/posts/$postId'}
+          params={{postId: '1'}}
+          activeProps={{
+            className: 'font-bold',
+          }}
+        >
+          Posts 1 Page
+        </Link>
+
         <Link
           to="/layout-a"
           activeProps={{
