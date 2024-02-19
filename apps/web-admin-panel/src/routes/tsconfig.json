@@ -1,4 +1,5 @@
 {
+  "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
@@ -7,5 +8,14 @@
     "strict": true,
     "skipLibCheck": true,
     "jsx": "react"
-  }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -51,7 +51,7 @@ function RootComponent() {
         </Link>
 
         <Link
-          to={'/posts/$postId'}
+          to={'/posts/'}
           params={{postId: '1'}}
           activeProps={{
             className: 'font-bold',
