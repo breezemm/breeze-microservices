@@ -17,6 +17,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "eslint-config-custom": "*",
     "@tanstack/router-vite-plugin": "^1.16.5",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
