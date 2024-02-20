@@ -63,11 +63,6 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
-  IndexRouteRoute,
-  AboutRoute,
-  PostsPostIdRoute,
-  PostsIndexRoute,
-])
+export const routeTree = rootRoute.addChildren([IndexRouteRoute, AboutRoute, PostsPostIdRoute, PostsIndexRoute])
 
 /* prettier-ignore-end */
