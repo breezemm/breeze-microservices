@@ -435,6 +435,8 @@ importers:
 
   packages/tsconfig: {}
 
+  packages/ui: {}
+
   research/kafka-nodejs:
     dependencies:
       kafkajs:
