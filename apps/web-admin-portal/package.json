@@ -12,14 +12,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.22.2",
     "@tanstack/react-router": "^1.16.6",
     "@tanstack/router-cli": "^1.16.5",
     "@tanstack/router-devtools": "^1.16.6",
+    "axios": "^1.6.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "eslint-config-custom": "*",
+    "@tanstack/eslint-plugin-query": "^5.20.1",
+    "@tanstack/react-query-devtools": "^5.24.0",
     "@tanstack/router-vite-plugin": "^1.16.5",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
@@ -27,6 +30,7 @@
     "@typescript-eslint/parser": "^6.21.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "^8.56.0",
+    "eslint-config-custom": "*",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "typescript": "^5.2.2",
