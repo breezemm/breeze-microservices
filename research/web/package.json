@@ -13,7 +13,8 @@
     "next": "^13.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-toastify": "^10.0.4"
+    "react-toastify": "^10.0.4",
+    "@breeze/ui": "workspace:*"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.1",

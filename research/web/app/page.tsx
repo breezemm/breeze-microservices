@@ -3,6 +3,7 @@ import { requestPermission, requestToken, subscribeTokenToTopic } from '../lib/f
 import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Button } from '@breeze/ui/src/components/ui/button'
 
 export default function Page() {
   useEffect(() => {
@@ -26,6 +27,8 @@ export default function Page() {
     <main>
       <ToastContainer />
       <div>React Firebase Research</div>
+
+      <Button>Click Me!</Button>
     </main>
   )
 }
