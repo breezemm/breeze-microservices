@@ -1,9 +1,10 @@
 'use client'
-import { requestPermission, requestToken, subscribeTokenToTopic } from '../lib/firebase'
-import { useEffect } from 'react'
-import { ToastContainer } from 'react-toastify'
+import {requestPermission, requestToken, subscribeTokenToTopic} from '../lib/firebase'
+import React, {useEffect} from 'react'
+import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { Button } from '@breeze/ui/src/components/ui/button'
+import {Button} from "@breeze/ui/button";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@breeze/ui/card";
 
 export default function Page() {
   useEffect(() => {
@@ -25,10 +26,24 @@ export default function Page() {
   }, [])
   return (
     <main>
-      <ToastContainer />
+      <ToastContainer/>
       <div>React Firebase Research</div>
 
-      <Button>Click Me!</Button>
+      <Button variant={"destructive"}>Click me</Button>
+      <Card>
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Card Content</p>
+        </CardContent>
+        <CardFooter>
+          <p>Card Footer</p>
+        </CardFooter>
+      </Card>
+      Copy
+
     </main>
   )
 }

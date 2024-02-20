@@ -1,13 +1,34 @@
 {
+  "name": "breeze",
   "private": true,
+  "engines": {
+    "node": ">=v18.17.1"
+  },
+  "packageManager": "pnpm@8.13.1",
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "build": "turbo build",
+    "clean": "git clean -xdf node_modules dist .next",
+    "dev": "cross-env FORCE_COLOR=1 turbo dev --parallel",
+    "format": "turbo format --continue -- --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",
+    "format:fix": "turbo format --continue -- --write --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",
+    "lint": "turbo lint --continue -- --cache --cache-location 'node_modules/.cache/.eslintcache' && manypkg check",
+    "lint:fix": "turbo lint --continue -- --fix --cache --cache-location 'node_modules/.cache/.eslintcache' && manypkg fix",
+    "typecheck": "turbo typecheck",
     "prepare": "husky install",
     "commit": "./node_modules/cz-customizable/standalone.js",
     "lint-staged": "lint-staged"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^18.6.2",
+    "@commitlint/prompt": "^18.6.1",
+    "commitizen": "^4.3.0",
+    "cz-customizable": "^7.0.0",
+    "eslint": "^8.56.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.2",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "@breeze/tsconfig": "workspace:*",
+    "turbo": "latest"
   },
   "husky": {
     "hooks": {
@@ -22,27 +43,21 @@
       "prettier --write"
     ]
   },
-  "devDependencies": {
-    "@commitlint/config-conventional": "^18.6.2",
-    "@commitlint/prompt": "^18.6.1",
-    "commitizen": "^4.3.0",
-    "cz-customizable": "^7.0.0",
-    "eslint": "^8.56.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.2.2",
-    "prettier-plugin-tailwindcss": "^0.5.11",
-    "tsconfig": "workspace:*",
-    "turbo": "latest"
-  },
-  "name": "breeze",
   "workspaces": [
     "apps/*",
     "packages/*",
     "research/*",
-    "docs/*"
+    "docs/*",
+    "toolings/*"
   ],
   "dependencies": {
-    "contentlayer": "^0.3.4",
-    "next-contentlayer": "^0.3.4"
-  }
+    "@breeze/prettier-config": "workspace:*",
+    "@manypkg/cli": "^0.21.2",
+    "@turbo/gen": "^1.11.3",
+    "cross-env": "^7.0.3",
+    "prettier": "^3.2.4",
+    "turbo": "^1.11.3",
+    "typescript": "^5.3.3"
+  },
+  "prettier": "@breeze/prettier-config"
 }

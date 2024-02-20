@@ -1,35 +1,21 @@
 {
   "name": "@breeze/ui",
   "version": "0.0.0",
-  "description": "The shared UI components for Breeze",
   "private": true,
-  "exports": {
-    "./types": "./src/types.ts",
-    "./globals.css": "./src/globals.css",
-    "./postcss.config": "./postcss.config.js",
-    "./tailwind.config": "./tailwind.config.ts",
-    "./lib/*": "./src/lib/*.ts",
-    "./components/*": "./src/components/*"
-  },
-  "typesVersions": {
-    "*": {
-      "types": [
-        "./src/types.ts"
-      ],
-      "components/*": [
-        "./src/components/*"
-      ]
-    }
-  },
   "scripts": {
-    "add": "pnpm dlx shadcn-ui@latest add",
-    "lint": "eslint ."
+    "clean": "git clean -xdf .turbo node_modules",
+    "format": "prettier --check \"**/*.{ts,tsx}\"",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "tsconfig": "workspace:*"
+    "@breeze/tailwind-config": "workspace:*",
+    "@breeze/eslint-config": "workspace:*",
+    "@breeze/prettier-config": "workspace:*",
+    "@breeze/tsconfig": "workspace:*"
   },
   "keywords": [],
   "author": "",
@@ -41,5 +27,25 @@
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7"
+  },
+  "prettier": "@breeze/prettier-config",
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@breeze/eslint-config/base",
+      "@breeze/eslint-config/react"
+    ]
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./button": "./src/button.tsx",
+    "./card": "./src/card.tsx"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "src/*"
+      ]
+    }
   }
 }
