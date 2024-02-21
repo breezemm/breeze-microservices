@@ -29,7 +29,7 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@breeze/eslint-config"
+      "@breeze/eslint-config/base"
     ]
   },
   "prettier": "@breeze/prettier-config"
