@@ -2,7 +2,7 @@ services:
   kafka-go:
     build:
       context: .
-      dockerfile: ./apps/kafka-go/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - 8005:3000
     volumes:
