@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/apps/gateway" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/apps/wallet" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/hello-world/src" isTestSource="false" packagePrefix="Breeze\HelloWorld\" />
+      <excludeFolder url="file://$MODULE_DIR$/apps/wallet/storage/app" />
+      <excludeFolder url="file://$MODULE_DIR$/apps/wallet/storage/framework" />
+      <excludeFolder url="file://$MODULE_DIR$/apps/wallet/vendor/_laravel_idea" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/hello-world/vendor/composer" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
