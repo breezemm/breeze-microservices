@@ -1,5 +1,6 @@
 {
     "private": true,
+    "name": "admin-portal",
     "type": "module",
     "scripts": {
         "dev": "vite",

@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=v18.17.1"
   },
-  "packageManager": "pnpm@8.13.1",
+  "packageManager": "bun@1.0.20",
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules dist .next",
@@ -35,7 +35,6 @@
     "apps/*",
     "packages/*",
     "research/*",
-    "docs/*",
     "toolings/*"
   ],
   "devDependencies": {
@@ -56,5 +55,8 @@
     "@breeze/tsconfig": "workspace:*",
     "turbo": "latest"
   },
-  "prettier": "@breeze/prettier-config"
+  "prettier": "@breeze/prettier-config",
+  "dependencies": {
+    "@types/bun": "^1.0.6"
+  }
 }
