@@ -5,22 +5,36 @@
   "main": "src/index.tsx",
   "types": "src/index.ts",
   "module": "src/index.ts",
-  "exports": {
-    ".": "./src/index.tsx"
-  },
   "scripts": {
-    "clean": "rm -rf .next dist node_modules",
-    "format": "prettier . --check --cache --cache-location=\"node_modules/.cache/prettiercache\"",
-    "format:fix": "prettier . --write --cache --cache-location=\"node_modules/.cache/prettiercache\" --log-level=warn",
-    "lint": "eslint . --cache --cache-location \"node_modules/.cache/.eslintcache\" --max-warnings 0",
-    "lint:fix": "eslint . --fix --cache --cache-location \"node_modules/.cache/.eslintcache\" --max-warnings 0"
+    "clean": "git clean -xdf .turbo node_modules",
+    "format": "prettier --check \"**/*.{ts,tsx}\"",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.22.2",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "eslint": "^8.56.0"
   },
   "devDependencies": {
     "@breeze/eslint-config": "workspace:*",
     "@breeze/tsconfig": "workspace:*"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@breeze/eslint-config/base",
+      "@breeze/eslint-config/react"
+    ]
+  },
+  "exports": {
+    ".": "./src/index.tsx"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "src/*"
+      ]
+    }
   }
 }
