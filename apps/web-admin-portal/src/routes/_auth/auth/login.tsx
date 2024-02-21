@@ -1,5 +1,5 @@
 import {createFileRoute} from '@tanstack/react-router'
-import {initAuth} from "~/auth";
+import {initAuth} from "react-auth";
 import {useQueryClient} from '@tanstack/react-query'
 
 export const Route = createFileRoute('/_auth/auth/login')({
@@ -40,7 +40,7 @@ function Login() {
   const result = useAuthUser()
   console.log(result.data)
 
-  console.log('qc',queryClient.getQueryData(['authenticated-user']))
+  console.log('qc', queryClient.getQueryData(['authenticated-user']))
 
 
   return (

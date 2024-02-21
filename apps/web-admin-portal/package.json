@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@breeze/react-auth": "workspace:*",
     "@tanstack/react-query": "^5.22.2",
     "@tanstack/react-router": "^1.16.6",
     "@tanstack/router-cli": "^1.16.5",
