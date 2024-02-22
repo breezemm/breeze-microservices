@@ -1,5 +1,5 @@
 import {createFileRoute, useNavigate} from '@tanstack/react-router'
-import {useAuthUser} from "~/lib/auth.tsx";
+import {useAuthUser} from "~/lib/auth.ts";
 
 export const Route = createFileRoute('/')({
   component: RootRouteComponent,

@@ -1,7 +1,7 @@
 import {QueryClient} from "@tanstack/react-query";
 import {createRouter, ErrorComponent, RouterProvider} from "@tanstack/react-router";
-import {useAuthUser} from "~/lib/auth.tsx";
 import {routeTree} from "~/routeTree.gen.ts";
+import {useAuthUser} from "~/lib/auth";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const queryClient = new QueryClient()

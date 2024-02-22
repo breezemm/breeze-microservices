@@ -10,3 +10,10 @@ export const signInWithEmailAndPassword = async (credentials: SignInCredentialDT
 
   return response.data.data;
 }
+
+
+export const getAuthUser = async () => {
+  const response
+    = await axios.get('/me');
+  return response.data;
+}

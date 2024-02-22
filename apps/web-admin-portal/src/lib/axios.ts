@@ -8,11 +8,11 @@ export const axios = Axios.create({
 axios.defaults.withCredentials = true;
 
 axios.interceptors.request.use((config) => {
-  // const token = '123'
-  // if (token) {
-  //   config.headers.authorization = `${token}`;
-  // }
-  // config.headers.Accept = 'application/json';
+  const token = JSON.parse(localStorage.getItem('access_token')! as string) ?? null;
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
   return config;
 });

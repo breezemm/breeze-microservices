@@ -1,20 +1,32 @@
-import {signInWithEmailAndPassword} from "~/features/auth/api/login.ts";
+import {useAuthUser, useSignInUser} from "~/lib/auth";
 
 const Login = () => {
+  const login = useSignInUser({
+    onSuccess: (data) => {
+      console.log("Login Success", data);
+    }
+  });
 
-  const login = async () => {
-    const response = await signInWithEmailAndPassword({
-      email: 'admin@breeze.com',
-      password: 'password',
-    })
-    console.log(responseΩ)
-  }
+  const auth = useAuthUser();
+
+
   return (
     <div>
-      Login Component
-      <button onClick={login}
-              className="bg-indigo-500 px-4 py-2 text-white"
-      >Login</button>
+      {auth.isLoading && <div>Loading...</div>}
+      {auth.isSuccess && <div>Logged in as {auth.data.email}</div>}
+
+      <form action="" onSubmit={(e) => {
+        e.preventDefault();
+        login.mutate({
+          email: "admin@breeze.com",
+          password: "password",
+        })
+      }}>
+        <input type="text" placeholder="Email"/>
+        <input type="password" placeholder="Password"/>
+        <button type="submit">Login
+        </button>
+      </form>
     </div>
   );
 };
