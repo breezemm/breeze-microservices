@@ -1,44 +1,25 @@
 import "~/styles/globals.css"
 import {StrictMode} from 'react'
 import ReactDOM from 'react-dom/client'
-import {createRouter, ErrorComponent, RouterProvider} from '@tanstack/react-router'
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
-import {routeTree} from './routeTree.gen'
+import {QueryClientProvider} from '@tanstack/react-query'
+import App, {createRouterWithAuth, queryClient} from "~/App.tsx";
 
-const queryClient = new QueryClient()
-
-
-const router = createRouter({
-  routeTree,
-  context: {
-    queryClient,
-  },
-  defaultErrorComponent: ({error}) => <ErrorComponent error={error}/>,
-  defaultPreload: 'intent',
-  defaultPreloadStaleTime: 0,
-})
 
 declare module '@tanstack/react-router' {
   interface Register {
-    router: typeof router
+    router: ReturnType<typeof createRouterWithAuth>
   }
 }
-
-
-
 
 const rootElement = document.getElementById('app')!
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
 
-
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider
-          router={router}
-        />
+        <App/>
       </QueryClientProvider>
     </StrictMode>,
   )
