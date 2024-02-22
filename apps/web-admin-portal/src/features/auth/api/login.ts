@@ -5,12 +5,8 @@ export interface SignInCredentialDTO {
   password: string;
 }
 
-export const loginWithEmailAndPassword = async (credentials: SignInCredentialDTO) => {
-  try {
-    const response = await axios.post('/login', credentials);
+export const signInWithEmailAndPassword = async (credentials: SignInCredentialDTO) => {
+  const response = await axios.post('/auth/login', credentials);
 
-    return response.data.data;
-  } catch (e) {
-    throw new Error("Login Failed");
-  }
+  return response.data.data;
 }

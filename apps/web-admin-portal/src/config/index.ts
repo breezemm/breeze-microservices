@@ -1,1 +1,1 @@
-export const API_URL = 'http://admin-portal.test' as string
+export const API_URL = 'http://admin.test/api/v1' as string
