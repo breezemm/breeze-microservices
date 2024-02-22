@@ -5,12 +5,14 @@ export const axios = Axios.create({
   baseURL: API_URL,
 });
 
+axios.defaults.withCredentials = true;
+
 axios.interceptors.request.use((config) => {
-  const token = '123'
-  if (token) {
-    config.headers.authorization = `${token}`;
-  }
-  config.headers.Accept = 'application/json';
+  // const token = '123'
+  // if (token) {
+  //   config.headers.authorization = `${token}`;
+  // }
+  // config.headers.Accept = 'application/json';
 
   return config;
 });

@@ -15,6 +15,7 @@ import { Route as AuthImport } from './routes/_auth'
 import { Route as RouteImport } from './routes/route'
 import { Route as PostsIndexImport } from './routes/posts/index'
 import { Route as AuthAuthLoginImport } from './routes/_auth/auth/login'
+import { Route as AuthAuthCallbackImport } from './routes/_auth/auth/callback'
 
 // Create/Update Routes
 
@@ -38,6 +39,11 @@ const AuthAuthLoginRoute = AuthAuthLoginImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
+const AuthAuthCallbackRoute = AuthAuthCallbackImport.update({
+  path: '/auth/callback',
+  getParentRoute: () => AuthRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -54,6 +60,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsIndexImport
       parentRoute: typeof rootRoute
     }
+    '/_auth/auth/callback': {
+      preLoaderRoute: typeof AuthAuthCallbackImport
+      parentRoute: typeof AuthImport
+    }
     '/_auth/auth/login': {
       preLoaderRoute: typeof AuthAuthLoginImport
       parentRoute: typeof AuthImport
@@ -65,7 +75,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   RouteRoute,
-  AuthRoute.addChildren([AuthAuthLoginRoute]),
+  AuthRoute.addChildren([AuthAuthCallbackRoute, AuthAuthLoginRoute]),
   PostsIndexRoute,
 ])
 
