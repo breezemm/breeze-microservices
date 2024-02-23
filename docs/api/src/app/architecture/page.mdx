@@ -1,0 +1,111 @@
+export const metadata = {
+  title: 'Architecture',
+  description: 'Setting up the environment for the project',
+}
+
+# Architecture
+
+We use Domain Driven Design (DDD) to structure our microservices. Each microservice is a separate project and has its own database.
+
+## Project Structure
+We use mono-repo to manage the microservices and micro-frontends. The project structure is as follows:
+
+```
+.
+├── apps
+│   ├── admin
+│   ├── download-app
+│   ├── gateway
+│   ├── notification
+│   ├── suggestion
+│   ├── wallet
+│   └── web-admin-portal
+├── docs
+│   └── api
+├── infra
+│   ├── databases
+│   └── fluentd
+├── packages
+│   ├── react-auth
+│   └── ui
+├── research
+│   ├── kafka-go
+│   ├── topics-subscriber
+│   └── web
+├── scripts
+└── toolings
+    ├── eslint-config
+    ├── github-actions
+    ├── prettier
+    ├── tailwind
+    └── tsconfig
+
+29 directories
+```
+# Directory Structure
+
+We use the following directories to manage the project:
+
+| Name | Description |
+| ---- | ----------- |
+| apps | Contains the microservices and micro-frontends |
+| docs | Contains the documentation websites like API, etc. |
+| infra | Contains the infrastructure code for DevOps like databases, etc. |
+| packages | Contains the shared packages like react-auth, etc. |
+| research | Contains the research projects like Kafka, etc. |
+| scripts | Contains the scripts like deployment, etc. |
+| toolings | Contains the toolings packages like eslint, prettier, etc. |
+
+## Micro-Frontends
+
+Currently, frontend apps are in the `/apps` directory:
+| Name | Description |
+| ---- | ----------- |
+| Web Admin Portal | Admin Portal for the Breeze app |
+| Download App | Landing page for the Breeze app |
+
+
+## Microservices
+
+Inside the `/apps` directory, you will find the following microservices:
+| Name | Description |
+| ---- | ----------- |
+| Gateway | Customized API Gateway to manage the authentication and authorization like AWS API Gateway |
+| Wallets | Wallet microservice allow to manage the wallets including the transactions |
+|Admin | Admin microservice allow to manage the system |
+|Notification | Notification service provide the real-time notification, email, and SMS |
+| Suggestions | Suggestions service provide the suggestions to the users by using the machine learning |
+
+
+## Database
+
+We use the following databases:
+| Name | Description |
+| ---- | ----------- |
+| [MySQL](/mysql) | MySQL is used to store the data |
+| [Redis](/redis) | Redis is used to store the cache data |
+| [Elasticsearch](/elasticsearch) | Elasticsearch is used to store the logs and search data |
+
+
+## Design Patterns
+We use the following design patterns in our microservices to make them scalable, reliable, and maintainable.
+I assume that you are familiar with the design patterns and I will not explain them in detail. If you are not familiar with them, you can find more information about them on the [Microservices.io](https://microservices.io/patterns/index.html) website.
+
+- [﻿Strangler Application](https://microservices.io/patterns/refactoring/strangler-application.html)
+- [﻿API Composition](https://microservices.io/patterns/data/api-composition.html)
+- [﻿Circuit Breaker](https://microservices.io/patterns/reliability/circuit-breaker.html)
+- [﻿Saga](https://microservices.io/patterns/data/saga.html) (Kafka)
+- [﻿Database per Service](https://microservices.io/patterns/data/database-per-service.html)
+- [﻿Remote Procedure Invocation](https://microservices.io/patterns/communication-style/rpi.html) (Kafka)
+- [﻿Messaging ](https://microservices.io/patterns/communication-style/messaging.html)
+- [﻿Idempotent Consumer](https://microservices.io/patterns/communication-style/idempotent-consumer.html)
+- [﻿API gateway](https://microservices.io/patterns/apigateway.html)
+- [﻿Backend for front-end](https://microservices.io/patterns/apigateway.html)
+- [﻿Access Token](https://microservices.io/patterns/security/access-token.html)
+- [﻿Health check API](https://microservices.io/patterns/observability/health-check-api.html)
+- [﻿Service instance per Container](https://microservices.io/patterns/deployment/service-per-container.html)
+- [﻿Serverless deployment](https://microservices.io/patterns/deployment/serverless-deployment.html)
+- [﻿Service registry](https://microservices.io/patterns/service-registry.html)
+- [﻿Self registration](https://microservices.io/patterns/self-registration.html)
+- [﻿Domain-specific protocol](https://microservices.io/patterns/communication-style/domain-specific.html)
+
