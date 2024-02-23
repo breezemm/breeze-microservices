@@ -1,16 +1,18 @@
 import {createFileRoute, Outlet} from '@tanstack/react-router'
-import AuthLayout from "~/features/auth/components/AuthLayout.tsx";
 
 export const Route = createFileRoute('/_auth')({
   component: Auth,
+  beforeLoad: ({context: {auth}}) => {
+    console.log(auth)
+  }
 })
 
 function Auth() {
 
   return (
-    <AuthLayout>
-      Hello /_auth! Layout
+    <div>
+      Auth Layout
       <Outlet/>
-    </AuthLayout>
+    </div>
   )
 }

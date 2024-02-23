@@ -12,10 +12,8 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/_auth'
-import { Route as RouteImport } from './routes/route'
-import { Route as PostsIndexImport } from './routes/posts/index'
+import { Route as IndexImport } from './routes/index'
 import { Route as AuthAuthLoginImport } from './routes/_auth/auth/login'
-import { Route as AuthAuthCallbackImport } from './routes/_auth/auth/callback'
 
 // Create/Update Routes
 
@@ -24,13 +22,8 @@ const AuthRoute = AuthImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const RouteRoute = RouteImport.update({
+const IndexRoute = IndexImport.update({
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PostsIndexRoute = PostsIndexImport.update({
-  path: '/posts/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,30 +32,17 @@ const AuthAuthLoginRoute = AuthAuthLoginImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
-const AuthAuthCallbackRoute = AuthAuthCallbackImport.update({
-  path: '/auth/callback',
-  getParentRoute: () => AuthRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
-      preLoaderRoute: typeof RouteImport
+      preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
     '/_auth': {
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
-    }
-    '/posts/': {
-      preLoaderRoute: typeof PostsIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/_auth/auth/callback': {
-      preLoaderRoute: typeof AuthAuthCallbackImport
-      parentRoute: typeof AuthImport
     }
     '/_auth/auth/login': {
       preLoaderRoute: typeof AuthAuthLoginImport
@@ -74,9 +54,8 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  RouteRoute,
-  AuthRoute.addChildren([AuthAuthCallbackRoute, AuthAuthLoginRoute]),
-  PostsIndexRoute,
+  IndexRoute,
+  AuthRoute.addChildren([AuthAuthLoginRoute]),
 ])
 
 /* prettier-ignore-end */

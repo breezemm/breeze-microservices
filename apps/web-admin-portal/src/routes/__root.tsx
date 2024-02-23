@@ -21,13 +21,13 @@ const ReactQueryDevtools =
     )
 
 
-export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient,
-  auth: {
-    name: string;
-  },
-}>()({
-  component: RootComponent
+interface RouterContext {
+  queryClient: QueryClient;
+  auth: string | undefined;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
+  component: RootComponent,
 })
 
 function RootComponent() {
