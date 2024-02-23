@@ -33,6 +33,7 @@ declare module '@tanstack/react-router' {
 }
 
 const WithAuthProvider = () => {
+
   const auth = useAuthUser()
 
   if (auth.isLoading) return <Spinner/>;

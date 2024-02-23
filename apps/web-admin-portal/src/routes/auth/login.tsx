@@ -1,10 +1,18 @@
-import {createFileRoute, useNavigate} from '@tanstack/react-router'
+import {createFileRoute, redirect, useNavigate} from '@tanstack/react-router'
 import {useSignInUser} from "~/lib/auth.ts";
 import {FormEvent} from "react";
 import {Button} from "@breeze/ui";
 
-export const Route = createFileRoute('/_auth/auth/login')({
+export const Route = createFileRoute('/auth/login')({
   component: Login,
+  beforeLoad: ({context: {auth}}) => {
+    console.log('auth', auth)
+    if (auth) {
+      throw redirect({
+        to: '/'
+      })
+    }
+  }
 })
 
 
