@@ -13,8 +13,8 @@ const project = resolve(process.cwd(), "tsconfig.json");
 
 module.exports = {
   extends: [
-    "@vercel/style-guide/eslint/node",
-    "@vercel/style-guide/eslint/typescript",
+    "@vercel/style-api/eslint/node",
+    "@vercel/style-api/eslint/typescript",
   ],
   parserOptions: {
     project,
