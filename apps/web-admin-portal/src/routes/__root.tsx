@@ -1,6 +1,6 @@
-import {QueryClient} from '@tanstack/react-query';
 import {createRootRouteWithContext, Outlet} from '@tanstack/react-router'
 import React, {Suspense} from 'react'
+import {RootRouterContext} from "~/RootRouterContext.ts";
 
 const TanStackRouterDevtools =
   process.env.NODE_ENV === 'production'
@@ -21,12 +21,8 @@ const ReactQueryDevtools =
     )
 
 
-interface RouterContext {
-  queryClient: QueryClient;
-  auth: string | undefined;
-}
 
-export const Route = createRootRouteWithContext<RouterContext>()({
+export const Route = createRootRouteWithContext<RootRouterContext>()({
   component: RootComponent,
 })
 
