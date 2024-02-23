@@ -36,6 +36,7 @@
       "@breeze/eslint-config/react"
     ]
   },
+  "main": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
     "./button": "./src/button.tsx",
