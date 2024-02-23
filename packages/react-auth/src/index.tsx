@@ -7,7 +7,8 @@ import {
   UseMutationOptions,
   useQuery,
   useQueryClient,
-  UseQueryOptions
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query'
 
 export interface ReactQueryAuthConfig<
@@ -36,18 +37,20 @@ export function initAuth<
     signOutUserFn,
     userQueryKey = ['authenticated-user']
   } = config;
+
+
   const useAuthUser = (
     options?: Omit<
       UseQueryOptions<TUser, TError, TUser, QueryKey>,
       'queryKey' | 'queryFn'>
-  ) => useQuery({
+  ): UseQueryResult<TUser, TError> => useQuery({
     ...options,
     queryFn: getAuthUserFn,
     queryKey: userQueryKey,
   })
 
   const useSignUpUser = (
-    options: Omit<
+    options?: Omit<
       UseMutationOptions<TUser, TError, TSignUpCredentials, TUser>,
       'mutationFn'
     >
@@ -65,13 +68,13 @@ export function initAuth<
       mutationFn: signUpUserFn,
       onSuccess: (user, ...rest) => {
         setUser(user);
-        options.onSuccess?.(user, ...rest);
+        options?.onSuccess?.(user, ...rest);
       }
     })
   }
 
   const useSignInUser = (
-    options: Omit<
+    options?: Omit<
       UseMutationOptions<TUser, TError, TSignInCredentials, TUser>,
       'mutationFn'
     >) => {
@@ -87,7 +90,7 @@ export function initAuth<
       mutationFn: signInUserFn,
       onSuccess: (user, ...rest) => {
         setUser(user);
-        options.onSuccess?.(user, ...rest);
+        options?.onSuccess?.(user, ...rest);
       }
     })
   }
