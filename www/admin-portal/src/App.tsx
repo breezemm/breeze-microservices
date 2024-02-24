@@ -8,8 +8,9 @@ import {Spinner} from "~/components/Spinner.tsx";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 0,
+      retry: false,
       refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 60 * 24,
     },
   },
 });
@@ -42,7 +43,7 @@ const WithAuthProvider = () => {
     <RouterProvider
       router={router}
       context={{
-        auth: auth.isSuccess ? auth.data : undefined,
+        auth: auth.data,
       }}
     />
   );
