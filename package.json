@@ -36,7 +36,8 @@
     "packages/*",
     "research/*",
     "toolings/*",
-    "docs/*"
+    "docs/*",
+    "www/*"
   ],
   "devDependencies": {
     "@breeze/prettier-config": "workspace:*",

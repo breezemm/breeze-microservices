@@ -4,3 +4,4 @@ packages:
   - "research/*"
   - "docs/*"
   - "toolings/*"
+  - "www/*"
