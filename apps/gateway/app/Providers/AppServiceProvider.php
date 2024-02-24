@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+
         Http::macro('suggestion', fn() => Http::baseUrl(
             config('services.breeze.suggestion')
         ));

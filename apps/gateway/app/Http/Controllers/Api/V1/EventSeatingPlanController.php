@@ -23,15 +23,16 @@ class EventSeatingPlanController extends Controller
                 return $ticketType->tickets->where('status', TicketStatusEnum::AVAILABLE)->count();
             })->sum();
         })->sum();
+
         $soldSeatsCount = $event->phases->map(function ($phase) {
             return $phase->ticketTypes->map(function ($ticketType) {
                 if (! $ticketType->is_has_seating_plan) {
                     return 0;
                 }
-
                 return $ticketType->tickets->where('status', TicketStatusEnum::SOLD)->count();
             })->sum();
         })->sum();
+
         $unAvailableSeatsCount = $event->phases->map(function ($phase) {
             return $phase->ticketTypes->map(function ($ticketType) {
                 if (! $ticketType->is_has_seating_plan) {

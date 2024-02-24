@@ -1,5 +1,5 @@
-name: 'breeze'
-version: '3.9'
+name: "breeze"
+version: "3.9"
 
 volumes:
   mysql-db:
@@ -22,8 +22,7 @@ services:
   kafka:
     restart: on-failure
     image: confluentinc/cp-kafka:7.5.1
-    env_file:
-      .env
+    env_file: .env
     hostname: kafka
     container_name: kafka
     depends_on:
@@ -32,20 +31,7 @@ services:
       - 9092:9092
     expose:
       - 29092
-    networks:
-      - dev
-    healthcheck:
-      test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
-      interval: 5s
-      timeout: 10s
-      retries: 5
-
-  # After initializing kafka and creating topics, this container will exit
-  init-kafka:
-    image: confluentinc/cp-kafka:7.5.1
-    depends_on:
-      - kafka
-    entrypoint: [ '/bin/sh', '-c' ]
+    entrypoint: ["/bin/sh", "-c"]
     command: |
       "
       # blocks until kafka is reachable
@@ -61,7 +47,32 @@ services:
       "
     networks:
       - dev
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
 
+  # # After initializing kafka and creating topics, this container will exit
+  # init-kafka:
+  #   image: confluentinc/cp-kafka:7.5.1
+  #   depends_on:
+  #     - kafka
+  #   entrypoint: [ '/bin/sh', '-c' ]
+  #   command: |
+  #     "
+  #     # blocks until kafka is reachable
+  #     kafka-topics --bootstrap-server kafka:29092 --list
+
+  #     echo -e '🙌 Creating kafka topics'
+  #     kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallets --replication-factor 1 --partitions 3
+  #     kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic notifications --replication-factor 1 --partitions 3
+
+  #     echo -e '🐙 Successfully created the following topics:'
+  #     kafka-topics --bootstrap-server kafka:29092 --list
+  #     "
+  #   networks:
+  #     - dev
 
   schema-registry:
     image: confluentinc/cp-schema-registry:6.2.0
@@ -106,10 +117,9 @@ services:
     networks:
       - dev
     healthcheck:
-      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
       interval: 5s
       timeout: 5s
-
 
   gateway:
     restart: unless-stopped
@@ -179,7 +189,6 @@ services:
     networks:
       - dev
 
-
   suggestion:
     build:
       context: .
@@ -196,7 +205,6 @@ services:
     networks:
       - dev
 
-
   mysql-db:
     image: mysql:8.0
     restart: always
@@ -211,10 +219,9 @@ services:
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 5s
       retries: 5
     networks:
       - dev
-
