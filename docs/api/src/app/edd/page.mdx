@@ -1,0 +1,86 @@
+export const metadata = {
+  title: 'Events Driven Design',
+  description:
+    'We are using Event Driven Design (Pub-Sub) to communicate between microservices. Under the hood we use the Kafka as a service bus and subscriber listen to the topics.',
+}
+
+# Events Driven Design
+
+We are using Event Driven Design (Pub-Sub) to communicate between microservices.
+Under the hood we use the Kafka as a service bus and subscriber listen to the topics.
+
+
+## Event Schema
+
+You can push an event to the consumer by pushing following payload to the kafka as follows:
+
+```json {{title: 'Example Event Schema'}}
+{
+    "id": "68950cb0-397b-43b3-bf03-9c5f8aa619fa",
+    "topic": "wallet.create",
+    "pattern": {
+        "cmd": "wallet.create"
+    },
+    "data": {
+        "name": "Wallet",
+        "description": "Wallet for the user",
+        "user_id": "68950cb0-397b-43b3-bf03-9c5f8aa619fa",
+        "currency": "USD",
+        "balance": 0,
+        "is_active": true
+    }
+}
+```
+
+| Property | Description                                                                                                                      |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| id       | The unique id for the event                                                                                                      |
+| topic    | The event name for the kafka topic                                                                                               |
+| pattern  | The command name for the event that will be used in the RabbitMQ or Redis when we have to communicate to the NestJS microservice |
+| data     | The payload for the event                                                                                                        |
+
+### Constraints
+
+| Property | Description         |
+| -------- | ------------------- |
+| id       | 64 bit UUID         |
+| topic    | service_name.action |
+| pattern  | service_name.action |
+| data     | JSON                |
+
+
+# Example
+In the following example, we use the `Action` class in Laravel to operate one action
+according to the [Single Responsible Pattern](https://en.wikipedia.org/wiki/Single_responsibility_principle).
+The `CreateWalletAction` is only responsible to create a wallet of the registered user in the wallet service.
+
+```php {{title: 'Create Wallet Event Example'}}
+<?php
+
+namespace App\Actions;
+
+use App\Models\User;
+use Junges\Kafka\Facades\Kafka;
+use Junges\Kafka\Message\Message;
+
+class CreateWalletAction
+{
+    /**
+     * @throws \Exception
+     */
+    public function handle(User $user): void
+    {
+        $message = new Message(body: createKafkaPayload(
+            topic: 'wallets',
+            pattern: 'wallets.created',
+            data: [
+                'user_id' => $user->id,
+            ],
+        ));
+        Kafka::publishOn('wallets')
+            ->withMessage($message)
+            ->send();
+    }
+}
+
+```
