@@ -1,4 +1,4 @@
-import {useCallback} from 'react';
+import React, {useCallback} from 'react';
 import {
   MutationFunction,
   QueryFunction,
@@ -86,8 +86,8 @@ export function initAuth<
     );
 
     return useMutation({
-      ...options,
       mutationFn: signInUserFn,
+      ...options,
       onSuccess: (user, ...rest) => {
         setUser(user);
         options?.onSuccess?.(user, ...rest);
@@ -111,11 +111,13 @@ export function initAuth<
       ...options,
       mutationFn: signOutUserFn,
       onSuccess: (...args) => {
+        queryClient.clear();
         setUser(null);
         options.onSuccess?.(...args);
       }
     })
   }
+
 
   return {
     useAuthUser,

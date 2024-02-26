@@ -115,9 +115,10 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('/tickets', TicketController::class)->only('show', 'update');
 });
 
-Route::middleware('auth:api')->prefix('event-dashboard')
+Route::middleware('auth:api')
+    ->prefix('event-dashboard')
     ->group(function () {
-        Route::get('C{event}/revenue', ShowEventRevenueController::class);
+        Route::get('{event}/revenue', ShowEventRevenueController::class);
         Route::get('/events/{event}/seating-plan', EventSeatingPlanController::class);
         Route::get('/events/{event}/guests', GuestListController::class);
         Route::post('/events/{event}/guests/{user}/invite', GuestInvitationController::class);
