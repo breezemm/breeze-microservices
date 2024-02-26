@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, Fragment, useState } from 'react'
+import React, { forwardRef, Fragment, useState } from 'react'
 import { Transition } from '@headlessui/react'
 
 function CheckIcon(props: React.ComponentPropsWithoutRef<'svg'>) {

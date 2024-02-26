@@ -10,11 +10,6 @@
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
-    "@types/node": "20.4.7",
-    "@types/react": "18.2.18",
-    "@types/react-dom": "18.2.7",
-    "@types/react-highlight-words": "^0.16.4",
-    "typescript": "5.1.6",
     "@algolia/autocomplete-core": "^1.7.3",
     "@headlessui/react": "^1.7.15",
     "@headlessui/tailwindcss": "^0.2.0",
@@ -23,6 +18,10 @@
     "@next/mdx": "13.4.16",
     "@sindresorhus/slugify": "^2.1.1",
     "@tailwindcss/typography": "^0.5.8",
+    "@types/node": "20.4.7",
+    "@types/react": "18.2.18",
+    "@types/react-dom": "18.2.7",
+    "@types/react-highlight-words": "^0.16.4",
     "acorn": "^8.8.1",
     "autoprefixer": "^10.4.7",
     "clsx": "^1.2.0",
@@ -51,6 +50,7 @@
     "eslint-config-next": "13.4.16",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.5.2",
-    "sharp": "^0.32.0"
+    "sharp": "^0.32.0",
+    "typescript": "^5.3.3"
   }
 }
