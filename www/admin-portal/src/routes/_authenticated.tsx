@@ -1,5 +1,6 @@
-import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
-import { authStore } from "~/store";
+import {createFileRoute, Link, Outlet, redirect} from '@tanstack/react-router'
+import {authStore} from "~/store";
+
 
 export const Route = createFileRoute('/_authenticated')({
   component: Auth,
@@ -18,14 +19,14 @@ export const Route = createFileRoute('/_authenticated')({
 function Auth() {
 
   return (
-    <main className="flex container">
-      <div className="flex-col bg-red-500">
+    <main>
+      <div className="">
         <Link to={"/"}>Home</Link>
         <Link to={"/wallet"}>Wallet</Link>
         <Link to={"/verify"}>Verify</Link>
       </div>
       <div>
-        <Outlet />
+        <Outlet/>
       </div>
     </main>
   )
