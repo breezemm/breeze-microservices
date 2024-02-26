@@ -1,31 +1,27 @@
 import {createFileRoute} from '@tanstack/react-router'
-import {useStore} from '@tanstack/react-store'
-import {store} from "~/store";
 import {Button} from "@breeze/ui";
+import {useAuthUser, useSignOutUser} from "~/lib/auth.ts";
 
 export const Route = createFileRoute('/_authenticated/')({
   component: Home,
 })
 
 function Home() {
-  const name = useStore(store, state => state.name)
+  const auth = useAuthUser()
 
-  const updateName = (name: string) => {
-    store.setState((state) => {
-      return {
-        ...state,
-        name: `${name} - Updated`
-      }
-    })
+  const signOutUser = useSignOutUser({})
+
+  const onLogout = () => {
+    signOutUser.mutate({})
   }
 
-  console.log(name)
   return (
     <div>
       <h1 className="font-semibold mb-3">Home Page</h1>
+      {auth.isLoading && <p>Loading...</p>}
       <hr/>
-      <p>Name:{name}</p>
-      <Button onClick={() => updateName('John')}>Update Name</Button>
+      <p>Name:{auth.isSuccess && auth.data?.name}</p>
+      <Button onClick={onLogout}>Logout</Button>
     </div>
   )
 }

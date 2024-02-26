@@ -10,19 +10,17 @@ const handleUserResponse = async (data: { access_token: string }) => {
 
   storage.setToken(access_token);
 
-  return access_token;
+  return await getAuthUser()
 }
 
 const signInUser = async (data: SignInCredentialDTO) => {
   const response = await signInWithEmailAndPassword(data);
   return await handleUserResponse(response);
-  // window.location.assign(window.location.origin as unknown as string);
 }
 
 const signOutUser = async () => {
   storage.clearToken();
-  return Promise.resolve();
-  // window.location.assign(window.location.origin as unknown as string);
+  window.location.assign(window.location.origin as unknown as string);
 }
 
 export const {useAuthUser, useSignInUser, useSignOutUser} = initAuth({

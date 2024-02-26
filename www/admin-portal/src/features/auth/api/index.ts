@@ -15,5 +15,5 @@ export const signInWithEmailAndPassword = async (credentials: SignInCredentialDT
 export const getAuthUser = async () => {
   const response
     = await axios.get('/me');
-  return response.data;
+  return response.data.data;
 }

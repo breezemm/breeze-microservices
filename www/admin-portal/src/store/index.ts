@@ -1,6 +1,14 @@
 import {Store} from "@tanstack/store";
 
-export const store = new Store({
-  name: 'Aung Myat Moe',
-  age: 20,
+export interface User {
+  name: string;
+  email: string;
+}
+
+interface State {
+  user: User | undefined;
+}
+
+export const store = new Store<State>({
+  user: undefined,
 })
