@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_authenticated')({
 function Auth() {
 
   return (
-    <main className="flex container gap-10">
+    <main className="flex container">
       <div className="flex-col">
         <Link to={"/"}>Home</Link>
         <Link to={"/wallet"}>Wallet</Link>
