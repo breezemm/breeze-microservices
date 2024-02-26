@@ -19,7 +19,7 @@ function Auth() {
 
   return (
     <main className="flex container gap-10">
-      <div className="flex-col gap-8">
+      <div className="flex-col">
         <Link to={"/"}>Home</Link>
         <Link to={"/wallet"}>Wallet</Link>
         <Link to={"/verify"}>Verify</Link>
