@@ -23,7 +23,6 @@ const ReactQueryDevtools =
 
 export const Route = createRootRouteWithContext<RootRouterContext>()({
   component: RootComponent,
-
 })
 
 function RootComponent() {
