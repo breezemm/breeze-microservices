@@ -64,6 +64,7 @@
     "@mdx-js/loader": "^3.0.1",
     "@mdx-js/react": "^3.0.1",
     "@next/mdx": "^14.1.0",
+    "@tanstack/react-store": "^0.3.1",
     "@types/bun": "^1.0.6",
     "@types/mdx": "^2.0.11",
     "install": "^0.13.0",
