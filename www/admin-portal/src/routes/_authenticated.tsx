@@ -1,5 +1,6 @@
-import {createFileRoute, Link, Outlet, redirect} from '@tanstack/react-router'
-import {authStore} from "~/store";
+import { Button } from '@breeze/ui';
+import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
+import { authStore } from "~/store";
 
 
 export const Route = createFileRoute('/_authenticated')({
@@ -19,15 +20,37 @@ export const Route = createFileRoute('/_authenticated')({
 function Auth() {
 
   return (
-    <main>
-      <div className="">
-        <Link to={"/"}>Home</Link>
-        <Link to={"/wallet"}>Wallet</Link>
-        <Link to={"/verify"}>Verify</Link>
+    <div>
+      <header className="flex flex-row justify-between w-full px-10 py-6 border-b">
+        <h1>Breeze Logo</h1>
+        <div>
+          Profile Image
+        </div>
+      </header>
+
+      <div className="flex">
+        <nav className="flex flex-col p-10 gap-y-6">
+
+
+          <Button variant="ghost" asChild>
+            <Link to={"/"}>Home</Link>
+          </Button>
+
+
+          <Button variant="ghost" asChild>
+            <Link to={"/wallet"}>Wallet</Link>
+          </Button>
+
+
+          <Button variant="ghost" asChild>
+            <Link to={"/verify"}>Verify</Link>
+          </Button>
+
+        </nav>
+        <section>
+          <Outlet />
+        </section>
       </div>
-      <div>
-        <Outlet/>
-      </div>
-    </main>
+    </div>
   )
 }
