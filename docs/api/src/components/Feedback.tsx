@@ -74,7 +74,7 @@ export function Feedback() {
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    // event.nativeEvent.submitter.dataset.response
+    // edd.nativeEvent.submitter.dataset.response
     // => "yes" or "no"
 
     setSubmitted(true)

@@ -5,21 +5,24 @@ export const metadata = {
 
 # Architecture
 
-We use Domain Driven Design (DDD) to structure our microservices. Each microservice is a separate project and has its own database.
+This project is using Domain Driven Micro-services Architecture. We separate the business logic into different microservices and use the event-driven architecture to communicate between the microservices. We use the [Kafka](https://kafka.apache.org/) as a message broker to communicate between the microservices.
+
+
+<Note>
+  You can find the Event Driven Design in [Event Driven Design Section](/edd).
+</Note>
 
 ## Project Structure
 We use mono-repo to manage the microservices and micro-frontends. The project structure is as follows:
 
-```
+``` {{title: 'Project Structure'}}
 .
 ├── apps
 │   ├── admin
-│   ├── download-app
 │   ├── gateway
 │   ├── notification
 │   ├── suggestion
-│   ├── wallet
-│   └── web-admin-portal
+│   └── wallet
 ├── docs
 │   └── api
 ├── infra
@@ -33,53 +36,58 @@ We use mono-repo to manage the microservices and micro-frontends. The project st
 │   ├── topics-subscriber
 │   └── web
 ├── scripts
-└── toolings
-    ├── eslint-config
-    ├── github-actions
-    ├── prettier
-    ├── tailwind
-    └── tsconfig
+├── toolings
+│   ├── eslint-config
+│   ├── github-actions
+│   ├── prettier
+│   ├── tailwind
+│   └── tsconfig
+└── www
+    ├── admin-portal
+    └── app-marketing
 
-29 directories
 ```
-# Directory Structure
-
-We use the following directories to manage the project:
+# Undrestanding the project structure
 
 | Name | Description |
 | ---- | ----------- |
-| apps | Contains the microservices and micro-frontends |
-| docs | Contains the documentation websites like API, etc. |
-| infra | Contains the infrastructure code for DevOps like databases, etc. |
-| packages | Contains the shared packages like react-auth, etc. |
-| research | Contains the research projects like Kafka, etc. |
-| scripts | Contains the scripts like deployment, etc. |
-| toolings | Contains the toolings packages like eslint, prettier, etc. |
+|apps | Contains the microservices |
+|docs | Contains the documentation realted stuffs |
+|infra | Contains the infrastructure code for DevOps |
+|packages | Contains the shared packages for all projects |
+|research | Contains the research projects |
+| scripts | Contains the bash script for end users who don't know operation stuffs |
+| toolings | Contains the setup for tools like `eslint` and `prettier` |
+|www | Contains the micro-frontends and modular frontend apps |
 
-## Micro-Frontends
+## `apps` directory
+The `apps` directory contains the microservices apps. Each microservice is a separate project and has its own database.
+Even each service has its own database, we don't separate the database server for each service. We use a single database server and create a separate database for each service. This is called [Database per Service](https://microservices.io/patterns/data/database-per-service.html) pattern.
 
-Currently, frontend apps are in the `/apps` directory:
+| Name | Description |
+| ---- | ----------- |
+| gateway | Customized API Gateway to manage the authentication and authorization like AWS API Gateway |
+| admin | Admin microservice allow to manage the system |
+| notification | Notification service provide the real-time notification, email, and SMS |
+| suggestion | Suggestions service provide the suggestions to the users by using the machine learning |
+| wallet | Wallet microservice allow to manage the wallets including the transactions |
+
+
+
+## `www` directory
+
+Inside the `www` directory, we put the micro-frontends and modular frontend apps. Each micro-frontend is a separate project.
+
 | Name | Description |
 | ---- | ----------- |
 | Web Admin Portal | Admin Portal for the Breeze app |
 | Download App | Landing page for the Breeze app |
 
 
-## Microservices
-
-Inside the `/apps` directory, you will find the following microservices:
-| Name | Description |
-| ---- | ----------- |
-| Gateway | Customized API Gateway to manage the authentication and authorization like AWS API Gateway |
-| Wallets | Wallet microservice allow to manage the wallets including the transactions |
-|Admin | Admin microservice allow to manage the system |
-|Notification | Notification service provide the real-time notification, email, and SMS |
-| Suggestions | Suggestions service provide the suggestions to the users by using the machine learning |
-
-
 ## Database
 
-We use the following databases:
+We primaryly use the `mysql` as a database server. We use the `redis` as a cache server and `elasticsearch` as a search server.
+
 | Name | Description |
 | ---- | ----------- |
 | [MySQL](/mysql) | MySQL is used to store the data |

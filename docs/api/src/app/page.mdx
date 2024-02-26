@@ -1,42 +1,37 @@
-import { Guides } from '@/components/Guides'
-import { Resources } from '@/components/Resources'
-import { HeroPattern } from '@/components/HeroPattern'
+import {Guides} from '@/components/Guides'
+import {Resources} from '@/components/Resources'
+import {HeroPattern} from '@/components/HeroPattern'
 
 export const metadata = {
-  title: 'API Documentation',
+  title: 'Developer Guide and API Documentation',
   description:
     'Learn everything there is to know about the Protocol API and integrate Protocol into your product.',
 }
 
-export const sections = [
-  { title: 'Guides', id: 'guides' },
-  { title: 'Resources', id: 'resources' },
-]
+[//]: # (export const sections = [)
 
-<HeroPattern />
+[//]: # (  {title: 'Guides', id: 'guides'},)
 
-# API Documentation
+[//]: # (  {title: 'Resources', id: 'resources'},)
 
-Use the Protocol API to access contacts, conversations, group messages, and more and seamlessly integrate your product into the workflows of dozens of devoted Protocol users. {{ className: 'lead' }}
+[//]: # (])
+
+<HeroPattern/>
+
+# Developer Guide and API Documentation {{ anchor: false }}
+
+This website is the official developer guide and API documentation for Breeze.
+Here you will find everything you need to know about the Breeze API and how to integrate Breeze into your product. {{ className: 'lead' }}
 
 <div className="not-prose mb-16 mt-6 flex gap-3">
-  <Button href="/quickstart" arrow="right" children="Quickstart" />
-  <Button href="/sdks" variant="outline" children="Explore SDKs" />
+  <Button href="/setup" arrow="right" children="Developer Guide"/>
+
+  [//]: # (<Button href="/sdks" variant="outline" children="Explore SDKs"/>)
 </div>
 
-## Getting started {{ anchor: false }}
 
-To get started, create a new application in your [developer settings](#), then read about how to make requests for the resources you need to access using our HTTP APIs or dedicated client SDKs. When your integration is ready to go live, publish it to our [integrations directory](#) to reach the Protocol community. {{ className: 'lead' }}
+[//]: # ()
+[//]: # (<Guides/>)
 
-<div className="not-prose">
-  <Button
-    href="/sdks"
-    variant="text"
-    arrow="right"
-    children="Get your API key"
-  />
-</div>
-
-<Guides />
-
-<Resources />
+[//]: # ()
+[//]: # (<Resources/>)
