@@ -1,7 +1,7 @@
 import {createFileRoute, redirect, useNavigate} from '@tanstack/react-router'
 import {useSignInUser} from "~/lib/auth.ts";
 import {Button} from "@breeze/ui";
-import {store} from "~/store";
+import {authStore} from "~/store";
 import {flushSync} from "react-dom";
 
 export const Route = createFileRoute('/auth/login')({
@@ -22,7 +22,7 @@ function Login() {
   const signInUser = useSignInUser({
     onSuccess: (user) => {
       flushSync(() => {
-        store.setState(state => {
+        authStore.setState(state => {
           return {
             ...state,
             user,
@@ -47,7 +47,9 @@ function Login() {
     <div className="mx-8 my-8">
       Login Page
       <Button
-        onClick={onLogin}>Sign In</Button>
+        onClick={onLogin}>
+        {signInUser.isPending ? 'Loading...' : 'Login'}
+      </Button>
     </div>
   )
 }

@@ -1,10 +1,10 @@
-import {createFileRoute, Outlet, redirect} from '@tanstack/react-router'
-import {store} from "~/store";
+import {createFileRoute, Link, Outlet, redirect} from '@tanstack/react-router'
+import {authStore} from "~/store";
 
 export const Route = createFileRoute('/_authenticated')({
   component: Auth,
   beforeLoad: () => {
-    const auth = store.state.user
+    const auth = authStore.state.user
     console.log('Auth Layout', auth)
 
     if (!auth) {
@@ -18,9 +18,15 @@ export const Route = createFileRoute('/_authenticated')({
 function Auth() {
 
   return (
-    <div>
-      Auth Layout
-      <Outlet/>
-    </div>
+    <main className="flex container gap-10">
+      <div className="flex-col gap-8">
+        <Link to={"/"}>Home</Link>
+        <Link to={"/wallet"}>Wallet</Link>
+        <Link to={"/verify"}>Verify</Link>
+      </div>
+      <div>
+        <Outlet/>
+      </div>
+    </main>
   )
 }

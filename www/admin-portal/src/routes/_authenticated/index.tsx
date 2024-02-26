@@ -19,7 +19,6 @@ function Home() {
     <div>
       <h1 className="font-semibold mb-3">Home Page</h1>
       {auth.isLoading && <p>Loading...</p>}
-      <hr/>
       <p>Name:{auth.isSuccess && auth.data?.name}</p>
       <Button onClick={onLogout}>Logout</Button>
     </div>

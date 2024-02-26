@@ -14,6 +14,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
 import { Route as AuthLoginImport } from './routes/auth/login'
+import { Route as AuthenticatedWalletIndexImport } from './routes/_authenticated/wallet/index'
+import { Route as AuthenticatedVerifyIndexImport } from './routes/_authenticated/verify/index'
 
 // Create/Update Routes
 
@@ -32,6 +34,16 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthenticatedWalletIndexRoute = AuthenticatedWalletIndexImport.update({
+  path: '/wallet/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedVerifyIndexRoute = AuthenticatedVerifyIndexImport.update({
+  path: '/verify/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -48,13 +60,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/verify/': {
+      preLoaderRoute: typeof AuthenticatedVerifyIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/wallet/': {
+      preLoaderRoute: typeof AuthenticatedWalletIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
   }
 }
 
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  AuthenticatedRoute.addChildren([AuthenticatedIndexRoute]),
+  AuthenticatedRoute.addChildren([
+    AuthenticatedIndexRoute,
+    AuthenticatedVerifyIndexRoute,
+    AuthenticatedWalletIndexRoute,
+  ]),
   AuthLoginRoute,
 ])
 

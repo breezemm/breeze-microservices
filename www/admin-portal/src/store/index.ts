@@ -9,6 +9,6 @@ interface State {
   user: User | undefined;
 }
 
-export const store = new Store<State>({
+export const authStore = new Store<State>({
   user: undefined,
 })

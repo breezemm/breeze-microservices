@@ -1,9 +1,8 @@
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {createRouter, ErrorComponent, RouterProvider} from "@tanstack/react-router";
 import {routeTree} from "~/routeTree.gen.ts";
-import {store} from "~/store";
-import {useAuthUser} from "~/lib/auth.ts";
 import {Spinner} from "~/components/Spinner.tsx";
+import {useAuth} from "~/hooks/useAuth.ts";
 
 
 const queryClient = new QueryClient({
@@ -34,23 +33,19 @@ declare module '@tanstack/react-router' {
   }
 }
 
-const WithAuthProvider = () => {
-  const auth = useAuthUser()
+const WithAuthApp = () => {
 
-  if (auth.isLoading) return <Spinner/>;
+  const {isLoading, user} = useAuth()
 
-  store.setState(state => {
-    return {
-      ...state,
-      user: auth.data,
-    }
-  })
+  if (isLoading) {
+    return <Spinner/>
+  }
 
   return (
     <RouterProvider
       router={router}
       context={{
-        auth: store.state.user
+        auth: user,
       }}
     />
   );
@@ -59,7 +54,7 @@ const WithAuthProvider = () => {
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <WithAuthProvider/>
+      <WithAuthApp/>
     </QueryClientProvider>
   )
 
