@@ -1,11 +1,12 @@
 import React from 'react'
 import HeroSection from './components/HeroSection'
 import FeatCardsSection from './components/FeatCardsSection'
-import Footer from '@/components/Footer'
+import { AppPreviewButton } from './components/AppPreviewButton'
 
 const HomePage = () => {
   return (
-    <main className="p-4 md:p-16">
+    <main className='md:ps-36 md:pe-36 md:pb-[16.3rem] px-6 pb-40 ' >
+      <AppPreviewButton/>
       <HeroSection />
       <FeatCardsSection />
     </main>
