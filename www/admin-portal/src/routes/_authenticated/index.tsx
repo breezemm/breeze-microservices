@@ -1,6 +1,6 @@
-import {createFileRoute} from '@tanstack/react-router'
-import {Button} from "@breeze/ui";
-import {useAuthUser, useSignOutUser} from "~/lib/auth.ts";
+import { createFileRoute } from '@tanstack/react-router'
+import { Button } from "@breeze/ui";
+import { useAuthUser, useSignOutUser } from "~/lib/auth.ts";
 
 export const Route = createFileRoute('/_authenticated/')({
   component: Home,
