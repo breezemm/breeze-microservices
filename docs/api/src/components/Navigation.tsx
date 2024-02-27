@@ -235,6 +235,7 @@ export const navigation: Array<NavGroup> = [
     links: [
       { title: 'Introduction', href: '/' },
       { title: 'Setup', href: '/setup' },
+      { title: 'Standards', href: '/standards' },
       { title: 'Architecture', href: '/architecture' },
       { title: 'Event Driven Design', href: '/edd' },
       { title: 'Apps Directory', href: '/apps' },
@@ -244,6 +245,17 @@ export const navigation: Array<NavGroup> = [
       // { title: 'Pagination', href: '/pagination' },
       // { title: 'Errors', href: '/errors' },
       // { title: 'Webhooks', href: '/webhooks' },
+    ],
+  },
+  {
+    title: 'Suggestions Service',
+    links: [{ title: 'Suggestions', href: '/services/suggestion' }],
+  },
+  {
+    title: 'Notification Service',
+    links: [
+      { title: 'Auth', href: '/services/notification/auth' },
+      { title: 'Notification', href: '/services/notification/notification' },
     ],
   },
   // {

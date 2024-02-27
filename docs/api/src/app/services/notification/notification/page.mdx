@@ -1,0 +1,177 @@
+export const metadata = {
+title: 'Notification',
+description:
+'On this page, we’ll dive into the different notification endpoints you can use to manage messages programmatically.',
+}
+
+# Notification
+
+Notification service includes to send notification to the user via email, SMS, and push notification.
+
+## The notification model
+
+The notification contain message and channel to send the message.
+
+### Properties
+
+<Properties>
+  <Property name="user_id" type="string">
+    Unique identifier of user in your system.
+  </Property>
+</Properties>
+
+---
+
+## List all notifications {{ tag: 'POST', label: '/v1/notifications' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a paginated list of all your notifications. The response will contain a `data`
+    array with a list of notification objects. Refer to [the list](#the-notification-model) at the top of this page to
+    see which properties are included with notification objects.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/v1/notifications">
+
+      ```json {{title: 'JSON'}}
+      {
+        "user_id": "11"
+      }
+      ```
+
+
+    </CodeGroup>
+
+    ```json {{title: 'Response'}}
+    {
+      "data": []
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Send a notification {{ tag: 'POST', label: '/v1/notification/send' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to send a new notification to a user. You can define the channels to send the notification.
+
+    ### Required attributes
+
+    <Properties>
+      <Property name="notification_id" type="string">
+        The notification id.
+      </Property>
+      <Property name="user" type="object">
+        The user object.
+      </Property>
+      <Property name="user.user_id" type="string">
+        The user id in your system.
+      </Property>
+      <Property name="channels" type="object">
+        The channels object.
+      </Property>
+      <Property name="channels.push" type="object">
+        The push channel object.
+      </Property>
+      <Property name="channels.push.title" type="string">
+        The title of the push notification.
+      </Property>
+      <Property name="channels.push.body" type="string">
+        The body of the push notification.
+      </Property>
+      <Property name="channels.push.image" type="string">
+        The image of the push notification.
+      </Property>
+      <Property name="channels.push.data" type="object">
+        The data of the push notification. It can be any object.
+      </Property>
+
+    </Properties>
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/v1/notificatio/send">
+
+      ```json
+      {
+        "notification_id": "post_commented",
+        "user": {
+          "user_id": 12
+        },
+        "channels": {
+          "push": {
+            "title": "Push Notification",
+            "body": "Hi,User 1",
+            "image":"https://google.com",
+            "data": {}
+          }
+        }
+      }
+      ```
+
+    </CodeGroup>
+
+    ```json {{title: 'Response'}}
+    {
+      "id": "gWqY86BMFRiH5o11",
+      "conversation_id": "xgQQXg3hrtjh7AvZ",
+      "contact": {
+      "id": "inEIRvzjC6YLMX3o",
+      "username": "LinnieMcCallister",
+      "phone_number": "1-800-759-3000",
+      "avatar_url": "https://assets.protocol.chat/avatars/linnie.jpg",
+      "last_active_at": 705103200,
+      "created_at": 692233200
+    },
+      "message": "You’re what the French call ‘les incompetents.’",
+      "reactions": [],
+      "attachments": [],
+      "read_at": null,
+      "created_at": 692233200,
+      "updated_at": null
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Marked as read {{ tag: 'POST', label: '/v1/notification/:id/mark-as-read' }}
+
+
+<Row>
+  <Col>
+
+    This endpoint allows you to mark a notification as read.
+
+    ### Required attributes
+
+    <Properties>
+      <Property name="user_id" type="string">
+        Unique identifier of user in your system.
+      </Property>
+    </Properties>
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/v1/notification/4/mark-as-read">
+
+      ```json {{title: 'JSON'}}
+      {
+        "user_id": "11"
+      }
+      ```
+    </CodeGroup>
+    </Col>
+</Row>
