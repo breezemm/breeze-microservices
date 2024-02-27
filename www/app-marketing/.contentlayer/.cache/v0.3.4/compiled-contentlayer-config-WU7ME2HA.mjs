@@ -22,4 +22,4 @@ export {
   Post,
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-PK27BEEM.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-WU7ME2HA.mjs.map
