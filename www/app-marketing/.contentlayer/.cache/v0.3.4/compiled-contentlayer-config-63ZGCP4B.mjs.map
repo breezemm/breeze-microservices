@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../contentlayer.config.ts"],
-  "sourcesContent": ["import { defineDocumentType, makeSource } from \"contentlayer/source-files\";\r\n \r\nexport const Post = defineDocumentType(() => ({\r\n  name: \"Post\",\r\n  filePathPattern: `**/*.mdx`, // Type of file to parse (every mdx in all subfolders)\r\n  contentType: 'mdx',\r\n  fields: {\r\n  \r\n  },\r\n  computedFields: {\r\n    url: {\r\n      type: \"string\",\r\n      resolve: (post) => `/${post._raw.flattenedPath}`,\r\n    },\r\n  },\r\n}));\r\n \r\nexport default makeSource({\r\n  contentDirPath: \"data\", // Source directory where the content is located\r\n  documentTypes: [Post],\r\n});"],
-  "mappings": ";AAAA,SAAS,oBAAoB,kBAAkB;AAExC,IAAM,OAAO,mBAAmB,OAAO;AAAA,EAC5C,MAAM;AAAA,EACN,iBAAiB;AAAA;AAAA,EACjB,aAAa;AAAA,EACb,QAAQ,CAER;AAAA,EACA,gBAAgB;AAAA,IACd,KAAK;AAAA,MACH,MAAM;AAAA,MACN,SAAS,CAAC,SAAS,IAAI,KAAK,KAAK,aAAa;AAAA,IAChD;AAAA,EACF;AACF,EAAE;AAEF,IAAO,8BAAQ,WAAW;AAAA,EACxB,gBAAgB;AAAA;AAAA,EAChB,eAAe,CAAC,IAAI;AACtB,CAAC;",
-  "names": []
-}

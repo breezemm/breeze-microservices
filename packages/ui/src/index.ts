@@ -9,3 +9,8 @@ export * from './datePicker'
 export * from './input'
 export * from './profileForm'
 
+export * from './accordion';
+export * from './alert-dialog';
+export * from './aspect-ratio';
+export * from './avator';
+export * from './badge'

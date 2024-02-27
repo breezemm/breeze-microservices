@@ -11,5 +11,5 @@ export async function generateStaticParams() {
 export default async function Terms({ params }: { params: { slug: string } }) {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug)
 
-  return <div className="p-4 py-20 md:px-24">{post && <MdxComponent code={post.body.code} />}</div>
+  return <div className="md:ps-36 md:pe-36 md:pb-[16.3rem] px-6 pb-40">{post && <MdxComponent code={post.body.code} />}</div>
 }
