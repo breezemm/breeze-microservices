@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
+import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
 import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthenticatedWalletIndexImport } from './routes/_authenticated/wallet/index'
@@ -21,6 +22,11 @@ import { Route as AuthenticatedVerifyIndexImport } from './routes/_authenticated
 
 const AuthenticatedRoute = AuthenticatedImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const IndexRoute = IndexImport.update({
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -48,6 +54,10 @@ const AuthenticatedVerifyIndexRoute = AuthenticatedVerifyIndexImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/_authenticated': {
       preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
@@ -74,6 +84,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
+  IndexRoute,
   AuthenticatedRoute.addChildren([
     AuthenticatedIndexRoute,
     AuthenticatedVerifyIndexRoute,
