@@ -13,4 +13,10 @@ export * from './accordion';
 export * from './alert-dialog';
 export * from './aspect-ratio';
 export * from './avator';
-export * from './badge'
+export * from './badge';
+export * from './collapsible';
+export * from './command';
+export * from './popover';
+export * from './contextmenu';
+export * from './collapsibleDemo';
+export * from './comboboxDemo';
