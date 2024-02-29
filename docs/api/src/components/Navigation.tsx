@@ -235,7 +235,8 @@ export const navigation: Array<NavGroup> = [
     links: [
       { title: 'Introduction', href: '/' },
       { title: 'Setup', href: '/setup' },
-      { title: 'Standards', href: '/standards' },
+      { title: 'Enterprise Standard', href: '/enterprise-standard' },
+      { title: 'Coding Standard', href: '/coding-standard' },
       { title: 'Architecture', href: '/architecture' },
       { title: 'Event Driven Design', href: '/edd' },
       { title: 'Apps Directory', href: '/apps' },
