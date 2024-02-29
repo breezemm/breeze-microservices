@@ -3,13 +3,15 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import {   Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage, } from "./form"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./form"
 import { Button } from "./button"
 import React from "react"
 import { Input } from "./input"
@@ -33,7 +35,7 @@ export function ProfileForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    alert( "Your great "+ values.username)
+    alert("Your great " + values.username)
   }
 
   return (

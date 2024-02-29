@@ -1,3 +1,5 @@
+import { Calendar } from "./date-picker/calendar";
+
 export {cn} from "./utils/cn";
 export * from './button';
 export * from './card';
@@ -20,3 +22,7 @@ export * from './popover';
 export * from './contextmenu';
 export * from './collapsibleDemo';
 export * from './comboboxDemo';
+export * from './carousel';
+export * from './checkbox'
+export * from './calendarDemo'
+export * from './progress'
