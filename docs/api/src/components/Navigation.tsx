@@ -250,6 +250,13 @@ export const navigation: Array<NavGroup> = [
     ],
   },
   {
+    title: 'Packages',
+    links: [
+      { title: '@breeze/auth', href: '/packages/breeze-auth' },
+      { title: '@breeze/ui', href: '/breeze-auth' },
+    ],
+  },
+  {
     title: 'Suggestions Service',
     links: [{ title: 'Suggestions', href: '/services/suggestion' }],
   },
