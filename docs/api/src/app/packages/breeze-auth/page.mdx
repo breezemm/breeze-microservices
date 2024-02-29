@@ -61,3 +61,20 @@ export function useAuth() {
   }
 }
 ```
+
+### Redirecting the user to the login page
+If the user is not authenticated, you can redirect the user to the login page. You can use the `redirect` function to redirect the user to the login page.
+
+```ts
+export const Route = createFileRoute('/_authenticated')({
+  component: Auth,
+  beforeLoad: () => {
+    const auth = authStore.state.user
+    if (!auth) {
+      throw redirect({
+        to: '/auth/login',
+      })
+    }
+  }
+})
+  ```
