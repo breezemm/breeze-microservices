@@ -235,16 +235,25 @@ export const navigation: Array<NavGroup> = [
     links: [
       { title: 'Introduction', href: '/' },
       { title: 'Setup', href: '/setup' },
-      { title: 'Standards', href: '/standards' },
       { title: 'Architecture', href: '/architecture' },
       { title: 'Event Driven Design', href: '/edd' },
       { title: 'Apps Directory', href: '/apps' },
+      { title: 'Enterprise Standard', href: '/enterprise-standard' },
+      { title: 'Coding Standard', href: '/coding-standard' },
+      { title: 'Kafka', href: '/kafka' },
       // { title: 'Quickstart', href: '/quickstart' },
       // { title: 'SDKs', href: '/sdks' },
       // { title: 'Authentication', href: '/authentication' },
       // { title: 'Pagination', href: '/pagination' },
       // { title: 'Errors', href: '/errors' },
       // { title: 'Webhooks', href: '/webhooks' },
+    ],
+  },
+  {
+    title: 'Packages',
+    links: [
+      { title: '@breeze/auth', href: '/packages/breeze-auth' },
+      { title: '@breeze/ui', href: '/breeze-auth' },
     ],
   },
   {
