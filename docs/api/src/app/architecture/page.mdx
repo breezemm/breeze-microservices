@@ -1,3 +1,4 @@
+import {Note} from "../../components/mdx";
 export const metadata = {
   title: 'Architecture',
   description: 'Setting up the environment for the project',
@@ -95,9 +96,14 @@ We primaryly use the `mysql` as a database server. We use the `redis` as a cache
 | [Elasticsearch](/elasticsearch) | Elasticsearch is used to store the logs and search data |
 
 
-## Design Patterns
-We use the following design patterns in our microservices to make them scalable, reliable, and maintainable.
-I assume that you are familiar with the design patterns and I will not explain them in detail. If you are not familiar with them, you can find more information about them on the [Microservices.io](https://microservices.io/patterns/index.html) website.
+## Microservices Design Patterns
+We use the following microservices design patterns in our microservices to make them scalable, reliable, and maintainable.
+I assume that you are familiar with the design patterns and I will not explain them in detail.
+
+<Note>
+  If you are not familiar with them, you can find more information about them on the
+  [Microservices.io](https://microservices.io/patterns/index.html) website.
+</Note>
 
 - [﻿Strangler Application](https://microservices.io/patterns/refactoring/strangler-application.html)
 - [﻿API Composition](https://microservices.io/patterns/data/api-composition.html)
@@ -117,3 +123,29 @@ I assume that you are familiar with the design patterns and I will not explain t
 - [﻿Self registration](https://microservices.io/patterns/self-registration.html)
 - [﻿Domain-specific protocol](https://microservices.io/patterns/communication-style/domain-specific.html)
 
+## Software Design Patterns
+We use the following software design patterns in our apps to make them scalable, reliable, and maintainable.
+
+<Note>
+  For the sake of your reference, I will not explain them in detail. You can find more information about them on the
+  [Wikipedia](https://en.wikipedia.org/wiki/Software_design_pattern) website.
+  I would like to suggest you to read the
+  book [Design Patterns: Elements of Reusable Object-Oriented
+  Software](https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612) by Erich Gamma,
+  Richard Helm, Ralph Johnson, and John Vlissides.
+  For the light weight version, you can read the book [Dive into Design
+  Patterns](https://refactoring.guru/design-patterns) by Alexander Shvets.
+</Note>
+
+- [﻿Model-View-Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
+- [﻿Repository](https://en.wikipedia.org/wiki/Repository_pattern)
+- [﻿Service Layer](https://en.wikipedia.org/wiki/Service_layer_pattern)
+- [﻿Factory](https://en.wikipedia.org/wiki/Factory_method_pattern)
+- [﻿Singleton](https://en.wikipedia.org/wiki/Singleton_pattern)
+- [﻿Observer](https://en.wikipedia.org/wiki/Observer_pattern)
+- [﻿Strategy](https://en.wikipedia.org/wiki/Strategy_pattern)
+- [﻿Decorator](https://en.wikipedia.org/wiki/Decorator_pattern)
+- [﻿Adapter](https://en.wikipedia.org/wiki/Adapter_pattern)
+- [﻿Facade](https://en.wikipedia.org/wiki/Facade_pattern)
+- [﻿Command](https://en.wikipedia.org/wiki/Command_pattern)
+- [﻿Chain of Responsibility](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern)
