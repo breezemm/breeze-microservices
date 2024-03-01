@@ -30,5 +30,5 @@ export async function generateStaticParams() {
 export default async function Terms({ params }: TermsAndProvicyProps) {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug)
 
-  return <div className="md:ps-36 md:pe-36 md:pb-[16.3rem] px-6 pb-40">{post && <MdxComponent code={post.body.code} />}</div>
+  return <div className="md:ps-36 md:pe-36 md:pt-20 pt-5 md:pb-[16.3rem] px-6 pb-40">{post && <MdxComponent code={post.body.code} />}</div>
 }
