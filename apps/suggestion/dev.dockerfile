@@ -1,18 +1,3 @@
-FROM oven/bun:latest as base
-
-WORKDIR /usr/src/app
-
-FROM base AS install
-
-RUN mkdir -p /temp/dev
-
-COPY  bun.lockb /temp/dev/
-
-COPY ./apps/gateway/package.json /temp/dev/package.json
-
-RUN cd /temp/dev && bun install
-
-
 FROM node:alpine As development
 
 WORKDIR /usr/src/app
@@ -23,6 +8,10 @@ COPY ./apps/suggestion/package.json package.json
 COPY ./apps/suggestion/tsconfig.json tsconfig.json
 COPY ./apps/suggestion/tsconfig.build.json tsconfig.build.json
 COPY ./apps/suggestion/nest-cli.json nest-cli.json
+
+RUN npm install -g pnpm
+
+RUN pnpm install
 
 COPY apps/suggestion apps/suggestion
 
@@ -38,9 +27,9 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 
-RUN npm install -g bun
+RUN npm install -g pnpm
 
-RUN bun install
+RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 

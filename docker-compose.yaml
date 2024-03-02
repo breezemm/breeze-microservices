@@ -31,7 +31,7 @@ services:
       - 9092:9092
     expose:
       - 29092
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: [ "/bin/sh", "-c" ]
     command: |
       "
       # blocks until kafka is reachable
@@ -48,31 +48,30 @@ services:
     networks:
       - dev
     healthcheck:
-      test: ["CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181"]
+      test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
       interval: 5s
       timeout: 10s
       retries: 5
 
-  # # After initializing kafka and creating topics, this container will exit
-  # init-kafka:
-  #   image: confluentinc/cp-kafka:7.5.1
-  #   depends_on:
-  #     - kafka
-  #   entrypoint: [ '/bin/sh', '-c' ]
-  #   command: |
-  #     "
-  #     # blocks until kafka is reachable
-  #     kafka-topics --bootstrap-server kafka:29092 --list
-
-  #     echo -e '🙌 Creating kafka topics'
-  #     kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallets --replication-factor 1 --partitions 3
-  #     kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic notifications --replication-factor 1 --partitions 3
-
-  #     echo -e '🐙 Successfully created the following topics:'
-  #     kafka-topics --bootstrap-server kafka:29092 --list
-  #     "
-  #   networks:
-  #     - dev
+  init-kafka:
+    image: confluentinc/cp-kafka:7.5.1
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:29092 --list
+      #
+      echo -e '🙌 Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallets --replication-factor 1 --partitions 3
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic notifications --replication-factor 1 --partitions 3
+      #
+      echo -e '🐙 Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:29092 --list
+      "
+    networks:
+      - dev
 
   schema-registry:
     image: confluentinc/cp-schema-registry:6.2.0
@@ -117,7 +116,7 @@ services:
     networks:
       - dev
     healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 5s
       timeout: 5s
 
@@ -132,9 +131,9 @@ services:
     ports:
       - "8001:80"
     volumes:
-      - ./apps/gateway:/var/www/gateway
-      - ./apps/gateway/vendor:/var/www/gateway/vendor
-      - ./apps/gateway/node_modules:/var/www/gateway/node_modules
+      - ./apps/gateway:/usr/src/app
+      - ./apps/gateway/vendor:/usr/src/app/vendor
+      - ./apps/gateway/node_modules:/usr/src/app/node_modules
       - ./apps/gateway/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - kafka
@@ -143,20 +142,20 @@ services:
     networks:
       - dev
 
-  wallet:
+  wallets:
     build:
       args:
         uid: 1000
         user: breeze
-      context: ./apps/wallet
-      dockerfile: dev.dockerfile
+      context: .
+      dockerfile: ./apps/wallets/dev.Dockerfile
     ports:
       - 8002:80
     volumes:
-      - ./apps/wallet:/var/www/wallet
-      - ./apps/wallet/vendor:/var/www/wallet/vendor
-      - ./apps/wallet/node_modules:/var/www/wallet/node_modules
-      - ./apps/wallet/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ./apps/wallets:/usr/src/app
+      - ./apps/wallets/vendor:/usr/src/app/vendor
+      - ./apps/wallets/node_modules:/usr/src/app/node_modules
+      - ./apps/wallets/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - mysql-db
       - redis
@@ -166,22 +165,21 @@ services:
     links:
       - gateway
 
-  notification:
+  notifications:
     restart: unless-stopped
     build:
       args:
         uid: 1000
         user: breeze
       context: .
-      dockerfile: ./apps/notification/dev.Dockerfile
+      dockerfile: apps/notifications/dev.Dockerfile
     ports:
       - "8004:80"
     volumes:
-      - ./apps/notification:/var/www/notification
-      - ./packages:/var/www/notification/packages
-      - ./apps/notification/vendor:/var/www/notification/vendor
-      - ./apps/notification/node_modules:/var/www/notification/node_modules
-      - ./apps/notification/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ./apps/notifications:/usr/src/app
+      - ./apps/notifications/vendor:/usr/src/app/vendor
+      - ./apps/notifications/node_modules:/usr/src/app/node_modules
+      - ./apps/notifications/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - kafka
       - redis
@@ -219,7 +217,7 @@ services:
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 5s
       timeout: 5s
       retries: 5

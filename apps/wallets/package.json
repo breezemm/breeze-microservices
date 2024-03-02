@@ -1,16 +1,14 @@
 {
-    "name": "notification",
+    "name": "wallets",
+    "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
+        "dev": "php artisan serve --port=8002",
         "build": "vite build"
     },
     "devDependencies": {
         "axios": "^1.6.7",
-        "laravel-vite-plugin": "^1.0.1",
+        "laravel-vite-plugin": "^0.8.1",
         "vite": "^5.1.3"
-    },
-    "dependencies": {
-        "chokidar": "^3.6.0"
     }
 }
