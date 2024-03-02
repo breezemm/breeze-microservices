@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=v18.17.1"
   },
-  "packageManager": "bun@1.0.20",
+  "packageManager": "bun@latest",
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules dist .next",

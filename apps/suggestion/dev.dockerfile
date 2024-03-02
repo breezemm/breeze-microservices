@@ -9,9 +9,9 @@ COPY ./apps/suggestion/tsconfig.json tsconfig.json
 COPY ./apps/suggestion/tsconfig.build.json tsconfig.build.json
 COPY ./apps/suggestion/nest-cli.json nest-cli.json
 
-RUN npm install -g bun
+RUN npm install -g pnpm
 
-RUN bun install
+RUN pnpm install
 
 COPY apps/suggestion apps/suggestion
 
@@ -27,9 +27,9 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 
-RUN npm install -g bun
+RUN npm install -g pnpm
 
-RUN bun install
+RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 
