@@ -1,4 +1,18 @@
-FROM php:8.1-cli-alpine
+FROM oven/bun:latest as base
+
+WORKDIR /usr/src/app
+
+FROM base AS install
+
+RUN mkdir -p /temp/dev
+
+COPY  bun.lockb /temp/dev/
+
+COPY ./apps/gateway/package.json /temp/dev/package.json
+
+RUN cd /temp/dev && bun install
+
+FROM dunglas/frankenphp:alpine as dev
 
 ARG uid
 ARG user
@@ -30,11 +44,9 @@ RUN docker-php-ext-configure pcntl --enable-pcntl \
   && docker-php-ext-install \
     pcntl
 
-
 RUN docker-php-ext-enable \
     redis \
     rdkafka
-
 
 
 RUN apk del autoconf g++ make && \
