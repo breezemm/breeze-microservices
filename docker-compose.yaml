@@ -31,24 +31,10 @@ services:
       - 9092:9092
     expose:
       - 29092
-    entrypoint: [ "/bin/sh", "-c" ]
-    command: |
-      "
-      # blocks until kafka is reachable
-      kafka-topics --bootstrap-server kafka:29092 --list
-
-      echo -e '🙌 Creating kafka topics'
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallets --replication-factor 1 --partitions 3
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic notifications --replication-factor 1 --partitions 3
-
-
-      echo -e '🐙 Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka:29092 --list
-      "
     networks:
       - dev
     healthcheck:
-      test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
+      test: ["CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181"]
       interval: 5s
       timeout: 10s
       retries: 5
@@ -57,7 +43,7 @@ services:
     image: confluentinc/cp-kafka:7.5.1
     depends_on:
       - kafka
-    entrypoint: [ '/bin/sh', '-c' ]
+    entrypoint: ["/bin/sh", "-c"]
     command: |
       "
       # blocks until kafka is reachable
@@ -116,7 +102,7 @@ services:
     networks:
       - dev
     healthcheck:
-      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
       interval: 5s
       timeout: 5s
 
@@ -217,7 +203,7 @@ services:
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 5s
       retries: 5
