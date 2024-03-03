@@ -17,6 +17,6 @@ h6 {
   font-family: "Sora", sans-serif;
 }
 
-p {
+p ,ul , ol , li {
   font-family: "Figtree", sans-serif;
 }
