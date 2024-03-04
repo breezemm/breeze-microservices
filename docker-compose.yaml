@@ -34,7 +34,7 @@ services:
     networks:
       - dev
     healthcheck:
-      test: ["CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181"]
+      test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
       interval: 5s
       timeout: 10s
       retries: 5
@@ -43,7 +43,7 @@ services:
     image: confluentinc/cp-kafka:7.5.1
     depends_on:
       - kafka
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: [ "/bin/sh", "-c" ]
     command: |
       "
       # blocks until kafka is reachable
@@ -102,12 +102,12 @@ services:
     networks:
       - dev
     healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 5s
       timeout: 5s
 
   gateway:
-    restart: unless-stopped
+    restart: always
     build:
       args:
         uid: 1000
@@ -129,6 +129,7 @@ services:
       - dev
 
   wallets:
+    restart: always
     build:
       args:
         uid: 1000
@@ -136,7 +137,7 @@ services:
       context: .
       dockerfile: ./apps/wallets/dev.Dockerfile
     ports:
-      - 8002:80
+      - "8002:80"
     volumes:
       - ./apps/wallets:/usr/src/app
       - ./apps/wallets/vendor:/usr/src/app/vendor
@@ -151,8 +152,25 @@ services:
     links:
       - gateway
 
+  suggestion:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./apps/suggestion/dev.dockerfile
+      target: development
+    command: pnpm run dev --filter suggestion
+    ports:
+      - "8003:80"
+    volumes:
+      - .:/usr/src/app
+      - /var/www/suggestion/node_modules
+    depends_on:
+      - kafka
+    networks:
+      - dev
+
   notifications:
-    restart: unless-stopped
+    restart: always
     build:
       args:
         uid: 1000
@@ -173,21 +191,28 @@ services:
     networks:
       - dev
 
-  suggestion:
+  admin:
+    restart: always
     build:
+      args:
+        uid: 1000
+        user: breeze
       context: .
-      dockerfile: ./apps/suggestion/dev.dockerfile
-      target: development
-    command: pnpm run dev --filter suggestion
+      dockerfile: apps/admin/dev.Dockerfile
     ports:
-      - 8003:80
+      - "8005:80"
     volumes:
-      - .:/usr/src/app
-      - /var/www/suggestion/node_modules
+      - ./apps/admin:/usr/src/app
+      - ./apps/admin/vendor:/usr/src/app/vendor
+      - ./apps/admin/node_modules:/usr/src/app/node_modules
+      - ./apps/admin/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - kafka
+      - redis
+      - mysql-db
     networks:
       - dev
+
 
   mysql-db:
     image: mysql:8.0
@@ -203,7 +228,7 @@ services:
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 5s
       timeout: 5s
       retries: 5
