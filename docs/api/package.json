@@ -35,7 +35,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-highlight-words": "^0.20.0",
-    "remark": "^14.0.2",
+    "remark": "^15.0.1",
     "remark-gfm": "^3.0.1",
     "remark-mdx": "^2.3.0",
     "shiki": "^0.11.1",
