@@ -19,6 +19,8 @@ ARG user
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
+WORKDIR /usr/src/app
+
 RUN adduser -D -u $uid -g '' $user && \
     mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user

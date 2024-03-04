@@ -107,7 +107,7 @@ services:
       timeout: 5s
 
   gateway:
-    restart: always
+    restart: unless-stopped
     build:
       args:
         uid: 1000
@@ -129,7 +129,7 @@ services:
       - dev
 
   wallets:
-    restart: always
+    restart: unless-stopped
     build:
       args:
         uid: 1000

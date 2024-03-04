@@ -25,6 +25,5 @@ notification:
 wallet:
 	@docker-compose exec wallet sh
 
-
-
-
+admin:
+	@docker-compose exec admin sh

@@ -8,7 +8,7 @@ frankenphp
 /public/storage
 public/media/*
 
-#/storage/*.key
+/storage/*.key
 /vendor
 .env.backup
 .env.production
