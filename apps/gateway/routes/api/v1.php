@@ -42,7 +42,6 @@ use App\Http\Controllers\Api\V1\Wallet\GetMyWalletController;
 use App\Http\Requests\V1\Auth\VerifyController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/public/timeline', PublicTimelineController::class);
 
 Route::prefix('users')->group(function () {

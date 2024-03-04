@@ -6,9 +6,9 @@ FROM base AS install
 
 RUN mkdir -p /temp/dev
 
-COPY bun.lockb /temp/dev/
+COPY  bun.lockb /temp/dev/
 
-COPY ./apps/wallets/package.json /temp/dev/package.json
+COPY ./apps/admin/package.json /temp/dev/package.json
 
 RUN cd /temp/dev && bun install
 
@@ -53,9 +53,9 @@ RUN install-php-extensions \
 
 COPY --from=install /temp/dev/node_modules node_modules
 
-COPY ./apps/wallets/docker/dev/octane.ini /usr/local/etc/php/octane.ini
+COPY ./apps/admin/docker/dev/octane.ini /usr/local/etc/php/octane.ini
 
-COPY ./apps/wallets .
+COPY ./apps/admin .
 
 RUN chown -R $user:www-data storage
 RUN chown -R $user:www-data bootstrap/cache
@@ -67,9 +67,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN composer install
 
-COPY ./apps/wallets/docker/dev/start-container /usr/local/bin/start-container
+COPY ./apps/admin/docker/dev/start-container /usr/local/bin/start-container
 
-COPY ./apps/wallets/docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./apps/admin/docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN chmod +x /usr/local/bin/start-container
 
