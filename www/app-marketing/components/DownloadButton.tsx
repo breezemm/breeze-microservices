@@ -3,7 +3,7 @@ import { LuDownload } from 'react-icons/lu'
 const DownloadButton = () => {
   return (
     <div>
-      <button className="bg-neutral-9 text-neutral-1 hidden h-11 w-40 rounded-md  text-center  md:block ">
+      <button className="bg-neutral-9 font-semibold  text-neutral-1 hidden h-11 w-40 rounded-md  text-center  md:block ">
         Download Free
       </button>
 

@@ -1,7 +1,10 @@
+'use client'
 import React from 'react'
 import Link from 'next/link'
 import DownloadButton from '@/components/DownloadButton'
 import BreezeLogoIcon from '@/app/assets/BreezeLogoIcon'
+
+
 
 const NavBar = () => {
   return (
