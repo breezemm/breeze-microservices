@@ -16,8 +16,7 @@
     "typecheck": "turbo typecheck",
     "prepare": "husky install",
     "commit": "./node_modules/cz-customizable/standalone.js",
-    "lint-staged": "lint-staged",
-    "dl-git": "turbo dl-git"
+    "lint-staged": "lint-staged"
   },
   "husky": {
     "hooks": {

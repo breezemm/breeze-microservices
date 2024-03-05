@@ -1,15 +1,15 @@
 {
-  "name": "scripts",
+  "name": "contributors",
   "private": true,
   "type": "module",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "clean": "git clean -xdf .turbo node_modules",
     "format": "prettier --check \"**/*.{ts,tsx}\"",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "dl-git": "dotenv -e ../../.env tsx contributors.ts"
+    "dl-git": "dotenv -e ../../.env tsx index.ts"
   },
   "devDependencies": {
     "@breeze/eslint-config": "workspace:*",

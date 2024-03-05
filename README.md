@@ -46,8 +46,8 @@ The monorepo for the breeze microservices.
 ## Starting all services
 
 ```bash
-bash scripts/start.sh # start all services
-bash scripts/stop.sh # stop all services
+bash contributors/start.sh # start all services
+bash contributors/stop.sh # stop all services
 ```
 
 ### Consuming Wallet Topic
