@@ -27,6 +27,7 @@ class User extends Authenticatable implements HasMedia
     use HasSettingsField;
     use InteractsWithMedia;
     use Liker;
+    use HasRoles;
 
     public $defaultSettings = [
         'bio' => '',
