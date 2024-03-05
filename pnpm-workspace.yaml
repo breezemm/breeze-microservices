@@ -3,5 +3,5 @@ packages:
   - "packages/*"
   - "research/*"
   - "docs/*"
-  - "toolings/*"
+  - "tooling/*"
   - "www/*"

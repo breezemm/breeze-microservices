@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=v18.17.1"
   },
-  "packageManager": "bun@1.0.29",
+  "packageManager": "bun@1.0.30",
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules dist .next",
@@ -16,7 +16,8 @@
     "typecheck": "turbo typecheck",
     "prepare": "husky install",
     "commit": "./node_modules/cz-customizable/standalone.js",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "dl-git": "turbo dl-git"
   },
   "husky": {
     "hooks": {
@@ -35,7 +36,7 @@
     "apps/*",
     "packages/*",
     "research/*",
-    "toolings/*",
+    "tooling/*",
     "docs/*",
     "www/*"
   ],
@@ -61,8 +62,6 @@
   "dependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
-    "@types/bun": "^1.0.6",
-    "install": "^0.13.0",
-    "npm": "^10.4.0"
+    "@types/bun": "^1.0.6"
   }
 }
