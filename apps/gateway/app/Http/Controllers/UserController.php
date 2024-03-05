@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::with(['interests', 'address.city'])->paginate();
 
         return response()->json($users);
     }

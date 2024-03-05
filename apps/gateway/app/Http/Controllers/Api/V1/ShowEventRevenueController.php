@@ -16,9 +16,8 @@ class ShowEventRevenueController extends Controller
             ->with('ticket.ticketType')
             ->get()
             ->sum(function ($order) {
-                if ($order->buyer_type === BuyerTypeEnum::GUEST) {
-                    return 0;
-                }
+                if ($order->buyer_type === BuyerTypeEnum::GUEST) return 0;
+
 
                 return $order->ticket->ticketType->price;
             });
