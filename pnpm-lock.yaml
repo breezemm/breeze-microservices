@@ -787,6 +787,9 @@ importers:
 
   www/app-marketing:
     dependencies:
+      '@breeze/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@mdx-js/loader':
         specifier: ^3.0.0
         version: 3.0.1(webpack@5.90.3)
