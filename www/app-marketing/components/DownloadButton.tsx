@@ -21,8 +21,7 @@ const DownloadButton = () => {
       </DialogTrigger>
       <DialogOverlay className='bg-overlaycolor  backdrop-blur-sm'/>
 
-      <DialogContent style={{borderRadius: '1rem'}}
-                     className='w-80  flex justify-center  flex-col items-center gap-12 p-16   '>
+      <DialogContent  style={{borderRadius:'1rem'}} className='w-80  flex justify-center  flex-col items-center gap-12 p-16'>
         <div className='flex flex-col items-center gap-2'>
           <p className='text-lg font-bold text-neutral-10'>Download Now!</p>
           <p className='text-base'>Get an account for <span className='text-green-7 font-bold'>FREE</span>.</p>
