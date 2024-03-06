@@ -1,4 +1,5 @@
 'use client'
+
 import React from 'react'
 import HeroSection from './components/HeroSection'
 import FeatCardsSection from './components/FeatCardsSection'
