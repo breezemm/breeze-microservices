@@ -37,7 +37,7 @@ function Login() {
 
   const onLogin = async () => {
     await signInUser.mutateAsync({
-      email: 'admin@breeze.com',
+      email: 'admin@breezemm.com',
       password: 'password',
     })
   }

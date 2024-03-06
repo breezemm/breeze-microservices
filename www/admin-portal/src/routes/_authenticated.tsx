@@ -30,7 +30,6 @@ export const Route = createFileRoute('/_authenticated')({
   }
 })
 
-
 const links = [
   {name: "Home", to: "/", icon: HomeIcon},
   {name: "Wallet", to: "/wallet", icon: WalletIcon},
@@ -47,38 +46,36 @@ function Auth() {
   }
 
   return (
-    <div className="w-full">
+    <div className="flex flex-col h-screen">
       <header className="flex flex-row justify-between w-full px-10 py-6 border-b">
         <Logo/>
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <UserProfileIcon/>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-48 absolute right-0 top-1">
-              <DropdownMenuLabel className="w-full text-6 ">
-                {auth.isLoading && "Loading..."}
-                {auth.isSuccess && auth.data?.name}
-              </DropdownMenuLabel>
-              <DropdownMenuLabel>
-                <Button variant={"default"}
-                        className="w-full flex justify-start items-center w-full text-left gap-4 py-2">
-                  <UserProfileIcon className="w-7 h-8"/> My Account</Button>
-              </DropdownMenuLabel>
-              <DropdownMenuLabel>
-                <Button
-                  onClick={onLogout}
-                  variant={"link"}
-                  className="w-full flex justify-start items-center w-full text-destructive text-left gap-4 py-2 hover:no-underline	">
-                  <LogoutIcon/> Logout</Button>
-              </DropdownMenuLabel>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <UserProfileIcon/>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-48 absolute right-0 top-1">
+            <DropdownMenuLabel className="w-full text-6 ">
+              {auth.isLoading && "Loading..."}
+              {auth.isSuccess && auth.data?.name}
+            </DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <Button variant={"default"}
+                      className="w-full flex justify-start items-center w-full text-left gap-4 py-2">
+                <UserProfileIcon className="w-7 h-8"/> My Account</Button>
+            </DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <Button
+                onClick={onLogout}
+                variant={"link"}
+                className="w-full flex justify-start items-center w-full text-destructive text-left gap-4 py-2 hover:no-underline	">
+                <LogoutIcon/> Logout</Button>
+            </DropdownMenuLabel>
 
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </header>
 
-      <div className="flex min-h-screen">
+      <section className="flex h-full">
         <nav className="flex flex-col p-10 gap-y-6 border-r">
           {links.map((link, index) => {
             return (
@@ -102,7 +99,7 @@ function Auth() {
         <section className="p-10">
           <Outlet/>
         </section>
-      </div>
+      </section>
     </div>
   )
 }

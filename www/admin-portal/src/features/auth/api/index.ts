@@ -6,14 +6,14 @@ export interface SignInCredentialDTO {
 }
 
 export const signInWithEmailAndPassword = async (credentials: SignInCredentialDTO) => {
-  const response = await axios.post('/auth/login', credentials);
+  const response = await axios.post('/users/sign-in', credentials);
 
   return response.data.data;
 }
 
 
 export const getAuthUser = async () => {
-  const response
-    = await axios.get('/me');
+  const response = await axios.get('/users/me');
+
   return response.data.data;
 }
