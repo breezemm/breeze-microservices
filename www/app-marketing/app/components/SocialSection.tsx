@@ -10,7 +10,7 @@ export const SocialSection = ({ SocialList, storesDownload }: SocialSectonProps)
           {storesDownload?.map((store, index: number) => {
             return (
               <Link key={index} href={store.link} target="_black">
-                <Image src={store.icon as string} alt="store" />
+                <Image  src={store.icon as string} alt="store"  />
               </Link>
             )
           })}
@@ -20,7 +20,7 @@ export const SocialSection = ({ SocialList, storesDownload }: SocialSectonProps)
           {SocialList.map((data, index) => {
             return (
               <Link href={data.link} key={index} target="_black">
-                {index === 3 ? <Image src={data.icon as string} className="h-8 w-8" alt="toptalk" /> : data.icon}
+                {index === 3 ? <Image  src={data.icon as string} className="h-8 w-8" alt="toptalk" /> : data.icon}
               </Link>
             )
           })}

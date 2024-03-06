@@ -5,7 +5,6 @@ import DownloadButton from '@/components/DownloadButton'
 import BreezeLogoIcon from '@/app/assets/BreezeLogoIcon'
 
 
-
 const NavBar = () => {
   return (
     <div
@@ -13,7 +12,6 @@ const NavBar = () => {
       <Link href="/">
         <BreezeLogoIcon className='md:w-20 md:h-20 w-16 h-16'/>
       </Link>
-
       <Link href="/">
         <DownloadButton/>
       </Link>
