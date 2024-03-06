@@ -6,7 +6,7 @@ import { ContactInfo, SocialInfo } from '@/interfaces/Footer'
 import { FaInstagram } from 'react-icons/fa'
 import { FaLinkedin } from 'react-icons/fa6'
 import { FaTelegram } from 'react-icons/fa'
-import TipTalk from '@/app/assets/tiptalk.svg'
+import { TikTokLogo } from '@/app/assets/TiktokLogo'
 import { MdFacebook } from 'react-icons/md'
 
 import AppleStore from '@/app/assets/apple_store.svg'
@@ -41,8 +41,8 @@ export const SocialList: SocialInfo[] = [
     link: 'https://www.linkedin.com',
   },
   {
-    icon: TipTalk,
-    link: 'https://www.google.com',
+    icon: <TikTokLogo/>,
+    link: 'https://www.tiktok.com',
   },
   {
     icon: <FaTelegram className="h-8 w-8" />,

@@ -18,8 +18,10 @@ const config: Config = {
         9: '#323334',
         10: '#191A1A',
       },
+      overlaycolor:'#7D808266',
       green: {
         6: '#6DB24D',
+        7:"#578F3D"
       },
       blue: {
         2: '#CCEAFF',
