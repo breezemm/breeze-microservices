@@ -52,13 +52,11 @@
   "prettier": "@breeze/prettier-config",
   "eslintConfig": {
     "root": true,
-    "extends": [
-      "@breeze/eslint-config/base",
-      "@breeze/eslint-config/react"
-    ]
+    "extends": ["@breeze/eslint-config/base", "@breeze/eslint-config/react"]
   },
   "main": "src/index.ts",
   "exports": {
+    "./globals.css": "./src/globals.css",
     ".": "./src/index.ts",
     "./button": "./src/button.tsx",
     "./card": "./src/card.tsx",
@@ -85,9 +83,7 @@
   },
   "typesVersions": {
     "*": {
-      "*": [
-        "src/*"
-      ]
+      "*": ["src/*"]
     }
   }
 }
