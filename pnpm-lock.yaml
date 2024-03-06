@@ -67,18 +67,6 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
 
-  apps/admin:
-    devDependencies:
-      axios:
-        specifier: ^1.6.4
-        version: 1.6.7
-      laravel-vite-plugin:
-        specifier: ^1.0.0
-        version: 1.0.2(vite@5.1.4)
-      vite:
-        specifier: ^5.0.0
-        version: 5.1.4(@types/node@20.11.24)
-
   apps/gateway:
     dependencies:
       kafkajs:
@@ -705,6 +693,9 @@ importers:
       '@breeze/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@heroicons/react':
+        specifier: ^2.1.1
+        version: 2.1.1(react@18.2.0)
       '@reach/dialog':
         specifier: ^0.18.0
         version: 0.18.0(@types/react@18.2.61)(react-dom@18.2.0)(react@18.2.0)
@@ -712,8 +703,8 @@ importers:
         specifier: ^5.22.2
         version: 5.24.1(react@18.2.0)
       '@tanstack/react-router':
-        specifier: ^1.16.6
-        version: 1.18.1(react-dom@18.2.0)(react@18.2.0)
+        specifier: latest
+        version: 1.19.1(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-store':
         specifier: ^0.3.1
         version: 0.3.1(react-dom@18.2.0)(react@18.2.0)
@@ -3151,6 +3142,14 @@ packages:
       tailwindcss: ^3.0
     dependencies:
       tailwindcss: 3.4.1
+    dev: false
+
+  /@heroicons/react@2.1.1(react@18.2.0):
+    resolution: {integrity: sha512-JyyN9Lo66kirbCMuMMRPtJxtKJoIsXKS569ebHGGRKbl8s4CtUfLnyKJxteA+vIKySocO4s1SkTkGS4xtG/yEA==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@hookform/resolvers@3.3.4(react-hook-form@7.51.0):
@@ -6179,6 +6178,22 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       tiny-invariant: 1.3.3
       tiny-warning: 1.0.3
+    dev: true
+
+  /@tanstack/react-router@1.19.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-a4Xf074qo2fQLmSi8PTncEFn8XakaH3+DT7Dted4OPClzQFS+c6yU3HONVNAsuYWZ7lDK1HMKoHPDFbnHPEWvA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/history': 1.15.13
+      '@tanstack/react-store': 0.2.1(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      tiny-invariant: 1.3.3
+      tiny-warning: 1.0.3
+    dev: false
 
   /@tanstack/react-store@0.2.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-tEbMCQjbeVw9KOP/202LfqZMSNAVi6zYkkp1kBom8nFuMx/965Hzes3+6G6b/comCwVxoJU8Gg9IrcF8yRPthw==}

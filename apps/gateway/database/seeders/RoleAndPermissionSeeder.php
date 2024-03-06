@@ -17,6 +17,7 @@ class RoleAndPermissionSeeder extends Seeder
             'username' => 'admin',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
+            'date_of_birth' => now(),
         ]);
 
         Role::create(['name' => 'user']);
