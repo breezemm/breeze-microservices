@@ -9,7 +9,7 @@ class MediaPathGeneratorService implements PathGenerator
 {
     public function getPath(Media $media): string
     {
-        return md5($media->id) . 'MediaPathGeneratorService.php/';
+        return md5($media->id) . '/';
     }
 
     public function getPathForConversions(Media $media): string
