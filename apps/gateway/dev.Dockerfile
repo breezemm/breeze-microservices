@@ -63,6 +63,7 @@ RUN chown -R $user:www-data bootstrap/cache
 RUN chmod -R 775 storage
 RUN chmod -R 775 bootstrap/cache
 
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN composer install
