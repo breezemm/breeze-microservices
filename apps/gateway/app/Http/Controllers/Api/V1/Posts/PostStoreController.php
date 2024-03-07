@@ -18,10 +18,13 @@ class PostStoreController extends Controller
     public function __invoke(EventRequest $request)
     {
         try {
-            $this->eventService->createEvent($request);
+            $event = $this->eventService->createEvent($request);
 
             return response()->json([
                 'message' => 'Event created successfully',
+                'data' => [
+                    'event_id' => $event->id,
+                ],
             ]);
         } catch (\Exception $e) {
             Log::log('error', $e->getMessage());

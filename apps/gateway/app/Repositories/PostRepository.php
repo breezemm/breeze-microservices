@@ -13,7 +13,7 @@ class PostRepository
     /**
      * @throws \Exception
      */
-    public function createEvent(EventRequest $request): void
+    public function createEvent(EventRequest $request): Event
     {
 
         try {
@@ -65,6 +65,8 @@ class PostRepository
                 'action_type' => UserActionTypeEnum::Create,
             ]);
             DB::commit();
+
+            return $event;
         } catch (\Exception $exception) {
             DB::rollBack();
             abort(500, 'Event creation failed');

@@ -3,20 +3,22 @@
 namespace App\Services;
 
 use App\Http\Requests\V1\EventRequest;
+use App\Models\Event;
 use App\Repositories\PostRepository;
 
 class PostService
 {
     public function __construct(
         private readonly PostRepository $eventRepository
-    ) {
+    )
+    {
     }
 
     /**
      * @throws \Exception
      */
-    public function createEvent(EventRequest $request): void
+    public function createEvent(EventRequest $request): Event
     {
-        $this->eventRepository->createEvent($request);
+        return $this->eventRepository->createEvent($request);
     }
 }
