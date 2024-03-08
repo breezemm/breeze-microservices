@@ -3,10 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "pnpm run /^dev:.*/",
+    "dev:vite": "vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "tsr": "tsr watch",
+    "dev:tsr": "tsr watch",
+    "build": "tsc && vite build",
     "tsr:build": "tsr generate",
     "preview": "vite preview"
   },
@@ -14,6 +15,7 @@
     "@breeze/react-auth": "workspace:*",
     "@breeze/ui": "workspace:*",
     "@heroicons/react": "^2.1.1",
+    "@hookform/resolvers": "^3.3.4",
     "@reach/dialog": "^0.18.0",
     "@tanstack/react-query": "^5.22.2",
     "@tanstack/react-router": "latest",
@@ -23,7 +25,9 @@
     "axios": "^1.6.7",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.50.1",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@breeze/eslint-config": "workspace:*",
