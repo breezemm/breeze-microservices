@@ -9,7 +9,7 @@ export const Route = createFileRoute('/auth/login')({
   beforeLoad: ({context: {auth}}) => {
     if (auth) {
       throw redirect({
-        to: '/'
+        to: '/dashboard/home'
       })
     }
   }
@@ -29,7 +29,7 @@ function Login() {
           }
         })
         navigate({
-          to: '/'
+          to: '/dashboard/home'
         })
       })
     }

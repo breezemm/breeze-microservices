@@ -3,7 +3,7 @@ import {Card, CardContent, CardHeader, CardTitle,} from "@breeze/ui"
 import UserIcon from "~/assets/icons/UserIcon.tsx";
 import TicketIcon from "~/assets/icons/TicketIcon.tsx";
 
-export const Route = createFileRoute('/_authenticated/(dashboard)/')({
+export const Route = createFileRoute('/_authenticated/dashboard/home/')({
   component: Home,
 })
 
@@ -16,7 +16,7 @@ function Home() {
     <div>
       <div className="flex gap-8">
         <Card className="w-52" onClick={() => navigate({
-          to: '/users'
+          to: '/dashboard/home/users'
         })}>
           <CardHeader>
             <CardTitle className="text-[18px]">User Base</CardTitle>
@@ -28,7 +28,7 @@ function Home() {
         </Card>
 
         <Card className="w-52" onClick={() => navigate({
-          to: '/events'
+          to: '/dashboard/home/events'
         })}>
           <CardHeader>
             <CardTitle className="text-[18px]">Events</CardTitle>

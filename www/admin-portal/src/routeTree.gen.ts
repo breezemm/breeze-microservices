@@ -12,12 +12,13 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
+import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
 import { Route as AuthLoginImport } from './routes/auth/login'
-import { Route as AuthenticatedWalletIndexImport } from './routes/_authenticated/wallet/index'
-import { Route as AuthenticatedVerifyIndexImport } from './routes/_authenticated/verify/index'
-import { Route as AuthenticateddashboardIndexImport } from './routes/_authenticated/(dashboard)/index'
-import { Route as AuthenticateddashboardUsersImport } from './routes/_authenticated/(dashboard)/users'
-import { Route as AuthenticateddashboardEventsImport } from './routes/_authenticated/(dashboard)/events'
+import { Route as AuthenticatedDashboardWalletIndexImport } from './routes/_authenticated/dashboard/wallet/index'
+import { Route as AuthenticatedDashboardVerifyIndexImport } from './routes/_authenticated/dashboard/verify/index'
+import { Route as AuthenticatedDashboardHomeIndexImport } from './routes/_authenticated/dashboard/home/index'
+import { Route as AuthenticatedDashboardHomeUsersImport } from './routes/_authenticated/dashboard/home/users'
+import { Route as AuthenticatedDashboardHomeEventsImport } from './routes/_authenticated/dashboard/home/events'
 
 // Create/Update Routes
 
@@ -26,36 +27,43 @@ const AuthenticatedRoute = AuthenticatedImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
+  path: '/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
 const AuthLoginRoute = AuthLoginImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthenticatedWalletIndexRoute = AuthenticatedWalletIndexImport.update({
-  path: '/wallet/',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-
-const AuthenticatedVerifyIndexRoute = AuthenticatedVerifyIndexImport.update({
-  path: '/verify/',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-
-const AuthenticateddashboardIndexRoute =
-  AuthenticateddashboardIndexImport.update({
-    path: '/',
+const AuthenticatedDashboardWalletIndexRoute =
+  AuthenticatedDashboardWalletIndexImport.update({
+    path: '/dashboard/wallet/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
-const AuthenticateddashboardUsersRoute =
-  AuthenticateddashboardUsersImport.update({
-    path: '/users',
+const AuthenticatedDashboardVerifyIndexRoute =
+  AuthenticatedDashboardVerifyIndexImport.update({
+    path: '/dashboard/verify/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
-const AuthenticateddashboardEventsRoute =
-  AuthenticateddashboardEventsImport.update({
-    path: '/events',
+const AuthenticatedDashboardHomeIndexRoute =
+  AuthenticatedDashboardHomeIndexImport.update({
+    path: '/dashboard/home/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedDashboardHomeUsersRoute =
+  AuthenticatedDashboardHomeUsersImport.update({
+    path: '/dashboard/home/users',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedDashboardHomeEventsRoute =
+  AuthenticatedDashboardHomeEventsImport.update({
+    path: '/dashboard/home/events',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -71,24 +79,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof rootRoute
     }
-    '/_authenticated/(dashboard)/events': {
-      preLoaderRoute: typeof AuthenticateddashboardEventsImport
+    '/_authenticated/': {
+      preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/(dashboard)/users': {
-      preLoaderRoute: typeof AuthenticateddashboardUsersImport
+    '/_authenticated/dashboard/home/events': {
+      preLoaderRoute: typeof AuthenticatedDashboardHomeEventsImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/(dashboard)/': {
-      preLoaderRoute: typeof AuthenticateddashboardIndexImport
+    '/_authenticated/dashboard/home/users': {
+      preLoaderRoute: typeof AuthenticatedDashboardHomeUsersImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/verify/': {
-      preLoaderRoute: typeof AuthenticatedVerifyIndexImport
+    '/_authenticated/dashboard/home/': {
+      preLoaderRoute: typeof AuthenticatedDashboardHomeIndexImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/wallet/': {
-      preLoaderRoute: typeof AuthenticatedWalletIndexImport
+    '/_authenticated/dashboard/verify/': {
+      preLoaderRoute: typeof AuthenticatedDashboardVerifyIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/dashboard/wallet/': {
+      preLoaderRoute: typeof AuthenticatedDashboardWalletIndexImport
       parentRoute: typeof AuthenticatedImport
     }
   }
@@ -98,11 +110,12 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   AuthenticatedRoute.addChildren([
-    AuthenticateddashboardEventsRoute,
-    AuthenticateddashboardUsersRoute,
-    AuthenticateddashboardIndexRoute,
-    AuthenticatedVerifyIndexRoute,
-    AuthenticatedWalletIndexRoute,
+    AuthenticatedIndexRoute,
+    AuthenticatedDashboardHomeEventsRoute,
+    AuthenticatedDashboardHomeUsersRoute,
+    AuthenticatedDashboardHomeIndexRoute,
+    AuthenticatedDashboardVerifyIndexRoute,
+    AuthenticatedDashboardWalletIndexRoute,
   ]),
   AuthLoginRoute,
 ])

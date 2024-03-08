@@ -31,9 +31,9 @@ export const Route = createFileRoute('/_authenticated')({
 })
 
 const links = [
-  {name: "Home", to: "/", icon: HomeIcon},
-  {name: "Wallet", to: "/wallet", icon: WalletIcon},
-  {name: "Verify", to: "/verify", icon: VerifiedBadgeIcon},
+  {name: "Home", to: "/dashboard/home", icon: HomeIcon},
+  {name: "Wallet", to: "/dashboard/wallet", icon: WalletIcon},
+  {name: "Verify", to: "/dashboard/verify", icon: VerifiedBadgeIcon},
 ]
 
 function Auth() {
@@ -43,6 +43,7 @@ function Auth() {
 
   const onLogout = () => {
     signOutUser.mutate({})
+
   }
 
   return (
@@ -77,12 +78,15 @@ function Auth() {
 
       <section className="flex h-full">
         <nav className="flex flex-col p-10 gap-y-6 border-r">
-          {links.map((link, index) => {
+          {links.map((link) => {
             return (
-              <Button variant="ghost" className="flex justify-start items-center w-full text-left gap-4 py-2" asChild
-                      key={index}>
+              <Button
+                key={link.to}
+                variant="ghost"
+                className="flex justify-start items-center w-full text-left gap-4 py-2" asChild>
                 <Link
                   to={link.to}
+                  preload="intent"
                   activeProps={{
                     className: cn(
                       buttonVariants({variant: "default"}),
