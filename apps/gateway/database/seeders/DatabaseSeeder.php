@@ -11,6 +11,7 @@ use App\Models\Interest;
 use App\Models\Repost;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +20,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::create([
+            'name' => 'Breeze Admin',
+            'email' => 'admin@breezemm.com',
+            'username' => 'admin',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+            'date_of_birth' => now(),
+        ]);
+
         $this->call([
             RoleAndPermissionSeeder::class,
             IntrestSeeder::class,

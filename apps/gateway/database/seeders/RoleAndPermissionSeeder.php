@@ -11,15 +11,7 @@ class RoleAndPermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        $breezeAdmin = User::create([
-            'name' => 'Breeze Admin',
-            'email' => 'admin@breezemm.com',
-            'username' => 'admin',
-            'password' => Hash::make('password'),
-            'email_verified_at' => now(),
-            'date_of_birth' => now(),
-        ]);
-
+        $breezeAdmin = User::find(1);
         Role::create(['name' => 'user']);
 
         $adminRole = Role::create(['name' => 'admin']);
