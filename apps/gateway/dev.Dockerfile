@@ -6,7 +6,7 @@ FROM base AS install
 
 RUN mkdir -p /temp/dev
 
-COPY  bun.lockb /temp/dev/
+COPY bun.lockb /temp/dev/
 
 COPY ./apps/gateway/package.json /temp/dev/package.json
 
@@ -55,7 +55,12 @@ COPY --from=install /temp/dev/node_modules node_modules
 
 COPY ./apps/gateway/docker/dev/octane.ini /usr/local/etc/php/octane.ini
 
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 COPY ./apps/gateway .
+
+RUN composer install
+
 
 RUN chown -R $user:www-data storage
 RUN chown -R $user:www-data bootstrap/cache
@@ -63,16 +68,12 @@ RUN chown -R $user:www-data bootstrap/cache
 RUN chmod -R 775 storage
 RUN chmod -R 775 bootstrap/cache
 
-
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-RUN composer install
-
 COPY ./apps/gateway/docker/dev/start-container /usr/local/bin/start-container
 
 COPY ./apps/gateway/docker/dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN chmod +x /usr/local/bin/start-container
+
 
 EXPOSE 80
 #EXPOSE 443
