@@ -11,6 +11,13 @@ export const signInWithEmailAndPassword = async (credentials: SignInCredentialDT
   return response.data.data;
 }
 
+export const signOutAuthUser = async () => {
+  try {
+    await axios.post('/users/sign-out');
+  } catch (e) {
+    throw "Error signing out";
+  }
+}
 
 export const getAuthUser = async () => {
   const response = await axios.get('/users/me');

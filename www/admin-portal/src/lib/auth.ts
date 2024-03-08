@@ -1,6 +1,6 @@
-import {getAuthUser, SignInCredentialDTO, signInWithEmailAndPassword} from "~/features/auth/api";
 import {initAuth} from "@breeze/react-auth";
-import {tokenStorage} from "~/lib/storage.ts";
+import {tokenStorage} from "~/lib/storage";
+import {getAuthUser, SignInCredentialDTO, signInWithEmailAndPassword, signOutAuthUser} from "~/routes/auth/-api";
 
 const handleUserResponse = async (data: { access_token: string }) => {
   const {access_token}: {
@@ -18,6 +18,7 @@ const signInUser = async (data: SignInCredentialDTO) => {
 }
 
 const signOutUser = async () => {
+  await signOutAuthUser();
   tokenStorage.clearToken();
   window.location.assign(window.location.origin as unknown as string);
 }
