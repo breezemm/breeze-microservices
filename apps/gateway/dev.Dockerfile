@@ -49,7 +49,8 @@ RUN install-php-extensions \
     sockets \
     pcntl \
     opcache \
-    mongodb
+    mongodb \
+    gd
 
 COPY --from=install /temp/dev/node_modules node_modules
 
