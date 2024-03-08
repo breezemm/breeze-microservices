@@ -19,7 +19,9 @@
     "@tanstack/react-router": "latest",
     "@tanstack/react-store": "^0.3.1",
     "@tanstack/router-cli": "^1.16.5",
+    "@types/js-cookie": "^3.0.6",
     "axios": "^1.6.7",
+    "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
