@@ -17,6 +17,7 @@ import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthenticatedDashboardWalletIndexImport } from './routes/_authenticated/dashboard/wallet/index'
 import { Route as AuthenticatedDashboardVerifyIndexImport } from './routes/_authenticated/dashboard/verify/index'
 import { Route as AuthenticatedDashboardHomeIndexImport } from './routes/_authenticated/dashboard/home/index'
+import { Route as AuthenticatedDashboardWalletCashinoutImport } from './routes/_authenticated/dashboard/wallet/cashinout'
 import { Route as AuthenticatedDashboardHomeUsersImport } from './routes/_authenticated/dashboard/home/users'
 import { Route as AuthenticatedDashboardHomeEventsImport } from './routes/_authenticated/dashboard/home/events'
 
@@ -52,6 +53,12 @@ const AuthenticatedDashboardVerifyIndexRoute =
 const AuthenticatedDashboardHomeIndexRoute =
   AuthenticatedDashboardHomeIndexImport.update({
     path: '/dashboard/home/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedDashboardWalletCashinoutRoute =
+  AuthenticatedDashboardWalletCashinoutImport.update({
+    path: '/dashboard/wallet/cashinout',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -91,6 +98,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardHomeUsersImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/dashboard/wallet/cashinout': {
+      preLoaderRoute: typeof AuthenticatedDashboardWalletCashinoutImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/dashboard/home/': {
       preLoaderRoute: typeof AuthenticatedDashboardHomeIndexImport
       parentRoute: typeof AuthenticatedImport
@@ -113,6 +124,7 @@ export const routeTree = rootRoute.addChildren([
     AuthenticatedIndexRoute,
     AuthenticatedDashboardHomeEventsRoute,
     AuthenticatedDashboardHomeUsersRoute,
+    AuthenticatedDashboardWalletCashinoutRoute,
     AuthenticatedDashboardHomeIndexRoute,
     AuthenticatedDashboardVerifyIndexRoute,
     AuthenticatedDashboardWalletIndexRoute,
