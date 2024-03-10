@@ -31,4 +31,4 @@ jobs:
 
     - name: Deploy to staging server
       run: |
-        ssh ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_IP }} -t "ansible-playbook ${{ secrets.STAGING_PLAYBOOK }} -e ${{ secrets.STAGING_VARS }}"
+        ssh ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_IP }} -t "ansible-playbook ${{ secrets.STAGING_PLAYBOOK }}"

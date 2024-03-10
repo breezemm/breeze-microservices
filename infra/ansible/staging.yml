@@ -5,6 +5,10 @@
   become_user: ubuntu
   gather_facts: true
 
+  vars:
+    project_src: /home/ubuntu/breeze
+    deploy_key: /home/ubuntu/.ssh/staging-deploy-key
+
   tasks:
     - name: Clone Repository to Release Directory
       git:
