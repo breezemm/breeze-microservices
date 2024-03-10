@@ -20,10 +20,10 @@
         update: yes
 
     - name: Stop All Services
-      command: "cd {{ project_src }} && ./infra/scripts/staging/stop.sh"
+      command: "{{ project_src }}/infra/scripts/staging/stop.sh"
 
     - name: Prune All Services
-      command: "cd {{ project_src }} && ./infra/scripts/staging/prune.sh"
+      command: "{{ project_src }}/infra/scripts/staging/prune.sh"
 
     - name: Build All Services
-      command: "cd {{ project_src }} && ./infra/scripts/staging/build.sh"
+      command: "{{ project_src }}/infra/scripts/staging/build.sh"
