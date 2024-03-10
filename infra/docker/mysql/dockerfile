@@ -1,0 +1,5 @@
+ARG MYSQL_VERSION
+FROM mysql/mysql-server:${MYSQL_VERSION}
+
+COPY my.cnf /etc/my.cnf
+COPY create-database.sh /docker-entrypoint-initdb.d/10-create-database.sh
