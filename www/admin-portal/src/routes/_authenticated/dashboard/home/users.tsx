@@ -1,5 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
+import UserNavigate from './-component/-routes/UserNavigate'
+import UserBaseTable from './-component/UserBaseTable'
 
 export const Route = createFileRoute('/_authenticated/dashboard/home/users')({
-  component: () => <div>Hello /_authenticated/(dashboard)/users!</div>
+  component: User
 })
+
+function User() {
+  return (
+    <div>
+      <UserNavigate />
+      <UserBaseTable />
+    </div>
+  )
+}
