@@ -95,7 +95,7 @@ class AuthController extends Controller
             ->load('address');
 
         return Cache::store('redis')->remember(auth()->user()->username, 60 * 60 * 24, function () use ($user) {
-            return new UserResource($user);
+            return $this->getProfile($user->username);
         });
     }
 
