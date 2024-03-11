@@ -1,4 +1,4 @@
-FROM breeze/node as builder
+FROM breeze/node:latest as builder
 
 WORKDIR /var/www/suggestion
 
@@ -13,7 +13,7 @@ COPY . .
 RUN pnpm run build suggestion
 
 
-FROM breeze/node
+FROM breeze/node:latest
 
 WORKDIR /var/www/suggestion
 

@@ -44,8 +44,6 @@ services:
       test: ["CMD", "curl", "--fail", "nginx"]
       retries: 3
       timeout: 5s
-    depends_on:
-      - gateway
     networks:
       staging:
         ipv4_address: 172.28.201.11
@@ -105,7 +103,7 @@ services:
     healthcheck:
       test: ["CMD", "kafka-topics", "--list", "--bootstrap-server", "kafka:9092"]
       retries: 3
-      timeout: 5s
+      timeout: 15s
     depends_on:
       - zookeeper
     networks:
@@ -192,8 +190,6 @@ services:
     image: breeze/suggestion
     container_name: breeze_suggestion
     env_file: ./apps/suggestion/staging.env
-    depends_on:
-      - node
     healthcheck:
       test: ["CMD", "node", "healthcheck.js"]
       retries: 3
@@ -205,6 +201,10 @@ services:
   mailpit:
     image: axllent/mailpit:latest
     container_name: breeze_mailpit
+    healthcheck:
+      test: ["CMD", "nc", "-z", "mailpit", "8025"]
+      retries: 3
+      timeout: 5s
     networks:
       staging:
         ipv4_address: 172.28.201.20
