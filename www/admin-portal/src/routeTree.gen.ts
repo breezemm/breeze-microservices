@@ -20,6 +20,7 @@ import { Route as AuthenticatedDashboardHomeIndexImport } from './routes/_authen
 import { Route as AuthenticatedDashboardWalletCashinoutImport } from './routes/_authenticated/dashboard/wallet/cashinout'
 import { Route as AuthenticatedDashboardHomeUsersImport } from './routes/_authenticated/dashboard/home/users'
 import { Route as AuthenticatedDashboardHomeEventsImport } from './routes/_authenticated/dashboard/home/events'
+import { Route as AuthenticatedDashboardWalletComponentsUserprofileImport } from './routes/_authenticated/dashboard/wallet/_components/_userprofile'
 
 // Create/Update Routes
 
@@ -74,6 +75,12 @@ const AuthenticatedDashboardHomeEventsRoute =
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
+const AuthenticatedDashboardWalletComponentsUserprofileRoute =
+  AuthenticatedDashboardWalletComponentsUserprofileImport.update({
+    path: '/dashboard/wallet/components/userprofile',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -114,6 +121,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardWalletIndexImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/dashboard/wallet/_components/_userprofile': {
+      preLoaderRoute: typeof AuthenticatedDashboardWalletComponentsUserprofileImport
+      parentRoute: typeof AuthenticatedImport
+    }
   }
 }
 
@@ -128,6 +139,7 @@ export const routeTree = rootRoute.addChildren([
     AuthenticatedDashboardHomeIndexRoute,
     AuthenticatedDashboardVerifyIndexRoute,
     AuthenticatedDashboardWalletIndexRoute,
+    AuthenticatedDashboardWalletComponentsUserprofileRoute,
   ]),
   AuthLoginRoute,
 ])
