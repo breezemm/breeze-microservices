@@ -32,6 +32,9 @@
     --ring: 240 10% 3.9%;
 
     --radius: 0.5rem;
+
+    --Neutral-009:#323334;
+    
   }
 
   .dark {
@@ -62,6 +65,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+
   }
 }
 
@@ -83,7 +87,7 @@
     font-family: "Sora", sans-serif;
   }
 
-  p, ul, ol, li, button {
+ a, p, ul, ol, li, button {
     font-family: "Figtree", sans-serif;
   }
 }
