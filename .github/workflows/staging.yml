@@ -1,0 +1,34 @@
+name: Push to EC2 on staging
+
+on:
+  push:
+    branches:
+    - staging
+  pull_request:
+    branches:
+    - staging
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to EC2 on staging
+    runs-on: ubuntu-latest
+    permissions: read-all
+    if: github.ref == 'refs/heads/staging'
+
+    steps:
+    - name: Checkout the files
+      uses: actions/checkout@v3
+
+    - name: Setup SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.STAGING_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.STAGING_IP }} >> ~/.ssh/known_hosts
+
+    - name: Deploy to staging server
+      run: |
+        ssh ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_IP }} -t "ansible-playbook ${{ secrets.STAGING_PLAYBOOK }}"

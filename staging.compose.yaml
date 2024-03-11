@@ -1,0 +1,212 @@
+networks:
+  staging:
+    name: breeze_staging
+    ipam:
+      driver: default
+      config:
+        - subnet:   172.28.201.0/24
+          ip_range: 172.28.201.0/24
+          gateway:  172.28.201.1
+
+volumes:
+  mysql:
+  redis:
+  kafka:
+  gateway:
+
+services:
+  php:
+    build:
+      context: ./infra/docker/php
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+        FRANKEN_VERSION: ${FRANKEN_VERSION}
+    image: breeze/php
+    container_name: breeze_php
+
+  node:
+    build:
+      context: ./infra/docker/node
+      args:
+        NODE_VERSION: ${NODE_VERSION}
+        ALPINE_VERSION: ${ALPINE_VERSION}
+    image: breeze/node
+    container_name: breeze_node
+
+  nginx:
+    build:
+      context: ./infra/docker/nginx
+      args:
+        NGINX_VERSION: ${NGINX_VERSION}
+    image: breeze/nginx
+    container_name: breeze_nginx
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "nginx"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+        ipv4_address: 172.28.201.11
+    ports:
+      - "80:80"
+      - "443:443"
+
+  mysql:
+    build:
+      context: ./infra/docker/mysql
+      args:
+        MYSQL_VERSION: ${MYSQL_VERSION}
+    image: breeze/mysql
+    container_name: breeze_mysql
+    env_file: .env
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${MYSQL_PASSWORD}"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+        ipv4_address: 172.28.201.12
+    volumes:
+      - mysql:/var/lib/mysql
+
+  redis:
+    image: redis:${REDIS_VERSION}-alpine${ALPINE_VERSION}
+    container_name: breeze_redis
+    env_file: .env
+    command: /bin/sh -c 'redis-server --requirepass ${REDIS_PASSWORD}'
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+        ipv4_address: 172.28.201.13
+    volumes:
+      - redis:/data
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:${ZOOKEEPER_VERSION}
+    container_name: breeze_zookeeper
+    env_file: .env
+    healthcheck:
+      test: ["CMD", "nc", "-z", "zookeeper", "2181"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+       ipv4_address: 172.28.201.14
+
+  kafka:
+    image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    container_name: breeze_kafka
+    env_file: .env
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--list", "--bootstrap-server", "kafka:9092"]
+      retries: 3
+      timeout: 15s
+    depends_on:
+      - zookeeper
+    networks:
+      staging:
+        ipv4_address: 172.28.201.15
+    volumes:
+      - kafka:/var/lib/kafka
+
+  gateway:
+    build:
+      context: ./apps/gateway
+      dockerfile: staging.dockerfile
+    image: breeze/gateway
+    container_name: breeze_gateway
+    env_file: ./apps/gateway/staging.env
+    environment:
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    depends_on:
+      - mysql
+      - redis
+      - kafka
+    healthcheck:
+      test: ["CMD", "php", "artisan", "octane:status"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+        ipv4_address: 172.28.201.16
+    volumes:
+      - gateway:/var/www/gateway/storage
+
+  wallets:
+    build:
+      context: ./apps/wallets
+      dockerfile: staging.dockerfile
+    image: breeze/wallets
+    container_name: breeze_wallets
+    env_file: ./apps/wallets/staging.env
+    environment:
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    depends_on:
+      - mysql
+      - redis
+      - kafka
+    healthcheck:
+      test: ["CMD", "php", "artisan", "octane:status"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+        ipv4_address: 172.28.201.17
+
+  notifications:
+    build:
+      context: ./apps/notifications
+      dockerfile: staging.dockerfile
+    image: breeze/notifications
+    container_name: breeze_notifications
+    env_file: ./apps/notifications/staging.env
+    environment:
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    depends_on:
+      - mysql
+      - redis
+      - kafka
+    healthcheck:
+      test: ["CMD", "php", "artisan", "octane:status"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+        ipv4_address: 172.28.201.18
+
+  suggestion:
+    build:
+      context: ./apps/suggestion
+      dockerfile: staging.dockerfile
+    image: breeze/suggestion
+    container_name: breeze_suggestion
+    env_file: ./apps/suggestion/staging.env
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+        ipv4_address: 172.28.201.19
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: breeze_mailpit
+    healthcheck:
+      test: ["CMD", "nc", "-z", "mailpit", "8025"]
+      retries: 3
+      timeout: 5s
+    networks:
+      staging:
+        ipv4_address: 172.28.201.20
+    ports:
+      - "8025:8025"
