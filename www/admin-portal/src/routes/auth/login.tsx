@@ -1,25 +1,16 @@
-import {createFileRoute, redirect, useNavigate} from '@tanstack/react-router'
+import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router'
 import {useSignInUser} from "~/lib/auth.ts";
-import {
-  Button,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  Card,
-  CardContent,
-  CardTitle,
-  CardHeader
-} from "@breeze/ui";
+import {Button, Form, FormControl, FormField, FormItem, FormMessage, Input} from "@breeze/ui";
 import {authStore} from "~/store";
 import {flushSync} from "react-dom";
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {z} from 'zod';
+import EyeOpenIcon from "~/assets/icons/EyeOpenIcon";
+import EyeCloseIcon from "~/assets/icons/EyeCloseIcon";
 
+import {useState} from 'react';
+import Logo from '~/assets/icons/Logo';
 // https://gist.github.com/mjbalcueva/b21f39a8787e558d4c536bf68e267398
 export const Route = createFileRoute('/auth/login')({
   component: Login,
@@ -44,6 +35,8 @@ const formSchema = z.object({
 
 function Login() {
   const navigate = useNavigate()
+
+  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -83,23 +76,28 @@ function Login() {
     await signInUser.mutateAsync(data)
   }
 
+  const handlePasswordShow = () => {
+    setShowPassword(!showPassword)
+  }
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Card className="w-[329px]">
-        <CardHeader>
-          <CardTitle>Login Page</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+    <div className="flex justify-center flex-col items-center h-screen">
+      <Logo/>
+      <div className='flex flex-col w-80 mt-8 items-center'>
+        <div className='flex flex-col items-center gap-6'>
+          <h1 className='text-2xl text-[var(--Neutral-009)] font-bold'>Welcome !</h1>
+          <p className='font-normal text-base text-[var(--Neutral-009)]'>This is breeze’s Admin Dashboard.</p>
+        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className=" mt-20  w-full flex flex-col  ">
+            <div className='flex flex-col mb-20 gap-6'>
               <FormField
                 control={form.control}
                 name="email"
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} placeholder='Username or email'
+                             className='border-e-0 border-s-0 border-[var(--Natural-009)] border-t-0 border-b-2 rounded-none shadow-none focus-visible:ring-0 focus-visible:outline-none'/>
                     </FormControl>
                     <FormMessage/>
                   </FormItem>
@@ -110,21 +108,37 @@ function Login() {
                 name="password"
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" {...field} />
+                      <div className='flex justify-between items-center  border-[var(--Neutral-009)] border-b-2'>
+                        <Input type={showPassword ? "text" : "password"} placeholder='Password' {...field}
+                               className='border-none rounded-none shadow-none focus-visible:ring-0 focus-visible:outline-none'/>
+                        {
+                          showPassword ?
+                            <EyeOpenIcon className='cursor-pointer w-5 h-5' onClick={handlePasswordShow}/> :
+                            <EyeCloseIcon className='w-5 h-5 cursor-pointer' onClick={handlePasswordShow}/>
+                        }
+
+                      </div>
+
+
                     </FormControl>
                     <FormMessage/>
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
-                {signInUser.isPending ? 'Loading...' : 'Login'}
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+            </div>
+            <Button type="submit" className="w-full ">
+              {signInUser.isPending ? 'Loading...' : 'Login'}
+            </Button>
+            <Link to='/' className='underline w-full mt-6 text-center font-semibold text-base tracking-tight'>Forget
+              Password?</Link>
+          </form>
+        </Form>
+
+      </div>
+
+
     </div>
   )
 }
+

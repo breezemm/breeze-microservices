@@ -1,3 +1,4 @@
+
 import {Card, CardContent, CardHeader, CardTitle,} from "@breeze/ui"
 import {  createFileRoute, useNavigate } from '@tanstack/react-router'
 import DollarSignIcon from "~/assets/icons/DollarSignIcon"
