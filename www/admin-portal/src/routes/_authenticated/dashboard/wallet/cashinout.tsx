@@ -5,8 +5,8 @@ import SearchIcon from '~/assets/icons/SearchIcon'
 import { useState } from 'react'
 import ArrowIcon from '~/assets/icons/ArrowIcon'
 import { useQuery } from '@tanstack/react-query'
-import { axios } from '~/lib/axios'
 import useDebounce from './_hooks/-useDebounce'
+import { getUserProfileWithUsername } from './-auth/-api'
 
 export const Route = createFileRoute('/_authenticated/dashboard/wallet/cashinout')({
   component: CashInOut
@@ -19,15 +19,22 @@ function CashInOut () {
 
   const debounceSearchName = useDebounce(searchUsername, 500)
 
-  const {data} = useQuery({
+  const {data, error} = useQuery({
     queryKey: ["userProfile", debounceSearchName], 
     queryFn: () =>{
       console.log("Fetching...")
-      return fetch (`https://dummyjson.com/products/search?q=${debounceSearchName}`)
+      return getUserProfileWithUsername(debounceSearchName)
     }
   })
 
-  
+  if(data) {
+    console.log(data)
+
+  }
+
+  if (error) {
+    console.log(error)
+  }
 
   return (
     <div className="flex gap-12 w-full">
