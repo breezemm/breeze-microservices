@@ -2,6 +2,8 @@ import { Input } from '@breeze/ui'
 import { createFileRoute } from '@tanstack/react-router'
 import UserProfile from './_components/_userprofile'
 import SearchIcon from '~/assets/icons/SearchIcon'
+import { useState } from 'react'
+import ArrowIcon from '~/assets/icons/ArrowIcon'
 
 export const Route = createFileRoute('/_authenticated/dashboard/wallet/cashinout')({
   component: CashInOut
@@ -9,8 +11,9 @@ export const Route = createFileRoute('/_authenticated/dashboard/wallet/cashinout
 
 
 function CashInOut () {
+  const [openCashInOutDetail, setOpenCashInOutDetail] = useState(false);
   return (
-    <div className="flex gap-10">
+    <div className="flex gap-12 w-full">
       <div> 
         <div className='my-10'>
           <h5 className="text-lg font-bold leading-6 px-2 mb-6">Search</h5>
@@ -18,7 +21,6 @@ function CashInOut () {
               <Input
                 type="text"
                 placeholder="Username"
-                className=""
               />
             <div className="absolute inset-y-0 right-0 flex items-center justify-center pr-[3px]">
               <SearchIcon />
@@ -26,24 +28,28 @@ function CashInOut () {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 px-6 py-1 w-80">
-          <div className="flex items-center gap-4 py-2">
+        <div className="flex flex-col gap-4 py-1 w-80">
+          <div className={`flex items-center gap-4 py-2 px-6 ${openCashInOutDetail ? 'border rounded-sm border-zinc-800' : ''}`} 
+              onClick={()=> setOpenCashInOutDetail(!openCashInOutDetail) }>
             <div className="h-10 w-10 rounded-full">
-              <img className="h-full w-full" src="https://thumbs.dreamstime.com/b/businessman-icon-vector-male-avatar-profile-image-profile-businessman-icon-vector-male-avatar-profile-image-182095609.jpg" alt="Avator" />
+              <img className="h-full w-full" src="https://thumbs.dreamstime.com/b/businessman-icon-vector-male-avatar-profile-image-profile-businessman-icon-vector-male-avatar-profile-image-182095609.jpg" alt="Avatar" />
             </div>
             <p className="text-base">Mya Zarni</p>
+              {openCashInOutDetail && (
+                <div className="ml-auto">
+                  <ArrowIcon />
+                </div>     
+              )}
           </div>
-          <div className="flex items-center gap-4 py-2">
-            <div className="h-10 w-10 rounded-full">
-              <img className="h-full w-full" src="https://thumbs.dreamstime.com/b/businessman-icon-vector-male-avatar-profile-image-profile-businessman-icon-vector-male-avatar-profile-image-182095609.jpg" alt="Avator" />
-            </div>
-            <p className="text-base">Mya Zarni</p>
-          </div>
+   
         </div>
     </div>
     
-    <UserProfile />
-
+    {
+      openCashInOutDetail && (
+        <UserProfile />
+      )
+    }
 
     </div>
 

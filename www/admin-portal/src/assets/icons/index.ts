@@ -9,3 +9,5 @@ export * from './DollarSignIcon.tsx';
 export * from './HistoryIcon.tsx';
 export * from './CloseIcon.tsx';
 export * from './SearchIcon.tsx';
+export * from './AddMediaIcon.tsx'
+export * from './ArrowIcon.tsx'

@@ -100,7 +100,7 @@ function Auth() {
             )
           })}
         </nav>
-        <section className="p-10">
+        <section className="p-10 w-full">
           <Outlet/>
         </section>
       </section>
