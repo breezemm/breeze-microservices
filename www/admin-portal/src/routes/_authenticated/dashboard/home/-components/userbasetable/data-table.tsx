@@ -2,6 +2,7 @@ import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
+    getPaginationRowModel,
     useReactTable,
   } from "@tanstack/react-table"
    
@@ -13,6 +14,7 @@ import {
     TableHeader,
     TableRow,
   } from "@breeze/ui/table"
+import { Button } from "@breeze/ui"
 
 
 interface DataTableProps<TData, TValue> {
@@ -24,11 +26,14 @@ export function UserBaseTable<TData, TValue>({columns, data}: DataTableProps<TDa
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel:getCoreRowModel()
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel()
     })
 
     return (
-        <div className="rounded-md border max-w-custom mx-auto bg-red-700">
+        <div>
+            {/* Table */}
+           <div className="rounded-md w-[200%] justify-between text-center">
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map(headerGroup => {
@@ -37,7 +42,10 @@ export function UserBaseTable<TData, TValue>({columns, data}: DataTableProps<TDa
                                 {headerGroup.headers.map(header => {
                                     return (
                                         <TableHead key={header.id}>
-                                            {flexRender(header.column.columnDef.header, header.getContext())}
+                                            <div className="font-bold text-black text-center text-lg my-3">
+                                                {flexRender(header.column.columnDef.header, header.getContext())}
+                                            </div>
+                                            
                                         </TableHead>
                                     )
                                 })}
@@ -46,13 +54,16 @@ export function UserBaseTable<TData, TValue>({columns, data}: DataTableProps<TDa
                     })}
                 </TableHeader>
 
-                <TableBody>
+                <TableBody className="text-sm">
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map(row => (
                             <TableRow key={row.id}>
                                 {row.getVisibleCells().map(cell => (
                                     <TableCell key={cell.id}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        <div className="my-4">
+                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </div>
+                                       
                                     </TableCell>
                                 ))}
                          </TableRow>
@@ -64,7 +75,27 @@ export function UserBaseTable<TData, TValue>({columns, data}: DataTableProps<TDa
                     )}
                 </TableBody>
             </Table>
+            </div> 
+            {/* Pagination*/}
+            <div className="flex items-center justify-start space-x-2 py-4">
+                <Button variant='outline'
+                    size='sm'
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    Previous
+                </Button>
+
+                <Button variant='outline'
+                    size='sm'
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                >
+                    Next
+                </Button>
+            </div>
         </div>
+        
     )
 }
 

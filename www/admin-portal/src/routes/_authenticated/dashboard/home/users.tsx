@@ -7,9 +7,9 @@ import { Breadcrumb,
   BreadcrumbSeparator,} from "@breeze/ui";
 import { Link } from "@tanstack/react-router";
 import HomeIcon from "~/assets/icons/HomeIcon";
-import UserBaseTable from './-component/-userbasetable/data-table';
-import { columns } from './-component/-userbasetable/columns';
-import { UserData } from './-component/user';
+import UserBaseTable from './-components/userbasetable/data-table';
+import { columns } from './-components/userbasetable/columns';
+import { UserData } from './-components/user';
 
 
 export const Route = createFileRoute('/_authenticated/dashboard/home/users')({
@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_authenticated/dashboard/home/users')({
 
 function User() {
   return (
-    <div>
+    <div className='w-[100%]'>
       <div className=" flex gap-2 w-28 h-10 px-4 py-2 top-36 left-64 ">
         <Breadcrumb>
         <BreadcrumbList>
