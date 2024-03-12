@@ -4,6 +4,9 @@ import UserProfile from './_components/_userprofile'
 import SearchIcon from '~/assets/icons/SearchIcon'
 import { useState } from 'react'
 import ArrowIcon from '~/assets/icons/ArrowIcon'
+import { useQuery } from '@tanstack/react-query'
+import { axios } from '~/lib/axios'
+import useDebounce from './_hooks/-useDebounce'
 
 export const Route = createFileRoute('/_authenticated/dashboard/wallet/cashinout')({
   component: CashInOut
@@ -12,6 +15,20 @@ export const Route = createFileRoute('/_authenticated/dashboard/wallet/cashinout
 
 function CashInOut () {
   const [openCashInOutDetail, setOpenCashInOutDetail] = useState(false);
+  const [searchUsername, setSearchUsername] = useState("");
+
+  const debounceSearchName = useDebounce(searchUsername, 500)
+
+  const {data} = useQuery({
+    queryKey: ["userProfile", debounceSearchName], 
+    queryFn: () =>{
+      console.log("Fetching...")
+      return fetch (`https://dummyjson.com/products/search?q=${debounceSearchName}`)
+    }
+  })
+
+  
+
   return (
     <div className="flex gap-12 w-full">
       <div> 
@@ -21,6 +38,7 @@ function CashInOut () {
               <Input
                 type="text"
                 placeholder="Username"
+                onChange={(e)=> setSearchUsername(e.target.value)}
               />
             <div className="absolute inset-y-0 right-0 flex items-center justify-center pr-[3px]">
               <SearchIcon />
