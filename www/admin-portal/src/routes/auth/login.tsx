@@ -9,15 +9,16 @@ import {z} from 'zod';
 import EyeOpenIcon from "~/assets/icons/EyeOpenIcon";
 import EyeCloseIcon from "~/assets/icons/EyeCloseIcon";
 
-import {useState} from 'react';
-import Logo from '~/assets/icons/Logo';
-// https://gist.github.com/mjbalcueva/b21f39a8787e558d4c536bf68e267398
+import {useState} from "react";
+import Logo from "~/assets/icons/Logo";
+import LoadingSpinner from "~/assets/icons/LoadingSpinner.tsx";
+
 export const Route = createFileRoute('/auth/login')({
   component: Login,
   beforeLoad: ({context: {auth}}) => {
     if (auth) {
       throw redirect({
-        to: '/dashboard/home'
+        to: "/dashboard/home"
       })
     }
   }
@@ -37,6 +38,13 @@ function Login() {
   const navigate = useNavigate()
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
+
+  const LoadingIconWithText = () => {
+    return <div role="status" className="flex gap-3 items-center">
+      <span>Loading</span>
+      <LoadingSpinner/>
+    </div>
+  }
 
   useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -72,6 +80,7 @@ function Login() {
     },
   })
 
+
   async function onSubmit(data: z.infer<typeof formSchema>) {
     await signInUser.mutateAsync(data)
   }
@@ -82,22 +91,22 @@ function Login() {
   return (
     <div className="flex justify-center flex-col items-center h-screen">
       <Logo/>
-      <div className='flex flex-col w-80 mt-8 items-center'>
-        <div className='flex flex-col items-center gap-6'>
-          <h1 className='text-2xl text-[var(--Neutral-009)] font-bold'>Welcome !</h1>
-          <p className='font-normal text-base text-[var(--Neutral-009)]'>This is breeze’s Admin Dashboard.</p>
+      <div className="flex flex-col w-80 mt-8 items-center">
+        <div className="flex flex-col items-center gap-6">
+          <h1 className="text-2xl text-[var(--neutral-009)] font-bold">Welcome !</h1>
+          <p className="font-normal text-base text-[var(--neutral-009)]">This is breeze’s Admin Dashboard.</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className=" mt-20  w-full flex flex-col  ">
-            <div className='flex flex-col mb-20 gap-6'>
+            <div className="flex flex-col mb-20 gap-6">
               <FormField
                 control={form.control}
                 name="email"
                 render={({field}) => (
                   <FormItem>
                     <FormControl>
-                      <Input {...field} placeholder='Username or email'
-                             className='border-e-0 border-s-0 border-[var(--Natural-009)] border-t-0 border-b-2 rounded-none shadow-none focus-visible:ring-0 focus-visible:outline-none'/>
+                      <Input {...field} placeholder="Username or email"
+                             className="border-e-0 border-s-0 border-[var(--netural-009)] border-t-0 border-b-2 rounded-none shadow-none focus-visible:ring-0 focus-visible:outline-none"/>
                     </FormControl>
                     <FormMessage/>
                   </FormItem>
@@ -109,13 +118,13 @@ function Login() {
                 render={({field}) => (
                   <FormItem>
                     <FormControl>
-                      <div className='flex justify-between items-center  border-[var(--Neutral-009)] border-b-2'>
-                        <Input type={showPassword ? "text" : "password"} placeholder='Password' {...field}
-                               className='border-none rounded-none shadow-none focus-visible:ring-0 focus-visible:outline-none'/>
+                      <div className="flex justify-between items-center  border-[var(--neutral-009)] border-b-2">
+                        <Input type={showPassword ? "text" : "password"} placeholder="Password" {...field}
+                               className="border-none rounded-none shadow-none focus-visible:ring-0 focus-visible:outline-none"/>
                         {
                           showPassword ?
-                            <EyeOpenIcon className='cursor-pointer w-5 h-5' onClick={handlePasswordShow}/> :
-                            <EyeCloseIcon className='w-5 h-5 cursor-pointer' onClick={handlePasswordShow}/>
+                            <EyeOpenIcon className="cursor-pointer w-5 h-5" onClick={handlePasswordShow}/> :
+                            <EyeCloseIcon className="w-5 h-5 cursor-pointer" onClick={handlePasswordShow}/>
                         }
 
                       </div>
@@ -128,9 +137,9 @@ function Login() {
               />
             </div>
             <Button type="submit" className="w-full ">
-              {signInUser.isPending ? 'Loading...' : 'Login'}
+              {signInUser.isPending ? <LoadingIconWithText/> : "Login"}
             </Button>
-            <Link to='/' className='underline w-full mt-6 text-center font-semibold text-base tracking-tight'>Forget
+            <Link to="/" className="underline w-full mt-6 text-center font-semibold text-base tracking-tight">Forget
               Password?</Link>
           </form>
         </Form>
