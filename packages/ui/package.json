@@ -83,7 +83,8 @@
     "./collapsibleDemo": "./src/collapsibleDemo.tsx",
     "./comboboxDemo": "./src/comboboxDemo.tsx",
     "./carousel": "./src/carousel.tsx",
-    "./breadcrumb": "./src/breadcrumb.tsx"
+    "./breadcrumb": "./src/breadcrumb.tsx",
+    "./table": "./src/table.tsx"
   },
   "typesVersions": {
     "*": {
