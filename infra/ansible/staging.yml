@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: ubuntu
+  gather_facts: true
+
+  vars:
+    project_src: /home/ubuntu/breeze
+    deploy_key: /home/ubuntu/.ssh/staging-deploy-key
+
+  tasks:
+    - name: Clone Repository to Release Directory
+      git:
+        repo: git@github.com:myanmarcyberyouths/breeze.git
+        dest: "{{ project_src }}"
+        key_file: "{{ deploy_key }}"
+        version: staging
+        force: yes
+        update: yes
+
+    - name: Stop All Services
+      command: "{{ project_src }}/infra/scripts/staging/stop.sh"
+
+    - name: Prune All Services
+      command: "{{ project_src }}/infra/scripts/staging/prune.sh"
+
+    - name: Build All Services
+      command: "{{ project_src }}/infra/scripts/staging/build.sh"
