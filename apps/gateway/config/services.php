@@ -36,8 +36,8 @@ return [
      * */
     'breeze' => [
         'suggestion' => env('SUGGESTION_API_URL'),
-        'wallet' => env('WALLET_SERVICE_API_URL') . '/api/v1',
-        'notification' => env('NOTIFICATION_SERVICE_API_URL') . '/api/v1'
+        'wallets' => env('WALLETS_SERVICE_API_URL') . '/api/v1',
+        'notifications' => env('NOTIFICATIONS_SERVICE_API_URL') . '/api/v1'
     ],
 
 ];
