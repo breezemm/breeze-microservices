@@ -1,12 +1,6 @@
 import { Button, Input } from '@breeze/ui'
-import { createFileRoute } from '@tanstack/react-router'
 import CloseIcon from '~/assets/icons/CloseIcon'
-import { AddMedia } from './-addMedia'
-
-export const Route = createFileRoute('/_authenticated/dashboard/wallet/_components/_userprofile')({
-  component: () => UserProfile
-})
-
+import AddMedia  from './AddMedia'
 
 export default function UserProfile () {
   return (

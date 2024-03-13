@@ -17,10 +17,9 @@ import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthenticatedDashboardWalletIndexImport } from './routes/_authenticated/dashboard/wallet/index'
 import { Route as AuthenticatedDashboardVerifyIndexImport } from './routes/_authenticated/dashboard/verify/index'
 import { Route as AuthenticatedDashboardHomeIndexImport } from './routes/_authenticated/dashboard/home/index'
-import { Route as AuthenticatedDashboardWalletCashinoutImport } from './routes/_authenticated/dashboard/wallet/cashinout'
+import { Route as AuthenticatedDashboardWalletCashInCashOutImport } from './routes/_authenticated/dashboard/wallet/cash-in-cash-out'
 import { Route as AuthenticatedDashboardHomeUsersImport } from './routes/_authenticated/dashboard/home/users'
 import { Route as AuthenticatedDashboardHomeEventsImport } from './routes/_authenticated/dashboard/home/events'
-import { Route as AuthenticatedDashboardWalletComponentsUserprofileImport } from './routes/_authenticated/dashboard/wallet/_components/_userprofile'
 
 // Create/Update Routes
 
@@ -57,9 +56,9 @@ const AuthenticatedDashboardHomeIndexRoute =
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
-const AuthenticatedDashboardWalletCashinoutRoute =
-  AuthenticatedDashboardWalletCashinoutImport.update({
-    path: '/dashboard/wallet/cashinout',
+const AuthenticatedDashboardWalletCashInCashOutRoute =
+  AuthenticatedDashboardWalletCashInCashOutImport.update({
+    path: '/dashboard/wallet/cash-in-cash-out',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -72,12 +71,6 @@ const AuthenticatedDashboardHomeUsersRoute =
 const AuthenticatedDashboardHomeEventsRoute =
   AuthenticatedDashboardHomeEventsImport.update({
     path: '/dashboard/home/events',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
-
-const AuthenticatedDashboardWalletComponentsUserprofileRoute =
-  AuthenticatedDashboardWalletComponentsUserprofileImport.update({
-    path: '/dashboard/wallet/components/userprofile',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -105,8 +98,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardHomeUsersImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/dashboard/wallet/cashinout': {
-      preLoaderRoute: typeof AuthenticatedDashboardWalletCashinoutImport
+    '/_authenticated/dashboard/wallet/cash-in-cash-out': {
+      preLoaderRoute: typeof AuthenticatedDashboardWalletCashInCashOutImport
       parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/dashboard/home/': {
@@ -121,10 +114,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardWalletIndexImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/dashboard/wallet/_components/_userprofile': {
-      preLoaderRoute: typeof AuthenticatedDashboardWalletComponentsUserprofileImport
-      parentRoute: typeof AuthenticatedImport
-    }
   }
 }
 
@@ -135,11 +124,10 @@ export const routeTree = rootRoute.addChildren([
     AuthenticatedIndexRoute,
     AuthenticatedDashboardHomeEventsRoute,
     AuthenticatedDashboardHomeUsersRoute,
-    AuthenticatedDashboardWalletCashinoutRoute,
+    AuthenticatedDashboardWalletCashInCashOutRoute,
     AuthenticatedDashboardHomeIndexRoute,
     AuthenticatedDashboardVerifyIndexRoute,
     AuthenticatedDashboardWalletIndexRoute,
-    AuthenticatedDashboardWalletComponentsUserprofileRoute,
   ]),
   AuthLoginRoute,
 ])

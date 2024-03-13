@@ -1,40 +1,30 @@
-import { Input } from '@breeze/ui'
 import { createFileRoute } from '@tanstack/react-router'
-import UserProfile from './_components/_userprofile'
+import { Input } from '@breeze/ui'
 import SearchIcon from '~/assets/icons/SearchIcon'
-import { useState } from 'react'
 import ArrowIcon from '~/assets/icons/ArrowIcon'
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import useDebounce from './_hooks/-useDebounce'
-import { getUserProfileWithUsername } from './-auth/-api'
+import useDebounce from './-hooks/useDebounce'
+import { getUserProfileWithUsername } from './-auth/api'
+import UserProfile from './-components/UserProfile'
 
-export const Route = createFileRoute('/_authenticated/dashboard/wallet/cashinout')({
-  component: CashInOut
+
+export const Route = createFileRoute('/_authenticated/dashboard/wallet/cash-in-cash-out')({
+  component: CashInCashOut
 })
 
-
-function CashInOut () {
+function CashInCashOut () {
   const [openCashInOutDetail, setOpenCashInOutDetail] = useState(false);
   const [searchUsername, setSearchUsername] = useState("");
 
   const debounceSearchName = useDebounce(searchUsername, 500)
 
-  const {data, error} = useQuery({
-    queryKey: ["userProfile", debounceSearchName], 
+  useQuery({
+    queryKey: ["user-profile", debounceSearchName], 
     queryFn: () =>{
-      console.log("Fetching...")
       return getUserProfileWithUsername(debounceSearchName)
     }
   })
-
-  if(data) {
-    console.log(data)
-
-  }
-
-  if (error) {
-    console.log(error)
-  }
 
   return (
     <div className="flex gap-12 w-full">

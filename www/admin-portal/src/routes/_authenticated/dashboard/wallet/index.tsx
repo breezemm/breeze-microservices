@@ -14,7 +14,7 @@ function Wallet () {
   return <div>
   <div className='flex gap-8'>
    <Card className="w-52 bg-zinc-800 text-zinc-50" onClick={() => navigate({
-          to: '/dashboard/wallet/cashinout'
+          to: '/dashboard/wallet/cash-in-cash-out'
         })}>
       <CardHeader>  
         <CardTitle className="text-[18px]">Cash In/Out</CardTitle>
@@ -25,7 +25,7 @@ function Wallet () {
     </Card>
 
    <Card className="w-52 bg-zinc-800 text-zinc-50" onClick={() => navigate({
-          to: '/dashboard/wallet/cashinout'
+          to: '/dashboard/wallet/cash-in-cash-out'
         })}>
       <CardHeader>  
         <CardTitle className="text-[18px]">History</CardTitle>
