@@ -13,18 +13,27 @@ export const Route = createFileRoute('/_authenticated/dashboard/wallet/cash-in-c
   component: CashInCashOut
 })
 
+interface Users {
+  username: string,
+  photo: string
+}
+
 function CashInCashOut () {
   const [openCashInOutDetail, setOpenCashInOutDetail] = useState(false);
-  const [searchUsername, setSearchUsername] = useState("");
+  const [searchUsername, setSearchUsername] = useState<string>("");
 
   const debounceSearchName = useDebounce(searchUsername, 500)
 
-  useQuery({
+  const {data: users} = useQuery<Users>({
     queryKey: ["user-profile", debounceSearchName], 
     queryFn: () =>{
       return getUserProfileWithUsername(debounceSearchName)
     }
   })
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchUsername(e.target.value);
+  };
 
   return (
     <div className="flex gap-12 w-full">
@@ -35,7 +44,7 @@ function CashInCashOut () {
               <Input
                 type="text"
                 placeholder="Username"
-                onChange={(e)=> setSearchUsername(e.target.value)}
+                onChange={handleInputChange}
               />
             <div className="absolute inset-y-0 right-0 flex items-center justify-center pr-[3px]">
               <SearchIcon />
@@ -66,7 +75,7 @@ function CashInCashOut () {
       )
     }
 
-    </div>
+  </div>
 
   )
 }
