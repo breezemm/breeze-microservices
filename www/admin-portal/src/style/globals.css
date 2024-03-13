@@ -87,7 +87,7 @@
     font-family: "Sora", sans-serif;
   }
 
- a, p, ul, ol, li, button {
+ a, p, ul, ol, li, button ,input {
     font-family: "Figtree", sans-serif;
   }
 }

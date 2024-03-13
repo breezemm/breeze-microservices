@@ -11,7 +11,7 @@ import EyeCloseIcon from "~/assets/icons/EyeCloseIcon";
 
 import {useState} from "react";
 import Logo from "~/assets/icons/Logo";
-import LoadingSpinner from "~/assets/icons/LoadingSpinner.tsx";
+import LoadingSpinner from "~/assets/icons/LoadingSpinner";
 
 export const Route = createFileRoute('/auth/login')({
   component: Login,
@@ -37,7 +37,7 @@ const formSchema = z.object({
 function Login() {
   const navigate = useNavigate()
 
-  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const LoadingIconWithText = () => {
     return <div role="status" className="flex gap-3 items-center">
@@ -106,7 +106,7 @@ function Login() {
                   <FormItem>
                     <FormControl>
                       <Input {...field} placeholder="Username or email"
-                             className="border-e-0 border-s-0 border-[var(--netural-009)] border-t-0 border-b-2 rounded-none shadow-none focus-visible:ring-0 focus-visible:outline-none"/>
+                             className="border-e-0 border-s-0 border-[var(--netural-009)] placeholder-red-300  border-t-0 border-b-2 rounded-none shadow-none focus-visible:ring-0 focus-visible:outline-none"/>
                     </FormControl>
                     <FormMessage/>
                   </FormItem>
