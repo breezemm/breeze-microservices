@@ -4,9 +4,9 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet:   172.28.200.0/24
+        - subnet: 172.28.200.0/24
           ip_range: 172.28.200.0/24
-          gateway:  172.28.200.1
+          gateway: 172.28.200.1
 
 volumes:
   mysql:
@@ -50,7 +50,7 @@ services:
       suggestion:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "--fail", "nginx"]
+      test: [ "CMD", "curl", "--fail", "nginx" ]
       retries: 3
       timeout: 5s
     networks:
@@ -70,7 +70,7 @@ services:
     container_name: breeze_mysql
     env_file: .env
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-p${MYSQL_PASSWORD}"]
+      test: [ "CMD", "mysqladmin", "ping", "-p${MYSQL_PASSWORD}" ]
       retries: 3
       timeout: 5s
     networks:
@@ -86,7 +86,7 @@ services:
     env_file: .env
     command: /bin/sh -c 'redis-server --requirepass ${REDIS_PASSWORD}'
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      test: [ "CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping" ]
       retries: 3
       timeout: 5s
     networks:
@@ -101,12 +101,12 @@ services:
     container_name: breeze_zookeeper
     env_file: .env
     healthcheck:
-      test: ["CMD", "nc", "-z", "zookeeper", "2181"]
+      test: [ "CMD", "nc", "-z", "zookeeper", "2181" ]
       retries: 3
       timeout: 5s
     networks:
       dev:
-       ipv4_address: 172.28.200.14
+        ipv4_address: 172.28.200.14
 
   kafka:
     restart: always
@@ -114,7 +114,7 @@ services:
     container_name: breeze_kafka
     env_file: .env
     healthcheck:
-      test: ["CMD", "kafka-topics", "--list", "--bootstrap-server", "kafka:9092"]
+      test: [ "CMD", "kafka-topics", "--list", "--bootstrap-server", "kafka:9092" ]
       retries: 3
       timeout: 30s
     depends_on:
@@ -142,6 +142,10 @@ services:
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
       AWS_ENDPOINT: ${AWS_ENDPOINT}
     depends_on:
+      php:
+        condition: service_healthy
+      node:
+        condition: service_healthy
       mysql:
         condition: service_healthy
       redis:
@@ -151,7 +155,7 @@ services:
       mailpit:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-I", "gateway/health"]
+      test: [ "CMD", "curl", "-I", "gateway/health" ]
       retries: 3
       timeout: 5s
     networks:
@@ -173,6 +177,10 @@ services:
       DB_PASSWORD: ${MYSQL_PASSWORD}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
     depends_on:
+      php:
+        condition: service_healthy
+      node:
+        condition: service_healthy
       mysql:
         condition: service_healthy
       redis:
@@ -180,7 +188,7 @@ services:
       kafka:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-I", "wallets/health"]
+      test: [ "CMD", "curl", "-I", "wallets/health" ]
       retries: 3
       timeout: 5s
     networks:
@@ -201,6 +209,10 @@ services:
       DB_PASSWORD: ${MYSQL_PASSWORD}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
     depends_on:
+      php:
+        condition: service_healthy
+      node:
+        condition: service_healthy
       mysql:
         condition: service_healthy
       redis:
@@ -208,7 +220,7 @@ services:
       kafka:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-I", "wallets/health"]
+      test: [ "CMD", "curl", "-I", "wallets/health" ]
       retries: 3
       timeout: 5s
     networks:
@@ -225,7 +237,7 @@ services:
     container_name: breeze_suggestion
     env_file: ./apps/suggestion/.env
     healthcheck:
-      test: ["CMD", "node", "healthcheck.js"]
+      test: [ "CMD", "node", "healthcheck.js" ]
       retries: 3
       timeout: 5s
     networks:
@@ -239,7 +251,7 @@ services:
     image: axllent/mailpit:${MAILPIT_VERSION}
     container_name: breeze_mailpit
     healthcheck:
-      test: ["CMD", "nc", "-z", "mailpit", "8025"]
+      test: [ "CMD", "nc", "-z", "mailpit", "8025" ]
       retries: 3
       timeout: 5s
     networks:
