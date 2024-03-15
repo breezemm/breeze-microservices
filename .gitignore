@@ -32,7 +32,6 @@ build
 
 # misc
 .DS_Store
-*.pem
 
 # debug
 npm-debug.log*
