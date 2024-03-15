@@ -1,4 +1,10 @@
 #!/usr/bin/env sh
 set -e
 
+if [ -e /opt/vendor ]; then
+    cp /opt/vendor /var/www/wallets/vendor -r
+fi
+
+composer setup
+
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

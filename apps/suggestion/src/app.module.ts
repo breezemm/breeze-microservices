@@ -13,7 +13,7 @@ import * as Joi from 'joi';
       isGlobal: true,
       envFilePath: '.env',
       validationSchema: Joi.object({
-        SUGGESTION_SERVICE_PORT: Joi.number().default(8001),
+        SUGGESTION_SERVICE_PORT: Joi.number().default(80),
       }),
     }),
     SuggestionModule,
