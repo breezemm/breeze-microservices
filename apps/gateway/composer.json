@@ -73,7 +73,8 @@
         "test": "pest",
         "format": "./vendor/bin/pint",
         "setup": [
-            "php artisan migrate:fresh --seed"
+            "php artisan migrate:fresh --seed",
+            "php artisan passport:install --force"
         ]
     },
     "extra": {
