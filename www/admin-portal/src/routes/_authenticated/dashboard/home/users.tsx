@@ -7,8 +7,8 @@ import { Breadcrumb,
   BreadcrumbSeparator,} from "@breeze/ui";
 import { Link } from "@tanstack/react-router";
 import HomeIcon from "~/assets/icons/HomeIcon";
-import UserBaseTable from './-components/userbasetable/data-table';
-import { columns } from './-components/userbasetable/columns';
+import UserBaseTable from './-components/userbase-table/data-table';
+import { columns } from './-components/userbase-table/columns';
 import { UserData } from './-components/user';
 
 

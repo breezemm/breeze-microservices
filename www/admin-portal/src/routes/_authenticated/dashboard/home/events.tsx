@@ -8,6 +8,9 @@ import { Breadcrumb,
   BreadcrumbSeparator,} from "@breeze/ui";
 
 import HomeIcon from "~/assets/icons/HomeIcon";
+import EventDataTable from './-components/events-table/data-table';
+import { EventData } from './-components/event';
+import { eventcolumns } from './-components/events-table/columns';
 
 export const Route = createFileRoute('/_authenticated/dashboard/home/events')({
   component: Event
@@ -38,7 +41,7 @@ function Event() {
         </BreadcrumbList>
       </Breadcrumb>
         </div>
-    <p>This is Event page with table.</p>
+      <EventDataTable columns={eventcolumns} data={EventData}/>
     </div>
     
   )
