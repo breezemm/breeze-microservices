@@ -1,6 +1,6 @@
 FROM breeze/php:latest as builder
 
-WORKDIR /var/www/wallets
+WORKDIR /var/www/gateway
 
 COPY composer.json .
 COPY composer.lock .
@@ -12,11 +12,14 @@ RUN composer install \
 
 FROM breeze/php:latest
 
-WORKDIR /var/www/wallets
+WORKDIR /var/www/gateway
 
-COPY . .
-COPY --from=builder /var/www/wallets/vendor ./vendor
-COPY docker/staging.supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN adduser -D -u 1000 -g '' breeze && \
+    chown -R breeze:breeze /home/breeze
+
+COPY --chown=breeze:breeze . .
+COPY --chown=breeze:breeze --from=builder /var/www/gateway/vendor /opt/vendor
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/start-container /usr/local/bin/start-container
 
 RUN chmod +x /usr/local/bin/start-container

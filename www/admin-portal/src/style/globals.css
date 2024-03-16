@@ -33,8 +33,8 @@
 
     --radius: 0.5rem;
 
-    --Neutral-009:#323334;
-    
+    --neutral-009:#323334;
+
   }
 
   .dark {
@@ -87,7 +87,7 @@
     font-family: "Sora", sans-serif;
   }
 
- a, p, ul, ol, li, button {
+ a, p, ul, ol, li, button ,input {
     font-family: "Figtree", sans-serif;
   }
 }

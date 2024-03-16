@@ -26,12 +26,12 @@ class AppServiceProvider extends ServiceProvider
             config('services.breeze.suggestion')
         ));
 
-        Http::macro('wallet', fn() => Http::baseUrl(
-            config('services.breeze.wallet')
+        Http::macro('wallets', fn() => Http::baseUrl(
+            config('services.breeze.wallets')
         ));
 
         Http::macro('notification', fn() => Http::baseUrl(
-            config('services.breeze.notification')
+            config('services.breeze.notifications')
         ));
 
     }
