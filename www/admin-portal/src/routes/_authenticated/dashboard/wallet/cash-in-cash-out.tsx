@@ -5,7 +5,7 @@ import ArrowIcon from '~/assets/icons/ArrowIcon'
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useDebounce from './-hooks/useDebounce'
-import { getUserProfileWithUsername } from './-auth/api'
+import { getUserProfileWithUsername } from './-api/auth'
 import UserProfile from './-components/UserProfile'
 
 
@@ -19,7 +19,7 @@ interface Users {
 }
 
 function CashInCashOut () {
-  const [openCashInOutDetail, setOpenCashInOutDetail] = useState(false);
+  const [isOpenCashInCashOutDetailView, setIsOpenCashInCashOutDetailView] = useState<"open"|"close">("open")
   const [searchUsername, setSearchUsername] = useState<string>("");
 
   const debounceSearchName = useDebounce(searchUsername, 500)
@@ -53,13 +53,18 @@ function CashInCashOut () {
         </div>
 
         <div className="flex flex-col gap-4 py-1 w-80">
-          <div className={`flex items-center gap-4 py-2 px-6 ${openCashInOutDetail ? 'border rounded-sm border-zinc-800' : ''}`} 
-              onClick={()=> setOpenCashInOutDetail(!openCashInOutDetail) }>
+          <div className={`flex items-center gap-4 py-2 px-6 ${isOpenCashInCashOutDetailView ? 'border rounded-sm border-zinc-800' : ''}`} 
+              onClick={
+                ()=> setIsOpenCashInCashOutDetailView(isOpenCashInCashOutDetailView? "close" : "open") 
+              }>
             <div className="h-10 w-10 rounded-full">
-              <img className="h-full w-full" src="https://thumbs.dreamstime.com/b/businessman-icon-vector-male-avatar-profile-image-profile-businessman-icon-vector-male-avatar-profile-image-182095609.jpg" alt="Avatar" />
+              <img className="h-full w-full" 
+              src="https://thumbs.dreamstime.com/b/businessman-icon-vector-male-avatar-profile-image-profile-businessman-icon-vector-male-avatar-profile-image-182095609.jpg" 
+              alt="Avatar" />
             </div>
+            
             <p className="text-base">Mya Zarni</p>
-              {openCashInOutDetail && (
+              {isOpenCashInCashOutDetailView === "open" && (
                 <div className="ml-auto">
                   <ArrowIcon />
                 </div>     
@@ -70,9 +75,7 @@ function CashInCashOut () {
     </div>
     
     {
-      openCashInOutDetail && (
-        <UserProfile />
-      )
+      isOpenCashInCashOutDetailView === "open" ? <UserProfile /> : null
     }
 
   </div>
