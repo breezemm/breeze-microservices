@@ -1,16 +1,9 @@
-import {
-   Breadcrumb,
-   BreadcrumbItem,
-   BreadcrumbLink,
-   BreadcrumbList, 
-   BreadcrumbPage, 
-   BreadcrumbSeparator } from '@breeze/ui'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@breeze/ui'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import WalletIcon from '~/assets/icons/WalletIcon'
 
 
-
-export const Route = createFileRoute('/_authenticated/dashboard/wallet/cashHistory')({
+export const Route = createFileRoute('/_authenticated/dashboard/wallet/cash-history')({
   component: CashHistory,
 })
 

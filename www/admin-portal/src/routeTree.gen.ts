@@ -58,7 +58,7 @@ const AuthenticatedDashboardHomeIndexRoute =
 
 const AuthenticatedDashboardWalletCashHistoryRoute =
   AuthenticatedDashboardWalletCashHistoryImport.update({
-    path: '/dashboard/wallet/cashHistory',
+    path: '/dashboard/wallet/cash-history',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -98,7 +98,7 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardHomeUsersImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/dashboard/wallet/cashHistory': {
+    '/_authenticated/dashboard/wallet/cash-history': {
       preLoaderRoute: typeof AuthenticatedDashboardWalletCashHistoryImport
       parentRoute: typeof AuthenticatedImport
     }
