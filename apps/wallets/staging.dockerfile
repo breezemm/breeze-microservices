@@ -6,7 +6,7 @@ COPY composer.json .
 COPY composer.lock .
 
 RUN composer install \
-    --no-autoloader \
+    --no-autoloader && \
     composer dump-autoload --optimize --no-scripts
 
 
