@@ -52,7 +52,10 @@
   "prettier": "@breeze/prettier-config",
   "eslintConfig": {
     "root": true,
-    "extends": ["@breeze/eslint-config/base", "@breeze/eslint-config/react"]
+    "extends": [
+      "@breeze/eslint-config/base",
+      "@breeze/eslint-config/react"
+    ]
   },
   "main": "src/index.ts",
   "exports": {
@@ -79,11 +82,14 @@
     "./contextmenu": "./src/contextmenu.tsx",
     "./collapsibleDemo": "./src/collapsibleDemo.tsx",
     "./comboboxDemo": "./src/comboboxDemo.tsx",
-    "./carousel": "./src/carousel.tsx"
+    "./carousel": "./src/carousel.tsx",
+    "./breadcrumb": "./src/breadcrumb.tsx"
   },
   "typesVersions": {
     "*": {
-      "*": ["src/*"]
+      "*": [
+        "src/*"
+      ]
     }
   }
 }

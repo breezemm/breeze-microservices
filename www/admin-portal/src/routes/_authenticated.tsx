@@ -48,27 +48,27 @@ function Auth() {
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="flex flex-row justify-between w-full px-10 py-6 border-b">
+      <header className="flex flex-row justify-between w-full px-2 py-2 gap-2 border-b">
         <Logo/>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <UserProfileIcon/>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-48 absolute right-0 top-1">
-            <DropdownMenuLabel className="w-full text-6 ">
+          <DropdownMenuContent className="w-52 w-full md:w-64 h-44 top-36 left-72 mr-5 p-4 rounded-md gap-4 border border-neutral-400">
+            <DropdownMenuLabel className="w-40 h-10 text-6 p-2 gap-2">
               {auth.isLoading && "Loading..."}
               {auth.isSuccess && auth.data?.name}
             </DropdownMenuLabel>
             <DropdownMenuLabel>
               <Button variant={"default"}
-                      className="w-full flex justify-start items-center w-full text-left gap-4 py-2">
+                      className="w-40 w-full h-10 flex border rounded-md justify-start items-center text-left p-2 gap-2">
                 <UserProfileIcon className="w-7 h-8"/> My Account</Button>
             </DropdownMenuLabel>
             <DropdownMenuLabel>
               <Button
                 onClick={onLogout}
                 variant={"link"}
-                className="w-full flex justify-start items-center w-full text-destructive text-left gap-4 py-2 hover:no-underline	">
+                className="w-40 flex h-10 justify-start items-center w-full text-destructive text-left gap-2 p-2 rounded-md mb-2 hover:no-underline	">
                 <LogoutIcon/> Logout</Button>
             </DropdownMenuLabel>
 
