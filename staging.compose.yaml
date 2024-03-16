@@ -130,6 +130,10 @@ services:
       DB_USERNAME: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
+      AWS_ENDPOINT: ${AWS_ENDPOINT}
     healthcheck:
       test: ["CMD", "php", "artisan", "octane:status"]
       retries: 3
