@@ -46,15 +46,6 @@ services:
         NGINX_VERSION: ${NGINX_VERSION}
     image: breeze/nginx
     container_name: breeze_nginx
-    depends_on:
-      gateway:
-        condition: service_healthy
-      wallets:
-        condition: service_healthy
-      notifications:
-        condition: service_healthy
-      suggestion:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "--fail", "nginx"]
       retries: 3
@@ -139,19 +130,6 @@ services:
       DB_USERNAME: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
-    depends_on:
-      php:
-        condition: service_healthy
-      node:
-        condition: service_healthy
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
-      mailpit:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "php", "artisan", "octane:status"]
       retries: 3
@@ -173,17 +151,6 @@ services:
       DB_USERNAME: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
-    depends_on:
-      php:
-        condition: service_healthy
-      node:
-        condition: service_healthy
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "php", "artisan", "octane:status"]
       retries: 3
@@ -203,17 +170,6 @@ services:
       DB_USERNAME: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
-    depends_on:
-      php:
-        condition: service_healthy
-      node:
-        condition: service_healthy
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "php", "artisan", "octane:status"]
       retries: 3
