@@ -1,8 +1,8 @@
 
 
-const tableComponent = () => {
+const TableComponent = () => {
 
 
 }
 
-export default tableComponent
+export default TableComponent

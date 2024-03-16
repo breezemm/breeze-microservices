@@ -17,7 +17,7 @@ import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthenticatedDashboardWalletIndexImport } from './routes/_authenticated/dashboard/wallet/index'
 import { Route as AuthenticatedDashboardVerifyIndexImport } from './routes/_authenticated/dashboard/verify/index'
 import { Route as AuthenticatedDashboardHomeIndexImport } from './routes/_authenticated/dashboard/home/index'
-import { Route as AuthenticatedDashboardWalletCashHistoryImport } from './routes/_authenticated/dashboard/wallet/cashHistory'
+import { Route as AuthenticatedDashboardWalletCashHistoryImport } from './routes/_authenticated/dashboard/wallet/cash-history'
 import { Route as AuthenticatedDashboardHomeUsersImport } from './routes/_authenticated/dashboard/home/users'
 import { Route as AuthenticatedDashboardHomeEventsImport } from './routes/_authenticated/dashboard/home/events'
 
