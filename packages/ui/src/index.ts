@@ -27,3 +27,4 @@ export * from "./checkbox";
 export * from "./calendarDemo";
 export * from "./progress";
 export * from "./breadcrumb";
+export * from "./table";
