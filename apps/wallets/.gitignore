@@ -20,3 +20,4 @@ yarn-error.log
 /caddy
 frankenphp
 frankenphp-worker.php
+.pnpm-store
