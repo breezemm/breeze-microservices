@@ -1,19 +1,20 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@breeze/ui'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import WalletIcon from '~/assets/icons/WalletIcon'
+import Cash_histry_DataTable from './-components/cash-table/data-table'
+import { columns } from './-components/cash-table/columns'
+import { cash_history_data } from './-components/cash-history-data'
 
 
 export const Route = createFileRoute('/_authenticated/dashboard/wallet/cash-history')({
   component: CashHistory,
 })
 
-
-
-
 function CashHistory () {
 
 
     return (
+      <>
         <div>
           {/* Navi bar for Wallet > cash history */}
         <Breadcrumb>
@@ -33,8 +34,11 @@ function CashHistory () {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-
-        <h1>Hi this is Cash History!!</h1>
         </div>
+        <div>
+        <h1>Hi this is Cash History!!</h1>
+        <Cash_histry_DataTable columns={columns} data={cash_history_data} / >
+        </div>
+        </>
     )
 }
