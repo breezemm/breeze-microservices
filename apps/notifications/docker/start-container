@@ -2,9 +2,11 @@
 set -e
 
 if [ -e /opt/vendor ]; then
-    cp /opt/vendor /var/www/notifications/vendor -r
-    chown breeze:breeze vendor -R
-    composer setup
+  cp /opt/vendor /var/www/notifications/vendor -r
+  chown breeze:breeze vendor -R
+  composer setup
+else
+  php artisan migrate
 fi
 
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

@@ -226,6 +226,21 @@ importers:
   apps/wallets:
     devDependencies:
       axios:
+        specifier: ^1.6.4
+        version: 1.6.7
+      chokidar:
+        specifier: ^3.6.0
+        version: 3.6.0
+      laravel-vite-plugin:
+        specifier: ^1.0
+        version: 1.0.2(vite@5.1.4)
+      vite:
+        specifier: ^5.0
+        version: 5.1.4(@types/node@20.11.24)
+
+  apps/wallets-v1:
+    devDependencies:
+      axios:
         specifier: ^1.6.7
         version: 1.6.7
       laravel-vite-plugin:
@@ -425,6 +440,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(react@18.2.0)
+      '@radix-ui/react-switch':
+        specifier: ^1.0.3
+        version: 1.0.3(react-dom@18.2.0)(react@18.2.0)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -5611,6 +5629,31 @@ packages:
       '@babel/runtime': 7.24.0
       '@radix-ui/react-compose-refs': 1.0.1(react@18.2.0)
       react: 18.2.0
+    dev: false
+
+  /@radix-ui/react-switch@1.0.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-mxm87F88HyHztsI7N+ZUmEoARGkC22YVW5CaC+Byc+HRpuvCrOBPTAnXgf+tZ/7i0Sg/eOePGdMhUKhPaQEqow==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.24.0
+      '@radix-ui/primitive': 1.0.1
+      '@radix-ui/react-compose-refs': 1.0.1(react@18.2.0)
+      '@radix-ui/react-context': 1.0.1(react@18.2.0)
+      '@radix-ui/react-primitive': 1.0.3(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-use-controllable-state': 1.0.1(react@18.2.0)
+      '@radix-ui/react-use-previous': 1.0.1(react@18.2.0)
+      '@radix-ui/react-use-size': 1.0.1(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@radix-ui/react-use-callback-ref@1.0.0(react@18.2.0):
