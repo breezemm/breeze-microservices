@@ -2,7 +2,7 @@ networks:
   dev:
     name: breeze_development
     ipam:
-      driver: default
+      driver: bridge
       config:
         - subnet: 172.28.200.0/24
           ip_range: 172.28.200.0/24
@@ -154,6 +154,8 @@ services:
         condition: service_healthy
       mailpit:
         condition: service_healthy
+    expose:
+      - "8003:80"
     healthcheck:
       test: [ "CMD", "curl", "-I", "gateway/health" ]
       retries: 3
@@ -179,14 +181,14 @@ services:
     depends_on:
       php:
         condition: service_healthy
-      node:
-        condition: service_healthy
       mysql:
         condition: service_healthy
       redis:
         condition: service_healthy
       kafka:
         condition: service_healthy
+    ports:
+      - "8002:80"
     healthcheck:
       test: [ "CMD", "curl", "-I", "wallets/health" ]
       retries: 3
@@ -223,6 +225,8 @@ services:
       test: [ "CMD", "curl", "-I", "wallets/health" ]
       retries: 3
       timeout: 5s
+    expose:
+      - "8004:80"
     networks:
       dev:
         ipv4_address: 172.28.200.18

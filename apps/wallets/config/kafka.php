@@ -1,10 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 return [
     /*
      | Your kafka brokers url.
      */
     'brokers' => env('KAFKA_BROKERS', 'localhost:9092'),
+
+    /*
+     | Default security protocol
+     */
+    'securityProtocol' =>  env('KAFKA_SECURITY_PROTOCOL', 'PLAINTEXT'),
+
+    /*
+     | Default sasl configuration 
+     */
+    'sasl' => [
+        'mechanisms' => env('KAFKA_MECHANISMS', 'PLAINTEXT'),
+        'username' => env('KAFKA_USERNAME', null),
+        'password' => env('KAFKA_PASSWORD', null)
+    ],
 
     /*
      | Kafka consumers belonging to the same consumer group share a group id.
@@ -60,9 +74,4 @@ return [
      | The cache driver that will be used
      */
     'cache_driver' => env('KAFKA_CACHE_DRIVER', env('CACHE_DRIVER', 'file')),
-
-    'topics' => env('KAFKA_TOPICS','wallets'),
-
-    'dlq' => env('KAFKA_DLQ','wallets-dlq'),
-
 ];

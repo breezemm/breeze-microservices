@@ -20,7 +20,7 @@ export const signOutAuthUser = async () => {
 }
 
 export const getAuthUser = async () => {
-  const response = await axios.get('/users/me');
+  const response = await axios.get('/users/me',);
 
   return response.data.data;
 }
