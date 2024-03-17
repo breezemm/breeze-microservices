@@ -7,7 +7,12 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.0",
-        "laravel/tinker": "^2.9"
+        "laravel/horizon": "^5.23",
+        "laravel/octane": "^2.3",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.9",
+        "mateusjunges/laravel-kafka": "^2.0",
+        "predis/predis": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -46,6 +51,9 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
+        ],
+        "setup": [
+            "@php artisan migrate"
         ]
     },
     "extra": {
