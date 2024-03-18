@@ -36,6 +36,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-progress": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-switch": "^1.0.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
@@ -52,7 +53,10 @@
   "prettier": "@breeze/prettier-config",
   "eslintConfig": {
     "root": true,
-    "extends": ["@breeze/eslint-config/base", "@breeze/eslint-config/react"]
+    "extends": [
+      "@breeze/eslint-config/base",
+      "@breeze/eslint-config/react"
+    ]
   },
   "main": "src/index.ts",
   "exports": {
@@ -79,11 +83,16 @@
     "./contextmenu": "./src/contextmenu.tsx",
     "./collapsibleDemo": "./src/collapsibleDemo.tsx",
     "./comboboxDemo": "./src/comboboxDemo.tsx",
-    "./carousel": "./src/carousel.tsx"
+    "./carousel": "./src/carousel.tsx",
+    "./breadcrumb": "./src/breadcrumb.tsx",
+    "./table": "./src/table.tsx",
+    "./switch": "./src/switch.tsx"
   },
   "typesVersions": {
     "*": {
-      "*": ["src/*"]
+      "*": [
+        "src/*"
+      ]
     }
   }
 }

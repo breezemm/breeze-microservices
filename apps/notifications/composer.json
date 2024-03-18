@@ -67,8 +67,7 @@
             "./vendor/bin/pest"
         ],
         "setup": [
-            "php artisan migrate:fresh --seed",
-            "php artisan passport:install --force"
+            "php artisan migrate:fresh --seed"
         ]
     },
     "extra": {
