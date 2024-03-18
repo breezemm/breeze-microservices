@@ -46,7 +46,7 @@
     "@turbo/gen": "^1.11.3",
     "cross-env": "^7.0.3",
     "prettier": "^3.2.4",
-    "@commitlint/config-conventional": "^18.6.2",
+    "@commitlint/config-conventional": "^19.1.0",
     "@commitlint/prompt": "^18.6.1",
     "commitizen": "^4.3.0",
     "cz-customizable": "^7.0.0",
