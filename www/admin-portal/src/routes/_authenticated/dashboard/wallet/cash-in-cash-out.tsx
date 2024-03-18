@@ -1,13 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Input } from '@breeze/ui'
-import SearchIcon from '~/assets/icons/SearchIcon'
-import ArrowIcon from '~/assets/icons/ArrowIcon'
+import {SearchIcon, ArrowIcon} from '~/assets/icons'
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useDebounce from './-hooks/useDebounce'
 import { getUserProfileWithUsername } from './-api/auth'
 import UserProfile from './-components/UserProfile'
-
 
 export const Route = createFileRoute('/_authenticated/dashboard/wallet/cash-in-cash-out')({
   component: CashInCashOut
@@ -35,6 +33,7 @@ function CashInCashOut () {
     setSearchUsername(e.target.value);
   };
 
+
   return (
     <div className="flex gap-12 w-full">
       <div> 
@@ -53,9 +52,9 @@ function CashInCashOut () {
         </div>
 
         <div className="flex flex-col gap-4 py-1 w-80">
-          <div className={`flex items-center gap-4 py-2 px-6 ${isOpenCashInCashOutDetailView ? 'border rounded-sm border-zinc-800' : ''}`} 
+          <div className={`flex items-center gap-4 py-2 px-6 ${isOpenCashInCashOutDetailView === "open" ? 'border rounded-sm border-zinc-800' : ''}`} 
               onClick={
-                ()=> setIsOpenCashInCashOutDetailView(isOpenCashInCashOutDetailView? "close" : "open") 
+                ()=> setIsOpenCashInCashOutDetailView(isOpenCashInCashOutDetailView === "open"? "close" : "open") 
               }>
             <div className="h-10 w-10 rounded-full">
               <img className="h-full w-full" 
