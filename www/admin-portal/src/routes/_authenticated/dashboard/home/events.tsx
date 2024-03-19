@@ -8,7 +8,7 @@ import { Breadcrumb,
   BreadcrumbSeparator,} from "@breeze/ui";
 
 import HomeIcon from "~/assets/icons/HomeIcon";
-import EventDataTable from './-components/events-table/data-table';
+import EventDataTable from './-components/events-table/DataTable';
 import { EventData } from './-components/event';
 import { eventcolumns } from './-components/events-table/columns';
 

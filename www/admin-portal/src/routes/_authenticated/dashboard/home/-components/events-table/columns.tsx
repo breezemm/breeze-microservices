@@ -9,11 +9,14 @@ export const eventcolumns: ColumnDef<Event>[] = [
   {
     header: "Service Fee",
     accessorKey: "service_fee",
-    cell: () => {
+    cell: ({ row }) => {
+      const switchData:string = row.getValue('service_fee');
+      const isServiceFree: boolean = switchData.toLowerCase() == 'on';
+
       return (
         <div className="flex gap-2">
-          <p>Free</p>
-          <Switch />
+          <p>Free</p> 
+          <Switch checked={isServiceFree} />
           <p>Charge</p>
         </div>
       );

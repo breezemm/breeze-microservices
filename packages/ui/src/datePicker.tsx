@@ -1,22 +1,20 @@
+"use client";
 
+import * as React from "react";
+import { format } from "date-fns";
+import { ChevronDown } from "lucide-react";
 
-"use client"
-
-import * as React from "react"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { format } from "date-fns"
-
-import {cn} from "./utils/cn";
-import { Button } from "./button"
-import { Calendar } from "./date-picker/calendar"
+import { Button } from "./button";
+import { Calendar } from "./date-picker/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "./date-picker/pophover"
+} from "./date-picker/pophover";
+import { cn } from "./utils/cn";
 
 export function DatePickerDemo() {
-  const [date, setDate] = React.useState<Date>()
+  const [date, setDate] = React.useState<Date>();
 
   return (
     <Popover>
@@ -24,12 +22,19 @@ export function DatePickerDemo() {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[240px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
+            "w-[180px] rounded-none border border-black font-normal",
+            !date && "text-muted-foreground",
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? (
+            format(date, "PPP")
+          ) : (
+            <div className="flex">
+              <span className="mr-10">DD/MM/YY</span>
+
+              <ChevronDown className="px-1 py-1 text-right text-3xl" />
+            </div>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
@@ -41,5 +46,5 @@ export function DatePickerDemo() {
         />
       </PopoverContent>
     </Popover>
-  )
+  );
 }
