@@ -33,7 +33,7 @@ export function UserBaseTable<TData, TValue>({columns, data}: DataTableProps<TDa
     return (
         <div>
             {/* Table */}
-           <div className="rounded-md w-[200%] justify-between text-center">
+           <div className="rounded-md w-[100%] justify-between text-center">
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map(headerGroup => {

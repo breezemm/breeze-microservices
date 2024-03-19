@@ -23,7 +23,7 @@ import {
   } from "@breeze/ui/table"
 import { Button, DatePickerDemo, Switch } from "@breeze/ui";
 import DollarSign from "~/assets/icons/DollarSign";
-import React, { useState } from "react";
+import React from "react";
 
 
 
@@ -50,12 +50,10 @@ export function EventDataTable<TData, TValue>({ columns, data }: DataTableProps<
   
   });
     
-    const [switchData, setSwitchData] = useState(true);
-    
     return (
         <div>
             {/* Table */}
-            <div className="flex justify-between w-[150%]">
+            <div className="flex justify-between w-[100%]">
                 {/* For service fees with Switch button */}
                 <div className=" gap-2 h-24 py-2 ml-4">
                     <div className="flex font-bold text-lg gap-2">
@@ -91,7 +89,7 @@ export function EventDataTable<TData, TValue>({ columns, data }: DataTableProps<
                     
                 </div>
             </div>
-            <div className="rounded-md w-[150%] justify-between text-center">
+            <div className="rounded-md w-[100%] justify-between text-center">
                 <Table>
                     <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (

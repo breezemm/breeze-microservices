@@ -1,11 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Input } from '@breeze/ui'
-import {SearchIcon, ArrowIcon} from '~/assets/icons'
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useDebounce from './-hooks/useDebounce'
 import { getUserProfileWithUsername } from './-api/auth'
 import UserProfile from './-components/UserProfile'
+import SearchIcon from '~/assets/icons/SearchIcon'
+import ArrowIcon from '~/assets/icons/ArrowIcon'
 
 export const Route = createFileRoute('/_authenticated/dashboard/wallet/cash-in-cash-out')({
   component: CashInCashOut
@@ -32,7 +33,6 @@ function CashInCashOut () {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchUsername(e.target.value);
   };
-
 
   return (
     <div className="flex gap-12 w-full">
