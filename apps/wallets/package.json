@@ -1,4 +1,5 @@
 {
+    "name":"wallets",
     "private": true,
     "type": "module",
     "scripts": {
