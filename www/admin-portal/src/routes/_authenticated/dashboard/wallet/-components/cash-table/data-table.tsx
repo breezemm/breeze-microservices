@@ -31,7 +31,7 @@ export default function Cash_histry_DataTable<TData, TValue>({
     });
     return(
       <div>
-        <div className="w-[200%] h-fixed top-263 left-252 gap-16 pb-20 ">
+        <div className="w-[75%] h-fixed top-263 left-252 gap-16 pb-20 ">
     <Table>
         <TableHeader className="justify-between text-center">
           {table.getHeaderGroups().map((headerGroup) => (
