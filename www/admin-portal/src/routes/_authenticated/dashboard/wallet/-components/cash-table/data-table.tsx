@@ -17,6 +17,7 @@ import {
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    
   }
 
 export default function Cash_histry_DataTable<TData, TValue>({
@@ -29,7 +30,8 @@ export default function Cash_histry_DataTable<TData, TValue>({
       getCoreRowModel: getCoreRowModel(),
     });
     return(
-        <div className="w-[250%] justify-between ">
+      <div>
+        <div className="w-[200%] h-fixed top-263 left-252 gap-16 pb-20 ">
     <Table>
         <TableHeader className="justify-between text-center">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -37,7 +39,7 @@ export default function Cash_histry_DataTable<TData, TValue>({
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead className="justify-between border-b-2 border-gray-300" key={header.id}>
-                    <div className="pr-3 pl-3 font-bold  pt-4 pb-5 text-gray-800 text-center ">
+                    <div className="pr-3 pl-3 font-bold leading-6 text-xl tracking-tighter  pt-4 pb-5 text-gray-800 text-center ">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -50,8 +52,8 @@ export default function Cash_histry_DataTable<TData, TValue>({
               })}
             </TableRow>
           ))}
-        </TableHeader>
-        <TableBody className="justify-between  text-center">
+        </TableHeader> 
+        <TableBody className="justify-between pt-6 text-center">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row, index) => (
               <TableRow
@@ -61,7 +63,7 @@ export default function Cash_histry_DataTable<TData, TValue>({
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell className="justify-between" key={cell.id}>
-                    <div className="justify-between text-center pt-2 pb-2">
+                    <div className="text-center font-figtree-light text-base leading-24 tracking-tighter pt-2 pb-2">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </div>
                   </TableCell>
@@ -78,6 +80,7 @@ export default function Cash_histry_DataTable<TData, TValue>({
         </TableBody>
     </Table>
 
+        </div>
         </div>
     )
 }
