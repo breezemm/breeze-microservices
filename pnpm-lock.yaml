@@ -228,9 +228,6 @@ importers:
       axios:
         specifier: ^1.6.4
         version: 1.6.7
-      chokidar:
-        specifier: ^3.6.0
-        version: 3.6.0
       laravel-vite-plugin:
         specifier: ^1.0
         version: 1.0.2(vite@5.1.4)
@@ -1867,6 +1864,10 @@ packages:
     peerDependencies:
       '@effect-ts/otel-node': '*'
     peerDependenciesMeta:
+      '@effect-ts/core':
+        optional: true
+      '@effect-ts/otel':
+        optional: true
       '@effect-ts/otel-node':
         optional: true
     dependencies:
