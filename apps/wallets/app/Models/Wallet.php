@@ -17,8 +17,10 @@ class Wallet extends Model
         'name',
         'balance',
         'meta',
-        'user_id',
         'currency',
+        'user_id',
+        'qr_code',
+        'type',
         'deleted_at',
     ];
 
@@ -39,6 +41,7 @@ class Wallet extends Model
         $snowflake = app()->make(Snowflake::class);
         static::creating(function ($model) use ($snowflake) {
             $model->uuid = $snowflake->id();
+            $model->qr_code = $snowflake->id();
         });
     }
 
@@ -51,6 +54,11 @@ class Wallet extends Model
     public function scopeFindByUuid(Builder $query, string $uuid): Builder
     {
         return $query->where('uuid', $uuid);
+    }
+
+    public function scopeFindByQrCode(Builder $query, string $qrCode): Builder
+    {
+        return $query->where('qr_code', $qrCode);
     }
 
     public function withdraw(Money $amount): self
