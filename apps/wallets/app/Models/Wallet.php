@@ -23,7 +23,7 @@ class Wallet extends Model
     ];
 
     protected $casts = [
-        'meta' => 'json',
+        'meta' => 'array',
         'balance' => MoneyDecimalCast::class,
     ];
 
@@ -40,6 +40,11 @@ class Wallet extends Model
         static::creating(function ($model) use ($snowflake) {
             $model->uuid = $snowflake->id();
         });
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
     }
 
 

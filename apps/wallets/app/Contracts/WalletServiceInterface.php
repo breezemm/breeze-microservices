@@ -13,4 +13,6 @@ interface WalletServiceInterface
 
     public function deposit(Wallet $wallet, Money $amount): ?Wallet;
 
+    public function delete(Wallet $wallet);
+
 }

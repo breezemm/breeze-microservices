@@ -14,10 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->string('uuid')->unique();
             $table->string('name');
-            $table->decimal('balance', 64, 2)
-                ->default(0);
-            $table->json('meta')
-                ->nullable();
+            $table->decimal('balance', 64)->default(0);
+            $table->json('meta')->nullable();
             $table->string('currency');
             $table->string('user_id');
             $table->softDeletes();

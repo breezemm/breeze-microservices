@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Contracts\WalletServiceInterface;
+use App\DataTransferObjects\WalletData;
 use App\Exceptions\InsufficientFundException;
+use App\Exceptions\WalletCreationFailed;
 use App\Models\Wallet;
 use Cknow\Money\Money;
 use Illuminate\Support\Facades\DB;
@@ -11,9 +13,19 @@ use Illuminate\Support\Facades\DB;
 class WalletService implements WalletServiceInterface
 {
 
-    public function create()
+    /**
+     * @throws WalletCreationFailed
+     */
+    public function create(WalletData $createWalletDTO): void
     {
-
+        try {
+            DB::beginTransaction();
+            Wallet::create($createWalletDTO->all());
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new WalletCreationFailed();
+        }
     }
 
     /**
@@ -48,6 +60,11 @@ class WalletService implements WalletServiceInterface
     public function deposit(Wallet $wallet, Money $amount): ?Wallet
     {
         return $wallet->deposit($amount);
+    }
+
+    public function delete(Wallet $wallet): void
+    {
+        $wallet->delete();
     }
 }
 
