@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use Cknow\Money\Casts\MoneyDecimalCast;
+use Cknow\Money\Money;
 use Godruoyi\Snowflake\Snowflake;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Wallet extends Model
 {
-    use HasFactory;
 
     protected $fillable = [
         'uuid',
@@ -17,11 +18,13 @@ class Wallet extends Model
         'balance',
         'meta',
         'user_id',
+        'currency',
         'deleted_at',
     ];
 
     protected $casts = [
         'meta' => 'json',
+        'balance' => MoneyDecimalCast::class,
     ];
 
 
@@ -38,5 +41,12 @@ class Wallet extends Model
             $model->uuid = $snowflake->id();
         });
     }
+
+
+    public function scopeFindByUuid(Builder $query, string $uuid): Builder
+    {
+        return $query->where('uuid', $uuid);
+    }
+
 
 }

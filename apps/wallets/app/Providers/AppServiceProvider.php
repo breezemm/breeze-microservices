@@ -11,6 +11,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(
+            \App\Contracts\WalletServiceInterface::class,
+            \App\Services\WalletService::class
+        );
     }
 
     /**

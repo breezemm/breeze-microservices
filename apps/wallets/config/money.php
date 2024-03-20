@@ -10,9 +10,9 @@ return [
     'defaultCurrency' => config('app.currency', 'MMK'),
     'defaultFormatter' => null,
     'defaultSerializer' => null,
-    'isoCurrenciesPath' => __DIR__.'/../vendor/moneyphp/money/resources/currency.php',
+    'isoCurrenciesPath' => __DIR__ . '/../vendor/moneyphp/money/resources/currency.php',
     'currencies' => [
-        'iso' => 'all',
+        'iso' => ['MMK', 'USD'],
         'bitcoin' => 'all',
         'custom' => [
             // 'MY1' => 2,

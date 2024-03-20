@@ -18,7 +18,8 @@ return new class extends Migration {
                 ->default(0);
             $table->json('meta')
                 ->nullable();
-            $table->string('user_id')->unique();
+            $table->string('currency');
+            $table->string('user_id');
             $table->softDeletes();
             $table->timestamps();
         });

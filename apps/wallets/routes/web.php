@@ -7,13 +7,6 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
 
-
-    \App\Models\Wallet::create([
-        'name' => 'Wallet 1',
-        'meta' => ['key' => 'value'],
-        'user_id' => 1,
-    ]);
-
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
