@@ -1,6 +1,6 @@
 import { Button, Input } from '@breeze/ui'
 import AddMedia  from './AddMedia'
-import CloseIcon from '~/assets/icons/CloseIcon'
+import { CloseIcon } from '~/assets/icons'
 
 export default function UserProfile () {
   return (
