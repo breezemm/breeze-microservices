@@ -1,6 +1,6 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@breeze/ui'
 import { Link, createFileRoute } from '@tanstack/react-router'
-import WalletIcon from '~/assets/icons/WalletIcon'
+import {WalletIcon} from '~/assets/icons'
 import Cash_histry_DataTable from './-components/cash-table/data-table'
 import { columns } from './-components/cash-table/columns'
 import { cash_history_data } from './-components/cash-history-data'
