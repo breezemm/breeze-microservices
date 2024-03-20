@@ -48,5 +48,19 @@ class Wallet extends Model
         return $query->where('uuid', $uuid);
     }
 
+    public function withdraw(Money $amount): self
+    {
+        $this->balance = $this->balance->subtract($amount);
+        $this->save();
+        return $this;
+    }
+
+    public function deposit(Money $amount): self
+    {
+        $this->balance = $this->balance->add($amount);
+        $this->save();
+        return $this;
+    }
+
 
 }

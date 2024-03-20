@@ -19,9 +19,6 @@ class TransactionFailedException extends Exception
         //
     }
 
-    /**
-     * Render the exception as an HTTP response.
-     */
     public function render(Request $request): \Illuminate\Http\JsonResponse
     {
         return response()->json(['error' => $this->message], 500);

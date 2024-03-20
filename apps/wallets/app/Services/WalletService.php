@@ -19,12 +19,11 @@ class WalletService implements WalletServiceInterface
     /**
      * @throws InsufficientFundException If the wallet has insufficient fund
      * @throws \Exception
+     * @throws \Throwable
      */
     public function transfer(Wallet $from, Wallet $to, Money $amount): Wallet
     {
-        if ($from->balance->lessThan($amount)) {
-            throw new InsufficientFundException();
-        }
+        throw_if($from->balance->lessThan($amount), new InsufficientFundException('Insufficient fund'));
 
         try {
             DB::beginTransaction();
@@ -40,37 +39,15 @@ class WalletService implements WalletServiceInterface
         }
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function withdraw(Wallet $wallet, Money $amount): Wallet
+
+    public function withdraw(Wallet $wallet, Money $amount): ?Wallet
     {
-        try {
-            DB::beginTransaction();
-            $wallet->balance = $wallet->balance->subtract($amount);
-            $wallet->save();
-            DB::commit();
-            return $wallet;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
+        return $wallet->withdraw($amount);
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function deposit(Wallet $wallet, Money $amount): Wallet
+    public function deposit(Wallet $wallet, Money $amount): ?Wallet
     {
-        try {
-            DB::beginTransaction();
-            $wallet->balance = $wallet->balance->add($amount);
-            $wallet->save();
-            DB::commit();
-            return $wallet;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
+        return $wallet->deposit($amount);
     }
 }
+
