@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import useDebounce from './-hooks/useDebounce'
 import { getUserProfileWithUsername } from './-api/auth'
 import UserProfile from './-components/UserProfile'
-import ArrowIcon from '~/assets/icons/ArrowIcon'
+import {ArrowIcon} from '~/assets/icons'
 import SearchIcon from '~/assets/icons/SearchIcon'
 
 export const Route = createFileRoute('/_authenticated/dashboard/wallet/cash-in-cash-out')({
