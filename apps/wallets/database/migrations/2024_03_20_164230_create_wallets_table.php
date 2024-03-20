@@ -12,17 +12,14 @@ return new class extends Migration {
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid')->unique();
             $table->string('name');
-            $table->string('uuid');
-            $table->morphs('holder');
-            $table->string('slug');
-            $table->decimal('balance', 64, 0)
+            $table->decimal('balance', 64, 2)
                 ->default(0);
             $table->json('meta')
                 ->nullable();
-
-            $table->unique(['holder_id', 'holder_type', 'slug', 'uuid']);
-
+            $table->string('user_id')->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

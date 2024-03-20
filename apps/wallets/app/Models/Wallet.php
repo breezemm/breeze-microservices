@@ -2,57 +2,41 @@
 
 namespace App\Models;
 
+use Godruoyi\Snowflake\Snowflake;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Support\Str;
 
 class Wallet extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'uuid',
-        'holder_id',
-        'holder_type',
-        'slug',
+        'name',
         'balance',
         'meta',
-    ];
-
-    /**
-     * @var array<string, int|string>
-     */
-    protected $attributes = [
-        'balance' => 0,
+        'user_id',
+        'deleted_at',
     ];
 
     protected $casts = [
         'meta' => 'json',
     ];
 
-    public function setNameAttribute(string $name): void
-    {
-        $this->attributes['name'] = $name;
-        /**
-         * Must be updated only if the model does not exist or the slug is empty.
-         */
-        if ($this->exists) {
-            return;
-        }
-        if (array_key_exists('slug', $this->attributes)) {
-            return;
-        }
-        $this->attributes['slug'] = Str::slug($name);
-    }
 
     /**
-     * @return MorphTo<Model, self>
+     * @throws BindingResolutionException
      */
-    public function holder(): MorphTo
+    #[\Override]
+    public static function boot(): void
     {
-        return $this->morphTo();
+        parent::boot();
+
+        $snowflake = app()->make(Snowflake::class);
+        static::creating(function ($model) use ($snowflake) {
+            $model->uuid = $snowflake->id();
+        });
     }
 
 }

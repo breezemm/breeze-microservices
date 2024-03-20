@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "cknow/laravel-money": "^8.0",
         "godruoyi/php-snowflake": "^3.0",
         "inertiajs/inertia-laravel": "^1.0",
         "laravel/framework": "^11.0",
