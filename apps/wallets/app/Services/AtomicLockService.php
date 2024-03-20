@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Contracts\AtomicLockInterface;
 use App\Models\Wallet;
+use App\Contracts\AtomicLockInterface;
 use Illuminate\Support\Facades\Cache;
 
 class AtomicLockService implements AtomicLockInterface
