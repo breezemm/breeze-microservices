@@ -10,20 +10,17 @@ use Illuminate\Support\Facades\Cache;
 
 class WalletController extends Controller
 {
-
     public function __construct(
         public readonly WalletService $walletService
-    )
-    {
+    ) {
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $page = request()->get('page', 1);
+        $page = $request->get('page', 1);
         $wallets = Wallet::paginate();
-        return Cache::remember("wallets:page:{$page}", 60, function () use ($wallets) {
-            return $wallets;
-        });
+
+        return Cache::remember("wallets:page:{$page}", 60, fn () => $wallets);
     }
 
     public function store(WalletData $createWalletDTO)
@@ -46,14 +43,15 @@ class WalletController extends Controller
         });
     }
 
-
     public function destroy(Wallet $wallet)
     {
         try {
             $this->walletService->delete($wallet);
+
+            return response()->noContent();
         } catch (\Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }

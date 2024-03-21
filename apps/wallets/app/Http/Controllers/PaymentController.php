@@ -7,14 +7,12 @@ use App\Exceptions\InsufficientFundException;
 use App\Models\Wallet;
 use App\Services\WalletService;
 use Cknow\Money\Money;
-use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
     public function __construct(
         public readonly WalletService $walletService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -38,7 +36,7 @@ class PaymentController extends Controller
         );
 
         return response()->json([
-            'message' => 'Payment created successfully'
+            'message' => 'Payment created successfully',
         ], 201);
     }
 }

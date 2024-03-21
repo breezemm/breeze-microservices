@@ -13,8 +13,12 @@ use App\Models\Wallet;
 use Cknow\Money\Money;
 use Illuminate\Support\Facades\DB;
 
-class WalletService implements WalletServiceInterface
+final readonly class WalletService implements WalletServiceInterface
 {
+    public function __construct(
+        public AtomicLockService $atomicLockService,
+    ) {
+    }
 
     /**
      * @throws WalletCreationFailed
@@ -50,32 +54,35 @@ class WalletService implements WalletServiceInterface
         try {
             DB::beginTransaction();
 
-            $this->withdraw($from, $amount)
-                ->transactions()
-                ->create([
-                    'amount' => $amount->getAmount(),
-                    'type' => TransactionType::WITHDRAW,
-                    'wallet_id' => $to->id,
-                    'meta' => $meta,
-                ]);
+            // Block the wallets to prevent the concurrent transaction at once from the same wallet in the same time
+            $this->atomicLockService->blocks([$from, $to], function () use ($from, $to, $amount, $meta) {
+                $this->withdraw($from, $amount)
+                    ->transactions()
+                    ->create([
+                        'amount' => $amount->getAmount(),
+                        'type' => TransactionType::WITHDRAW,
+                        'wallet_id' => $to->id,
+                        'meta' => $meta,
+                    ]);
 
-            $this->deposit($to, $amount)
-                ->transactions()
-                ->create([
-                    'amount' => $amount->getAmount(),
-                    'type' => TransactionType::DEPOSIT,
-                    'wallet_id' => $from->id,
-                    'meta' => $meta,
-                ]);
+                $this->deposit($to, $amount)
+                    ->transactions()
+                    ->create([
+                        'amount' => $amount->getAmount(),
+                        'type' => TransactionType::DEPOSIT,
+                        'wallet_id' => $from->id,
+                        'meta' => $meta,
+                    ]);
+            });
 
             DB::commit();
+
             return $from;
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
     }
-
 
     public function withdraw(Wallet $wallet, Money $amount): ?Wallet
     {
@@ -92,4 +99,3 @@ class WalletService implements WalletServiceInterface
         $wallet->delete();
     }
 }
-

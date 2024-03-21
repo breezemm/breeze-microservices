@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\QRCodeValidationController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,4 +11,3 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('/wallets', WalletController::class)->except('update');
 Route::apiResource('/payments', PaymentController::class)->only('store');
-

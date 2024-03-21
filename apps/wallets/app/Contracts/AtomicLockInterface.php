@@ -8,12 +8,12 @@ use Illuminate\Database\RecordsNotFoundException;
 
 interface AtomicLockInterface
 {
-
     /**
      * The method atomically locks the transaction for other concurrent requests.
+     *
      * @template T
      *
-     * @param callable(): T $callback
+     * @param  callable(): T  $callback
      * @return T
      *
      * @throws RecordsNotFoundException
@@ -21,14 +21,13 @@ interface AtomicLockInterface
      */
     public function block(Wallet $object, callable $callback): mixed;
 
-
     /**
      * The method atomically locks the transaction for other concurrent requests.
      *
      * @template T
      *
-     * @param non-empty-array<Wallet> $objects
-     * @param callable(): T $callback
+     * @param  non-empty-array<Wallet>  $objects
+     * @param  callable(): T  $callback
      * @return T
      *
      * @throws RecordsNotFoundException

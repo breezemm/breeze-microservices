@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 class Wallet extends Model
 {
-
     protected $fillable = [
         'uuid',
         'name',
@@ -34,7 +33,6 @@ class Wallet extends Model
         'type' => WalletType::class,
         'balance' => MoneyDecimalCast::class,
     ];
-
 
     /**
      * @throws BindingResolutionException
@@ -56,7 +54,6 @@ class Wallet extends Model
         return 'uuid';
     }
 
-
     public function scopeFindByUuid(Builder $query, string $uuid): Builder
     {
         return $query->where('uuid', $uuid);
@@ -71,6 +68,7 @@ class Wallet extends Model
     {
         $this->balance = $this->balance->subtract($amount);
         $this->save();
+
         return $this;
     }
 
@@ -78,6 +76,7 @@ class Wallet extends Model
     {
         $this->balance = $this->balance->add($amount);
         $this->save();
+
         return $this;
     }
 
@@ -85,6 +84,4 @@ class Wallet extends Model
     {
         return $this->morphMany(Transaction::class, 'transactionable');
     }
-
-
 }

@@ -4,11 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class TransactionFailedException extends Exception
 {
-
     protected $message = 'Transaction failed.';
 
     /**
