@@ -28,12 +28,6 @@ class Wallet extends Model
         'deleted_at',
     ];
 
-    protected $casts = [
-        'meta' => 'array',
-        'type' => WalletType::class,
-        'balance' => MoneyDecimalCast::class,
-    ];
-
     /**
      * @throws BindingResolutionException
      */
@@ -83,5 +77,13 @@ class Wallet extends Model
     public function transactions(): MorphMany
     {
         return $this->morphMany(Transaction::class, 'transactionable');
+    }
+    protected function casts(): array
+    {
+        return [
+            'meta' => 'array',
+            'type' => WalletType::class,
+            'balance' => MoneyDecimalCast::class,
+        ];
     }
 }
