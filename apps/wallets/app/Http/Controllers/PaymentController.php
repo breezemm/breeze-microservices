@@ -13,8 +13,7 @@ class PaymentController extends Controller
 {
     public function __construct(
         public readonly WalletService $walletService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -45,6 +44,7 @@ class PaymentController extends Controller
             Log::error("User {id} payment failed: {$e->getMessage()}", [
                 'id' => $from->uuid,
             ]);
+
             return response()->json([
                 'message' => 'Payment failed',
             ], 400);

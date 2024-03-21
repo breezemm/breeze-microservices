@@ -23,20 +23,23 @@ class Transaction extends Model
         'deleted_at',
     ];
 
-    protected $casts = [
-        'type' => 'string',
-        'amount' => MoneyDecimalCast::class,
-        'is_confirmed' => 'boolean',
-        'meta' => 'array',
-    ];
-
     public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class);
     }
 
-    public function payable(): MorphTo
+    public function transactionable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'type' => 'string',
+            'amount' => MoneyDecimalCast::class,
+            'is_confirmed' => 'boolean',
+            'meta' => 'array',
+        ];
     }
 }
