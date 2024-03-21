@@ -76,8 +76,9 @@ class Wallet extends Model
 
     public function transactions(): MorphMany
     {
-        return $this->morphMany(Transaction::class, 'transactionable');
+        return $this->morphMany(Transaction::class, 'transactgionable');
     }
+
     protected function casts(): array
     {
         return [
