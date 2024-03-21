@@ -30,6 +30,8 @@ class WalletController extends Controller
     {
         try {
             $this->walletService->create($createWalletDTO);
+
+            return response()->json(['message' => 'Wallet created successfully'], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
@@ -39,15 +41,11 @@ class WalletController extends Controller
     {
         return Cache::remember("wallets:id:{$wallet->id}", 60, function () use ($wallet) {
             return [
-                'data' => $wallet,
+                'data' => $wallet->load('transactions.wallet'),
             ];
         });
     }
 
-    public function update(Request $request, Wallet $wallet)
-    {
-        //
-    }
 
     public function destroy(Wallet $wallet)
     {

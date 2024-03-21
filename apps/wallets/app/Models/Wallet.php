@@ -9,6 +9,7 @@ use Godruoyi\Snowflake\Snowflake;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @property Money|null $balance
@@ -78,6 +79,11 @@ class Wallet extends Model
         $this->balance = $this->balance->add($amount);
         $this->save();
         return $this;
+    }
+
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(Transaction::class, 'transactionable');
     }
 
 
