@@ -28,10 +28,11 @@ class Transaction extends Model
         return $this->belongsTo(Wallet::class);
     }
 
-    public function payable(): MorphTo
+    public function transactionable(): MorphTo
     {
         return $this->morphTo();
     }
+
     protected function casts(): array
     {
         return [
