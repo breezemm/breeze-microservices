@@ -6,6 +6,5 @@ enum WalletType: string
 {
     case CREDIT = 'CREDIT';
     case DEBIT = 'DEBIT';
-
-    case PREPAID = 'PREPAID';
+    case PREPAID = 'PREPAID'; // default
 }

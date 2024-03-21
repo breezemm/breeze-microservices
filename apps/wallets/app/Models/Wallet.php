@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\WalletType;
 use Cknow\Money\Casts\MoneyDecimalCast;
 use Cknow\Money\Money;
 use Godruoyi\Snowflake\Snowflake;
@@ -9,6 +10,9 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property Money|null $balance
+ */
 class Wallet extends Model
 {
 
@@ -26,6 +30,7 @@ class Wallet extends Model
 
     protected $casts = [
         'meta' => 'array',
+        'type' => WalletType::class,
         'balance' => MoneyDecimalCast::class,
     ];
 

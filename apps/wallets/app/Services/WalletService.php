@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\WalletServiceInterface;
 use App\DataTransferObjects\WalletData;
+use App\Enums\WalletType;
 use App\Exceptions\InsufficientFundException;
 use App\Exceptions\WalletCreationFailed;
 use App\Models\Wallet;
@@ -20,12 +21,19 @@ class WalletService implements WalletServiceInterface
     {
         try {
             DB::beginTransaction();
-            Wallet::create($createWalletDTO->all());
+
+            $wallet = [
+                ...$createWalletDTO->all(),
+                'type' => WalletType::PREPAID,
+            ];
+
+            Wallet::create($wallet);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             throw new WalletCreationFailed();
         }
+
     }
 
     /**
@@ -35,7 +43,7 @@ class WalletService implements WalletServiceInterface
      */
     public function transfer(Wallet $from, Wallet $to, Money $amount): Wallet
     {
-        throw_if($from->balance->lessThan($amount), new InsufficientFundException('Insufficient fund'));
+        throw_if($from->balance->lessThan($amount), new InsufficientFundException());
 
         try {
             DB::beginTransaction();

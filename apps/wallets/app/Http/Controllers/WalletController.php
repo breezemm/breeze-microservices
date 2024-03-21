@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\WalletServiceInterface;
 use App\DataTransferObjects\WalletData;
 use App\Models\Wallet;
+use App\Services\WalletService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -12,7 +12,7 @@ class WalletController extends Controller
 {
 
     public function __construct(
-        public readonly WalletServiceInterface $walletService
+        public readonly WalletService $walletService
     )
     {
     }
@@ -21,7 +21,7 @@ class WalletController extends Controller
     {
         $page = request()->get('page', 1);
         $wallets = Wallet::paginate();
-        return Cache::remember("wallets:{$page}", 60, function () use ($wallets) {
+        return Cache::remember("wallets:page:{$page}", 60, function () use ($wallets) {
             return $wallets;
         });
     }
@@ -37,8 +37,10 @@ class WalletController extends Controller
 
     public function show(Wallet $wallet)
     {
-        return Cache::remember("wallet:{$wallet->id}", 60, function () use ($wallet) {
-            return $wallet;
+        return Cache::remember("wallets:id:{$wallet->id}", 60, function () use ($wallet) {
+            return [
+                'data' => $wallet,
+            ];
         });
     }
 
@@ -52,7 +54,9 @@ class WalletController extends Controller
         try {
             $this->walletService->delete($wallet);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 }
