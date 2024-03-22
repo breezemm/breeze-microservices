@@ -12,7 +12,8 @@ class WalletController extends Controller
 {
     public function __construct(
         public readonly WalletService $walletService
-    ) {
+    )
+    {
     }
 
     public function index(Request $request)
@@ -20,7 +21,7 @@ class WalletController extends Controller
         $page = $request->get('page', 1);
         $wallets = Wallet::paginate();
 
-        return Cache::remember("wallets:page:{$page}", 60, fn () => $wallets);
+        return Cache::remember("wallets:page:{$page}", 60, fn() => $wallets);
     }
 
     public function store(WalletData $createWalletDTO)
