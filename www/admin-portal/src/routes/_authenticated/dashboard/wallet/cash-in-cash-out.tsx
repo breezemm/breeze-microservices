@@ -7,7 +7,7 @@ import useDebounce from './-hooks/useDebounce'
 import { getUserProfileWithUsername } from './-api/auth'
 import UserProfile from './-components/UserProfile'
 import {ArrowIcon} from '~/assets/icons'
-import SearchIcon from '~/assets/icons/SearchIcon'
+import {SearchIcon} from '~/assets/icons'
 
 export const Route = createFileRoute('/_authenticated/dashboard/wallet/cash-in-cash-out')({
   component: CashInCashOut

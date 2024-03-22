@@ -14,16 +14,16 @@ import {
     TableRow,
   } from "@breeze/ui"
 
-interface Data_Table_Props<TData, TValue> {
+interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     
   }
 
-export default function Cash_histry_DataTable<TData, TValue>({
+export default function CashHistryDataTable<TData, TValue>({
     columns,
     data,
-  }: Data_Table_Props<TData, TValue>) {
+  }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
       data,
       columns,
