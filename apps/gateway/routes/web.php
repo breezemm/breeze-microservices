@@ -1,22 +1,20 @@
 <?php
 
+use App\Http\Integrations\WalletServiceConnector;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 
 Route::get('/health', function () {
     return response()->json([
         'status' => 200,
-        'message' => 'Gateway service is healthy.'
+        'message' => 'Gateway service is healthy.',
+    ]);
+});
+
+Route::get('test', function () {
+    $wallet = new WalletServiceConnector();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Test route is working.',
     ]);
 });
