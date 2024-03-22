@@ -24,10 +24,10 @@ class User extends Authenticatable implements HasMedia
     use Followable, Follower;
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
+    use HasRoles;
     use HasSettingsField;
     use InteractsWithMedia;
     use Liker;
-    use HasRoles;
 
     public $defaultSettings = [
         'bio' => '',

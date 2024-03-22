@@ -8,7 +8,7 @@ use App\Enums\GuestInvitationStatusEnum;
 use App\Enums\QRCodeStatusEnum;
 use App\Enums\TicketStatusEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\InviteGuestRequest;
+use App\Http\Requests\V1\InviteGuestRequest;
 use App\Models\Event;
 use App\Models\Order;
 use App\Models\Ticket;
@@ -67,20 +67,20 @@ class GuestInvitationController extends Controller
                 'channels' => [
                     'push' => [
                         'title' => 'Event Invitation',
-                        'body' => auth()->user()->name . ' invites you to the event.',
+                        'body' => auth()->user()->name.' invites you to the event.',
                         'data' => [
                             'type' => 'event_invitation',
                             'user' => auth()->user()->load('media'),
                             'content' => 'invites you to the event.',
                             'event' => $event,
                             'ticket_id' => $request->validated('ticket_id'),
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ]);
 
             return response()->json([
-                'message' => 'Invitation sent successfully to ' . $user->name . '!',
+                'message' => 'Invitation sent successfully to '.$user->name.'!',
             ]);
         } catch (\Exception $exception) {
             DB::rollBack();

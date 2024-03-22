@@ -14,9 +14,8 @@ class MarkedAsReadController extends Controller
 
         $response = Http::notification()
             ->post("/notifications/{$request->notificationId}/read", [
-                'user_id' => (int)auth()->id(),
+                'user_id' => (int) auth()->id(),
             ]);
-
 
         return $response->json();
     }

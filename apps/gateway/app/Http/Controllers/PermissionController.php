@@ -11,6 +11,7 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::all();
+
         return response()->json($permissions);
     }
 
@@ -18,6 +19,7 @@ class PermissionController extends Controller
     {
         $validated = $request->validate(['name' => ['required', 'min:3']]);
         Permission::create($validated);
+
         return response()->json(['message' => 'Permission created successfully']);
     }
 
@@ -37,6 +39,7 @@ class PermissionController extends Controller
     public function destroy(Permission $permission)
     {
         $permission->delete();
+
         return response()->noContent();
     }
 
@@ -45,14 +48,16 @@ class PermissionController extends Controller
         abort_if($permission->hasRole($request->role), 'Role already exists.');
 
         $permission->assignRole($request->role);
+
         return response()->json(['message' => 'Role assigned.']);
     }
 
     public function removeRole(Permission $permission, Role $role)
     {
-        abort_if(!$permission->hasRole($role), 404, 'Role not exists.');
+        abort_if(! $permission->hasRole($role), 404, 'Role not exists.');
 
         $permission->removeRole($role);
+
         return response()->json(['message' => 'Role removed.']);
     }
 }
