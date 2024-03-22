@@ -17,8 +17,7 @@ final readonly class WalletService implements WalletServiceInterface
 {
     public function __construct(
         public AtomicLockService $atomicLockService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -56,23 +55,20 @@ final readonly class WalletService implements WalletServiceInterface
             DB::beginTransaction();
 
             // Block the wallets to prevent the concurrent transaction at once from the same wallet in the same time
-            $this->atomicLockService->blocks([$from, $to], function () use ($from, $to, $amount, $meta) {
+            $this->atomicLockService->blocks([$from, $to], function () use ($from, $to, $amount) {
                 $this->withdraw($from, $amount)
                     ->transactions()
                     ->create([
                         'amount' => $amount->getAmount(),
                         'type' => TransactionType::WITHDRAW,
-                        'wallet_id' => $to->id,
-                        'meta' => $meta,
+                        'wallet_id' => $from->id,
                     ]);
 
-                $this->deposit($to, $amount)
-                    ->transactions()
+                $this->deposit($to, $amount)->transactions()
                     ->create([
                         'amount' => $amount->getAmount(),
                         'type' => TransactionType::DEPOSIT,
-                        'wallet_id' => $from->id,
-                        'meta' => $meta,
+                        'wallet_id' => $to->id,
                     ]);
             });
 
@@ -83,6 +79,13 @@ final readonly class WalletService implements WalletServiceInterface
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function getWalletByUserId(string $userId, ?string $walletType): ?Wallet
+    {
+        return Wallet::where('user_id', $userId)
+            ->where('type', $walletType ?? WalletType::PREPAID)
+            ->first();
     }
 
     public function withdraw(Wallet $wallet, Money $amount): ?Wallet
