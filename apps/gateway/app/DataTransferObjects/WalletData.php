@@ -4,7 +4,7 @@ namespace App\DataTransferObjects;
 
 use Spatie\LaravelData\Data;
 
-class CreateWalletData extends Data
+class WalletData extends Data
 {
     public function __construct(
         public readonly string $name,

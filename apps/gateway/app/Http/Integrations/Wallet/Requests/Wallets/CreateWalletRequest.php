@@ -2,21 +2,30 @@
 
 namespace App\Http\Integrations\Wallet\Requests\Wallets;
 
+use App\DataTransferObjects\WalletData;
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
 
-class CreateWalletRequest extends Request
+class CreateWalletRequest extends Request implements HasBody
 {
-    /**
-     * The HTTP method of the request
-     */
+    use HasJsonBody;
+
     protected Method $method = Method::POST;
 
-    /**
-     * The endpoint for the request
-     */
+    public function __construct(
+        public readonly WalletData $createWalletData,
+    ) {
+    }
+
     public function resolveEndpoint(): string
     {
-        return '/example';
+        return '/wallets';
+    }
+
+    protected function defaultBody(): array
+    {
+        return $this->createWalletData->toArray();
     }
 }

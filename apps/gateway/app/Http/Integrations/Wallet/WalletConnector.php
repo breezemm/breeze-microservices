@@ -9,15 +9,15 @@ use Saloon\Traits\Plugins\AcceptsJson;
 
 class WalletConnector extends Connector
 {
-    use AuthorizationCodeGrant;
     use AcceptsJson;
+    use AuthorizationCodeGrant;
 
     /**
      * The Base URL of the API.
      */
     public function resolveBaseUrl(): string
     {
-        return '';
+        return 'http://wallets.test/api/v1';
     }
 
     /**
