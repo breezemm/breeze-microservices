@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "backpack/logmanager": "^5.0",
         "bensampo/laravel-enum": "^6.3",
         "dedoc/scramble": "^0.8.5",
@@ -27,6 +27,7 @@
         "overtrue/laravel-follow": "^5.1",
         "overtrue/laravel-like": "^5.1",
         "predis/predis": "^2.2",
+        "saloonphp/saloon": "^3.0",
         "spatie/laravel-medialibrary": "^11.0.0",
         "spatie/laravel-permission": "^5.10",
         "staudenmeir/laravel-adjacency-list": "^1.0"
