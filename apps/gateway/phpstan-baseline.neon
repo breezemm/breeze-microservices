@@ -1,0 +1,326 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$followable\\.$#"
+			count: 1
+			path: app/Http/Controllers/Api/V1/FollowingController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Controllers\\\\Api\\\\V1\\\\OrderCheckOutController\\:\\:\\$walletService\\.$#"
+			count: 1
+			path: app/Http/Controllers/Api/V1/OrderCheckOutController.php
+
+		-
+			message: "#^Anonymous function has an unused use \\$buyerUserId\\.$#"
+			count: 1
+			path: app/Http/Controllers/Api/V1/OrderCheckOutController.php
+
+		-
+			message: "#^Called 'pluck' on Laravel collection, but could have been retrieved as a query\\.$#"
+			count: 1
+			path: app/Http/Controllers/Api/V1/PostByUserInterestsController.php
+
+		-
+			message: "#^The overwriting return is on this line\\.$#"
+			count: 1
+			path: app/Http/Controllers/Api/V1/Posts/PostComments/CommentLikeController.php
+
+		-
+			message: "#^This throw is overwritten by a different one in the finally block below\\.$#"
+			count: 1
+			path: app/Http/Controllers/Api/V1/Posts/PostComments/CommentLikeController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\<App\\\\Models\\\\Event\\>\\:\\:attach\\(\\)\\.$#"
+			count: 1
+			path: app/Http/Controllers/Api/V1/Posts/PostSaved/PostSaveController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\<App\\\\Models\\\\Event\\>\\:\\:detach\\(\\)\\.$#"
+			count: 1
+			path: app/Http/Controllers/Api/V1/Posts/PostSaved/PostSaveController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Event\\:\\:\\$title\\.$#"
+			count: 1
+			path: app/Http/Controllers/Api/V1/Suggestions/SuggestionController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:with\\(\\)\\.$#"
+			count: 2
+			path: app/Http/Controllers/Api/V1/Timeline/PrivateTimelineController.php
+
+		-
+			message: "#^Parameter \\#2 \\$code of function abort_if expects Illuminate\\\\Contracts\\\\Support\\\\Responsable\\|int\\|Symfony\\\\Component\\\\HttpFoundation\\\\Response, string given\\.$#"
+			count: 1
+			path: app/Http/Controllers/PermissionController.php
+
+		-
+			message: "#^Parameter \\#1 \\$permission of method App\\\\Models\\\\User\\:\\:hasPermissionTo\\(\\) expects int\\|Spatie\\\\Permission\\\\Contracts\\\\Permission\\|string, App\\\\Http\\\\Controllers\\\\Permission given\\.$#"
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: "#^Parameter \\#1 \\$permission of method App\\\\Models\\\\User\\:\\:revokePermissionTo\\(\\) expects array\\<Spatie\\\\Permission\\\\Contracts\\\\Permission\\|string\\>\\|Spatie\\\\Permission\\\\Contracts\\\\Permission\\|string, App\\\\Http\\\\Controllers\\\\Permission given\\.$#"
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: "#^Parameter \\#1 \\$role of method App\\\\Models\\\\User\\:\\:removeRole\\(\\) expects int\\|Spatie\\\\Permission\\\\Contracts\\\\Role\\|string, App\\\\Http\\\\Controllers\\\\Role given\\.$#"
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: "#^Parameter \\#1 \\$roles of method App\\\\Models\\\\User\\:\\:hasRole\\(\\) expects array\\|Illuminate\\\\Support\\\\Collection\\|int\\|Spatie\\\\Permission\\\\Contracts\\\\Role\\|string, App\\\\Http\\\\Controllers\\\\Role given\\.$#"
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: "#^Parameter \\$permission of method App\\\\Http\\\\Controllers\\\\UserController\\:\\:revokePermission\\(\\) has invalid type App\\\\Http\\\\Controllers\\\\Permission\\.$#"
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: "#^Parameter \\$role of method App\\\\Http\\\\Controllers\\\\UserController\\:\\:removeRole\\(\\) has invalid type App\\\\Http\\\\Controllers\\\\Role\\.$#"
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\MyWalletResource\\:\\:\\$balance\\.$#"
+			count: 1
+			path: app/Http/Resources/MyWalletResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\MyWalletResource\\:\\:\\$currency\\.$#"
+			count: 1
+			path: app/Http/Resources/MyWalletResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\MyWalletResource\\:\\:\\$qr_code\\.$#"
+			count: 1
+			path: app/Http/Resources/MyWalletResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\MyWalletResource\\:\\:\\$user_id\\.$#"
+			count: 1
+			path: app/Http/Resources/MyWalletResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\MyWalletResource\\:\\:\\$wallet_id\\.$#"
+			count: 1
+			path: app/Http/Resources/MyWalletResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\AddressResource\\:\\:\\$city\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/AddressResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\EventResource\\:\\:\\$description\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/EventResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\EventResource\\:\\:\\$id\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/EventResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\EventResource\\:\\:\\$is_has_phases\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/EventResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\EventResource\\:\\:\\$name\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/EventResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\EventResource\\:\\:\\$place\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/EventResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\EventResource\\:\\:\\$start_date\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/EventResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\EventResource\\:\\:\\$start_time\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/EventResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\EventResource\\:\\:\\$user\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/EventResource.php
+
+		-
+			message: "#^Call to an undefined method App\\\\Http\\\\Resources\\\\V1\\\\EventResource\\:\\:getFirstMediaUrl\\(\\)\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/EventResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\InterestResource\\:\\:\\$id\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/InterestResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\InterestResource\\:\\:\\$name\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/InterestResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\PhaseResource\\:\\:\\$end_date\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/PhaseResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\PhaseResource\\:\\:\\$id\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/PhaseResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\PhaseResource\\:\\:\\$name\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/PhaseResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\PhaseResource\\:\\:\\$start_date\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/PhaseResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\RepostEventResource\\:\\:\\$content\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/RepostEventResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\RepostEventResource\\:\\:\\$id\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/RepostEventResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketResource\\:\\:\\$id\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketResource\\:\\:\\$phase_id\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketResource\\:\\:\\$seat_number\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketResource\\:\\:\\$status\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketResource\\:\\:\\$ticket_type_id\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketTypeResource\\:\\:\\$benefits\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketTypeResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketTypeResource\\:\\:\\$id\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketTypeResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketTypeResource\\:\\:\\$is_has_seating_plan\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketTypeResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketTypeResource\\:\\:\\$name\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketTypeResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketTypeResource\\:\\:\\$price\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketTypeResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\TicketTypeResource\\:\\:\\$total_seats\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/TicketTypeResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\UserActivityFeedResource\\:\\:\\$action\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserActivityFeedResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\UserActivityFeedResource\\:\\:\\$id\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserActivityFeedResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\UserResource\\:\\:\\$address\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\UserResource\\:\\:\\$date_of_birth\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\UserResource\\:\\:\\$email\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\UserResource\\:\\:\\$has_followed\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\UserResource\\:\\:\\$id\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\UserResource\\:\\:\\$interests\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\UserResource\\:\\:\\$name\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\V1\\\\UserResource\\:\\:\\$username\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserResource.php
+
+		-
+			message: "#^Call to an undefined method App\\\\Http\\\\Resources\\\\V1\\\\UserResource\\:\\:getFirstMediaUrl\\(\\)\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserResource.php
+
+		-
+			message: "#^Call to an undefined method App\\\\Http\\\\Resources\\\\V1\\\\UserResource\\:\\:settings\\(\\)\\.$#"
+			count: 1
+			path: app/Http/Resources/V1/UserResource.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\SaveEvent\\:\\:\\$event_id\\.$#"
+			count: 1
+			path: app/Rules/EventSaveDuplicateCheckRule.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function md5 expects string, int given\\.$#"
+			count: 1
+			path: app/Spatie/MediaPathGeneratorService.php

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+
 use function Laravel\Prompts\error;
 
 class WalletService
@@ -16,12 +17,12 @@ class WalletService
                 ->post('/wallets', [
                     'user_id' => $user->id ?? auth()->id(),
                 ])
-                ->then(fn($response) => $response->json());
+                ->then(fn ($response) => $response->json());
             $wallets = $response->wait();
 
             return $wallets['user']['wallets'][0];
         } catch (\Exception $exception) {
-            error('[ERROR]' . $exception->getMessage());
+            error('[ERROR]'.$exception->getMessage());
             abort(500, 'Internal Server Error');
         }
 

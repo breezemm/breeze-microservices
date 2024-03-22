@@ -17,8 +17,7 @@ class SendEmailVerificationCodeJob implements ShouldQueue
     public function __construct(
         public readonly string $email,
         public readonly string $verificationCode,
-    )
-    {
+    ) {
     }
 
     public function handle(): void

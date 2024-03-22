@@ -14,6 +14,14 @@ export const columns: ColumnDef<Cash_History_Data>[] = [
     {
       accessorKey: "date",
       header: "Date",
+      accessorFn: (row) => {
+        const originalDate = row.date;
+        return new Date(originalDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      },
     },
     {
       accessorKey: "username",
@@ -25,7 +33,12 @@ export const columns: ColumnDef<Cash_History_Data>[] = [
       },
     {
       accessorKey: "amount",
+      accessorFn:(row) => row.amount.toLocaleString(),
       header: "Amount",
     }
     
   ]
+
+  
+
+  

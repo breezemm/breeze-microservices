@@ -9,7 +9,6 @@ use Exception;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 
-
 readonly class CheckOutOrderAction
 {
     /**
@@ -37,7 +36,6 @@ readonly class CheckOutOrderAction
             ->withMessage($message)
             ->send();
 
-
         // send push notification to the ticket seller after the buyer has bought the ticket
         (new SendPushNotification())->handle([
             'notification_id' => 'ticket_sold',
@@ -47,14 +45,14 @@ readonly class CheckOutOrderAction
             'channels' => [
                 'push' => [
                     'title' => 'Ticket Sold',
-                    'body' => auth()->user()->name . ' bought ' . $event->name . ' event.',
+                    'body' => auth()->user()->name.' bought '.$event->name.' event.',
                     'data' => [
                         'type' => 'ticket_sold',
                         'user' => auth()->user()->load('media'),
                         'content' => 'joins',
                         'event' => $event,
-                    ]
-                ]
+                    ],
+                ],
             ],
         ]);
 
@@ -62,7 +60,7 @@ readonly class CheckOutOrderAction
         $orders = $event->orders()
             ->whereNot('user_id', $buyerUserId)
             ->lazy(200);
-        $orders->each(fn($order) => SendUserJoinedPushNotificationJob::dispatch($order));
+        $orders->each(fn ($order) => SendUserJoinedPushNotificationJob::dispatch($order));
 
     }
 }

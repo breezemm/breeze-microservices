@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ScanQRCodeRequest extends FormRequest
+class InviteGuestRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class ScanQRCodeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'qr_code' => 'required|exists:orders,qr_code',
+            'ticket_id' => 'required|exists:tickets,id',
         ];
     }
 }

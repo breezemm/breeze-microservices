@@ -1,5 +1,6 @@
 import { AddMediaIcon } from '~/assets/icons';
 
+
 export default function AddMedia () {
     return ( 
         <label className="flex flex-col  justify-center items-center  border-dashed border-2 border-zinc-800 h-80 w-40 rounded-lg" >

@@ -11,8 +11,7 @@ class PostStoreController extends Controller
 {
     public function __construct(
         private readonly PostService $eventService
-    )
-    {
+    ) {
     }
 
     public function __invoke(EventRequest $request)

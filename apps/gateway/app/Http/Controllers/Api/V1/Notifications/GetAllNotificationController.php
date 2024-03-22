@@ -14,7 +14,7 @@ class GetAllNotificationController extends Controller
         $page = $request->input('page', 1);
 
         $response = Http::notification()
-            ->post('/notifications?page=' . $page, [
+            ->post('/notifications?page='.$page, [
                 'user_id' => $userId,
             ]);
 

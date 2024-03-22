@@ -12,6 +12,7 @@ class CommentLikeController extends Controller
 {
     /**
      * Handle the incoming request.
+     *
      * @throws \Exception
      */
     public function __invoke(Event $event, Comment $comment)
@@ -30,20 +31,21 @@ class CommentLikeController extends Controller
                 'channels' => [
                     'push' => [
                         'title' => 'Comment Liked',
-                        'body' => auth()->user()->name . ' likes your comment.',
+                        'body' => auth()->user()->name.' likes your comment.',
                         'data' => [
                             'type' => 'comment_liked',
                             'user' => auth()->user()->with('media')->get(),
                             'content' => 'likes your comment.',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ]);
 
         } catch (\Exception $e) {
             throw $e;
         } finally {
             optional($lock)->release();
+
             return response()->json([
                 'message' => 'Comment liked successfully',
                 'data' => $comment->likers()->count(),
