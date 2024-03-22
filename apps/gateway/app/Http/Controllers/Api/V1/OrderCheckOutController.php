@@ -5,17 +5,15 @@ namespace App\Http\Controllers\Api\V1;
 use App\Actions\CheckOutOrderAction;
 use App\Enums\TicketStatusEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateCheckOutReqeust;
+use App\Http\Requests\V1\CreateCheckOutReqeust;
 use App\Models\Event;
 use App\Models\Ticket;
-use App\Services\WalletService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class OrderCheckOutController extends Controller
 {
-
     public function __invoke(CreateCheckOutReqeust $request)
     {
         try {
@@ -27,8 +25,8 @@ class OrderCheckOutController extends Controller
             $buyerUserId = auth()->id();
             $sellerUserId = $event->user->id;
 
-            Cache::lock('event:' . $event->id . ':ticket:' . $ticket->id . ':checkout')
-                ->block(5, function () use ($buyerUserId, $ticket) {
+            Cache::lock('event:'.$event->id.':ticket:'.$ticket->id.':checkout')
+                ->block(5, function () use ($ticket) {
                     $ticket->lockForUpdate()->first();
                 });
 
@@ -50,7 +48,6 @@ class OrderCheckOutController extends Controller
                     'message' => 'Ticket already sold',
                 ], 400);
             }
-
 
             // if ticket has seating number
             if ($ticket->seat_number) {
@@ -75,7 +72,6 @@ class OrderCheckOutController extends Controller
                 ], 400);
             }
 
-
             /** We will use the CheckOutOrderAction to handle the checkout process, and then we will send
              * the event and ticket to the handle method of the CheckOutOrderAction
              * so that we can know the wallet and ticket price to be transferred
@@ -83,7 +79,6 @@ class OrderCheckOutController extends Controller
             (new CheckOutOrderAction)->handle($event, $ticket);
 
             DB::commit();
-
 
             return response()->json([
                 'message' => 'Ticket purchased successfully',

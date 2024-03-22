@@ -10,6 +10,7 @@ class UserFollowController extends Controller
 {
     /**
      * Handle the incoming request.
+     *
      * @throws \Exception
      */
     public function __invoke(User $user)
@@ -27,7 +28,6 @@ class UserFollowController extends Controller
             ], 400);
         }
 
-
         auth()->user()->follow($user);
 
         (new SendPushNotification())->handle([
@@ -38,13 +38,13 @@ class UserFollowController extends Controller
             'channels' => [
                 'push' => [
                     'title' => 'New Follower',
-                    'body' => auth()->user()->name . ' follows you.',
+                    'body' => auth()->user()->name.' follows you.',
                     'data' => [
                         'type' => 'new_follower',
                         'user' => auth()->user()->load('media'),
                         'content' => 'follows you.',
-                    ]
-                ]
+                    ],
+                ],
             ],
         ]);
 

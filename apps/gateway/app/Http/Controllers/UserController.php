@@ -26,6 +26,7 @@ class UserController extends Controller
         }
 
         $user->assignRole($request->role);
+
         return back()->with('message', 'Role assigned.');
     }
 
@@ -33,12 +34,12 @@ class UserController extends Controller
     {
         if ($user->hasRole($role)) {
             $user->removeRole($role);
+
             return back()->with('message', 'Role removed.');
         }
 
         return back()->with('message', 'Role not exists.');
     }
-
 
     public function givePermission(Request $request, User $user)
     {
@@ -46,6 +47,7 @@ class UserController extends Controller
             return back()->with('message', 'Permission exists.');
         }
         $user->givePermissionTo($request->permission);
+
         return back()->with('message', 'Permission added.');
     }
 
@@ -53,11 +55,12 @@ class UserController extends Controller
     {
         if ($user->hasPermissionTo($permission)) {
             $user->revokePermissionTo($permission);
+
             return back()->with('message', 'Permission revoked.');
         }
+
         return back()->with('message', 'Permission does not exists.');
     }
-
 
     public function destroy(User $user)
     {
@@ -66,6 +69,7 @@ class UserController extends Controller
         }
 
         $user->delete();
+
         return response()->json(['message' => 'User deleted.']);
     }
 }

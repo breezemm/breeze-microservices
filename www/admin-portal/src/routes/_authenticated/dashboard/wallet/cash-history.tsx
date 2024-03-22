@@ -1,7 +1,7 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@breeze/ui'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import WalletIcon from '~/assets/icons/WalletIcon'
-import Cash_histry_DataTable from './-components/cash-table/data-table'
+import CashHistryDataTable from './-components/cash-table/data-table'
 import { columns } from './-components/cash-table/columns'
 import { cash_history_data } from './-components/cash-history-data'
 
@@ -37,7 +37,7 @@ function CashHistory () {
         </div>
         <div>
         <h1>Hi this is Cash History!!</h1>
-        <Cash_histry_DataTable columns={columns} data={cash_history_data} / >
+        <CashHistryDataTable columns={columns} data={cash_history_data} / >
         </div>
         </>
     )

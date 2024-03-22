@@ -14,7 +14,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -30,7 +29,7 @@ class AuthController extends Controller
 
             $data['password'] = Hash::make($data['password']);
             $data['date_of_birth'] = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
-            $data['username'] = Str::slug($data['name'] . '_' . Str::random(5), '_');
+            $data['username'] = Str::slug($data['name'].'_'.Str::random(5), '_');
 
             DB::beginTransaction();
             $user = User::create($data);
@@ -67,7 +66,7 @@ class AuthController extends Controller
     {
         $validatedUser = $request->validated();
         $auth = auth()->attempt($validatedUser);
-        if (!$auth) {
+        if (! $auth) {
             return json_response(Response::HTTP_UNPROCESSABLE_ENTITY, 'Invalid credentials');
         }
 

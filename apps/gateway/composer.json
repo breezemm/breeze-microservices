@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "backpack/logmanager": "^5.0",
         "bensampo/laravel-enum": "^6.3",
         "dedoc/scramble": "^0.8.5",
@@ -27,18 +27,24 @@
         "overtrue/laravel-follow": "^5.1",
         "overtrue/laravel-like": "^5.1",
         "predis/predis": "^2.2",
+        "saloonphp/laravel-plugin": "^3.0",
+        "saloonphp/saloon": "^3.0",
+        "spatie/laravel-data": "^4.4",
         "spatie/laravel-medialibrary": "^11.0.0",
         "spatie/laravel-permission": "^5.10",
         "staudenmeir/laravel-adjacency-list": "^1.0"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^1.0",
         "fakerphp/faker": "^1.9.1",
+        "larastan/larastan": "^2.0",
         "laravel/pint": "^1.13",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "pestphp/pest": "^2.6",
         "pestphp/pest-plugin-stressless": "^2.2",
         "phpunit/phpunit": "^10.1",
+        "rector/rector": "^1.0",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {

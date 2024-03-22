@@ -7,7 +7,7 @@ use App\Enums\BuyerTypeEnum;
 use App\Enums\GuestInvitationStatusEnum;
 use App\Enums\TicketStatusEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AcceptGuestInvitationRequest;
+use App\Http\Requests\V1\AcceptGuestInvitationRequest;
 use App\Models\Event;
 use App\Models\Order;
 use App\Models\Ticket;
@@ -59,13 +59,13 @@ class AcceptGuestInvitationController extends Controller
                 'channels' => [
                     'push' => [
                         'title' => 'Invitation Accepted',
-                        'body' => auth()->user()->name . ' accept your invitation.',
+                        'body' => auth()->user()->name.' accept your invitation.',
                         'data' => [
                             'type' => 'event_invitation_accepted',
                             'user' => auth()->user()->load('media'),
                             'content' => ' accept your invitation.',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ]);
 

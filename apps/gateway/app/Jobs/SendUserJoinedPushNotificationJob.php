@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SendUserJoinedPushNotificationJob implements ShouldQueue, ShouldBeUnique
+class SendUserJoinedPushNotificationJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -22,6 +22,7 @@ class SendUserJoinedPushNotificationJob implements ShouldQueue, ShouldBeUnique
 
     /**
      * Execute the job.
+     *
      * @throws \Exception
      */
     public function handle(): void
@@ -34,14 +35,14 @@ class SendUserJoinedPushNotificationJob implements ShouldQueue, ShouldBeUnique
             'channels' => [
                 'push' => [
                     'title' => 'Join Event',
-                    'body' => auth()->user()->name . ' joins ' . $this->order->event->name,
+                    'body' => auth()->user()->name.' joins '.$this->order->event->name,
                     'data' => [
                         'type' => 'event_joined',
                         'user' => auth()->user()->load('media'),
                         'content' => 'joins',
                         'event' => $this->order->event,
-                    ]
-                ]
+                    ],
+                ],
             ],
         ]);
     }

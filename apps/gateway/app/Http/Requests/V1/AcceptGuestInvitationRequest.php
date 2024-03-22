@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class InviteGuestRequest extends FormRequest
+class AcceptGuestInvitationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,8 @@ class InviteGuestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ticket_id' => 'required|exists:tickets,id',
+            'ticket_id' => 'required',
+            'event_id' => 'required|exists:events,id',
         ];
     }
 }

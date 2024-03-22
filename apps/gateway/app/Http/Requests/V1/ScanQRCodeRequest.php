@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreFirebaseTokenRequest extends FormRequest
+class ScanQRCodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class StoreFirebaseTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'token' => ['required', 'string']
+            'qr_code' => 'required|exists:orders,qr_code',
         ];
     }
 }

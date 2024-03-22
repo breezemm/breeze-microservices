@@ -20,10 +20,10 @@ class PrivateTimelineController extends Controller
             ->followings()
             ->with(
                 'followable',
-                fn(Builder $builder) => $builder->with(
+                fn (Builder $builder) => $builder->with(
                     'activities',
-                    fn(Builder $builder) => $builder->with('user')
-                        ->with('event', fn(BelongsTo $query) => $query
+                    fn (Builder $builder) => $builder->with('user')
+                        ->with('event', fn (BelongsTo $query) => $query
                             ->with('user')
                             ->with('comments')
                             ->withCount('comments')
@@ -31,7 +31,7 @@ class PrivateTimelineController extends Controller
                             ->with('repost', function (HasOne $query) {
                                 return $query->with(
                                     'event',
-                                    fn(BelongsTo $query) => $query
+                                    fn (BelongsTo $query) => $query
                                         ->with('user')
                                         ->with('comments')
                                         ->withCount('comments')
@@ -44,9 +44,9 @@ class PrivateTimelineController extends Controller
             ->get();
 
         $mappedEvents = collect($events)
-            ->map(fn($item) => $item['followable']['activities'])
+            ->map(fn ($item) => $item['followable']['activities'])
             ->flatten(1)
-            ->map(fn($item) => [
+            ->map(fn ($item) => [
                 'id' => $item['id'],
                 'action_type' => $item['action_type'],
                 'user' => $item['user'],

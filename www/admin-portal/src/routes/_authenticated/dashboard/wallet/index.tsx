@@ -25,7 +25,7 @@ function Wallet () {
     </Card>
 
    <Card className="w-52 bg-zinc-800 text-zinc-50" onClick={() => navigate({
-          to: '/dashboard/wallet/cash-in-cash-out'
+          to: '/dashboard/wallet/cash-history'
         })}>
       <CardHeader>  
         <CardTitle className="text-[18px]">History</CardTitle>
