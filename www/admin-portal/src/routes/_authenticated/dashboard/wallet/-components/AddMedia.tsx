@@ -1,4 +1,4 @@
-import { AddMediaIcon } from '~/assets/icons'
+import { AddMediaIcon } from '~/assets/icons';
 
 
 export default function AddMedia () {

@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Input } from '@breeze/ui'
-
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useDebounce from './-hooks/useDebounce'
@@ -34,7 +33,6 @@ function CashInCashOut () {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchUsername(e.target.value);
   };
-
 
   return (
     <div className="flex gap-12 w-full">

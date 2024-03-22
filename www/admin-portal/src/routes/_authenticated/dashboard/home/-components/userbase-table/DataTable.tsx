@@ -33,7 +33,7 @@ export function UserBaseTable<TData, TValue>({columns, data}: DataTableProps<TDa
     return (
         <div>
             {/* Table */}
-           <div className="rounded-md w-[200%] justify-between text-center">
+           <div className="rounded-md w-[100%] justify-between text-center">
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map(headerGroup => {
@@ -41,7 +41,7 @@ export function UserBaseTable<TData, TValue>({columns, data}: DataTableProps<TDa
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map(header => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={header.id} className="border-b-2 border-b-gray-300">
                                             <div className="font-bold text-black text-center text-lg my-3">
                                                 {flexRender(header.column.columnDef.header, header.getContext())}
                                             </div>
@@ -59,7 +59,7 @@ export function UserBaseTable<TData, TValue>({columns, data}: DataTableProps<TDa
                         table.getRowModel().rows.map(row => (
                             <TableRow key={row.id}>
                                 {row.getVisibleCells().map(cell => (
-                                    <TableCell key={cell.id}>
+                                    <TableCell key={cell.id} className="border-b-0">
                                         <div className="my-4">
                                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </div>
