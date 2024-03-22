@@ -33,13 +33,16 @@
         "staudenmeir/laravel-adjacency-list": "^1.0"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^1.0",
         "fakerphp/faker": "^1.9.1",
+        "larastan/larastan": "^2.0",
         "laravel/pint": "^1.13",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "pestphp/pest": "^2.6",
         "pestphp/pest-plugin-stressless": "^2.2",
         "phpunit/phpunit": "^10.1",
+        "rector/rector": "^1.0",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
