@@ -29,6 +29,7 @@ class EventSeatingPlanController extends Controller
                 if (! $ticketType->is_has_seating_plan) {
                     return 0;
                 }
+
                 return $ticketType->tickets->where('status', TicketStatusEnum::SOLD)->count();
             })->sum();
         })->sum();

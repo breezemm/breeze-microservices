@@ -17,7 +17,8 @@ final readonly class WalletService implements WalletServiceInterface
 {
     public function __construct(
         public AtomicLockService $atomicLockService,
-    ) {
+    )
+    {
     }
 
     /**

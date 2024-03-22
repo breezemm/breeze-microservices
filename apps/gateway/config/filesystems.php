@@ -60,7 +60,6 @@ return [
             'throw' => false,
         ],
 
-
     ],
 
     /*

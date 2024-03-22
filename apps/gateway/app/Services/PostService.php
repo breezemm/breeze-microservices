@@ -10,8 +10,7 @@ class PostService
 {
     public function __construct(
         private readonly PostRepository $eventRepository
-    )
-    {
+    ) {
     }
 
     /**
