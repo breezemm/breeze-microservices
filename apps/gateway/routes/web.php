@@ -1,6 +1,8 @@
 <?php
 
+use App\DataTransferObjects\PaymentData;
 use App\DataTransferObjects\WalletData;
+use App\Http\Integrations\Wallet\Requests\Payment\CreatePaymentTransaction;
 use App\Http\Integrations\Wallet\Requests\Wallets\CreateWalletRequest;
 use App\Http\Integrations\Wallet\Requests\Wallets\GetWalletByIdRequest;
 use App\Http\Integrations\Wallet\Requests\Wallets\GetWalletByUserIdRequest;
@@ -44,6 +46,21 @@ Route::get('/wallets/users/{id}', function ($id) {
     $response = $wallet->send(
         new GetWalletByUserIdRequest(
             id: $id
+        )
+    );
+
+    return $response->json();
+});
+
+Route::get('/payments', function (Request $request) {
+    $wallet = new WalletConnector();
+    $response = $wallet->send(
+        new CreatePaymentTransaction(
+            new PaymentData(
+                senderWalletId: $request->input('sender_wallet_id'),
+                receiverWalletId: $request->input('receiver_wallet_id'),
+                amount: 100,
+            )
         )
     );
 
