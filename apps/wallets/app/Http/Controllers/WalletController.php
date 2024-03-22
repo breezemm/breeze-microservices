@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTransferObjects\WalletData;
+use App\Enums\WalletType;
 use App\Models\Wallet;
 use App\Services\WalletService;
 use Illuminate\Http\Request;
@@ -54,5 +55,15 @@ class WalletController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function getWalletByUserId(Request $request, string $userId)
+    {
+        $walletType = $request->get('wallet_type', WalletType::PREPAID);
+        $wallet = $this->walletService->getWalletByUserId($userId, $walletType);
+
+        return response()->json([
+            'data' => $wallet,
+        ]);
     }
 }

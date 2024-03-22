@@ -11,3 +11,5 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('/wallets', WalletController::class)->except('update');
 Route::apiResource('/payments', PaymentController::class)->only('store');
+
+Route::get('/wallets/users/{userId}', [WalletController::class, 'getWalletByUserId']);
