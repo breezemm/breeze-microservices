@@ -5,17 +5,24 @@ namespace App\Http\Integrations\Wallet\Requests\Wallets;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
-class GetWalletByIdRequest extends Request
+class GetWalletByUserId extends Request
 {
     protected Method $method = Method::GET;
 
     public function __construct(
-        public readonly int $id
+        public int $id
     ) {
     }
 
     public function resolveEndpoint(): string
     {
-        return "/wallets/{$this->id}";
+        return "/wallets/users/{$this->id}";
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'wallet_type' => 'PREPAID',
+        ];
     }
 }

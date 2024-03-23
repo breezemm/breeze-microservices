@@ -2,11 +2,11 @@
 
 use App\DataTransferObjects\PaymentData;
 use App\DataTransferObjects\WalletData;
-use App\Http\Integrations\Wallet\Requests\Payment\CreatePaymentTransaction;
-use App\Http\Integrations\Wallet\Requests\Wallets\CreateWalletRequest;
-use App\Http\Integrations\Wallet\Requests\Wallets\GetWalletByIdRequest;
-use App\Http\Integrations\Wallet\Requests\Wallets\GetWalletByUserIdRequest;
-use App\Http\Integrations\Wallet\WalletConnector;
+use App\Http\Integrations\Wallet\Requests\Payments\CreatePaymentTransaction;
+use App\Http\Integrations\Wallet\Requests\Wallets\CreateWallet;
+use App\Http\Integrations\Wallet\Requests\Wallets\GetWalletById;
+use App\Http\Integrations\Wallet\Requests\Wallets\GetWalletByUserId;
+use App\Http\Integrations\Wallet\WalletAPI;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', function () {
@@ -17,9 +17,9 @@ Route::get('/health', function () {
 });
 
 Route::get('/wallets', function () {
-    $wallet = new WalletConnector();
+    $wallet = new WalletAPI();
     $response = $wallet->send(
-        new CreateWalletRequest(
+        new CreateWallet(
             new WalletData(
                 name: 'Prepaid',
                 user_id: 1,
@@ -31,9 +31,9 @@ Route::get('/wallets', function () {
 });
 
 Route::get('/wallets/{id}', function ($id) {
-    $wallet = new WalletConnector();
+    $wallet = new WalletAPI();
     $response = $wallet->send(
-        new GetWalletByIdRequest(
+        new GetWalletById(
             id: $id
         )
     );
@@ -42,9 +42,9 @@ Route::get('/wallets/{id}', function ($id) {
 });
 
 Route::get('/wallets/users/{id}', function ($id) {
-    $wallet = new WalletConnector();
+    $wallet = new WalletAPI();
     $response = $wallet->send(
-        new GetWalletByUserIdRequest(
+        new GetWalletByUserId(
             id: $id
         )
     );
@@ -53,7 +53,8 @@ Route::get('/wallets/users/{id}', function ($id) {
 });
 
 Route::get('/payments', function (Request $request) {
-    $wallet = new WalletConnector();
+    $wallet = new WalletAPI();
+
     $response = $wallet->send(
         new CreatePaymentTransaction(
             new PaymentData(
@@ -65,4 +66,16 @@ Route::get('/payments', function (Request $request) {
     );
 
     return $response->json();
+});
+
+Route::get('/test', function () {
+    $walletApi = new WalletAPI();
+    $walletApi->wallets()->getWalletById(id: 1);
+    $walletApi->wallets()->createWallet(
+        new WalletData(
+            name: 'Prepaid',
+            user_id: 1,
+            currency: 'USD',
+        )
+    );
 });

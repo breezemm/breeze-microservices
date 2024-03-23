@@ -8,7 +8,7 @@ use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
 
-class CreateWalletRequest extends Request implements HasBody
+class CreateWallet extends Request implements HasBody
 {
     use HasJsonBody;
 

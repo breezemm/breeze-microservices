@@ -2,15 +2,22 @@
 
 namespace App\Http\Integrations\Wallet;
 
+use App\Http\Integrations\Wallet\Resource\WalletsResource;
 use Saloon\Helpers\OAuth2\OAuthConfig;
 use Saloon\Http\Connector;
 use Saloon\Traits\OAuth2\AuthorizationCodeGrant;
 use Saloon\Traits\Plugins\AcceptsJson;
 
-class WalletConnector extends Connector
+class WalletAPI extends Connector
 {
     use AcceptsJson;
     use AuthorizationCodeGrant;
+
+    public ?int $tries = 3;
+
+    public ?int $retryInterval = 500;
+
+    public ?bool $useExponentialBackoff = true;
 
     /**
      * The Base URL of the API.
@@ -33,5 +40,10 @@ class WalletConnector extends Connector
             ->setAuthorizeEndpoint('authorize')
             ->setTokenEndpoint('token')
             ->setUserEndpoint('user');
+    }
+
+    public function wallets(): WalletsResource
+    {
+        return new WalletsResource($this);
     }
 }
