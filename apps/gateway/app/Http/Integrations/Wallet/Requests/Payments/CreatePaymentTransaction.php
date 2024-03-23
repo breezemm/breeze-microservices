@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Integrations\Wallet\Requests\Payment;
+namespace App\Http\Integrations\Wallet\Requests\Payments;
 
 use App\DataTransferObjects\PaymentData;
 use Saloon\Contracts\Body\HasBody;
