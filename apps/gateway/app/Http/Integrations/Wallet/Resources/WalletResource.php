@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Integrations\Wallet\Resource;
+namespace App\Http\Integrations\Wallet\Resources;
 
 use App\DataTransferObjects\WalletData;
 use App\Http\Integrations\Wallet\Requests\Wallets\CreateWallet;
@@ -11,7 +11,7 @@ use Saloon\Exceptions\Request\RequestException;
 use Saloon\Http\BaseResource;
 use Saloon\Http\Response;
 
-class WalletsResource extends BaseResource
+class WalletResource extends BaseResource
 {
     /**
      * @throws FatalRequestException

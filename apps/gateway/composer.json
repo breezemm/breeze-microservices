@@ -27,12 +27,14 @@
         "overtrue/laravel-follow": "^5.1",
         "overtrue/laravel-like": "^5.1",
         "predis/predis": "^2.2",
+        "saloonphp/cache-plugin": "^3.0",
         "saloonphp/laravel-plugin": "^3.0",
         "saloonphp/saloon": "^3.0",
         "spatie/laravel-data": "^4.4",
         "spatie/laravel-medialibrary": "^11.0.0",
         "spatie/laravel-permission": "^5.10",
-        "staudenmeir/laravel-adjacency-list": "^1.0"
+        "staudenmeir/laravel-adjacency-list": "^1.0",
+        "symfony/var-dumper": "^6.4"
     },
     "require-dev": {
         "driftingly/rector-laravel": "^1.0",
@@ -77,7 +79,7 @@
             "@php artisan key:generate --ansi"
         ],
         "test": "pest",
-        "format": "./vendor/bin/pint",
+        "pint": "./vendor/bin/pint",
         "setup": [
             "php artisan migrate:fresh --seed",
             "php artisan passport:install --force"

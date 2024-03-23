@@ -2,16 +2,14 @@
 
 namespace App\Http\Integrations\Wallet;
 
-use App\Http\Integrations\Wallet\Resource\WalletsResource;
-use Saloon\Helpers\OAuth2\OAuthConfig;
+use App\Http\Integrations\Wallet\Resources\PaymentResource;
+use App\Http\Integrations\Wallet\Resources\WalletResource;
 use Saloon\Http\Connector;
-use Saloon\Traits\OAuth2\AuthorizationCodeGrant;
 use Saloon\Traits\Plugins\AcceptsJson;
 
 class WalletAPI extends Connector
 {
     use AcceptsJson;
-    use AuthorizationCodeGrant;
 
     public ?int $tries = 3;
 
@@ -19,31 +17,25 @@ class WalletAPI extends Connector
 
     public ?bool $useExponentialBackoff = true;
 
-    /**
-     * The Base URL of the API.
-     */
     public function resolveBaseUrl(): string
     {
-        return 'http://wallets.test/api/v1';
+        return config('services.breeze.wallets');
     }
 
-    /**
-     * The OAuth2 configuration
-     */
-    protected function defaultOauthConfig(): OAuthConfig
+    public function defaultHeaders(): array
     {
-        return OAuthConfig::make()
-            ->setClientId('')
-            ->setClientSecret('')
-            ->setRedirectUri('')
-            ->setDefaultScopes([])
-            ->setAuthorizeEndpoint('authorize')
-            ->setTokenEndpoint('token')
-            ->setUserEndpoint('user');
+        return [
+            'Content-Type' => 'application/json',
+        ];
     }
 
-    public function wallets(): WalletsResource
+    public function wallets(): WalletResource
     {
-        return new WalletsResource($this);
+        return new WalletResource($this);
+    }
+
+    public function payments(): PaymentResource
+    {
+        return new PaymentResource($this);
     }
 }
