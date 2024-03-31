@@ -12,7 +12,6 @@ volumes:
   mysql:
   redis:
   kafka:
-  gateway:
 
 services:
   php:
@@ -141,8 +140,6 @@ services:
     networks:
       staging:
         ipv4_address: 172.28.201.16
-    volumes:
-      - gateway:/var/www/gateway/storage
 
   wallets:
     build:
@@ -181,31 +178,3 @@ services:
     networks:
       staging:
         ipv4_address: 172.28.201.18
-
-  suggestion:
-    build:
-      context: ./apps/suggestion
-      dockerfile: staging.dockerfile
-    image: breeze/suggestion
-    container_name: breeze_suggestion
-    env_file: ./apps/suggestion/staging.env
-    healthcheck:
-      test: ["CMD", "node", "healthcheck.js"]
-      retries: 3
-      timeout: 5s
-    networks:
-      staging:
-        ipv4_address: 172.28.201.19
-
-  mailpit:
-    image: axllent/mailpit:latest
-    container_name: breeze_mailpit
-    healthcheck:
-      test: ["CMD", "nc", "-z", "mailpit", "8025"]
-      retries: 3
-      timeout: 5s
-    networks:
-      staging:
-        ipv4_address: 172.28.201.20
-    ports:
-      - "8025:8025"
