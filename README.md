@@ -5,7 +5,7 @@ The monorepo for the breeze microservices.
 ## Services and Design Decisions
 
 | Service              | Description                                                                                                                 | Tech                            |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+|----------------------|-----------------------------------------------------------------------------------------------------------------------------|---------------------------------|
 | API Gateway          | The API Gateway is the entry point for all clients.<br/> It is responsible for routing requests to the appropriate service. | [Laravel](https://laravel.com/) |
 | Suggestion Service   | The Suggestion Service is responsible for providing suggestions to the user.                                                | [Nest.js](https://nestjs.com/)  |
 | Wallet Service       | The Wallet Service is responsible for managing user's wallet.                                                               | [Laravel](https://laravel.com/) |
@@ -14,7 +14,7 @@ The monorepo for the breeze microservices.
 ## Endpoints
 
 | Service              | Endpoint Production                           | Endpoint Development | Port  |
-| -------------------- | --------------------------------------------- | -------------------- | ----- |
+|----------------------|-----------------------------------------------|----------------------|-------|
 | API Gateway          | https://breeze-backend-api.vercel.app/        | http://0.0.0.0       | 8001  |
 | Wallet Service       |                                               | http://0.0.0.0       | 8002  |
 | Suggestion Service   | https://breeze-suggestion-service.vercel.app/ | http://localhost     | 8003  |
@@ -32,7 +32,7 @@ The monorepo for the breeze microservices.
 ## Credentials for Development
 
 | Database      | Username | Password | Host      |
-| ------------- | -------- | -------- | --------- |
+|---------------|----------|----------|-----------|
 | Gateway MySQL | root     | password | 127.0.0.1 |
 | Wallet MySQL  | root     | password | 127.0.0.1 |
 
@@ -42,16 +42,3 @@ The monorepo for the breeze microservices.
 
 - Docker Desktop (for Windows and Linux)
 - Orbstack (for Mac)
-
-## Starting all services
-
-```bash
-bash contributors/start.sh # start all services
-bash contributors/stop.sh # stop all services
-```
-
-### Consuming Wallet Topic
-
-```bash
-php artisan consume:wallet-topic
-```
