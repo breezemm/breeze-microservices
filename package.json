@@ -2,7 +2,7 @@
   "name": "breeze",
   "private": true,
   "engines": {
-    "node": ">=v18.17.1"
+    "node": ">=v20.10.0"
   },
   "packageManager": "bun@1.0.30",
   "scripts": {
@@ -33,14 +33,9 @@
   },
   "workspaces": [
     "apps/*",
-    "packages/*",
-    "research/*",
-    "tooling/*",
-    "docs/*",
-    "www/*"
+    "docs/*"
   ],
   "devDependencies": {
-    "@breeze/prettier-config": "workspace:*",
     "typescript": "^5.3.3",
     "@manypkg/cli": "^0.21.2",
     "@turbo/gen": "^1.11.3",
@@ -54,10 +49,8 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "@breeze/tsconfig": "workspace:*",
     "turbo": "latest"
   },
-  "prettier": "@breeze/prettier-config",
   "dependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
