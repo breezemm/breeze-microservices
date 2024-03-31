@@ -2,4 +2,4 @@
 
 cd /home/ubuntu/breeze
 
-docker-compose -f staging.compose.yaml stop gateway wallets notifications suggestion
+docker-compose -f staging.compose.yaml stop gateway wallets notifications
