@@ -8,6 +8,4 @@ enum TransactionType: string
     case WITHDRAW = 'WITHDRAW';
 
     case TRANSFER = 'TRANSFER';
-
-
 }

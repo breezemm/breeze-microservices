@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1\Posts\PostComments;
 
 use App\Actions\SendPushNotification;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateCommentRequest;
+use App\Http\Requests\V1\CreateCommentRequest;
 use App\Models\Event;
 
 // TODO: refactor this class
@@ -16,8 +16,7 @@ class EventCommentController extends Controller
     public function __invoke(Event $event, CreateCommentRequest $createCommentReqeust)
     {
 
-
-        if (!$createCommentReqeust->parent_id) {
+        if (! $createCommentReqeust->parent_id) {
 
             (new SendPushNotification())->handle([
                 'notification_id' => 'post_commented',
@@ -27,13 +26,13 @@ class EventCommentController extends Controller
                 'channels' => [
                     'push' => [
                         'title' => 'Post Commented',
-                        'body' => auth()->user()->name . ' commented on your post.',
+                        'body' => auth()->user()->name.' commented on your post.',
                         'data' => [
                             'type' => 'post_commented',
                             'user' => auth()->user()->load('media'),
                             'content' => 'commented on your post.',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ]);
 
@@ -54,17 +53,16 @@ class EventCommentController extends Controller
                 'channels' => [
                     'push' => [
                         'title' => 'Post Replied',
-                        'body' => auth()->user()->name . ' replied you',
+                        'body' => auth()->user()->name.' replied you',
                         'data' => [
                             'type' => 'post_commented',
                             'user' => auth()->user()->load('media'),
                             'content' => 'replies you.',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ]);
         }
-
 
         $event->comments()->create([
             'comment' => $createCommentReqeust->comment,

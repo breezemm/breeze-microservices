@@ -9,16 +9,16 @@ class MediaPathGeneratorService implements PathGenerator
 {
     public function getPath(Media $media): string
     {
-        return md5($media->id) . '/';
+        return md5($media->id).'/';
     }
 
     public function getPathForConversions(Media $media): string
     {
-        return $this->getPath($media) . 'c/';
+        return $this->getPath($media).'c/';
     }
 
     public function getPathForResponsiveImages(Media $media): string
     {
-        return $this->getPath($media) . '/cri/';
+        return $this->getPath($media).'/cri/';
     }
 }

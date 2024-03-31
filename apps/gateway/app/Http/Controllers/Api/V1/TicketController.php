@@ -15,10 +15,10 @@ class TicketController extends Controller
     {
         return response()->json([
             'data' => Order::where('ticket_id', $ticket->id)
-                    ->with('ticket.ticketType')
-                    ->with('event.user.media')
-                    ->with('user')
-                    ->first() ?? [
+                ->with('ticket.ticketType')
+                ->with('event.user.media')
+                ->with('user')
+                ->first() ?? [
                     'ticket' => $ticket
                         ->with([
                             'phase.event.media',

@@ -18,14 +18,13 @@ class UserUnFollowController extends Controller
             ], 400);
         }
 
-        if (!auth()->user()->isFollowing($user)) {
+        if (! auth()->user()->isFollowing($user)) {
             return response()->json([
                 'message' => 'You are not following this user',
             ], 400);
         }
 
         auth()->user()->unfollow($user);
-
 
         return response()->json([
             'message' => 'User unfollowed successfully',

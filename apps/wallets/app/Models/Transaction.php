@@ -2,32 +2,25 @@
 
 namespace App\Models;
 
-use App\Enums\CurrencyType;
-use App\Enums\TransactionType;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Cknow\Money\Casts\MoneyDecimalCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Transaction extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     protected $fillable = [
-        'sender_user_id',
-        'receiver_user_id',
-        'transaction_type',
-        'transaction_amount',
-        'transaction_currency',
-        'transaction_description',
-        'sender_wallet_id',
-        'receiver_wallet_id',
-    ];
-
-    protected $casts = [
-        'transaction_amount' => 'float',
-        'transaction_type' => TransactionType::class,
-        'transaction_currency' => CurrencyType::class,
+        'wallet_id',
+        'transactionable_id',
+        'transactionable_type',
+        'type',
+        'amount',
+        'is_confirmed',
+        'meta',
+        'deleted_at',
     ];
 
     public function wallet(): BelongsTo
@@ -35,14 +28,18 @@ class Transaction extends Model
         return $this->belongsTo(Wallet::class);
     }
 
-    public function fromUser(): BelongsTo
+    public function transactionable(): MorphTo
     {
-        return $this->belongsTo(User::class, 'from_user');
+        return $this->morphTo();
     }
 
-    public function toUser(): BelongsTo
+    protected function casts(): array
     {
-        return $this->belongsTo(User::class, 'to_user');
+        return [
+            'type' => 'string',
+            'amount' => MoneyDecimalCast::class,
+            'is_confirmed' => 'boolean',
+            'meta' => 'array',
+        ];
     }
-
 }

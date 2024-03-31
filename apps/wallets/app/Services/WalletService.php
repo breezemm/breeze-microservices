@@ -2,84 +2,104 @@
 
 namespace App\Services;
 
+use App\Contracts\WalletServiceInterface;
+use App\DataTransferObjects\WalletData;
+use App\Enums\TransactionType;
 use App\Enums\WalletType;
+use App\Exceptions\InsufficientFundException;
+use App\Exceptions\WalletCreationFailed;
+use App\Models\Transaction;
 use App\Models\Wallet;
+use Cknow\Money\Money;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use JetBrains\PhpStorm\ArrayShape;
-use function Laravel\Prompts\error;
 
-class WalletService
+final readonly class WalletService implements WalletServiceInterface
 {
-    /**
-     * @throws \Exception
-     */
-    public function create(#[ArrayShape(['user_id' => 'int'])] array $user): void
-    {
-        try {
-            DB::beginTransaction();
-            Wallet::create([
-                'user_id' => $user['user_id'],
-                'wallet_id' => Str::uuid(),
-                'balance' => 0,
-                'type' => WalletType::DEBIT,
-                'qr_code' => Str::uuid(),
-            ]);
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw $exception;
-        }
+    public function __construct(
+        public AtomicLockService $atomicLockService,
+    ) {
     }
 
     /**
-     * @throws \Exception
-     * @return Wallet[]
+     * @throws WalletCreationFailed
      */
-    public function transferMoney(int $senderUserId, int $receiverUserId, float $amount): array
+    public function create(WalletData $createWalletDTO): void
     {
         try {
             DB::beginTransaction();
 
-            $senderWallet = Wallet::where('user_id', $senderUserId)
-                ->where('type', WalletType::DEBIT)
-                ->first();
-
-            if (!$this->hasEnoughBalance($senderWallet, $amount)) {
-                error('Insufficient balance: Sender User ID ' . $senderUserId . ' ' . $amount);
-                throw new \Exception('Insufficient balance');
-            }
-
-            $receiverWallet = Wallet::where('user_id', $receiverUserId)
-                ->where('type', WalletType::DEBIT)
-                ->first();
-
-            if ($senderWallet->wallet_id === $receiverWallet->wallet_id) {
-                throw new \Exception('Same wallet transfer');
-            }
-
-            // Deduct from the sender's wallet
-            $senderWallet->balance = (float)$senderWallet->balance - $amount;
-            $senderWallet->save();
-
-            // Add to the receiver's wallet
-            $receiverWallet->balance = (float)$receiverWallet->balance + $amount;
-            $receiverWallet->save();
-
-            DB::commit();
-
-            return [
-                $senderWallet,
-                $receiverWallet
+            $wallet = [
+                ...$createWalletDTO->all(),
+                'type' => WalletType::PREPAID,
             ];
-        } catch (\Exception $exception) {
+
+            Wallet::create($wallet);
+            DB::commit();
+        } catch (\Exception $e) {
             DB::rollBack();
-            throw $exception;
+            throw new WalletCreationFailed();
+        }
+
+    }
+
+    /**
+     * @throws InsufficientFundException If the wallet has insufficient fund
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function transfer(Wallet $from, Wallet $to, Money $amount, ?array $meta = null): Wallet
+    {
+        throw_if($from->balance->lessThan($amount), new InsufficientFundException());
+
+        try {
+            DB::beginTransaction();
+
+            // Block the wallets to prevent the concurrent transaction at once from the same wallet in the same time
+            $this->atomicLockService->blocks([$from, $to], function () use ($from, $to, $amount) {
+                $this->withdraw($from, $amount)
+                    ->transactions()
+                    ->create([
+                        'amount' => $amount->getAmount(),
+                        'type' => TransactionType::WITHDRAW,
+                        'wallet_id' => $from->id,
+                    ]);
+
+                $this->deposit($to, $amount)->transactions()
+                    ->create([
+                        'amount' => $amount->getAmount(),
+                        'type' => TransactionType::DEPOSIT,
+                        'wallet_id' => $to->id,
+                    ]);
+            });
+
+            DB::commit();
+
+            return $from;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
     }
 
-    private function hasEnoughBalance(Wallet $wallet, float $amount): bool
+    public function getWalletByUserId(string $userId, ?string $walletType): ?Wallet
     {
-        return $wallet->balance >= $amount;
+        return Wallet::where('user_id', $userId)
+            ->where('type', $walletType ?? WalletType::PREPAID)
+            ->first();
+    }
+
+    public function withdraw(Wallet $wallet, Money $amount): ?Wallet
+    {
+        return $wallet->withdraw($amount);
+    }
+
+    public function deposit(Wallet $wallet, Money $amount): ?Wallet
+    {
+        return $wallet->deposit($amount);
+    }
+
+    public function delete(Wallet $wallet): void
+    {
+        $wallet->delete();
     }
 }

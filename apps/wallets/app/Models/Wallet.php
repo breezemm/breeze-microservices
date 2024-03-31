@@ -3,41 +3,88 @@
 namespace App\Models;
 
 use App\Enums\WalletType;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Cknow\Money\Casts\MoneyDecimalCast;
+use Cknow\Money\Money;
+use Godruoyi\Snowflake\Snowflake;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
+/**
+ * @property Money|null $balance
+ */
 class Wallet extends Model
 {
-    use HasFactory;
-
-
     protected $fillable = [
-        'wallet_id',
-        'user_id',
+        'uuid',
+        'name',
         'balance',
+        'meta',
         'currency',
-        'type',
+        'user_id',
         'qr_code',
-    ];
-
-
-    protected $casts = [
-        'balance' => 'float',
-        'type' => WalletType::class,
-        'currency' => 'string',
-    ];
-
-    protected $hidden = [
-        'created_at',
-        'updated_at',
+        'type',
         'deleted_at',
     ];
 
-    public function user(): BelongsTo
+    /**
+     * @throws BindingResolutionException
+     */
+    #[\Override]
+    public static function boot(): void
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        parent::boot();
+
+        $snowflake = app()->make(Snowflake::class);
+        static::creating(function ($model) use ($snowflake) {
+            $model->uuid = $snowflake->id();
+            $model->qr_code = $snowflake->id();
+        });
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    public function scopeFindByUuid(Builder $query, string $uuid): Builder
+    {
+        return $query->where('uuid', $uuid);
+    }
+
+    public function scopeFindByQrCode(Builder $query, string $qrCode): Builder
+    {
+        return $query->where('qr_code', $qrCode);
+    }
+
+    public function withdraw(Money $amount): self
+    {
+        $this->balance = $this->balance->subtract($amount);
+        $this->save();
+
+        return $this;
+    }
+
+    public function deposit(Money $amount): self
+    {
+        $this->balance = $this->balance->add($amount);
+        $this->save();
+
+        return $this;
+    }
+
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(Transaction::class, 'transactionable');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'meta' => 'array',
+            'type' => WalletType::class,
+            'balance' => MoneyDecimalCast::class,
+        ];
+    }
 }

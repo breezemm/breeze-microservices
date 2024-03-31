@@ -62,7 +62,6 @@ Route::prefix('users')->group(function () {
     Route::get('/cities', CityListController::class);
 });
 
-
 Route::middleware('auth:api')->prefix('/users')
     ->group(function () {
         Route::get('/me', [AuthController::class, 'getAuthUser']);
@@ -84,7 +83,6 @@ Route::middleware('auth:api')
         Route::get('/suggested-friends', FriendSuggestionController::class);
 
         Route::apiResource('/orders', OrderController::class)->only(['index', 'show']);
-
 
         Route::post('/checkout', OrderCheckOutController::class);
         Route::post('/accept-invitation', AcceptGuestInvitationController::class);
@@ -117,7 +115,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('/tickets', TicketController::class)->only('show', 'update');
 });
 
-// Event Dashboard for the orginizers
+// Event Dashboard for the organizers
 Route::middleware('auth:api')->prefix('event-dashboard')->group(function () {
     Route::get('{event}/revenue', ShowEventRevenueController::class);
     Route::get('/events/{event}/seating-plan', EventSeatingPlanController::class);
@@ -132,7 +130,6 @@ Route::middleware('auth:api')->prefix('wallets')->group(function () {
     Route::get('/me', GetMyWalletController::class);
 });
 
-
 Route::middleware('auth:api')->group(function () {
     Route::get('/notifications', GetAllNotificationController::class);
     Route::post('/notifications/tokens', AddFirebaseToken::class);
@@ -140,7 +137,6 @@ Route::middleware('auth:api')->group(function () {
 });
 
 // TODO: event_joined, wallet_cash_in, wallet_cash_out, wallet_transfer
-
 
 // Admin Routes
 Route::middleware(['auth:api', 'role:admin'])->name('admin.')->group(function () {
