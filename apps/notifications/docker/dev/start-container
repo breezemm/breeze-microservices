@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+set -e
+
+pnpm install
+composer install
+php artisan key:generate
+php artisan migrate
+
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

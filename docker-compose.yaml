@@ -120,8 +120,8 @@ services:
   wallet:
     build:
       args:
-        uid: 1000
-        user: breeze
+        UID: 1000
+        USER: breeze
       context: ./apps/wallet
       dockerfile: dev.dockerfile
     ports:
@@ -141,22 +141,22 @@ services:
     links:
       - gateway
 
-  notification:
+  notifications:
     restart: unless-stopped
     build:
       args:
-        uid: 1000
-        user: breeze
+        UID: 1000
+        USER: breeze
       context: .
-      dockerfile: ./apps/notification/dev.Dockerfile
+      dockerfile: ./apps/notifications/dev.Dockerfile
     ports:
-      - "8004:80"
+      - "8003:80"
     volumes:
-      - ./apps/notification:/var/www/notification
-      - ./packages:/var/www/notification/packages
-      - ./apps/notification/vendor:/var/www/notification/vendor
-      - ./apps/notification/node_modules:/var/www/notification/node_modules
-      - ./apps/notification/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ./apps/notifications:/var/www/wallet
+      - ./apps/notifications/vendor:/var/www/wallet/vendor
+      - ./apps/notifications/node_modules:/var/www/wallet/node_modules
+      - ./apps/notifications/docker/dev/start-container:/usr/local/bin/start-container
+      - ./apps/notifications/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - kafka
       - redis
