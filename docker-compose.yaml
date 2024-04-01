@@ -117,21 +117,21 @@ services:
     networks:
       - dev
 
-  wallet:
+  wallets:
     build:
       args:
         UID: 1000
         USER: breeze
-      context: ./apps/wallet
-      dockerfile: dev.dockerfile
+      context: .
+      dockerfile: ./apps/wallets/dev.Dockerfile
     ports:
       - 8002:80
     volumes:
-      - ./apps/wallet:/var/www/wallet
-      - ./apps/wallet/vendor:/var/www/wallet/vendor
-      - ./apps/wallet/node_modules:/var/www/wallet/node_modules
-      - ./apps/wallet/docker/dev/start-container:/usr/local/bin/start-container
-      - ./apps/wallet/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ./apps/wallets:/var/www/wallet
+      - ./apps/wallets/vendor:/var/www/wallet/vendor
+      - ./apps/wallets/node_modules:/var/www/wallet/node_modules
+      - ./apps/wallets/docker/dev/start-container:/usr/local/bin/start-container
+      - ./apps/wallets/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - mysql-db
       - redis
