@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Route;
 
 $walletApi = new WalletAPI();
 
+Route::get('/', function () {
+    return response()->json([
+        'status' => 200,
+        'message' => 'Gateway service is running.',
+    ]);
+});
+
 Route::get('/health', function () {
     return response()->json([
         'status' => 200,

@@ -10,6 +10,7 @@ class CreateWalletAction
 {
     /**
      * @throws \Exception
+     * example
      */
     public function handle(User $user): void
     {

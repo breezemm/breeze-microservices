@@ -1,21 +1,21 @@
 {
-    "name": "gateway",
-    "version": "1.0.0",
-    "type": "module",
-    "scripts": {
-        "build": "vite build"
-    },
-    "devDependencies": {
-        "axios": "^1.6.7",
-        "chokidar": "^3.6.0",
-        "laravel-vite-plugin": "^0.8.1",
-        "vite": "^4.0.0"
-    },
-    "dependencies": {
-        "kafkajs": "^2.2.4",
-        "kafkajs-lz4": "2.0.0-beta.0",
-        "kafkajs-snappy": "^1.1.0",
-        "kafkajs-snappy-typescript": "^1.0.2",
-        "snappy": "^7.2.2"
-    }
+  "name": "gateway",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "axios": "^1.6.7",
+    "chokidar": "^3.6.0",
+    "laravel-vite-plugin": "^0.8.1",
+    "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "kafkajs": "^2.2.4",
+    "kafkajs-lz4": "2.0.0-beta.0",
+    "kafkajs-snappy": "^1.1.0",
+    "kafkajs-snappy-typescript": "^1.0.2",
+    "snappy": "^7.2.2"
+  }
 }

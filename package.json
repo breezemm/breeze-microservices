@@ -4,7 +4,6 @@
   "engines": {
     "node": ">=v20.10.0"
   },
-  "packageManager": "bun@1.0.30",
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules dist .next",
