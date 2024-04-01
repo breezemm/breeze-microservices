@@ -99,16 +99,16 @@ services:
     restart: unless-stopped
     build:
       args:
-        uid: 1000
-        user: breeze
+        UID: 1000
+        USER: breeze
       context: .
       dockerfile: ./apps/gateway/dev.Dockerfile
     ports:
       - "8001:80"
     volumes:
-      - ./apps/gateway:/var/www/gateway
-      - ./apps/gateway/vendor:/var/www/gateway/vendor
-      - ./apps/gateway/node_modules:/var/www/gateway/node_modules
+      - ./apps/gateway:/usr/src/app
+      - ./apps/gateway/vendor:/usr/src/app/vendor
+      - ./apps/gateway/node_modules:/usr/src/app/node_modules
       - ./apps/gateway/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - kafka

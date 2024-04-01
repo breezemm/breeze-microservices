@@ -1,13 +1,6 @@
 #!/usr/bin/env sh
 set -e
 
-if [ -e /opt/vendor ]; then
-  cp /opt/vendor /var/www/gateway/vendor -r
-  chown breeze:breeze vendor -R
-  composer setup
-fi
-
-
 composer install
 php artisan key:generate
 php artisan migrate
