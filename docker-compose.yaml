@@ -1,265 +1,225 @@
-networks:
-  dev:
-    name: breeze_development
-    ipam:
-      driver: bridge
-      config:
-        - subnet: 172.28.200.0/24
-          ip_range: 172.28.200.0/24
-          gateway: 172.28.200.1
+name: "breeze"
+version: "3.9"
 
 volumes:
-  mysql:
+  mysql-db:
   redis:
-  kafka:
-  gateway:
+
+networks:
+  dev:
+    driver: bridge
 
 services:
-  php:
-    build:
-      context: ./infra/docker/php
-      args:
-        PHP_VERSION: ${PHP_VERSION}
-        FRANKEN_VERSION: ${FRANKEN_VERSION}
-    image: breeze/php
-    container_name: breeze_php
-
-  node:
-    build:
-      context: ./infra/docker/node
-      args:
-        NODE_VERSION: ${NODE_VERSION}
-        ALPINE_VERSION: ${ALPINE_VERSION}
-    image: breeze/node
-    container_name: breeze_node
-
-  nginx:
-    build:
-      context: ./infra/docker/nginx
-      args:
-        NGINX_VERSION: ${NGINX_VERSION}
-    image: breeze/nginx
-    container_name: breeze_nginx
-    depends_on:
-      gateway:
-        condition: service_healthy
-      wallets:
-        condition: service_healthy
-      notifications:
-        condition: service_healthy
-      suggestion:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "--fail", "nginx" ]
-      retries: 3
-      timeout: 5s
-    networks:
-      dev:
-        ipv4_address: 172.28.200.11
-    ports:
-      - "80:80"
-      - "443:443"
-
-  mysql:
-    restart: always
-    build:
-      context: ./infra/docker/mysql
-      args:
-        MYSQL_VERSION: ${MYSQL_VERSION}
-    image: breeze/mysql
-    container_name: breeze_mysql
-    env_file: .env
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-p${MYSQL_PASSWORD}" ]
-      retries: 3
-      timeout: 5s
-    networks:
-      dev:
-        ipv4_address: 172.28.200.12
-    volumes:
-      - 'mysql:/var/lib/mysql'
-
-  redis:
-    restart: always
-    image: redis:${REDIS_VERSION}-alpine${ALPINE_VERSION}
-    container_name: breeze_redis
-    env_file: .env
-    command: /bin/sh -c 'redis-server --requirepass ${REDIS_PASSWORD}'
-    healthcheck:
-      test: [ "CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping" ]
-      retries: 3
-      timeout: 5s
-    networks:
-      dev:
-        ipv4_address: 172.28.200.13
-    volumes:
-      - 'redis:/data'
-
   zookeeper:
-    restart: always
-    image: confluentinc/cp-zookeeper:${ZOOKEEPER_VERSION}
-    container_name: breeze_zookeeper
+    image: confluentinc/cp-zookeeper:7.5.1
     env_file: .env
-    healthcheck:
-      test: [ "CMD", "nc", "-z", "zookeeper", "2181" ]
-      retries: 3
-      timeout: 5s
+    container_name: zookeeper
+    ports:
+      - 2181:2181
     networks:
-      dev:
-        ipv4_address: 172.28.200.14
+      - dev
 
   kafka:
-    restart: always
-    image: confluentinc/cp-kafka:${KAFKA_VERSION}
-    container_name: breeze_kafka
+    restart: on-failure
+    image: confluentinc/cp-kafka:7.5.1
     env_file: .env
-    healthcheck:
-      test: [ "CMD", "kafka-topics", "--list", "--bootstrap-server", "kafka:9092" ]
-      retries: 3
-      timeout: 30s
+    hostname: kafka
+    container_name: kafka
     depends_on:
-      zookeeper:
-        condition: service_healthy
-    networks:
-      dev:
-        ipv4_address: 172.28.200.15
-    volumes:
-      - 'kafka:/var/lib/kafka'
-
-  gateway:
-    restart: always
-    build:
-      context: ./apps/gateway
-    image: breeze/gateway
-    container_name: breeze_gateway
-    env_file: ./apps/gateway/.env
-    environment:
-      DB_USERNAME: ${MYSQL_USER}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
-      AWS_ENDPOINT: ${AWS_ENDPOINT}
-    depends_on:
-      php:
-        condition: service_healthy
-      node:
-        condition: service_healthy
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
-      mailpit:
-        condition: service_healthy
-    expose:
-      - "8003:80"
-    healthcheck:
-      test: [ "CMD", "curl", "-I", "gateway/health" ]
-      retries: 3
-      timeout: 5s
-    networks:
-      dev:
-        ipv4_address: 172.28.200.16
-    volumes:
-      - 'gateway:/var/www/gateway/storage'
-      - './apps/gateway:/var/www/gateway'
-
-  wallets:
-    restart: always
-    build:
-      context: ./apps/wallets
-    image: breeze/wallets
-    container_name: breeze_wallets
-    env_file: ./apps/wallets/.env
-    environment:
-      DB_USERNAME: ${MYSQL_USER}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-    depends_on:
-      php:
-        condition: service_healthy
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
+      - zookeeper
     ports:
-      - "8002:80"
-    healthcheck:
-      test: [ "CMD", "curl", "-I", "wallets/health" ]
-      retries: 3
-      timeout: 5s
-    networks:
-      dev:
-        ipv4_address: 172.28.200.17
-    volumes:
-      - './apps/wallets:/var/www/wallets'
-
-  notifications:
-    restart: always
-    build:
-      context: ./apps/notifications
-    image: breeze/notifications
-    container_name: breeze_notifications
-    env_file: ./apps/notifications/.env
-    environment:
-      DB_USERNAME: ${MYSQL_USER}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-    depends_on:
-      php:
-        condition: service_healthy
-      node:
-        condition: service_healthy
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "-I", "wallets/health" ]
-      retries: 3
-      timeout: 5s
+      - 9092:9092
     expose:
-      - "8004:80"
-    networks:
-      dev:
-        ipv4_address: 172.28.200.18
-    volumes:
-      - './apps/notifications:/var/www/notifications'
+      - 29092
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:29092 --list
 
-  suggestion:
-    restart: always
-    build:
-      context: ./apps/suggestion
-    image: breeze/suggestion
-    container_name: breeze_suggestion
-    env_file: ./apps/suggestion/.env
-    healthcheck:
-      test: [ "CMD", "node", "healthcheck.js" ]
-      retries: 3
-      timeout: 5s
+      echo -e '🙌 Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallets --replication-factor 1 --partitions 3
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic notifications --replication-factor 1 --partitions 3
+
+
+      echo -e '🐙 Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:29092 --list
+      "
     networks:
-      dev:
-        ipv4_address: 172.28.200.19
-    volumes:
-      - './apps/suggestion:/var/www/suggestion'
+      - dev
+    healthcheck:
+      test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  # # After initializing kafka and creating topics, this container will exit
+  # init-kafka:
+  #   image: confluentinc/cp-kafka:7.5.1
+  #   depends_on:
+  #     - kafka
+  #   entrypoint: [ '/bin/sh', '-c' ]
+  #   command: |
+  #     "
+  #     # blocks until kafka is reachable
+  #     kafka-topics --bootstrap-server kafka:29092 --list
+
+  #     echo -e '🙌 Creating kafka topics'
+  #     kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallets --replication-factor 1 --partitions 3
+  #     kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic notifications --replication-factor 1 --partitions 3
+
+  #     echo -e '🐙 Successfully created the following topics:'
+  #     kafka-topics --bootstrap-server kafka:29092 --list
+  #     "
+  #   networks:
+  #     - dev
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:6.2.0
+    env_file: .env
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - zookeeper
+      - kafka
+    ports:
+      - 8089:8089
+    networks:
+      - dev
+
+  kafka-manager:
+    image: hlebalbau/kafka-manager:latest
+    env_file: .env
+    container_name: kafka-manager
+    depends_on:
+      - kafka
+    ports:
+      - 10000:9000
+    networks:
+      - dev
 
   mailpit:
-    restart: always
-    image: axllent/mailpit:${MAILPIT_VERSION}
-    container_name: breeze_mailpit
-    healthcheck:
-      test: [ "CMD", "nc", "-z", "mailpit", "8025" ]
-      retries: 3
-      timeout: 5s
-    networks:
-      dev:
-        ipv4_address: 172.28.200.20
+    image: axllent/mailpit:latest
+    container_name: mailpit
     ports:
-      - "8025:8025"
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - dev
+
+  redis:
+    image: redis:alpine3.8
+    env_file: .env
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - dev
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 5s
+      timeout: 5s
+
+  gateway:
+    restart: unless-stopped
+    build:
+      args:
+        uid: 1000
+        user: breeze
+      context: .
+      dockerfile: ./apps/gateway/dev.Dockerfile
+    ports:
+      - "8001:80"
+    volumes:
+      - ./apps/gateway:/var/www/gateway
+      - ./apps/gateway/vendor:/var/www/gateway/vendor
+      - ./apps/gateway/node_modules:/var/www/gateway/node_modules
+      - ./apps/gateway/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    depends_on:
+      - kafka
+      - mysql-db
+      - redis
+    networks:
+      - dev
+
+  wallet:
+    build:
+      args:
+        uid: 1000
+        user: breeze
+      context: ./apps/wallet
+      dockerfile: dev.dockerfile
+    ports:
+      - 8002:80
+    volumes:
+      - ./apps/wallet:/var/www/wallet
+      - ./apps/wallet/vendor:/var/www/wallet/vendor
+      - ./apps/wallet/node_modules:/var/www/wallet/node_modules
+      - ./apps/wallet/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    depends_on:
+      - mysql-db
+      - redis
+      - kafka
+    networks:
+      - dev
+    links:
+      - gateway
+
+  notification:
+    restart: unless-stopped
+    build:
+      args:
+        uid: 1000
+        user: breeze
+      context: .
+      dockerfile: ./apps/notification/dev.Dockerfile
+    ports:
+      - "8004:80"
+    volumes:
+      - ./apps/notification:/var/www/notification
+      - ./packages:/var/www/notification/packages
+      - ./apps/notification/vendor:/var/www/notification/vendor
+      - ./apps/notification/node_modules:/var/www/notification/node_modules
+      - ./apps/notification/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    depends_on:
+      - kafka
+      - redis
+      - mysql-db
+    networks:
+      - dev
+
+  #  suggestion:
+  #    build:
+  #      context: .
+  #      dockerfile: ./apps/suggestion/dev.dockerfile
+  #      target: development
+  #    command: pnpm run dev --filter suggestion
+  #    ports:
+  #      - 8003:80
+  #    volumes:
+  #      - .:/usr/src/app
+  #      - /var/www/suggestion/node_modules
+  #    depends_on:
+  #      - kafka
+  #    networks:
+  #      - dev
+
+  mysql-db:
+    image: mysql:8.0
+    restart: always
+    command: --default-authentication-plugin=caching_sha2_password
+    volumes:
+      - ./infra/databases/mysql/init:/docker-entrypoint-initdb.d
+      - mysql-db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dev
