@@ -58,19 +58,6 @@ services:
     networks:
       - dev
 
-  schema-registry:
-    image: confluentinc/cp-schema-registry:6.2.0
-    env_file: .env
-    hostname: schema-registry
-    container_name: schema-registry
-    depends_on:
-      - zookeeper
-      - kafka
-    ports:
-      - 8089:8089
-    networks:
-      - dev
-
 
   mailpit:
     image: axllent/mailpit:latest
@@ -94,6 +81,25 @@ services:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 5s
       timeout: 5s
+
+  mysql-db:
+    image: mysql:8.0
+    restart: always
+    command: --default-authentication-plugin=caching_sha2_password
+    volumes:
+      - ./infra/development/databases/mysql/init:/docker-entrypoint-initdb.d
+      - mysql-db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dev
 
   gateway:
     restart: unless-stopped
@@ -125,7 +131,7 @@ services:
       context: .
       dockerfile: ./apps/wallets/dev.Dockerfile
     ports:
-      - 8002:80
+      - "8002:80"
     volumes:
       - ./apps/wallets:/var/www/wallet
       - ./apps/wallets/vendor:/var/www/wallet/vendor
@@ -164,37 +170,5 @@ services:
     networks:
       - dev
 
-  #  suggestion:
-  #    build:
-  #      context: .
-  #      dockerfile: ./apps/suggestion/dev.dockerfile
-  #      target: development
-  #    command: pnpm run dev --filter suggestion
-  #    ports:
-  #      - 8003:80
-  #    volumes:
-  #      - .:/usr/src/app
-  #      - /var/www/suggestion/node_modules
-  #    depends_on:
-  #      - kafka
-  #    networks:
-  #      - dev
 
-  mysql-db:
-    image: mysql:8.0
-    restart: always
-    command: --default-authentication-plugin=caching_sha2_password
-    volumes:
-      - ./infra/databases/mysql/init:/docker-entrypoint-initdb.d
-      - mysql-db:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - dev
+

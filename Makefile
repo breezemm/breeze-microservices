@@ -19,11 +19,9 @@ tail:
 gateway:
 	@docker-compose exec gateway sh
 
-notification:
-	@docker-compose exec notification sh
+notifications:
+	@docker-compose exec notifications sh
 
-wallet:
-	@docker-compose exec wallet sh
+wallets:
+	@docker-compose exec wallets sh
 
-admin:
-	@docker-compose exec admin sh
