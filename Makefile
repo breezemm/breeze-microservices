@@ -1,6 +1,8 @@
 CURRENT_DIRECTORY := $(shell pwd)
 
-.PHONY: up stop restart build tail gateway
+SERVICE ?= $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
+
+.PHONY: up stop restart build tail gateway a gateway-seed notifications wallets
 
 up:
 	@docker-compose up -d
@@ -10,14 +12,18 @@ stop:
 
 restart: stop up
 
+a:
+	@docker-compose exec $(SERVICE)
+
 build:
 	@docker-compose up -d --build
 
 tail:
 	@docker-compose logs -f
 
-gateway:
-	@docker-compose exec gateway sh
+
+gateway-seed:
+	@docker-compose exec gateway php artisan db:seed
 
 notifications:
 	@docker-compose exec notifications sh

@@ -4,6 +4,6 @@ set -e
 pnpm install
 composer install
 php artisan key:generate
-php artisan migrate
+php artisan migrate:fresh
 
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
