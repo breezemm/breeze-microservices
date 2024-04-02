@@ -33,7 +33,9 @@ RUN install-php-extensions \
     pcntl \
     opcache \
     mongodb \
-    gd
+    gd \
+    intl \
+    bcmath
 
 RUN apk del autoconf g++ make && \
     rm -rf /tmp/* && \
@@ -42,9 +44,14 @@ RUN apk del autoconf g++ make && \
 RUN npm install -g pnpm
 
 COPY package*.json .
+COPY pnpm-lock.yaml .
+RUN pnpm install
+
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 COPY ./apps/wallets .
+RUN composer install
 
 RUN chown -R $USER:www-data storage
 RUN chown -R $USER:www-data bootstrap/cache
