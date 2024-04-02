@@ -185,6 +185,9 @@ importers:
       axios:
         specifier: ^1.6.4
         version: 1.6.7
+      chokidar:
+        specifier: ^3.6.0
+        version: 3.6.0
       laravel-vite-plugin:
         specifier: ^1.0
         version: 1.0.2(vite@5.1.4)

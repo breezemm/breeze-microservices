@@ -13,6 +13,9 @@ services:
     container_name: zookeeper
     ports:
       - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     networks:
       - dev
 
@@ -26,9 +29,17 @@ services:
       - zookeeper
     ports:
       - 9092:9092
-    expose:
-      - 29092
-    entrypoint: [ "/bin/sh", "-c" ]
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_JMX_PORT: 9999
+      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-host.docker.internal}
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
     networks:
       - dev
     healthcheck:
@@ -37,7 +48,6 @@ services:
       timeout: 10s
       retries: 5
 
-  # After initializing kafka and creating topics, this container will exit
   init-kafka:
     image: confluentinc/cp-kafka:7.5.1
     depends_on:
@@ -133,10 +143,9 @@ services:
     ports:
       - "8002:80"
     volumes:
-      - ./apps/wallets:/var/www/wallet
-      - ./apps/wallets/vendor:/var/www/wallet/vendor
-      - ./apps/wallets/node_modules:/var/www/wallet/node_modules
-      - ./apps/wallets/docker/dev/start-container:/usr/local/bin/start-container
+      - ./apps/wallets:/usr/src/app
+      - ./apps/wallets/vendor:/usr/src/app/vendor
+      - ./apps/wallets/node_modules:/usr/src/app/node_modules
       - ./apps/wallets/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - mysql-db

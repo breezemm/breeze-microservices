@@ -2,43 +2,41 @@
 
 The monorepo for the breeze microservices.
 
-## Services and Design Decisions
+## Prerequisites
 
-| Service              | Description                                                                                                                 | Tech                            |
-|----------------------|-----------------------------------------------------------------------------------------------------------------------------|---------------------------------|
-| API Gateway          | The API Gateway is the entry point for all clients.<br/> It is responsible for routing requests to the appropriate service. | [Laravel](https://laravel.com/) |
-| Suggestion Service   | The Suggestion Service is responsible for providing suggestions to the user.                                                | [Nest.js](https://nestjs.com/)  |
-| Wallet Service       | The Wallet Service is responsible for managing user's wallet.                                                               | [Laravel](https://laravel.com/) |
-| Notification Service | The Notification Service is responsible for managing user's notification.                                                   | [Nest.js](https://nestjs.com/)  |
+Before you begin, ensure you have met the following requirements:
+
+| Windows        | Linux  | MacOS    |
+|----------------|--------|----------|
+| Docker Desktop | Docker | Orbstack |
 
 ## Endpoints
 
-| Service              | Endpoint Production                           | Endpoint Development | Port  |
-|----------------------|-----------------------------------------------|----------------------|-------|
-| API Gateway          | https://breeze-backend-api.vercel.app/        | http://0.0.0.0       | 8001  |
-| Wallet Service       |                                               | http://0.0.0.0       | 8002  |
-| Suggestion Service   | https://breeze-suggestion-service.vercel.app/ | http://localhost     | 8003  |
-| Notification Service |                                               | http://localhost     | 8004  |
-| ZooKeeper            |                                               | http://localhost     | 2181  |
-| Kafka                |                                               | http://localhost     | 29092 |
-| Schema Registry      |                                               | http://localhost     | 8089  |
-| Kafka Manager        |                                               | http://localhost     | 10000 |
-| Mailpit SMTP         |                                               | http://localhost     | 1025  |
-| Mailpit Dashboard    |                                               | http://localhost     | 8025  |
-| Redis                |                                               | http://localhost     | 6379  |
-| Gateway MySQL        |                                               | http://localhost     | 33061 |
-| Wallet MySQL         |                                               | http://localhost     | 33062 |
+| Service Name         | Production           | Endpoint Development | Port  |
+|----------------------|----------------------|----------------------|-------|
+| API Gateway          | https://breezemm.com | 127.0.0.1            | 8001  |
+| Wallet Service       |                      | 127.0.0.1            | 8002  |
+| Notification Service |                      | 127.0.0.1            | 8003  |
+| MySQL Database       |                      | 127.0.0.1            | 3306  |
+| ZooKeeper            |                      | 127.0.0.1            | 2181  |
+| Kafka                |                      | 127.0.0.1            | 29092 |
+| Mailpit SMTP         |                      | 127.0.0.1            | 1025  |
+| Mailpit Dashboard    |                      | 127.0.0.1            | 8025  |
+| Redis                |                      | 127.0.0.1            | 6379  |
 
-## Credentials for Development
+## MySQL Database Credentials
 
-| Database      | Username | Password | Host      |
-|---------------|----------|----------|-----------|
-| Gateway MySQL | root     | password | 127.0.0.1 |
-| Wallet MySQL  | root     | password | 127.0.0.1 |
+| Name      | Value        |
+|-----------|--------------|
+| User Name | root         |
+| Password  | Not Required |
 
-## Development
+### Databases according to services
 
-## Pre-requisites
+| Service Name          | Database Name |
+|-----------------------|---------------|
+| Gateway Service       | gateway       |
+| Wallets Service       | wallets       |
+| Notifications Service | notifications |
 
-- Docker Desktop (for Windows and Linux)
-- Orbstack (for Mac)
+
