@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 $walletApi = new WalletAPI();
 
 Route::get('/', function () {
+    \App\Jobs\SendEmailVerificationCodeJob::dispatch('aungmyatmoe834@gmail.com', 'hello world');
+
     return response()->json([
         'status' => 200,
         'message' => 'Gateway service is running.',
