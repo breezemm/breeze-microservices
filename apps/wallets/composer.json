@@ -17,6 +17,7 @@
         "laravel/pail": "^1.1",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "mateusjunges/laravel-kafka": "^2.0",
         "spatie/laravel-data": "^4.4",
         "tightenco/ziggy": "^2.0"
     },
