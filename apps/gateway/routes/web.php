@@ -59,3 +59,10 @@ Route::get('/payments', function (Request $request) use ($walletApi) {
 
     return $response->json();
 });
+
+
+Route::get('/otp', function () {
+    $otp = new \App\Common\OTP();
+
+    dd($otp->generateOTP('numeric'));
+});
