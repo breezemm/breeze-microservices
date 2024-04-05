@@ -60,9 +60,13 @@ Route::get('/payments', function (Request $request) use ($walletApi) {
     return $response->json();
 });
 
-
 Route::get('/otp', function () {
     $otp = new \App\Common\OTP();
 
-    dd($otp->generateOTP('numeric'));
+    $otp->generate('aungmyatmoe834@gmail.com');
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'OTP generated successfully.',
+    ]);
 });
