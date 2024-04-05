@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\OneTimePassword;
 use Illuminate\Console\Command;
 
 class CleanExpiredOTPCommand extends Command
@@ -11,7 +12,7 @@ class CleanExpiredOTPCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:clean-expired-o-t-p-command';
+    protected $signature = 'otp:clean';
 
     /**
      * The console command description.
@@ -23,8 +24,21 @@ class CleanExpiredOTPCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
-        //
+        $this->info('🧹 Cleaning expired OTPs.');
+
+        try {
+            OneTimePassword::where('expires_at', '<', now())
+                ->orWhere('status', 'verified')
+                ->delete();
+        } catch (\Exception $e) {
+            $this->error('Failed to clean expired OTPs.');
+            $this->error($e->getMessage());
+
+            return 1;
+        }
+
+        return 0;
     }
 }

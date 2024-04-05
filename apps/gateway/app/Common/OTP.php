@@ -4,6 +4,7 @@ namespace App\Common;
 
 use App\Models\OneTimePassword;
 use Illuminate\Encryption\MissingAppKeyException;
+use Illuminate\Support\Facades\Cache;
 
 class OTP
 {
@@ -14,23 +15,27 @@ class OTP
     {
         $type = $type ?? OTPTypeEnum::Numeric;
 
-        $isExist = OneTimePassword::where('identifier', $identifier)
-            ->where('status', 'pending')
-            ->where('expires_at', '>', now())
-            ->exists();
+        Cache::remember("identifier:$identifier", $expireAt, function () use ($identifier, $type, $length, $expireAt) {
+            $isExist = OneTimePassword::where('identifier', $identifier)
+                ->where('status', 'pending')
+                ->where('expires_at', '>', now())
+                ->exists();
 
-        if ($isExist) {
-            throw new \InvalidArgumentException('OTP is already generated.');
-        }
+            if ($isExist) {
+                throw new \InvalidArgumentException('OTP is already generated.');
+            }
 
-        OneTimePassword::create([
-            'identifier' => $identifier,
-            'otp' => $this->generateOTP($type, $length),
-            'status' => 'pending',
-            'expires_at' => now()->addSeconds($expireAt),
-        ]);
+            OneTimePassword::create([
+                'identifier' => $identifier,
+                'otp' => $this->generateOTP($type, $length),
+                'status' => 'pending',
+                'expires_at' => now()->addSeconds($expireAt),
+            ]);
 
-        return $this->generateOTP($type, $length);
+            return $this->generateOTP($type, $length);
+        });
+
+        return Cache::get("identifier:$identifier");
     }
 
     public function verify(string $identifier, string $otp): bool
@@ -52,7 +57,6 @@ class OTP
 
     public function generateOTP(OTPTypeEnum $type, int $length): string
     {
-
         return match ($type) {
             OTPTypeEnum::Numeric => $this->generateNumericOTP($length),
             OTPTypeEnum::Alphanumeric => $this->generateAlphaNumericOTP($length),
