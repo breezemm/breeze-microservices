@@ -9,44 +9,41 @@ use Illuminate\Support\Facades\Cache;
 class OTP
 {
     /**
-     * @param  int|null  $expireAt  in seconds
+     * @param int|null $expireAt in seconds
+     * @return string One Time Password
      */
     public function generate(string $identifier, ?OTPTypeEnum $type = null, ?int $length = 6, ?int $expireAt = 120): string
     {
         $type = $type ?? OTPTypeEnum::Numeric;
 
-        Cache::remember("identifier:$identifier", $expireAt, function () use ($identifier, $type, $length, $expireAt) {
-            $isExist = OneTimePassword::where('identifier', $identifier)
-                ->where('status', 'pending')
-                ->where('expires_at', '>', now())
-                ->exists();
+        $isExist = OneTimePassword::where('identifier', $identifier)
+            ->where('status', 'pending')
+            ->where('expires_at', '>', now())
+            ->exists();
 
-            if ($isExist) {
-                throw new \InvalidArgumentException('OTP is already generated.');
-            }
+        if ($isExist) {
+            throw new \InvalidArgumentException('OTP is already generated.');
+        }
 
-            OneTimePassword::create([
-                'identifier' => $identifier,
-                'otp' => $this->generateOTP($type, $length),
-                'status' => 'pending',
-                'expires_at' => now()->addSeconds($expireAt),
-            ]);
+        OneTimePassword::create([
+            'identifier' => $identifier,
+            'otp' => $this->generateOTP($type, $length),
+            'status' => 'pending',
+            'expires_at' => now()->addSeconds($expireAt),
+        ]);
 
-            return $this->generateOTP($type, $length);
-        });
-
-        return Cache::get("identifier:$identifier");
+        return $this->generateOTP($type, $length);
     }
 
     public function verify(string $identifier, string $otp): bool
     {
         $otpRecord = OneTimePassword::where('identifier', $identifier)
             ->where('otp', $otp)
-            ->where('status', 'pending')
-            ->where('expires_at', '>', now())
+            ->orWhere('status', 'pending')
+            ->orWhere('expires_at', '>', now())
             ->first();
 
-        if (! $otpRecord) {
+        if (!$otpRecord) {
             return false;
         }
 
@@ -55,7 +52,7 @@ class OTP
         return true;
     }
 
-    public function generateOTP(OTPTypeEnum $type, int $length): string
+    private function generateOTP(OTPTypeEnum $type, int $length): string
     {
         return match ($type) {
             OTPTypeEnum::Numeric => $this->generateNumericOTP($length),
@@ -75,20 +72,20 @@ class OTP
     {
         $secret = config('app.key');
 
-        if (! $secret) {
+        if (!$secret) {
             throw new MissingAppKeyException();
         }
 
         $time = floor(time());
-        $binaryTime = pack('N*', 0).pack('N*', $time);
+        $binaryTime = pack('N*', 0) . pack('N*', $time);
         $hash = hash_hmac('sha1', $binaryTime, $secret, true);
         $offset = ord(substr($hash, -1)) & 0x0F;
 
-        return (string) (
-            ((ord($hash[$offset + 0]) & 0x7F) << 24) |
-            ((ord($hash[$offset + 1]) & 0xFF) << 16) |
-            ((ord($hash[$offset + 2]) & 0xFF) << 8) |
-            (ord($hash[$offset + 3]) & 0xFF)
-        ) % pow(10, $length);
+        return (string)(
+                ((ord($hash[$offset + 0]) & 0x7F) << 24) |
+                ((ord($hash[$offset + 1]) & 0xFF) << 16) |
+                ((ord($hash[$offset + 2]) & 0xFF) << 8) |
+                (ord($hash[$offset + 3]) & 0xFF)
+            ) % pow(10, $length);
     }
 }

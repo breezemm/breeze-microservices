@@ -2,35 +2,32 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Common\OTP;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\ProfileImageRequest;
 use App\Http\Requests\V1\Auth\ValidationRequest;
-use App\Jobs\SendEmailVerificationCodeJob;
+use App\Jobs\SendEmailVerificationOTPCodeJob;
 use App\Models\VerificationCode;
 use App\Support\CodeGenerator;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ValidationController extends Controller implements ShouldQueue
 {
+    public function __construct(
+        public readonly OTP $otp,
+    )
+    {
+    }
+
     public function validateEmail(ValidationRequest $request)
     {
-        if (! $request->validated()) {
-            abort(422, 'Email (or) Phone Number is not valid');
-        }
+        $email = $request->validated('email');
 
-        $verificationCode = CodeGenerator::generate();
+        $otpCode = $this->otp->generate(identifier: $email);
 
-        VerificationCode::create(
-            [
-                'email' => $request->email,
-                'code' => $verificationCode,
-                'type' => $request->type,
-                'expires_at' => now()->addMinutes(2),
-            ]);
-
-        dispatch(new SendEmailVerificationCodeJob(
-            email: $request->email,
-            verificationCode: $verificationCode,
+        dispatch(new SendEmailVerificationOTPCodeJob(
+            email: $email,
+            verificationCode: $otpCode,
         ));
 
         return response()->json([
@@ -38,35 +35,6 @@ class ValidationController extends Controller implements ShouldQueue
         ]);
     }
 
-    public function resendVerificationCode(ValidationRequest $request)
-    {
-
-        if (! $request->validated()) {
-            abort(422, 'Email (or) Phone Number is not valid');
-        }
-
-        $verificationCodeModel = VerificationCode::where('email', $request->email)->first();
-
-        if (! $verificationCodeModel?->expires_at->addMinutes(2)->isPast()) {
-            abort(422, 'Verification code is not expired yet');
-        }
-
-        $verificationCode = CodeGenerator::generate();
-
-        $verificationCodeModel->update([
-            'code' => $verificationCode,
-            'expires_at' => now()->addMinutes(2),
-        ]);
-
-        dispatch(new SendEmailVerificationCodeJob(
-            email: $request->email,
-            verificationCode: $verificationCode,
-        ));
-
-        return response()->json([
-            'message' => 'Verification code sent successfully',
-        ]);
-    }
 
     public function validateProfileImage(ProfileImageRequest $request)
     {

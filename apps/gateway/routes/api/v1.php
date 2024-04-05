@@ -39,10 +39,11 @@ use App\Http\Controllers\Api\V1\UserEventCheckInController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\Api\V1\Wallet\GetMyWalletController;
+use App\Http\Controllers\OTPController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Requests\V1\Auth\VerifyController;
+use App\Http\Requests\V1\Auth\VerifyOTPController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/public/timeline', PublicTimelineController::class);
@@ -53,9 +54,9 @@ Route::prefix('users')->group(function () {
     Route::post('/sign-in', [AuthController::class, 'login']);
     Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 
-    Route::post('/validate', [ValidationController::class, 'validateEmail']);
-    Route::post('/verify', VerifyController::class)->middleware('throttle:5,1');
-    Route::post('/resend', [ValidationController::class, 'resendVerificationCode'])->middleware('throttle:5,1');
+    Route::post('/validate', [ValidationController::class, 'validateEmail']); // validate email or phone number
+    Route::post('/verify', [OTPController::class, 'verify'])->middleware('throttle:5,1');
+    Route::post('/resend', [OTPController::class, 'resend'])->middleware('throttle:5,1');
 
     Route::post('/validate-profile-image', [ValidationController::class, 'validateProfileImage']);
     Route::get('/interests', InterestController::class);
