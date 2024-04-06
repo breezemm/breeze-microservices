@@ -30,8 +30,7 @@ class CleanExpiredOTPCommand extends Command
         $this->info('🧹 Cleaning expired OTPs.');
 
         try {
-            OneTimePassword::where('expires_at', '<', now())
-                ->delete();
+            OneTimePassword::where('expires_at', '<', now())->delete();
         } catch (Exception $e) {
             $this->error('Failed to clean expired OTPs.');
             $this->error($e->getMessage());

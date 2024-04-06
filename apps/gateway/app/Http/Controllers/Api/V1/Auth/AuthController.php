@@ -7,13 +7,13 @@ use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegisterRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Exception;
 
 class AuthController extends Controller
 {
@@ -28,7 +28,7 @@ class AuthController extends Controller
 
             $data['password'] = Hash::make($data['password']);
             $data['date_of_birth'] = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
-            $data['username'] = Str::slug($data['name'] . '_' . Str::random(5), '_');
+            $data['username'] = Str::slug($data['name'].'_'.Str::random(5), '_');
 
             DB::beginTransaction();
             $user = User::create($data);
@@ -46,10 +46,10 @@ class AuthController extends Controller
 
             $accessToken = $user->createToken('access_token')->accessToken;
 
-//            TODO: Uncomment this line to create wallet for user
-//            (new CreateWalletAction)->handle($user);
-//            TODO: Uncomment this line to identify user
-//            (new IdentifyUserAction)->handle($user);
+            //            TODO: Uncomment this line to create wallet for user
+            //            (new CreateWalletAction)->handle($user);
+            //            TODO: Uncomment this line to identify user
+            //            (new IdentifyUserAction)->handle($user);
 
             DB::commit();
 
@@ -75,7 +75,7 @@ class AuthController extends Controller
         $validatedUser = $request->validated();
         $auth = auth()->attempt($validatedUser);
 
-        abort_if(!$auth, 401, 'Invalid credentials');
+        abort_if(! $auth, 401, 'Invalid credentials');
 
         $accessToken = auth()->user()->createToken('access_token')->accessToken;
 
@@ -112,7 +112,7 @@ class AuthController extends Controller
         $user = User::whereUsername($username)->firstOrFail();
         auth()->user()->attachFollowStatus($user);
 
-        return Cache::remember($user->username, 60 * 60 * 24, fn() => response()->json([
+        return Cache::remember($user->username, 60 * 60 * 24, fn () => response()->json([
             'data' => [
                 'events_count' => $user->events()->count(),
                 'followers_count' => $user->followers()->count(),

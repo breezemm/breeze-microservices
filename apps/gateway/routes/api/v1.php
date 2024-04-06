@@ -43,7 +43,6 @@ use App\Http\Controllers\OTPController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Requests\V1\Auth\VerifyOTPController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/public/timeline', PublicTimelineController::class);

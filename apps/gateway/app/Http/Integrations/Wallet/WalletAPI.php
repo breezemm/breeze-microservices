@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Redis;
 use Saloon\Http\Connector;
 use Saloon\Traits\Plugins\AcceptsJson;
 
-
 class WalletAPI extends Connector
 {
     use AcceptsJson;

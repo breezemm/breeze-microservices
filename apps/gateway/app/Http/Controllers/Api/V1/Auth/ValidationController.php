@@ -13,29 +13,31 @@ class ValidationController extends Controller implements ShouldQueue
 {
     public function __construct(
         public readonly OTP $otp,
-    )
-    {
+    ) {
     }
 
     public function validateEmail(ValidationRequest $request)
     {
         $email = $request->validated('email');
 
-        $otpCode = $this->otp->generate(identifier: $email, expireAt: 10);
+        $otpCode = $this->otp->generate(identifier: $email);
 
         dispatch(new SendEmailVerificationOTPCodeJob(
             email: $email,
             verificationCode: $otpCode,
         ));
 
-        return response()->json([
+        $response = app()->isProduction() ? [
             'message' => 'Email Verification Code sent successfully',
-        ]);
+        ] : [
+            'message' => 'Email Verification Code sent successfully',
+            'otp' => $otpCode,
+        ];
+
+        return response()->json($response);
     }
 
-
-    public
-    function validateProfileImage(ProfileImageRequest $request)
+    public function validateProfileImage(ProfileImageRequest $request)
     {
         return response()->json([
             'message' => 'Profile image is valid',
