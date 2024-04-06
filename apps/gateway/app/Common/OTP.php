@@ -4,7 +4,6 @@ namespace App\Common;
 
 use App\Models\OneTimePassword;
 use Illuminate\Encryption\MissingAppKeyException;
-use Illuminate\Support\Facades\Cache;
 
 class OTP
 {
@@ -12,23 +11,13 @@ class OTP
      * @param int|null $expireAt in seconds
      * @return string One Time Password
      */
-    public function generate(string $identifier, ?OTPTypeEnum $type = null, ?int $length = 6, ?int $expireAt = 120): string
+    public function generate(string $identifier, ?OTPTypeEnum $type = null, ?int $length = 6, ?int $expireAt = 0): string
     {
         $type = $type ?? OTPTypeEnum::Numeric;
-
-        $isExist = OneTimePassword::where('identifier', $identifier)
-            ->where('status', 'pending')
-            ->where('expires_at', '>', now())
-            ->exists();
-
-        if ($isExist) {
-            throw new \InvalidArgumentException('OTP is already generated.');
-        }
 
         OneTimePassword::create([
             'identifier' => $identifier,
             'otp' => $this->generateOTP($type, $length),
-            'status' => 'pending',
             'expires_at' => now()->addSeconds($expireAt),
         ]);
 
@@ -47,7 +36,6 @@ class OTP
             return false;
         }
 
-        $otpRecord->update(['status' => 'verified']);
 
         return true;
     }
@@ -76,7 +64,7 @@ class OTP
             throw new MissingAppKeyException();
         }
 
-        $time = floor(time());
+        $time = floor(microtime(time()));
         $binaryTime = pack('N*', 0) . pack('N*', $time);
         $hash = hash_hmac('sha1', $binaryTime, $secret, true);
         $offset = ord(substr($hash, -1)) & 0x0F;

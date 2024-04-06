@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
             $table->string('identifier')->index();
             $table->string('otp')->index();
-            $table->string('status')->default('pending')->index(); // pending, verified, expired
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });

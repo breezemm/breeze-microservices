@@ -10,7 +10,6 @@ class OneTimePassword extends Model
     protected $fillable = [
         'identifier',
         'otp',
-        'status',
         'expires_at',
     ];
 }

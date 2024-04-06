@@ -22,8 +22,8 @@ class ValidationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'nullable|numeric|unique:users,phone',
+            'email' => 'required|email',
+            'phone' => 'nullable|numeric',
             'type' => 'required|in:email,phone',
             'code' => 'nullable|numeric|digits:6',
         ];

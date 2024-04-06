@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\ProfileImageRequest;
 use App\Http\Requests\V1\Auth\ValidationRequest;
 use App\Jobs\SendEmailVerificationOTPCodeJob;
-use App\Models\VerificationCode;
-use App\Support\CodeGenerator;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ValidationController extends Controller implements ShouldQueue
@@ -23,7 +21,7 @@ class ValidationController extends Controller implements ShouldQueue
     {
         $email = $request->validated('email');
 
-        $otpCode = $this->otp->generate(identifier: $email);
+        $otpCode = $this->otp->generate(identifier: $email, expireAt: 10);
 
         dispatch(new SendEmailVerificationOTPCodeJob(
             email: $email,
@@ -36,7 +34,8 @@ class ValidationController extends Controller implements ShouldQueue
     }
 
 
-    public function validateProfileImage(ProfileImageRequest $request)
+    public
+    function validateProfileImage(ProfileImageRequest $request)
     {
         return response()->json([
             'message' => 'Profile image is valid',
