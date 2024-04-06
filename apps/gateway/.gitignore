@@ -1,5 +1,5 @@
 .pnpm-store/
-.turbo
+.turbo/
 frankenphp
 /.phpunit.cache
 /node_modules
