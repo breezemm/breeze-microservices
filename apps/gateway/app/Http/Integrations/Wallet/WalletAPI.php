@@ -7,7 +7,7 @@ use Ackintosh\Ganesha\GuzzleMiddleware;
 use Ackintosh\Ganesha\Storage\Adapter\Redis as GeishaRedis;
 use App\Http\Integrations\Wallet\Resources\PaymentResource;
 use App\Http\Integrations\Wallet\Resources\WalletResource;
-use Illuminate\Support\Facades\Redis;
+use Predis\Client;
 use Saloon\Http\Connector;
 use Saloon\Traits\Plugins\AcceptsJson;
 
@@ -23,10 +23,16 @@ class WalletAPI extends Connector
 
     public function __construct()
     {
+        //        ->adapter(new GeishaRedis(Redis::connection()->client()))
+
         $circuitBreakerBuilder = Builder::withRateStrategy()
             ->timeWindow(30)
-            ->adapter(new GeishaRedis(Redis::connection()->client()))
             ->failureRateThreshold(50)
+            ->adapter(new GeishaRedis(new Client([
+                'scheme' => 'tcp',
+                'host' => 'redis',
+                'port' => 6379,
+            ])))
             ->minimumRequests(10)
             ->intervalToHalfOpen(5)
             ->build();

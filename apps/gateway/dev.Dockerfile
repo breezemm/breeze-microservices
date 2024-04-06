@@ -45,6 +45,7 @@ COPY package*.json .
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY ./apps/gateway .
+RUN composer install
 
 RUN chown -R $USER:www-data storage
 RUN chown -R $USER:www-data bootstrap/cache

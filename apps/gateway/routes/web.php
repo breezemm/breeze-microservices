@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 $walletApi = new WalletAPI();
 
 Route::get('/', function () {
-    \App\Jobs\SendEmailVerificationOTPCodeJob::dispatch('aungmyatmoe834@gmail.com', 'hello world');
 
     return response()->json([
         'status' => 200,
