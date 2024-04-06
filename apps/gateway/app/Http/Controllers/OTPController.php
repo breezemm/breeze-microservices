@@ -15,7 +15,7 @@ class OTPController extends Controller
     {
     }
 
-    public function verify(ValidationRequest $request): JsonResponse
+    public function verify(ValidationRequest $request)
     {
         $isVerifiedOTP = $this->otp->verify(
             identifier: $request->validated('email'),

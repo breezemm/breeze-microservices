@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\OneTimePassword;
+use Exception;
 use Illuminate\Console\Command;
 
 class CleanExpiredOTPCommand extends Command
@@ -30,9 +31,8 @@ class CleanExpiredOTPCommand extends Command
 
         try {
             OneTimePassword::where('expires_at', '<', now())
-                ->orWhere('status', 'verified')
                 ->delete();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->error('Failed to clean expired OTPs.');
             $this->error($e->getMessage());
 

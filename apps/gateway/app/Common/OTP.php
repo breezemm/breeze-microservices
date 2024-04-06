@@ -3,41 +3,41 @@
 namespace App\Common;
 
 use App\Models\OneTimePassword;
+use Carbon\Carbon;
 use Illuminate\Encryption\MissingAppKeyException;
+use Illuminate\Support\Facades\Log;
 
 class OTP
 {
     /**
-     * @param int|null $expireAt in seconds
+     * @param string $identifier
+     * @param OTPTypeEnum|null $type
+     * @param int|null $length
+     * @param Carbon|null $expireAt in seconds
      * @return string One Time Password
      */
-    public function generate(string $identifier, ?OTPTypeEnum $type = null, ?int $length = 6, ?int $expireAt = 0): string
+    public function generate(string $identifier, ?OTPTypeEnum $type = null, ?int $length = 6, ?Carbon $expireAt = null): string
     {
         $type = $type ?? OTPTypeEnum::Numeric;
+        $otp = $this->generateOTP($type, $length);
 
         OneTimePassword::create([
             'identifier' => $identifier,
-            'otp' => $this->generateOTP($type, $length),
-            'expires_at' => now()->addSeconds($expireAt),
+            'otp' => $otp,
+            'expires_at' => $expireAt ?? now()->addMinutes(2),
         ]);
 
-        return $this->generateOTP($type, $length);
+        return $otp;
     }
 
     public function verify(string $identifier, string $otp): bool
     {
         $otpRecord = OneTimePassword::where('identifier', $identifier)
-            ->where('otp', $otp)
-            ->orWhere('status', 'pending')
-            ->orWhere('expires_at', '>', now())
-            ->first();
+            ->orWhere('otp', $otp)
+            ->where('expires_at', '>=', now())
+            ->latest();
 
-        if (!$otpRecord) {
-            return false;
-        }
-
-
-        return true;
+        return $otpRecord->exists();
     }
 
     private function generateOTP(OTPTypeEnum $type, int $length): string
@@ -64,7 +64,7 @@ class OTP
             throw new MissingAppKeyException();
         }
 
-        $time = floor(microtime(time()));
+        $time = floor(time());
         $binaryTime = pack('N*', 0) . pack('N*', $time);
         $hash = hash_hmac('sha1', $binaryTime, $secret, true);
         $offset = ord(substr($hash, -1)) & 0x0F;

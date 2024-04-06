@@ -55,8 +55,8 @@ Route::prefix('users')->group(function () {
     Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 
     Route::post('/validate', [ValidationController::class, 'validateEmail'])->middleware('throttle:5,1'); // validate email or phone number
-    Route::post('/verify', [OTPController::class, 'verify'])->middleware('throttle:5,1');
-    Route::post('/resend', [OTPController::class, 'resend'])->middleware('throttle:5,1');
+    Route::post('/verify', [OTPController::class, 'verify']);
+    Route::post('/resend', [OTPController::class, 'resend']);
 
     Route::post('/validate-profile-image', [ValidationController::class, 'validateProfileImage']);
     Route::get('/interests', InterestController::class);
