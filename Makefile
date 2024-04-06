@@ -21,6 +21,8 @@ build:
 tail:
 	@docker-compose logs -f
 
+gateway:
+	@docker-compose exec gateway sh
 
 gateway-seed:
 	@docker-compose exec gateway php artisan db:seed
