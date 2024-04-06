@@ -83,6 +83,7 @@ return [
             'mailers' => [
                 'smtp',
                 'log',
+                'ses'
             ],
         ],
     ],
