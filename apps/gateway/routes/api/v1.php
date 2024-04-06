@@ -47,6 +47,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/public/timeline', PublicTimelineController::class);
 
+Route::post('/otp/verify', [OTPController::class, 'verify']);
+Route::post('/otp/resend', [OTPController::class, 'resend']);
+
 Route::prefix('users')->group(function () {
 
     Route::post('/sign-up', [AuthController::class, 'register']);
@@ -54,8 +57,7 @@ Route::prefix('users')->group(function () {
     Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
 
     Route::post('/validate', [ValidationController::class, 'validateEmail'])->middleware('throttle:5,1'); // validate email or phone number
-    Route::post('/verify', [OTPController::class, 'verify']);
-    Route::post('/resend', [OTPController::class, 'resend']);
+
 
     Route::post('/validate-profile-image', [ValidationController::class, 'validateProfileImage']);
     Route::get('/interests', InterestController::class);
