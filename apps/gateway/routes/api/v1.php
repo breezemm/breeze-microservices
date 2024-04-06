@@ -69,7 +69,7 @@ Route::middleware('auth:api')->prefix('/users')
 
         Route::get('/{user:username}/activities', ProfileTimeline::class);
 
-        Route::get('/{user:username}/profile', [AuthController::class, 'getProfile']);
+        Route::get('/{user:username}/profile', [AuthController::class, 'getUserProfileByUsername']);
         Route::get('/{user:username}/followers', FollowerController::class);
         Route::get('/{user:username}/followings', FollowingController::class);
 

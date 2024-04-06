@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
-use App\Actions\CreateWalletAction;
-use App\Actions\IdentifyUserAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegisterRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
-use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -29,7 +28,7 @@ class AuthController extends Controller
 
             $data['password'] = Hash::make($data['password']);
             $data['date_of_birth'] = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
-            $data['username'] = Str::slug($data['name'].'_'.Str::random(5), '_');
+            $data['username'] = Str::slug($data['name'] . '_' . Str::random(5), '_');
 
             DB::beginTransaction();
             $user = User::create($data);
@@ -45,20 +44,29 @@ class AuthController extends Controller
                 'least_favorite_id' => $data['least_favorite'],
             ]);
 
-            $token = $user->createToken('access_token')->accessToken;
+            $accessToken = $user->createToken('access_token')->accessToken;
 
-            (new CreateWalletAction)->handle($user);
-            (new IdentifyUserAction)->handle($user);
+//            TODO: Uncomment this line to create wallet for user
+//            (new CreateWalletAction)->handle($user);
+//            TODO: Uncomment this line to identify user
+//            (new IdentifyUserAction)->handle($user);
 
             DB::commit();
 
-            return json_response(Response::HTTP_CREATED, 'User has been created successfully', [
-                'access_token' => $token,
+            return response()->json([
+                'message' => 'User has been registered successfully',
+                'data' => [
+                    'access_token' => $accessToken,
+                ],
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
 
-            return json_response(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
+            Log::error($exception->getMessage());
+
+            return response()->json([
+                'message' => 'User registration failed',
+            ]);
         }
     }
 
@@ -66,14 +74,16 @@ class AuthController extends Controller
     {
         $validatedUser = $request->validated();
         $auth = auth()->attempt($validatedUser);
-        if (! $auth) {
-            return json_response(Response::HTTP_UNPROCESSABLE_ENTITY, 'Invalid credentials');
-        }
 
-        $token = auth()->user()->createToken('access_token')->accessToken;
+        abort_if(!$auth, 401, 'Invalid credentials');
 
-        return json_response(200, 'User has been logged in successfully', [
-            'access_token' => $token,
+        $accessToken = auth()->user()->createToken('access_token')->accessToken;
+
+        return response()->json([
+            'message' => 'User has been logged in successfully',
+            'data' => [
+                'access_token' => $accessToken,
+            ],
         ]);
 
     }
@@ -83,7 +93,7 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
         Cache::delete(auth()->user()->username);
 
-        return \response()->noContent();
+        return response()->noContent();
     }
 
     public function getAuthUser()
@@ -94,17 +104,15 @@ class AuthController extends Controller
             ->load('interests:id,name')
             ->load('address');
 
-        return Cache::store('redis')->remember(auth()->user()->username, 60 * 60 * 24, function () use ($user) {
-            return $this->getProfile($user->username);
-        });
+        return $this->getUserProfileByUsername($user->username);
     }
 
-    public function getProfile(string $username)
+    public function getUserProfileByUsername(string $username)
     {
         $user = User::whereUsername($username)->firstOrFail();
         auth()->user()->attachFollowStatus($user);
 
-        return response()->json([
+        return Cache::remember($user->username, 60 * 60 * 24, fn() => response()->json([
             'data' => [
                 'events_count' => $user->events()->count(),
                 'followers_count' => $user->followers()->count(),
@@ -112,6 +120,7 @@ class AuthController extends Controller
                 'is_auth_user' => auth()->user()->is($user),
                 'user' => new UserResource($user),
             ],
-        ]);
+        ]));
+
     }
 }
