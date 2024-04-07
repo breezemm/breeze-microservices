@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Actions\CreateWalletAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegisterRequest;
@@ -47,7 +48,7 @@ class AuthController extends Controller
             $accessToken = $user->createToken('access_token')->accessToken;
 
             //            TODO: Uncomment this line to create wallet for user
-            //            (new CreateWalletAction)->handle($user);
+            //                        (new CreateWalletAction)->handle($user);
             //            TODO: Uncomment this line to identify user
             //            (new IdentifyUserAction)->handle($user);
 
