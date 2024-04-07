@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
-pnpm install
+pnpm install --frozen-lockfile
 composer install
 php artisan key:generate
 php artisan migrate:fresh

@@ -124,6 +124,8 @@ services:
     volumes:
       - ./apps/gateway:/usr/src/app
       - ./apps/gateway/vendor:/usr/src/app/vendor
+      - ./apps/gateway/composer.json:/usr/src/app/composer.json
+      - ./apps/gateway/composer.lock:/usr/src/app/composer.lock
       - ./apps/gateway/node_modules:/usr/src/app/node_modules
       - ./apps/gateway/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:

@@ -3,23 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         $users = User::with(['interests', 'address.city'])->paginate();
 
         return response()->json($users);
     }
 
-    public function show(User $user)
+    public function show(User $user): JsonResponse
     {
         return response()->json($user->with('roles.permissions')->first());
     }
 
-    public function assignRole(Request $request, User $user)
+    public function assignRole(Request $request, User $user): \Illuminate\Http\RedirectResponse
     {
         if ($user->hasRole($request->role)) {
             return back()->with('message', 'Role exists.');
