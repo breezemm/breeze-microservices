@@ -1,0 +1,79 @@
+2024-04-08 16:37:55,952 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-04-08 16:37:55,955 INFO supervisord started with pid 1
+2024-04-08 16:37:56,962 INFO spawned: 'horizon_00' with pid 49
+2024-04-08 16:37:56,966 INFO spawned: 'octane_00' with pid 50
+2024-04-08 16:37:58,352 INFO success: horizon_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 16:37:58,353 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 16:40:14,301 WARN received SIGTERM indicating exit request
+2024-04-08 16:40:14,303 INFO waiting for horizon_00, octane_00 to die
+2024-04-08 16:40:14,359 INFO stopped: octane_00 (exit status 0)
+2024-04-08 16:40:16,426 INFO stopped: horizon_00 (exit status 0)
+2024-04-08 16:40:46,543 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-04-08 16:40:46,546 INFO supervisord started with pid 1
+2024-04-08 16:40:47,550 INFO spawned: 'horizon_00' with pid 49
+2024-04-08 16:40:47,551 INFO spawned: 'octane_00' with pid 50
+2024-04-08 16:40:48,943 INFO success: horizon_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 16:40:48,944 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 16:45:50,468 WARN received SIGTERM indicating exit request
+2024-04-08 16:45:50,473 INFO waiting for horizon_00, octane_00 to die
+2024-04-08 16:45:50,561 INFO stopped: octane_00 (exit status 0)
+2024-04-08 16:45:52,629 INFO stopped: horizon_00 (exit status 0)
+2024-04-08 16:48:27,941 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-04-08 16:48:27,948 INFO supervisord started with pid 1
+2024-04-08 16:48:28,956 INFO spawned: 'horizon_00' with pid 49
+2024-04-08 16:48:28,961 INFO spawned: 'octane_00' with pid 50
+2024-04-08 16:48:30,332 INFO success: horizon_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 16:48:30,334 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 16:49:34,270 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-04-08 16:49:34,274 INFO supervisord started with pid 1
+2024-04-08 16:49:35,283 INFO spawned: 'horizon_00' with pid 55
+2024-04-08 16:49:35,286 INFO spawned: 'octane_00' with pid 56
+2024-04-08 16:49:36,291 INFO success: horizon_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 16:49:36,292 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 16:51:18,151 WARN received SIGTERM indicating exit request
+2024-04-08 16:51:18,153 INFO waiting for horizon_00, octane_00 to die
+2024-04-08 16:51:18,229 INFO stopped: octane_00 (exit status 0)
+2024-04-08 17:28:20,527 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-04-08 17:28:20,532 INFO supervisord started with pid 1
+2024-04-08 17:28:21,539 INFO spawned: 'horizon_00' with pid 55
+2024-04-08 17:28:21,544 INFO spawned: 'octane_00' with pid 56
+2024-04-08 17:28:22,544 INFO success: horizon_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 17:28:22,546 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 17:28:22,590 WARN exited: octane_00 (exit status 139; not expected)
+2024-04-08 17:28:23,592 INFO spawned: 'octane_00' with pid 119
+2024-04-08 17:28:25,473 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 17:29:18,648 WARN received SIGTERM indicating exit request
+2024-04-08 17:29:18,652 INFO waiting for horizon_00, octane_00 to die
+2024-04-08 17:29:18,721 INFO stopped: octane_00 (exit status 0)
+2024-04-08 17:29:20,762 INFO stopped: horizon_00 (exit status 0)
+2024-04-08 22:35:36,640 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-04-08 22:35:36,645 INFO supervisord started with pid 1
+2024-04-08 22:35:37,652 INFO spawned: 'horizon_00' with pid 43
+2024-04-08 22:35:37,658 INFO spawned: 'octane_00' with pid 44
+2024-04-08 22:35:38,681 INFO success: horizon_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 22:35:38,682 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-08 23:41:46,240 WARN received SIGINT indicating exit request
+2024-04-08 23:41:46,245 INFO waiting for horizon_00, octane_00 to die
+2024-04-08 23:41:46,323 INFO stopped: octane_00 (exit status 0)
+2024-04-08 23:41:47,330 WARN received SIGINT indicating exit request
+2024-04-08 23:41:48,334 WARN received SIGINT indicating exit request
+2024-04-08 23:41:49,338 WARN received SIGINT indicating exit request
+2024-04-08 23:41:49,339 INFO waiting for horizon_00 to die
+2024-04-08 23:41:52,355 INFO waiting for horizon_00 to die
+2024-04-08 23:41:55,373 INFO waiting for horizon_00 to die
+2024-04-08 23:41:58,385 INFO waiting for horizon_00 to die
+2024-04-08 23:42:01,411 INFO waiting for horizon_00 to die
+2024-04-08 23:42:04,433 INFO waiting for horizon_00 to die
+2024-04-08 23:42:07,447 INFO waiting for horizon_00 to die
+2024-04-08 23:42:10,464 INFO waiting for horizon_00 to die
+2024-04-08 23:42:13,480 WARN received SIGTERM indicating exit request
+2024-04-08 23:42:13,481 INFO waiting for horizon_00 to die
+2024-04-08 23:42:16,499 INFO waiting for horizon_00 to die
+2024-04-08 23:42:19,515 INFO waiting for horizon_00 to die
+2024-04-08 23:42:22,525 INFO waiting for horizon_00 to die
+2024-04-11 05:12:31,328 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-04-11 05:12:31,332 INFO supervisord started with pid 1
+2024-04-11 05:12:32,336 INFO spawned: 'horizon_00' with pid 49
+2024-04-11 05:12:32,342 INFO spawned: 'octane_00' with pid 50
+2024-04-11 05:12:34,321 INFO success: horizon_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-11 05:12:34,321 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
