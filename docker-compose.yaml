@@ -54,8 +54,8 @@ services:
     image: axllent/mailpit:latest
     container_name: mailpit
     ports:
-      - 1025:1025
-      - 8025:8025
+      - 1025:1025 # SMTP
+      - 8025:8025 # Mail Box
     networks:
       - dev
 
@@ -121,8 +121,8 @@ services:
     restart: always
     command: --default-authentication-plugin=caching_sha2_password
     volumes:
-      - ./infra/development/databases/mysql/init:/docker-entrypoint-initdb.d
       - mysql-db:/var/lib/mysql
+      - ./infra/development/databases/mysql/init:/docker-entrypoint-initdb.d # init sql
     ports:
       - "3306:3306"
     environment:
@@ -147,16 +147,13 @@ services:
       - "8001:80"
     volumes:
       - ./apps/gateway:/usr/src/app
-      - ./apps/gateway/vendor:/usr/src/app/vendor
-      - ./apps/gateway/composer.json:/usr/src/app/composer.json
-      - ./apps/gateway/composer.lock:/usr/src/app/composer.lock
-      - ./apps/gateway/node_modules:/usr/src/app/node_modules
-      - ./apps/gateway/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - kafka
       - mysql-db
       - redis
       - mailpit
+      - minio
+      - create-bucket
     networks:
       - dev
 
@@ -171,9 +168,6 @@ services:
       - "8002:80"
     volumes:
       - ./apps/wallets:/usr/src/app
-      - ./apps/wallets/vendor:/usr/src/app/vendor
-      - ./apps/wallets/node_modules:/usr/src/app/node_modules
-      - ./apps/wallets/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - mysql-db
       - redis
@@ -194,18 +188,10 @@ services:
     ports:
       - "8003:80"
     volumes:
-      - ./apps/notifications:/var/www/wallet
-      - ./apps/notifications/vendor:/var/www/wallet/vendor
-      - ./apps/notifications/node_modules:/var/www/wallet/node_modules
-      - ./apps/notifications/docker/dev/start-container:/usr/local/bin/start-container
-      - ./apps/notifications/docker/dev/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ./apps/notifications:/usr/src/app
     depends_on:
+      - mysql-db
       - kafka
       - redis
-      - mysql-db
     networks:
       - dev
-
-
-
-
