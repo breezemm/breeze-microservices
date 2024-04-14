@@ -1,6 +1,7 @@
 volumes:
   mysql-db:
   redis:
+  minio:
 
 networks:
   dev:
@@ -48,26 +49,6 @@ services:
       timeout: 10s
       retries: 5
 
-  init-kafka:
-    image: confluentinc/cp-kafka:7.5.1
-    depends_on:
-      - kafka
-    entrypoint: [ '/bin/sh', '-c' ]
-    command: |
-      "
-      # blocks until kafka is reachable
-      kafka-topics --bootstrap-server kafka:29092 --list
-
-      echo -e '🙌 Creating kafka topics'
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic wallets --replication-factor 1 --partitions 3
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic notifications --replication-factor 1 --partitions 3
-
-      echo -e '🐙 Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka:29092 --list
-      "
-    networks:
-      - dev
-
 
   mailpit:
     image: axllent/mailpit:latest
@@ -91,6 +72,49 @@ services:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 5s
       timeout: 5s
+
+  minio:
+    image: 'minio/minio:latest'
+    ports:
+      - '${FORWARD_MINIO_PORT:-9000}:9000'
+      - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: password
+    volumes:
+      - 'minio:/data/minio'
+    networks:
+      - dev
+    command: 'minio server /data/minio --console-address ":8900"'
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      retries: 3
+      timeout: 5s
+
+  create-bucket:
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: |
+      "
+      # set host alias
+      mc alias set minio http://minio:9000 root password
+
+      # create IAM user
+      # ref: https://min.io/docs/minio/linux/administration/identity-access-management/minio-user-management.html#id5
+      mc admin user add minio access_key secret_key
+      mc admin policy attach minio readwrite --user=access_key
+
+      # create bucket
+      mc mb minio/breeze
+      mc anonymous set upload minio/breeze
+      mc anonymous set download minio/breeze
+      mc anonymous set public minio/breeze
+      exit 0;
+      "
+    networks:
+      - dev
 
   mysql-db:
     image: mysql:8.0
@@ -181,6 +205,7 @@ services:
       - mysql-db
     networks:
       - dev
+
 
 
 
