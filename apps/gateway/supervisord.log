@@ -77,3 +77,9 @@
 2024-04-11 05:12:32,342 INFO spawned: 'octane_00' with pid 50
 2024-04-11 05:12:34,321 INFO success: horizon_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 2024-04-11 05:12:34,321 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-14 13:31:24,170 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-04-14 13:31:24,175 INFO supervisord started with pid 1
+2024-04-14 13:31:25,179 INFO spawned: 'horizon_00' with pid 49
+2024-04-14 13:31:25,181 INFO spawned: 'octane_00' with pid 50
+2024-04-14 13:31:26,185 INFO success: horizon_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-04-14 13:31:26,186 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
