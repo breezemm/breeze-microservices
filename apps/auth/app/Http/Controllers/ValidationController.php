@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Common\OTP;
-use App\Http\Requests\V1\Auth\ValidationRequest;
+use App\Http\Requests\ValidationRequest;
 use App\Jobs\SendEmailVerificationOTPCodeJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

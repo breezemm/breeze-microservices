@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests\V1\Auth;
+namespace App\Http\Requests;
 
-use App\Rules\Base64ValidationRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -18,7 +18,7 @@ class RegisterRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -29,9 +29,9 @@ class RegisterRequest extends FormRequest
             'date_of_birth' => 'required|date_format:d-m-Y',
             'gender' => 'required|in:male,female',
             'interests' => 'required|array',
-            'profile_image' => ['required', new Base64ValidationRule()],
-            'accept_terms' => 'required|accepted',
-            'city_id' => 'required|exists:city_lists,id',
+            'profile_image' => 'required|image',
+            'accept_terms' => 'required|boolean',
+            'city_id' => 'required|exists:cities,id',
             'least_favorite' => 'required|numeric|exists:interests,id',
         ];
     }

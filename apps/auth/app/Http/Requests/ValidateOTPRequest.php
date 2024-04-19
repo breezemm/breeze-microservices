@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\V1\Auth;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ValidationRequest extends FormRequest
+class ValidateOTPRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,15 +17,13 @@ class ValidationRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'phone' => 'nullable|numeric',
-            'type' => 'required|in:email,phone',
-            'code' => 'nullable|numeric|digits:6',
+            'verification_code' => 'required|string|size:6',
+            'email' => 'required|email:rfc,dns|exists:users,email',
         ];
     }
 }

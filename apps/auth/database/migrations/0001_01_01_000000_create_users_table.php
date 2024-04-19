@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->date('date_of_birth');
             $table->string('gender');
             $table->boolean('accept_terms')->default(false);
+            $table->foreignId('city_id')->nullable()->index();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

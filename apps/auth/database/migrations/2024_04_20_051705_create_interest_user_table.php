@@ -10,9 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('interests', function (Blueprint $table) {
+        Schema::create('interest_user', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('interest_id');
+            $table->foreignUlid('user_id');
+            $table->foreignId('least_favorite_id');
+            $table->index(['interest_id', 'user_id', 'least_favorite_id']);
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('interests');
+        Schema::dropIfExists('interest_user');
     }
 };

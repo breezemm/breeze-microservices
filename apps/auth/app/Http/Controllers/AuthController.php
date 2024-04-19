@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\V1\Auth\LoginRequest;
-use App\Http\Requests\V1\Auth\RegisterRequest;
-use App\Http\Resources\V1\UserResource;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use function Laravel\Prompts\error;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-    }
 
     public function register(RegisterRequest $request)
     {
@@ -27,13 +24,13 @@ class AuthController extends Controller
 
             $data['password'] = Hash::make($data['password']);
             $data['date_of_birth'] = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
-            $data['username'] = Str::slug($data['name'] . '_' . Str::random(5), '_');
+            $data['username'] = Str::snake($data['name'] . Str::random(5));
 
             DB::beginTransaction();
+
             $user = User::create($data);
 
-//            $user->addMediaFromBase64($data['profile_image'])
-//                ->toMediaCollection('profile-images');
+            $user->addMedia($request->profile_image)->toMediaCollection('profile_images');
 
 
             $user->interests()->attach($data['interests'], [
@@ -41,11 +38,6 @@ class AuthController extends Controller
             ]);
 
             $accessToken = $user->createToken('access_token')->accessToken;
-
-            //            TODO: Uncomment this line to create wallet for user
-            //                        (new CreateWalletAction)->handle($user);
-            //            TODO: Uncomment this line to identify user
-            //            (new IdentifyUserAction)->handle($user);
 
             DB::commit();
 
@@ -58,7 +50,7 @@ class AuthController extends Controller
         } catch (Exception $exception) {
             DB::rollBack();
 
-            Log::error($exception->getMessage());
+            error($exception->getMessage());
 
             return response()->json([
                 'message' => 'User registration failed',
@@ -72,6 +64,7 @@ class AuthController extends Controller
         $auth = auth()->attempt($validatedUser);
 
         abort_if(!$auth, 401, 'Invalid credentials');
+
 
         $accessToken = auth()->user()->createToken('access_token')->accessToken;
 
@@ -87,18 +80,15 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->user()->tokens()->delete();
-        Cache::delete(auth()->user()->username);
 
         return response()->noContent();
     }
 
-    public function getAuthUser()
+    public function getCurrentAuthUser()
     {
         $user = auth()->user();
 
-        $user
-            ->load('interests:id,name')
-            ->load('address');
+        $user->load('interests:id,name');
 
         return $this->getUserProfileByUsername($user->username);
     }
@@ -106,6 +96,8 @@ class AuthController extends Controller
     public function getUserProfileByUsername(string $username)
     {
         $user = User::whereUsername($username)->firstOrFail();
+
+        $user->load('city');
 //        TODO: Uncomment this line to attach follow status
 //        auth()->user()->attachFollowStatus($user);
 

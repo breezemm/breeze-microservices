@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\V1\Auth;
+namespace App\Http\Requests;
 
-use App\Rules\Base64ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProfileImageRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +22,8 @@ class ProfileImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_image' => ['required', new Base64ValidationRule()],
+            'email' => 'required|email',
+            'password' => 'required|string',
         ];
     }
 }
