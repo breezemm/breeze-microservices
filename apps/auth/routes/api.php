@@ -3,8 +3,13 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\InterestController;
+use App\Http\Controllers\OTPController;
 use App\Http\Controllers\ValidationController;
 use Illuminate\Support\Facades\Route;
+
+
+Route::post('/otp/verify', [OTPController::class, 'verify']);
+Route::post('/otp/resend', [OTPController::class, 'resend']);
 
 
 Route::get('/interests', InterestController::class);
