@@ -3,13 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +22,13 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
+        'date_of_birth',
+        'gender',
+        'accept_terms',
+        'email_verified_at',
         'password',
+        'remember_token',
     ];
 
     /**
@@ -44,4 +53,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function scopeWhereUsername(Builder $query, string $username): Builder
+    {
+        return $query->where('username', $username);
+    }
+
+    public function interests(): BelongsToMany
+    {
+        return $this->belongsToMany(Interest::class);
+    }
+
 }
