@@ -27,4 +27,4 @@ Route::prefix('/auth')->group(function () {
 });
 
 
-Route::post('/oauth2/introspect', IntrospectController::class);
+Route::post('/oauth2/introspect', IntrospectController::class)->middleware('auth:api');
