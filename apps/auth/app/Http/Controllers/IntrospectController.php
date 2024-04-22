@@ -15,6 +15,7 @@ class IntrospectController extends Controller
     /**
      * @param Request $request
      * @return array|JsonResponse
+     * @link https://www.oauth.com/oauth2-servers/token-introspection-endpoint/
      * @example
      * ```curl
      * http://localhost:8000/api/oauth2/introspect?token=eyJ0eXA&token_type_hint=access_token

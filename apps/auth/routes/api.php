@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/otp/verify', [OTPController::class, 'verify']);
 Route::post('/otp/resend', [OTPController::class, 'resend']);
 
-
 Route::get('/interests', InterestController::class);
 Route::get('/cities', CityController::class);
 
