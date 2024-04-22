@@ -2,15 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IntrospectRequest;
+use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Laravel\Passport\Bridge\AccessTokenRepository;
+use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
+use Throwable;
 
 class IntrospectController extends Controller
 {
+
+    public function __construct(
+        public AccessTokenRepository $accessTokenRepository,
+        public ClientRepository      $clientRepository,
+    )
+    {
+    }
 
     /**
      * @param Request $request
@@ -21,26 +33,22 @@ class IntrospectController extends Controller
      * http://localhost:8000/api/oauth2/introspect?token=eyJ0eXA&token_type_hint=access_token
      * ```
      */
-    public function __invoke(Request $request)
+    public function __invoke(IntrospectRequest $request)
     {
         try {
+            $token = $request->validated('token');
 
-            $token = $request->input('token');
-            $tokenTypeHint = $request->input('token_type_hint');
+            $claims = $this->getClaims($token);
 
-            if ($tokenTypeHint != 'access_token') {
-                return response()->json([
-                    'active' => false,
-                ]);
-            }
+            throw_if($this->accessTokenRepository->isAccessTokenRevoked($claims['jti']));
+            throw_if($this->clientRepository->revoked($claims['aud']));
 
-            $claims = $this->introspectAccessToken($token);
-
-            return [
+            return response()->json([
                 'active' => true,
                 ...$claims,
-            ];
-        } catch (\Exception $exception) {
+            ]);
+
+        } catch (Exception|Throwable $exception) {
             return response()->json([
                 'active' => false,
             ]);
@@ -49,10 +57,10 @@ class IntrospectController extends Controller
 
 
     /*
-     * @return array
-     * @ref https://www.oauth.com/oauth2-servers/token-introspection-endpoint
+     * @return array JWT Claims
      * */
-    private function introspectAccessToken(?string $token): array
+    public
+    function getClaims(?string $token): array
     {
         $publicKey = File::get(Passport::keyPath('oauth-public.key'));
 
