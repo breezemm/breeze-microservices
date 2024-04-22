@@ -23,21 +23,28 @@ class IntrospectController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $token = $request->input('token');
-        $tokenTypeHint = $request->input('token_type_hint');
+        try {
 
-        if (!$tokenTypeHint == 'access_token') {
+            $token = $request->input('token');
+            $tokenTypeHint = $request->input('token_type_hint');
+
+            if ($tokenTypeHint != 'access_token') {
+                return response()->json([
+                    'active' => false,
+                ]);
+            }
+
+            $claims = $this->introspectAccessToken($token);
+
+            return [
+                'active' => true,
+                ...$claims,
+            ];
+        } catch (\Exception $exception) {
             return response()->json([
                 'active' => false,
             ]);
         }
-
-        $claims = $this->introspectAccessToken($token);
-
-        return [
-            'active' => true,
-            ...$claims,
-        ];
     }
 
 
