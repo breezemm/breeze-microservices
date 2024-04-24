@@ -4,12 +4,22 @@ use App\DataTransferObjects\PaymentData;
 use App\DataTransferObjects\WalletData;
 use App\Http\Integrations\Wallet\WalletAPI;
 use Illuminate\Support\Facades\Route;
+use Junges\Kafka\Facades\Kafka;
 
 $walletApi = new WalletAPI();
 
-
 Route::get('/', function () {
-    \App\Jobs\SendEmailVerificationOTPCodeJob::dispatch('aungmyatmoe834@gmail.com', '123456');
+
+    $producer = Kafka::publish()
+        ->onTopic('wallets')
+        ->withMessage(new Junges\Kafka\Message\Message(
+            body: [
+                'key' => 'bro',
+            ]));
+
+    $producer->send(true);
+
+    //    \App\Jobs\SendEmailVerificationOTPCodeJob::dispatch('aungmyatmoe834@gmail.com', '123456');
 
     return response()->json([
         'status' => 200,

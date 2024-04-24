@@ -8,13 +8,14 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\File;
 use Laravel\Passport\Bridge\AccessTokenRepository;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
 use Throwable;
 
-class IntrospectController extends Controller
+class IntrospectController extends Controller implements HasMiddleware
 {
 
     public function __construct(
@@ -24,9 +25,17 @@ class IntrospectController extends Controller
     {
     }
 
+    public static function middleware(): array
+    {
+        return [
+            'auth:api',
+        ];
+    }
+
+
     /**
-     * @param Request $request
-     * @return array|JsonResponse
+     * @param IntrospectRequest $request
+     * @return JsonResponse
      * @link https://www.oauth.com/oauth2-servers/token-introspection-endpoint/
      * @example
      * ```curl
@@ -66,4 +75,6 @@ class IntrospectController extends Controller
 
         return (array)JWT::decode($token, new Key($publicKey, 'RS256'));
     }
+
+
 }

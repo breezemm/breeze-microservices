@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2997f60d99c8657953d4b0ca32d14b3",
+    "content-hash": "4725314bbc84876355c15520c39653ca",
     "packages": [
         {
             "name": "ackintosh/ganesha",
@@ -5238,32 +5238,33 @@
         },
         {
             "name": "mateusjunges/laravel-kafka",
-            "version": "v1.13.9",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mateusjunges/laravel-kafka.git",
-                "reference": "6ed6b205656c80b0052cea81fdafc1d957caac73"
+                "reference": "d1a7da269491fd9c95367dde3d8c015018603b39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mateusjunges/laravel-kafka/zipball/6ed6b205656c80b0052cea81fdafc1d957caac73",
-                "reference": "6ed6b205656c80b0052cea81fdafc1d957caac73",
+                "url": "https://api.github.com/repos/mateusjunges/laravel-kafka/zipball/d1a7da269491fd9c95367dde3d8c015018603b39",
+                "reference": "d1a7da269491fd9c95367dde3d8c015018603b39",
                 "shasum": ""
             },
             "require": {
-                "ext-rdkafka": "^5.0|^6.0",
-                "illuminate/contracts": "^9.0|^10.0",
-                "illuminate/support": "^9.0|^10.0",
+                "ext-rdkafka": "^6.0",
+                "illuminate/contracts": "^10.0|^11.0",
+                "illuminate/support": "^10.0|^11.0",
                 "mateusjunges/avro-serde-php": "^3.0",
                 "monolog/monolog": "^3.4",
-                "php": "^8.1|^8.2"
+                "php": "^8.2|^8.3"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0",
                 "kwn/php-rdkafka-stubs": "^2.2",
                 "orchestra/testbench": "^7.16|^8.0",
-                "phpunit/phpunit": "^9.5",
-                "predis/predis": "^1.1"
+                "phpunit/phpunit": "^10.5",
+                "predis/predis": "^1.1",
+                "rector/rector": "^0.19.1"
             },
             "suggest": {
                 "ext-pcntl": "Required to enable all features of the kafka consumer"
@@ -5295,7 +5296,7 @@
             "description": "A kafka driver for laravel",
             "support": {
                 "issues": "https://github.com/mateusjunges/laravel-kafka/issues",
-                "source": "https://github.com/mateusjunges/laravel-kafka/tree/v1.13.9"
+                "source": "https://github.com/mateusjunges/laravel-kafka/tree/v2.0.2"
             },
             "funding": [
                 {
@@ -5303,7 +5304,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-23T20:37:56+00:00"
+            "time": "2024-04-17T00:44:03+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -14656,7 +14657,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2"
+        "php": "^8.3"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"
