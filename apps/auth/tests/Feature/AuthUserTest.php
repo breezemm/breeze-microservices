@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\User;
-use Laravel\Passport\Passport;
-
 it('returns a successful response', function () {
     $response = $this->get('/');
 

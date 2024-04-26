@@ -3,7 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\InterestController;
-use App\Http\Controllers\IntrospectController;
+use App\Http\Controllers\IntrospectionController;
 use App\Http\Controllers\OTPController;
 use App\Http\Controllers\ValidationController;
 use Illuminate\Support\Facades\Route;
@@ -26,4 +26,4 @@ Route::prefix('/auth')->group(function () {
 });
 
 
-Route::post('/oauth2/introspect', IntrospectController::class)->middleware('auth:api');
+Route::post('/oauth2/introspect', IntrospectionController::class);

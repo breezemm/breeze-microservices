@@ -15,7 +15,7 @@ use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
 use Throwable;
 
-class IntrospectController extends Controller implements HasMiddleware
+class IntrospectionController extends Controller implements HasMiddleware
 {
 
     public function __construct(

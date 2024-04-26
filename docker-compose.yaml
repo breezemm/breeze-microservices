@@ -30,6 +30,7 @@ services:
       - zookeeper
     ports:
       - 9092:9092
+      - 29092:29092
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -48,6 +49,7 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
+
 
 
   mailpit:
