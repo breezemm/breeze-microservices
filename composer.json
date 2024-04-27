@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "schranz/mono": "^2.2"
+    }
+}

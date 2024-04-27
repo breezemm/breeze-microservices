@@ -1,0 +1,54 @@
+{
+    "packages": [
+        {
+            "name": "schranz/mono",
+            "version": "2.2.0",
+            "version_normalized": "2.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexander-schranz/mono.git",
+                "reference": "3b0f1ff7196381c93ea4b4d6e560ddbc981c3bc8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alexander-schranz/mono/zipball/3b0f1ff7196381c93ea4b4d6e560ddbc981c3bc8",
+                "reference": "3b0f1ff7196381c93ea4b4d6e560ddbc981c3bc8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "time": "2024-03-16T12:03:15+00:00",
+            "bin": [
+                "bin/mono"
+            ],
+            "type": "library",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Schranz",
+                    "email": "alexander@sulu.io"
+                }
+            ],
+            "description": "A binary to run commands in a monorepo",
+            "keywords": [
+                "mono",
+                "monorepo",
+                "monorepository"
+            ],
+            "support": {
+                "issues": "https://github.com/alexander-schranz/mono/issues",
+                "source": "https://github.com/alexander-schranz/mono/tree/2.2.0"
+            },
+            "install-path": "../schranz/mono"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": [
+        "schranz/mono"
+    ]
+}
