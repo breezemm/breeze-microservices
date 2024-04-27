@@ -1,5 +1,11 @@
 {
     "require-dev": {
         "schranz/mono": "^2.2"
+    },
+    "scripts": {
+        "mono": "mono"
+    },
+    "require": {
+        "php": "^8.2"
     }
 }

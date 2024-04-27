@@ -26,4 +26,4 @@ Route::prefix('/auth')->group(function () {
 });
 
 
-Route::post('/oauth2/introspect', IntrospectionController::class);
+Route::post('/oauth/introspect', IntrospectionController::class);

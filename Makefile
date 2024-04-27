@@ -12,9 +12,6 @@ stop:
 
 restart: stop up
 
-a:
-	@docker-compose exec $(SERVICE)
-
 build:
 	@docker-compose up -d --build
 
