@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use MyanmarCyberYouths\BreezeSdk\Breeze;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->bind(
+            Breeze::class,
+            function () {
+                return new Breeze(accessToken: 'dummy token');
+            });
     }
 }
