@@ -3,7 +3,7 @@
 namespace MyanmarCyberYouths\BreezeSdk;
 
 use MyanmarCyberYouths\BreezeSdk\Connectors\AuthConnector;
-use pq\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 
 class Breeze
 {
