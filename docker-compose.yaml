@@ -1,200 +1,20 @@
-volumes:
-  mysql-db:
-  redis:
-  minio:
-
-networks:
-  dev:
-    driver: bridge
-    external: true
+version: '3.8'
 
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.1
-    env_file: .env
-    container_name: zookeeper
-    ports:
-      - 2181:2181
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    networks:
-      - dev
 
   kafka:
-    restart: on-failure
     image: confluentinc/cp-kafka:7.5.1
-    env_file: .env
-    hostname: kafka
-    container_name: kafka
-    depends_on:
-      - zookeeper
-    ports:
-      - 9092:9092
-      - 29092:29092
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_JMX_PORT: 9999
-      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-host.docker.internal}
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-    networks:
-      - dev
-    healthcheck:
-      test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
-      interval: 5s
-      timeout: 10s
-      retries: 5
-
-
 
   mailpit:
     image: axllent/mailpit:latest
-    container_name: mailpit
-    ports:
-      - 1025:1025 # SMTP
-      - 8025:8025 # Mail Box
-    networks:
-      - dev
 
   redis:
     image: redis:alpine3.8
-    env_file: .env
-    volumes:
-      - redis:/data
-    ports:
-      - "6379:6379"
-    networks:
-      - dev
-    healthcheck:
-      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
-      interval: 5s
-      timeout: 5s
 
   minio:
     image: 'minio/minio:latest'
-    ports:
-      - '${FORWARD_MINIO_PORT:-9000}:9000'
-      - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
-    environment:
-      MINIO_ROOT_USER: root
-      MINIO_ROOT_PASSWORD: password
-    volumes:
-      - 'minio:/data/minio'
-    networks:
-      - dev
-    command: 'minio server /data/minio --console-address ":8900"'
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
-      retries: 3
-      timeout: 5s
 
-  create-bucket:
-    image: minio/mc:latest
-    depends_on:
-      - minio
-    entrypoint: [ "/bin/sh", "-c" ]
-    command: |
-      "
-      # set host alias
-      mc alias set minio http://minio:9000 root password
-
-      # create IAM user
-      # ref: https://min.io/docs/minio/linux/administration/identity-access-management/minio-user-management.html#id5
-      mc admin user add minio access_key secret_key
-      mc admin policy attach minio readwrite --user=access_key
-
-      # create bucket
-      mc mb minio/breeze
-      mc anonymous set upload minio/breeze
-      mc anonymous set download minio/breeze
-      mc anonymous set public minio/breeze
-      exit 0;
-      "
-    networks:
-      - dev
-
-  mysql-db:
+  mysql:
     image: mysql:8.0
-    restart: always
-    command: --default-authentication-plugin=caching_sha2_password
-    volumes:
-      - mysql-db:/var/lib/mysql
-      - ./infra/development/databases/mysql/init:/docker-entrypoint-initdb.d # init sql
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - dev
-
-  gateway:
-    restart: unless-stopped
-    build:
-      args:
-        UID: 1000
-        USER: breeze
-      context: .
-      dockerfile: ./apps/gateway/dev.Dockerfile
-    ports:
-      - "8001:80"
-    volumes:
-      - ./apps/gateway:/usr/src/app
-    depends_on:
-      - kafka
-      - mysql-db
-      - redis
-      - mailpit
-      - minio
-      - create-bucket
-    networks:
-      - dev
-
-  wallets:
-    build:
-      args:
-        UID: 1000
-        USER: breeze
-      context: .
-      dockerfile: ./apps/wallets/dev.Dockerfile
-    ports:
-      - "8002:80"
-    volumes:
-      - ./apps/wallets:/usr/src/app
-    depends_on:
-      - mysql-db
-      - redis
-      - kafka
-    networks:
-      - dev
-    links:
-      - gateway
-
-  notifications:
-    restart: unless-stopped
-    build:
-      args:
-        UID: 1000
-        USER: breeze
-      context: .
-      dockerfile: ./apps/notifications/dev.Dockerfile
-    ports:
-      - "8003:80"
-    volumes:
-      - ./apps/notifications:/usr/src/app
-    depends_on:
-      - mysql-db
-      - kafka
-      - redis
-    networks:
-      - dev
