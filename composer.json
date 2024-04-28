@@ -1,11 +1,29 @@
 {
-    "require-dev": {
-        "schranz/mono": "^2.2"
-    },
-    "scripts": {
-        "mono": "mono"
+    "name": "myanmarcyberyouths/breeze",
+    "description": "Microservices for Breeze Application",
+    "authors": [
+        {
+            "name": "Aung Myat Moe",
+            "role": "CEO",
+            "email": "aungmyatmoe834@gmail.com"
+        }
+    ],
+    "homepage": "https://www.cyberyouths.com.mm",
+    "autoload": {
+        "psr-4": {
+            "MyanmarCyberYouths\\Breeze\\": "packages",
+            "MyanmarCyberYouths\\BreezeSdk\\": "packages/breeze-sdk-php/src"
+        }
     },
     "require": {
         "php": "^8.2"
+    },
+    "require-dev": {
+        "schranz/mono": "^2.2",
+        "laravel/pint": "^1.0"
+    },
+    "scripts": {
+        "mono": "mono",
+        "format": "pint"
     }
 }

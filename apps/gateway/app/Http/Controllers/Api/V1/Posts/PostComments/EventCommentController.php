@@ -26,7 +26,7 @@ class EventCommentController extends Controller
                 'channels' => [
                     'push' => [
                         'title' => 'Post Commented',
-                        'body' => auth()->user()->name.' commented on your post.',
+                        'body' => auth()->user()->name . ' commented on your post.',
                         'data' => [
                             'type' => 'post_commented',
                             'user' => auth()->user()->load('media'),
@@ -53,7 +53,7 @@ class EventCommentController extends Controller
                 'channels' => [
                     'push' => [
                         'title' => 'Post Replied',
-                        'body' => auth()->user()->name.' replied you',
+                        'body' => auth()->user()->name . ' replied you',
                         'data' => [
                             'type' => 'post_commented',
                             'user' => auth()->user()->load('media'),

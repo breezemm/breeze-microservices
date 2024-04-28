@@ -9,7 +9,8 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
+    use HasApiTokens;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -30,11 +31,8 @@ class User extends Authenticatable
         'push_tokens' => 'array',
     ];
 
-
-
     public function notificationTypes(): HasMany
     {
         return $this->hasMany(NotificationType::class);
     }
-
 }

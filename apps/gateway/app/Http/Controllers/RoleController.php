@@ -30,7 +30,7 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3', 'lowercase:role', 'unique:roles,name,'.$role->id.',id']]);
+        $validated = $request->validate(['name' => ['required', 'min:3', 'lowercase:role', 'unique:roles,name,' . $role->id . ',id']]);
         $role->update($validated);
 
         return response()->json(['message' => 'Role updated successfully']);

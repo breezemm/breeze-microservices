@@ -11,8 +11,7 @@ class ValidationController extends Controller implements ShouldQueue
 {
     public function __construct(
         public readonly OTP $otp,
-    )
-    {
+    ) {
     }
 
     public function validateEmail(ValidationRequest $request)
@@ -35,6 +34,4 @@ class ValidationController extends Controller implements ShouldQueue
 
         return response()->json($response);
     }
-
-
 }

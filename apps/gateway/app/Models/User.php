@@ -21,13 +21,16 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use Followable, Follower;
-    use HasApiTokens, HasFactory, Notifiable;
+    use Followable;
+    use Follower;
+    use HasApiTokens;
+    use HasFactory;
     use HasRoles;
     use HasRoles;
     use HasSettingsField;
     use InteractsWithMedia;
     use Liker;
+    use Notifiable;
 
     public $defaultSettings = [
         'bio' => '',

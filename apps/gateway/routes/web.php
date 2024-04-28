@@ -15,7 +15,8 @@ Route::get('/', function () {
         ->withMessage(new Junges\Kafka\Message\Message(
             body: [
                 'key' => 'bro',
-            ]));
+            ]
+        ));
 
     $producer->send(true);
 

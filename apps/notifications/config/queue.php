@@ -85,7 +85,6 @@ return [
             'auth_ssl_ca_location' => env('KAFKA_AUTH_SSL_CA_LOCATION'),
         ],
 
-
     ],
 
     /*
@@ -120,6 +119,5 @@ return [
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],
-
 
 ];

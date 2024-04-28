@@ -17,7 +17,8 @@ class SendPushNotification
                 topic: 'notifications',
                 pattern: 'notifications.send',
                 data: $data,
-            ));
+            )
+        );
 
         Kafka::publishOn('notifications')
             ->withMessage($message)

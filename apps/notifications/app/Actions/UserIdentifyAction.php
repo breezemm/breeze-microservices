@@ -15,24 +15,22 @@ class UserIdentifyAction implements Action
                 'channels' => [
                     'email' => [
                         'enabled' => false,
-                        'frequency' => 'instant'
+                        'frequency' => 'instant',
                     ],
                     'sms' => [
                         'enabled' => false,
-                        'frequency' => 'instant'
+                        'frequency' => 'instant',
                     ],
                     'push' => [
                         'enabled' => true,
-                        'frequency' => 'instant'
+                        'frequency' => 'instant',
                     ],
                     'web_push' => [
                         'enabled' => false,
-                        'frequency' => 'instant'
+                        'frequency' => 'instant',
                     ],
                 ],
             ],
         ]);
     }
 }
-
-;

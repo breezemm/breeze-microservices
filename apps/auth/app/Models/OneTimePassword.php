@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class OneTimePassword extends Model
 {
-
     protected $fillable = [
         'identifier',
         'otp',

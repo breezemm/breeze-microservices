@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+
 use function Laravel\Prompts\error;
 
 class AuthController extends Controller
 {
-
     public function register(RegisterRequest $request)
     {
         try {
@@ -31,7 +31,6 @@ class AuthController extends Controller
             $user = User::create($data);
 
             $user->addMedia($request->profile_image)->toMediaCollection('profile_images');
-
 
             $user->interests()->attach($data['interests'], [
                 'least_favorite_id' => $data['least_favorite'],
@@ -63,8 +62,7 @@ class AuthController extends Controller
         $validatedUser = $request->validated();
         $auth = auth()->attempt($validatedUser);
 
-        abort_if(!$auth, 401, 'Invalid credentials');
-
+        abort_if(! $auth, 401, 'Invalid credentials');
 
         $accessToken = auth()->user()->createToken('access_token')->accessToken;
 
@@ -98,14 +96,14 @@ class AuthController extends Controller
         $user = User::whereUsername($username)->firstOrFail();
 
         $user->load('city');
-//        TODO: Uncomment this line to attach follow status
-//        auth()->user()->attachFollowStatus($user);
+        //        TODO: Uncomment this line to attach follow status
+        //        auth()->user()->attachFollowStatus($user);
 
-        return Cache::remember($user->username, 60 * 60 * 24, fn() => response()->json([
+        return Cache::remember($user->username, 60 * 60 * 24, fn () => response()->json([
             'data' => [
-//                'events_count' => $user->events()->count(),
-//                'followers_count' => $user->followers()->count(),
-//                'followings_count' => $user->followings()->count(),
+                //                'events_count' => $user->events()->count(),
+                //                'followers_count' => $user->followers()->count(),
+                //                'followings_count' => $user->followings()->count(),
                 'is_auth_user' => auth()->user()->is($user),
                 'user' => new UserResource($user),
             ],

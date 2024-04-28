@@ -32,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
             Breeze::class,
             function () {
                 return new Breeze(accessToken: 'dummy token');
-            });
+            }
+        );
     }
 }

@@ -7,7 +7,6 @@ use Saloon\Http\Request;
 
 class IntrospectRequest extends Request
 {
-
     protected Method $method = Method::POST;
 
     public function resolveEndpoint(): string

@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
 
 class NotificationType extends Model
 {
@@ -15,15 +12,12 @@ class NotificationType extends Model
         'settings',
     ];
 
-
     protected $casts = [
         'settings' => 'array',
     ];
-
 
     public function notificationLists(): HasMany
     {
         return $this->hasMany(NotificationList::class);
     }
-
 }

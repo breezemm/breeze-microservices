@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'date_of_birth' => $this->date_of_birth,
             'interests' => InterestResource::collection($this->interests),
             'city' => $this->city->name,
-//            'settings' => $this->settings()->all(),
+            //            'settings' => $this->settings()->all(),
         ];
     }
 }

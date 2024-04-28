@@ -35,11 +35,13 @@
     },
     "scripts": {
         "test": "vendor/bin/pest",
-            "test-coverage": "vendor/bin/pest --coverage",
+        "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"
     },
     "config": {
         "sort-packages": true,
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true

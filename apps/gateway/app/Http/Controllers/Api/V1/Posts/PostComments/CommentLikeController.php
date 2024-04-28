@@ -18,6 +18,7 @@ class CommentLikeController extends Controller
     public function __invoke(Event $event, Comment $comment)
     {
         $lock = Cache::lock("comment:{$comment->id}:like", 5);
+
         try {
             $lock->block(5);
 
@@ -31,7 +32,7 @@ class CommentLikeController extends Controller
                 'channels' => [
                     'push' => [
                         'title' => 'Comment Liked',
-                        'body' => auth()->user()->name.' likes your comment.',
+                        'body' => auth()->user()->name . ' likes your comment.',
                         'data' => [
                             'type' => 'comment_liked',
                             'user' => auth()->user()->with('media')->get(),

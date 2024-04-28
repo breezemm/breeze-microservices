@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\NotificationPreferencesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/health', function () {
     return response()->json([
         'status' => 200,
-        'message' => 'Notifications service is healthy.'
+        'message' => 'Notifications service is healthy.',
     ]);
 });

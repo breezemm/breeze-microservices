@@ -16,7 +16,6 @@ enum NotificationTypeEnum: string
 
     case CommentReplied = 'comment_replied';
 
-
     case TicketSold = 'ticket_sold';
 
     case EventJoined = 'event_joined';
@@ -30,6 +29,5 @@ enum NotificationTypeEnum: string
     case WalletCashOut = 'wallet_cash_out';
 
     case WalletTransfer = 'wallet_transfer';
-
 
 }

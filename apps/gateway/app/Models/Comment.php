@@ -11,7 +11,8 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 class Comment extends Model
 {
-    use HasFactory, HasRecursiveRelationships;
+    use HasFactory;
+    use HasRecursiveRelationships;
     use Likeable;
 
     protected $fillable = [

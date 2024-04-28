@@ -22,7 +22,7 @@ class WalletService
 
             return $wallets['user']['wallets'][0];
         } catch (\Exception $exception) {
-            error('[ERROR]'.$exception->getMessage());
+            error('[ERROR]' . $exception->getMessage());
             abort(500, 'Internal Server Error');
         }
 

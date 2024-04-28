@@ -37,6 +37,7 @@ final readonly class WalletService implements WalletServiceInterface
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+
             throw new WalletCreationFailed();
         }
 
@@ -77,6 +78,7 @@ final readonly class WalletService implements WalletServiceInterface
             return $from;
         } catch (\Exception $e) {
             DB::rollBack();
+
             throw $e;
         }
     }

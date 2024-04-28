@@ -2,15 +2,14 @@
 
 namespace MyanmarCyberYouths\BreezeSdk;
 
-use MyanmarCyberYouths\BreezeSdk\Connectors\AuthConnector;
 use InvalidArgumentException;
+use MyanmarCyberYouths\BreezeSdk\Connectors\AuthConnector;
 
 class Breeze
 {
     public function __construct(
         public string $accessToken = '',
-    )
-    {
+    ) {
         if (empty($this->accessToken)) {
             throw new InvalidArgumentException('Access Token is required for authentication.');
         }

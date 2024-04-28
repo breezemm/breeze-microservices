@@ -58,7 +58,6 @@ Route::prefix('users')->group(function () {
 
     Route::post('/validate', [ValidationController::class, 'validateEmail'])->middleware('throttle:5,1'); // validate email or phone number
 
-
     Route::post('/validate-profile-image', [ValidationController::class, 'validateProfileImage']);
     Route::get('/interests', InterestController::class);
     Route::get('/cities', CityListController::class);

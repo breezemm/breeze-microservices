@@ -14,7 +14,6 @@ class StoreTokenRequest extends FormRequest
         return true;
     }
 
-
     public function user($guard = null)
     {
         return \App\Models\User::where('user_id', $this->user_id)->first();
@@ -30,7 +29,7 @@ class StoreTokenRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,user_id',
             'token' => 'required|string',
-            'type' => 'required|string|in:FCM,APN'
+            'type' => 'required|string|in:FCM,APN',
         ];
     }
 }

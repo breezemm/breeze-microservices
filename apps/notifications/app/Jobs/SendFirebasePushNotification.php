@@ -11,29 +11,28 @@ use Illuminate\Queue\SerializesModels;
 use Kreait\Firebase\Contract\Messaging;
 use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Firebase\Exception\MessagingException;
-use Kreait\Firebase\Messaging\AndroidConfig;
 use Kreait\Firebase\Messaging\CloudMessage;
 
-class SendFirebasePushNotification implements ShouldQueue, ShouldBeUnique
+class SendFirebasePushNotification implements ShouldBeUnique, ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public int $uniqueFor = 60;
 
     public function __construct(
         private readonly array $data
-    )
-    {
+    ) {
         //
     }
-
 
     /**
      * @throws MessagingException
      * @throws FirebaseException
      */
-    public
-    function handle(Messaging $messaging): void
+    public function handle(Messaging $messaging): void
     {
 
         if (isset($this->data['topic'])) {
@@ -46,9 +45,9 @@ class SendFirebasePushNotification implements ShouldQueue, ShouldBeUnique
                 ->withData($this->data['data'] ?? []);
 
             $messaging->send($topicMessage);
+
             return;
         }
-
 
         $topicMessage = CloudMessage::fromArray([
             'token' => $this->data['token'],

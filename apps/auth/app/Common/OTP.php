@@ -61,7 +61,7 @@ class OTP
         }
 
         $time = now()->timestamp * 30;
-        $binaryTime = pack('N*', 0).pack('N*', $time);
+        $binaryTime = pack('N*', 0) . pack('N*', $time);
         $hash = hash_hmac('sha1', $binaryTime, $secret, true);
         $offset = ord(substr($hash, -1)) & 0x0F;
 

@@ -7,7 +7,6 @@ use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\File;
 use Laravel\Passport\Bridge\AccessTokenRepository;
@@ -17,12 +16,10 @@ use Throwable;
 
 class IntrospectionController extends Controller implements HasMiddleware
 {
-
     public function __construct(
         public AccessTokenRepository $accessTokenRepository,
-        public ClientRepository      $clientRepository,
-    )
-    {
+        public ClientRepository $clientRepository,
+    ) {
     }
 
     public static function middleware(): array
@@ -32,11 +29,11 @@ class IntrospectionController extends Controller implements HasMiddleware
         ];
     }
 
-
     /**
-     * @param IntrospectRequest $request
      * @return JsonResponse
+     *
      * @link https://www.oauth.com/oauth2-servers/token-introspection-endpoint/
+     *
      * @example
      * ```curl
      * http://localhost:8000/api/oauth2/introspect?token=eyJ0eXA&token_type_hint=access_token
@@ -57,24 +54,20 @@ class IntrospectionController extends Controller implements HasMiddleware
                 ...$claims,
             ]);
 
-        } catch (Exception|Throwable $exception) {
+        } catch (Exception | Throwable $exception) {
             return response()->json([
                 'active' => false,
             ]);
         }
     }
 
-
     /*
      * @return array JWT Claims
      * */
-    public
-    function getClaims(?string $token): array
+    public function getClaims(?string $token): array
     {
         $publicKey = File::get(Passport::keyPath('oauth-public.key'));
 
-        return (array)JWT::decode($token, new Key($publicKey, 'RS256'));
+        return (array) JWT::decode($token, new Key($publicKey, 'RS256'));
     }
-
-
 }

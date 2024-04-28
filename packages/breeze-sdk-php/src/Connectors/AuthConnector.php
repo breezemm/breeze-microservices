@@ -9,21 +9,18 @@ use Saloon\Http\Connector;
 
 class AuthConnector extends Connector
 {
-
     public function __construct(
         public string $accessToken = '',
-    )
-    {
-        if (!$this->accessToken) {
+    ) {
+        if (! $this->accessToken) {
             throw new InvalidArgumentException('Access token is required');
         }
     }
 
     public function resolveBaseUrl(): string
     {
-        return "http://auth/api/v1";
+        return 'http://auth/api/v1';
     }
-
 
     public function defaultHeaders(): array
     {
@@ -33,11 +30,8 @@ class AuthConnector extends Connector
         ];
     }
 
-
     protected function defaultAuth(): ?Authenticator
     {
         return new TokenAuthenticator(token: $this->accessToken);
     }
-
-
 }

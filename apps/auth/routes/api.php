@@ -8,7 +8,6 @@ use App\Http\Controllers\OTPController;
 use App\Http\Controllers\ValidationController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::post('/otp/verify', [OTPController::class, 'verify']);
 Route::post('/otp/resend', [OTPController::class, 'resend']);
 
@@ -24,6 +23,5 @@ Route::prefix('/auth')->group(function () {
 
     Route::get('/me', [AuthController::class, 'getCurrentAuthUser'])->middleware('auth:api');
 });
-
 
 Route::post('/oauth/introspect', IntrospectionController::class);

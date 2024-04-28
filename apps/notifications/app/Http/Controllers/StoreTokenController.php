@@ -35,13 +35,13 @@ class StoreTokenController extends Controller
                 ...$tokens,
                 [
                     'type' => $request->type,
-                    'token' => $request->token
-                ]
+                    'token' => $request->token,
+                ],
             ];
             $user->save();
 
             return response()->json(['message' => 'Push token added successfully']);
-        } catch (MessagingException|FirebaseException $e) {
+        } catch (MessagingException | FirebaseException $e) {
             return response()->json(['message' => 'Invalid push token'], 422);
         }
 
