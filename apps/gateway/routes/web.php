@@ -1,10 +1,12 @@
 <?php
 
+use App\Common\OTP;
 use App\DataTransferObjects\PaymentData;
 use App\DataTransferObjects\WalletData;
 use App\Http\Integrations\Wallet\WalletAPI;
 use Illuminate\Support\Facades\Route;
 use Junges\Kafka\Facades\Kafka;
+use Junges\Kafka\Message\Message;
 
 $walletApi = new WalletAPI();
 
@@ -12,7 +14,7 @@ Route::get('/', function () {
 
     $producer = Kafka::publish()
         ->onTopic('wallets')
-        ->withMessage(new Junges\Kafka\Message\Message(
+        ->withMessage(new Message(
             body: [
                 'key' => 'bro',
             ]
@@ -73,7 +75,7 @@ Route::get('/payments', function (Request $request) use ($walletApi) {
 });
 
 Route::get('/otp', function () {
-    $otp = new \App\Common\OTP();
+    $otp = new OTP();
 
     $otp->generate('aungmyatmoe834@gmail.com');
 

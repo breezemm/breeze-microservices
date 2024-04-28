@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\AtomicLockInterface;
+use App\Contracts\WalletServiceInterface;
+use App\Services\AtomicLockService;
+use App\Services\WalletService;
 use Illuminate\Support\ServiceProvider;
 use MyanmarCyberYouths\BreezeSdk\Breeze;
 
@@ -13,13 +17,13 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            \App\Contracts\WalletServiceInterface::class,
-            \App\Services\WalletService::class
+            WalletServiceInterface::class,
+            WalletService::class
         );
 
         $this->app->bind(
-            \App\Contracts\AtomicLockInterface::class,
-            \App\Services\AtomicLockService::class
+            AtomicLockInterface::class,
+            AtomicLockService::class
         );
     }
 

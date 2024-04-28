@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTokenRequest extends FormRequest
@@ -16,7 +17,7 @@ class StoreTokenRequest extends FormRequest
 
     public function user($guard = null)
     {
-        return \App\Models\User::where('user_id', $this->user_id)->first();
+        return User::where('user_id', $this->user_id)->first();
     }
 
     /**

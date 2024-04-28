@@ -20,10 +20,28 @@
     },
     "require-dev": {
         "schranz/mono": "^2.2",
-        "laravel/pint": "^1.0"
+        "laravel/pint": "^1.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^1.10"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
     },
     "scripts": {
         "mono": "mono",
-        "format": "pint"
-    }
+        "format": "pint --config pint-strict-imports.json",
+        "phpstan": "vendor/bin/phpstan analyse src tests"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./packages/*"
+        }
+    ]
 }

@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\User;
+use Overtrue\LaravelLike\Like;
+
 return [
     /**
      * Use uuid as primary key.
@@ -19,10 +22,10 @@ return [
     /*
      * Model name for like record.
      */
-    'like_model' => \Overtrue\LaravelLike\Like::class,
+    'like_model' => Like::class,
 
     /*
      * Model name for liker.
      */
-    'user_model' => class_exists(\App\Models\User::class) ? \App\Models\User::class : null,
+    'user_model' => class_exists(User::class) ? User::class : null,
 ];
