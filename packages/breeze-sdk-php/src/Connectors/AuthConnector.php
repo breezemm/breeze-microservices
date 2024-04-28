@@ -10,8 +10,10 @@ use Saloon\Http\Connector;
 class AuthConnector extends Connector
 {
     public function __construct(
-        public string $accessToken = '',
+        public readonly string $accessToken = '',
+        public readonly string $baseUrl = 'http://auth/api/v1',
     ) {
+
         if (! $this->accessToken) {
             throw new InvalidArgumentException('Access token is required');
         }
@@ -19,7 +21,7 @@ class AuthConnector extends Connector
 
     public function resolveBaseUrl(): string
     {
-        return 'http://auth/api/v1';
+        return $this->baseUrl;
     }
 
     public function defaultHeaders(): array

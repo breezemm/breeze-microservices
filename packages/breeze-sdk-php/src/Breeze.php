@@ -2,21 +2,31 @@
 
 namespace MyanmarCyberYouths\BreezeSdk;
 
-use InvalidArgumentException;
+use League\Config\Configuration;
 use MyanmarCyberYouths\BreezeSdk\Connectors\AuthConnector;
+use Nette\Schema\Expect;
 
-class Breeze
+final readonly class Breeze
 {
+    private Configuration $config;
+
     public function __construct(
-        public string $accessToken = '',
+        public readonly string $accessToken = '',
+        public readonly array $settings = [],
     ) {
-        if (empty($this->accessToken)) {
-            throw new InvalidArgumentException('Access Token is required for authentication.');
-        }
+        $this->config = new Configuration([
+            'auth' => Expect::structure([
+                'base_url' => Expect::string()->default('localhost'),
+            ]),
+        ]);
+        $this->config->merge($this->settings);
     }
 
     public function auth(): AuthConnector
     {
-        return new AuthConnector($this->accessToken);
+        return new AuthConnector(
+            accessToken: $this->accessToken,
+            baseUrl: $this->config->get('auth.base_url'),
+        );
     }
 }

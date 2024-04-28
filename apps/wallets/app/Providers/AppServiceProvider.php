@@ -7,7 +7,6 @@ use App\Contracts\WalletServiceInterface;
 use App\Services\AtomicLockService;
 use App\Services\WalletService;
 use Illuminate\Support\ServiceProvider;
-use MyanmarCyberYouths\BreezeSdk\Breeze;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +14,13 @@ class AppServiceProvider extends ServiceProvider
      * Register any application services.
      */
     public function register(): void
+    {
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
     {
         $this->app->bind(
             WalletServiceInterface::class,
@@ -24,19 +30,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             AtomicLockInterface::class,
             AtomicLockService::class
-        );
-    }
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        $this->app->bind(
-            Breeze::class,
-            function () {
-                return new Breeze(accessToken: 'dummy token');
-            }
         );
     }
 }
