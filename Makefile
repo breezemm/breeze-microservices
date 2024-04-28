@@ -2,7 +2,7 @@ CURRENT_DIRECTORY := $(shell pwd)
 
 SERVICE ?= $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
-.PHONY: up stop restart build tail gateway a gateway-seed notifications wallets
+.PHONY: up stop restart build tail gateway  gateway-seed notifications wallets
 
 up:
 	@docker-compose up -d
