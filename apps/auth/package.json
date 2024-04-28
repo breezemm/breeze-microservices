@@ -1,4 +1,5 @@
 {
+    "name": "auth",
     "private": true,
     "type": "module",
     "scripts": {

@@ -144,6 +144,8 @@ services:
     networks:
       - development
 
+  auth:
+
 
   gateway:
     restart: unless-stopped
