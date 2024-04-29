@@ -16,5 +16,6 @@ dist
 
 # Directories
 /**/*/node_modules
+/**/*/vendor
 /**/*/test
 /**/*/dist

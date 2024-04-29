@@ -5,13 +5,10 @@
     "node": ">=v20.10.0"
   },
   "scripts": {
-    "dev": "turbo dev --watch",
+    "dev": "turbo dev -- --watch",
     "build": "turbo build"
   },
-  "workspaces": [
-    "apps/*",
-    "research/*"
-  ],
+  "workspaces": ["apps/*"],
   "devDependencies": {
     "turbo": "^1.13.3",
     "typescript": "^5.4.5"
