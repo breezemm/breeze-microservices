@@ -219,5 +219,3 @@ services:
       dockerfile: ./apps/auth/Dockerfile
     networks:
       - development
-
-
