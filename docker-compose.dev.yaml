@@ -213,4 +213,11 @@ services:
     image: breezemm.com/bun:latest
     working_dir: /temp/dev
 
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+    networks:
+      - development
+
 
