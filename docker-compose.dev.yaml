@@ -17,7 +17,7 @@ services:
     command: --default-authentication-plugin=caching_sha2_password
     volumes:
       - mysql-db:/var/lib/mysql
-      - ./infra/development/databases/mysql/init:/docker-entrypoint-initdb.d # create necessary databases
+      - ./infra/dev/databases/mysql/init:/docker-entrypoint-initdb.d # create necessary databases
     ports:
       - '${FORWARD_MINIO_PORT:-3306}:3306'
     healthcheck:
@@ -144,8 +144,6 @@ services:
     networks:
       - development
 
-  auth:
-
 
   gateway:
     restart: unless-stopped
@@ -207,3 +205,12 @@ services:
       - redis
     networks:
       - development
+
+  bun:
+    build:
+      dockerfile: ./infra/dev/bun/Dockerfile
+      context: .
+    image: breezemm.com/bun:latest
+    working_dir: /temp/dev
+
+
