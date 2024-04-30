@@ -228,6 +228,6 @@ services:
       - /var/www/html/apps/auth/vendor
     ports:
       - "8000:8000"
-    #    entrypoint: [ "php", "apps/auth/artisan", "serve", "--host=0.0.0.0", "--port=8000" ]
+    entrypoint: php apps/auth/artisan octane:frankenphp --max-requests=1
     depends_on:
       - mysql
