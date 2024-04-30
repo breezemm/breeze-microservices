@@ -224,4 +224,9 @@ services:
     networks:
       - development
     volumes:
-      - ./apps/auth:/var/www/html/apps/auth
+      - .:/var/www/html
+    ports:
+      - "8004:8000"
+    entrypoint: [ "php", "apps/auth/artisan", "serve", "--host=0.0.0.0", "--port=8000" ]
+    depends_on:
+      - mysql

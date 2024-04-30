@@ -43,7 +43,7 @@ RUN install-php-extensions \
     bcmath \
     @composer-${COMPOSER_VERSION}
 
-RUN adduser -D -u $UID -G www-data $USER
+RUN adduser -D -u $UID -G www-data ${USER}
 
 COPY --chown=${USER}:${USER}  ${APP_NAME} ${APP_NAME}
 COPY  --chown=${USER}:${USER} ./packages/ ./packages/
@@ -55,11 +55,6 @@ RUN chmod -R 775 ${APP_NAME}/bootstrap/cache
 
 RUN composer install --working-dir=${APP_NAME}
 
-EXPOSE 80
-EXPOSE 443
-EXPOSE 443/udp
-EXPOSE 2019
 
 #ENTRYPOINT ["start-container"]
 
-HEALTHCHECK --start-period=5s --interval=2s --timeout=5s --retries=8 CMD php artisan octane:status || exit 1
