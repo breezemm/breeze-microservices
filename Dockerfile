@@ -55,6 +55,5 @@ RUN chmod -R 775 ${APP_NAME}/bootstrap/cache
 
 RUN composer install --working-dir=${APP_NAME}
 
-
 #ENTRYPOINT ["start-container"]
 

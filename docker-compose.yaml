@@ -225,6 +225,7 @@ services:
       - development
     volumes:
       - .:/var/www/html
+      - /var/www/html/apps/auth/vendor
     ports:
       - "8004:8000"
     entrypoint: [ "php", "apps/auth/artisan", "serve", "--host=0.0.0.0", "--port=8000" ]
