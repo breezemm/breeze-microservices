@@ -11,6 +11,7 @@
     "php": "^8.2",
     "firebase/php-jwt": "^6.10",
     "laravel/framework": "^11.0",
+    "laravel/octane": "^2.3",
     "laravel/passport": "^12.0",
     "laravel/tinker": "^2.9",
     "spatie/laravel-medialibrary": "^11.4"
