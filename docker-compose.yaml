@@ -186,6 +186,29 @@ services:
     networks:
       - development
 
+  gateway:
+    restart: unless-stopped
+    build:
+      args:
+        APP_PATH: ./apps/gateway
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    networks:
+      - development
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/apps/auth/vendor
+    depends_on:
+      - kafka
+      - mysql
+      - redis
+      - mailpit
+      - minio
+      - create-bucket
+
+
   bun:
     build:
       dockerfile: ./infra/dev/bun/Dockerfile
@@ -211,25 +234,4 @@ services:
 
 
 
-  gateway:
-    restart: unless-stopped
-    build:
-      args:
-        APP_PATH: ./apps/gateway
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8001:8000"
-    networks:
-      - development
-    volumes:
-      - .:/var/www/html
-      - /var/www/html/apps/auth/vendor
-    depends_on:
-      - kafka
-      - mysql
-      - redis
-      - mailpit
-      - minio
-      - create-bucket
 
