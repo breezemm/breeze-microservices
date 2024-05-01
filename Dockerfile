@@ -16,9 +16,11 @@ ARG GID=1000
 
 ARG COMPOSER_VERSION=2.7.1
 
-ENV USER=${USER}
-ENV UID=${UID}
-ENV GID=${GID}
+ENV USER=${USER} \
+    UID=${UID} \
+    GID=${GID} \
+    WITH_HORIZON=false \
+    WITH_SCHEDULER=false
 
 ENV WORK_DIR=${WORK_DIR}
 ENV APP_PATH=${APP_PATH}
@@ -82,7 +84,7 @@ RUN chmod -R 775 ${APP_PATH}/bootstrap/cache
 # copy devlopment node_modules deps
 COPY --from=breezemm.com/bun:latest /temp/dev/node_modules /var/www/html/node_modules
 
-COPY --chown=${USER}:${USER} ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY --chown=${USER}:${USER} infra/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --chown=${USER}:${USER} ./start-container /usr/local/bin/start-container
 
 RUN chmod +x /usr/local/bin/start-container
