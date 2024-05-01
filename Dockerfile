@@ -82,7 +82,14 @@ RUN chmod -R 775 ${APP_DIR}/bootstrap/cache
 # copy devlopment node_modules deps
 COPY --from=breezemm.com/bun:latest /temp/dev/node_modules /var/www/html/node_modules
 
-# TODO: change to the start-container script
-ENTRYPOINT php ${APP_DIR}/artisan octane:start --server=frankenphp --host=0.0.0.0 --port=80 --admin-port=2019 --watch
+COPY --chown=${USER}:${USER} ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY --chown=${USER}:${USER} ./start-container /usr/local/bin/start-container
+
+
+RUN chmod +x /usr/local/bin/start-container
+
+ENTRYPOINT ["start-container"]
+
+#ENTRYPOINT php ${APP_DIR}/artisan octane:start --server=frankenphp --host=0.0.0.0 --port=80 --admin-port=2019 --watch
 
 HEALTHCHECK --start-period=5s --interval=2s --timeout=5s --retries=8 CMD php ${APP_DIR}/artisan octane:status || exit 1

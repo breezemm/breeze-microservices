@@ -1,0 +1,14 @@
+2024-05-01 06:25:49,878 INFO Set uid to user 1000 succeeded
+2024-05-01 06:25:49,883 INFO supervisord started with pid 1
+2024-05-01 06:25:50,893 INFO spawned: 'octane_00' with pid 7
+2024-05-01 06:25:51,976 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 06:26:15,086 WARN received SIGTERM indicating exit request
+2024-05-01 06:26:15,088 INFO waiting for octane_00 to die
+2024-05-01 06:26:15,129 INFO stopped: octane_00 (exit status 0)
+2024-05-01 06:26:16,853 INFO Set uid to user 1000 succeeded
+2024-05-01 06:26:16,854 INFO supervisord started with pid 1
+2024-05-01 06:26:17,864 INFO spawned: 'octane_00' with pid 7
+2024-05-01 06:26:19,209 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 06:26:39,617 WARN received SIGTERM indicating exit request
+2024-05-01 06:26:39,619 INFO waiting for octane_00 to die
+2024-05-01 06:26:39,664 INFO stopped: octane_00 (exit status 0)

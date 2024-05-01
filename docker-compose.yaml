@@ -147,28 +147,6 @@ services:
       - development
 
 
-  gateway:
-    restart: unless-stopped
-    build:
-      args:
-        UID: 1000
-        USER: breeze
-      context: .
-      dockerfile: ./apps/gateway/dev.Dockerfile
-    ports:
-      - "8001:80"
-    volumes:
-      - ./apps/gateway:/usr/src/app
-    depends_on:
-      - kafka
-      - mysql
-      - redis
-      - mailpit
-      - minio
-      - create-bucket
-    networks:
-      - development
-
   wallets:
     build:
       args:
@@ -227,8 +205,31 @@ services:
       - .:/var/www/html
       - /var/www/html/apps/auth/vendor
     ports:
-      - "8000:80"
+      - "8000:8000"
     depends_on:
       - mysql
 
+
+
+  gateway:
+    restart: unless-stopped
+    build:
+      args:
+        APP_PATH: ./apps/gateway
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    networks:
+      - development
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/apps/auth/vendor
+    depends_on:
+      - kafka
+      - mysql
+      - redis
+      - mailpit
+      - minio
+      - create-bucket
 
