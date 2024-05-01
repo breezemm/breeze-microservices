@@ -33,7 +33,7 @@
     },
     "scripts": {
         "mono": "mono",
-        "format": "pint --config pint-strict-imports.json",
+        "format": "pint",
         "phpstan": "vendor/bin/phpstan analyse src tests"
     },
     "minimum-stability": "dev",
