@@ -21,7 +21,7 @@ ENV UID=${UID}
 ENV GID=${GID}
 
 ENV WORK_DIR=${WORK_DIR}
-ENV APP_DIR=${APP_PATH}
+ENV APP_PATH=${APP_PATH}
 ENV COMPOSER_VERSION=${COMPOSER_VERSION}
 
 
@@ -66,18 +66,18 @@ USER $USER
 COPY  --chown=${USER}:${USER} ./packages/ ./packages/
 COPY --chown=${USER}:${USER} ./composer.json ./composer.json
 COPY --chown=${USER}:${USER} ./composer.lock ./composer.lock
-COPY --chown=${USER}:${USER}  ${APP_DIR} ${APP_DIR}
+COPY --chown=${USER}:${USER}  ${APP_PATH} ${APP_PATH}
 
 RUN composer install
 
 # install deps in child apps
-RUN composer install --working-dir=${APP_DIR}
+RUN composer install --working-dir=${APP_PATH}
 
-RUN chown -R $USER:www-data ${APP_DIR}/storage
-RUN chown -R $USER:www-data ${APP_DIR}/bootstrap/cache
+RUN chown -R $USER:www-data ${APP_PATH}/storage
+RUN chown -R $USER:www-data ${APP_PATH}/bootstrap/cache
 
-RUN chmod -R 775 ${APP_DIR}/storage
-RUN chmod -R 775 ${APP_DIR}/bootstrap/cache
+RUN chmod -R 775 ${APP_PATH}/storage
+RUN chmod -R 775 ${APP_PATH}/bootstrap/cache
 
 # copy devlopment node_modules deps
 COPY --from=breezemm.com/bun:latest /temp/dev/node_modules /var/www/html/node_modules
@@ -85,11 +85,13 @@ COPY --from=breezemm.com/bun:latest /temp/dev/node_modules /var/www/html/node_mo
 COPY --chown=${USER}:${USER} ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --chown=${USER}:${USER} ./start-container /usr/local/bin/start-container
 
-
 RUN chmod +x /usr/local/bin/start-container
 
 ENTRYPOINT ["start-container"]
 
-#ENTRYPOINT php ${APP_DIR}/artisan octane:start --server=frankenphp --host=0.0.0.0 --port=80 --admin-port=2019 --watch
+EXPOSE 8000
+EXPOSE 443
+EXPOSE 443/udp
+EXPOSE 2019
 
-HEALTHCHECK --start-period=5s --interval=2s --timeout=5s --retries=8 CMD php ${APP_DIR}/artisan octane:status || exit 1
+HEALTHCHECK --start-period=5s --interval=2s --timeout=5s --retries=8 CMD php ${APP_PATH}/artisan octane:status || exit 1

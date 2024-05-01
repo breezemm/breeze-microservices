@@ -1,29 +1,99 @@
-2024-05-01 06:25:49,878 INFO Set uid to user 1000 succeeded
-2024-05-01 06:25:49,883 INFO supervisord started with pid 1
-2024-05-01 06:25:50,893 INFO spawned: 'octane_00' with pid 7
-2024-05-01 06:25:51,976 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
-2024-05-01 06:26:15,086 WARN received SIGTERM indicating exit request
-2024-05-01 06:26:15,088 INFO waiting for octane_00 to die
-2024-05-01 06:26:15,129 INFO stopped: octane_00 (exit status 0)
-2024-05-01 06:26:16,853 INFO Set uid to user 1000 succeeded
-2024-05-01 06:26:16,854 INFO supervisord started with pid 1
-2024-05-01 06:26:17,864 INFO spawned: 'octane_00' with pid 7
-2024-05-01 06:26:19,209 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
-2024-05-01 06:26:39,617 WARN received SIGTERM indicating exit request
-2024-05-01 06:26:39,619 INFO waiting for octane_00 to die
-2024-05-01 06:26:39,664 INFO stopped: octane_00 (exit status 0)
-2024-05-01 06:28:59,594 INFO Set uid to user 1000 succeeded
-2024-05-01 06:28:59,597 INFO supervisord started with pid 1
-2024-05-01 06:29:00,604 INFO spawned: 'horizon_00' with pid 7
-2024-05-01 06:29:00,611 INFO spawned: 'octane_00' with pid 8
-2024-05-01 06:29:00,781 WARN exited: horizon_00 (exit status 1; not expected)
-2024-05-01 06:29:02,471 INFO spawned: 'horizon_00' with pid 69
-2024-05-01 06:29:02,473 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
-2024-05-01 06:29:02,609 WARN exited: horizon_00 (exit status 1; not expected)
-2024-05-01 06:29:04,626 INFO spawned: 'horizon_00' with pid 81
-2024-05-01 06:29:04,753 WARN exited: horizon_00 (exit status 1; not expected)
-2024-05-01 06:29:08,010 INFO spawned: 'horizon_00' with pid 95
-2024-05-01 06:29:08,173 WARN exited: horizon_00 (exit status 1; not expected)
-2024-05-01 06:29:09,177 INFO gave up: horizon_00 entered FATAL state, too many start retries too quickly
-2024-05-01 06:30:31,298 INFO reaped unknown pid 233 (exit status 1)
-2024-05-01 06:30:31,300 INFO reaped unknown pid 244 (exit status 1)
+2024-05-01 07:50:33,484 INFO Set uid to user 1000 succeeded
+2024-05-01 07:50:33,487 INFO supervisord started with pid 1
+2024-05-01 07:50:34,495 INFO spawned: 'octane_00' with pid 7
+2024-05-01 07:50:35,340 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:50:36,345 INFO spawned: 'octane_00' with pid 42
+2024-05-01 07:50:38,148 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 07:50:38,149 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:50:39,163 INFO spawned: 'octane_00' with pid 76
+2024-05-01 07:50:39,980 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:50:40,989 INFO spawned: 'octane_00' with pid 107
+2024-05-01 07:50:41,783 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:50:43,790 INFO spawned: 'octane_00' with pid 141
+2024-05-01 07:50:44,605 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:50:47,617 INFO spawned: 'octane_00' with pid 185
+2024-05-01 07:50:49,438 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 07:50:49,439 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:50:50,444 INFO spawned: 'octane_00' with pid 225
+2024-05-01 07:50:51,224 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:50:52,231 INFO spawned: 'octane_00' with pid 249
+2024-05-01 07:50:53,060 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:50:54,064 WARN received SIGTERM indicating exit request
+2024-05-01 07:50:55,677 INFO Set uid to user 1000 succeeded
+2024-05-01 07:50:55,679 INFO supervisord started with pid 1
+2024-05-01 07:50:56,689 INFO spawned: 'octane_00' with pid 7
+2024-05-01 07:50:57,501 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:50:58,507 INFO spawned: 'octane_00' with pid 39
+2024-05-01 07:50:59,444 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:01,456 INFO spawned: 'octane_00' with pid 70
+2024-05-01 07:51:03,279 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 07:51:03,279 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:04,281 INFO spawned: 'octane_00' with pid 110
+2024-05-01 07:51:05,051 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:06,057 INFO spawned: 'octane_00' with pid 135
+2024-05-01 07:51:06,870 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:08,877 INFO spawned: 'octane_00' with pid 178
+2024-05-01 07:51:09,684 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:12,691 INFO spawned: 'octane_00' with pid 210
+2024-05-01 07:51:13,492 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:14,495 INFO gave up: octane_00 entered FATAL state, too many start retries too quickly
+2024-05-01 07:51:22,621 INFO Set uid to user 1000 succeeded
+2024-05-01 07:51:22,622 INFO supervisord started with pid 1
+2024-05-01 07:51:23,627 INFO spawned: 'octane_00' with pid 7
+2024-05-01 07:51:25,434 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 07:51:25,436 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:26,450 INFO spawned: 'octane_00' with pid 41
+2024-05-01 07:51:27,330 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:28,338 INFO spawned: 'octane_00' with pid 75
+2024-05-01 07:51:29,129 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:31,140 INFO spawned: 'octane_00' with pid 114
+2024-05-01 07:51:31,908 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:34,918 INFO spawned: 'octane_00' with pid 147
+2024-05-01 07:51:35,733 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:51:36,740 INFO gave up: octane_00 entered FATAL state, too many start retries too quickly
+2024-05-01 07:51:52,243 INFO Set uid to user 1000 succeeded
+2024-05-01 07:51:52,245 INFO supervisord started with pid 1
+2024-05-01 07:54:41,567 INFO Set uid to user 1000 succeeded
+2024-05-01 07:54:41,570 INFO supervisord started with pid 1
+2024-05-01 07:54:42,577 INFO spawned: 'octane_00' with pid 7
+2024-05-01 07:54:44,422 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 07:54:53,468 WARN received SIGTERM indicating exit request
+2024-05-01 07:54:53,470 INFO waiting for octane_00 to die
+2024-05-01 07:54:53,510 INFO stopped: octane_00 (exit status 0)
+2024-05-01 07:54:55,237 INFO Set uid to user 1000 succeeded
+2024-05-01 07:54:55,239 INFO supervisord started with pid 1
+2024-05-01 07:54:56,244 INFO spawned: 'octane_00' with pid 7
+2024-05-01 07:54:58,031 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 07:56:56,884 INFO Set uid to user 1000 succeeded
+2024-05-01 07:56:56,886 INFO supervisord started with pid 1
+2024-05-01 07:56:57,892 INFO spawned: 'octane_00' with pid 7
+2024-05-01 07:56:59,244 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 07:57:18,329 WARN received SIGTERM indicating exit request
+2024-05-01 07:57:18,330 INFO waiting for octane_00 to die
+2024-05-01 07:57:18,355 INFO stopped: octane_00 (exit status 0)
+2024-05-01 07:57:19,911 INFO Set uid to user 1000 succeeded
+2024-05-01 07:57:19,913 INFO supervisord started with pid 1
+2024-05-01 07:57:20,920 INFO spawned: 'octane_00' with pid 7
+2024-05-01 07:57:22,773 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 07:57:35,830 WARN received SIGTERM indicating exit request
+2024-05-01 07:57:35,833 INFO waiting for octane_00 to die
+2024-05-01 07:57:35,879 INFO stopped: octane_00 (exit status 0)
+2024-05-01 07:57:46,023 INFO Set uid to user 1000 succeeded
+2024-05-01 07:57:46,025 INFO supervisord started with pid 1
+2024-05-01 07:57:47,034 INFO spawned: 'octane_00' with pid 7
+2024-05-01 07:57:47,884 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:57:48,892 INFO spawned: 'octane_00' with pid 43
+2024-05-01 07:57:49,715 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:57:51,737 INFO spawned: 'octane_00' with pid 75
+2024-05-01 07:57:52,620 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:57:55,634 INFO spawned: 'octane_00' with pid 118
+2024-05-01 07:57:56,432 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 07:57:57,436 INFO gave up: octane_00 entered FATAL state, too many start retries too quickly
+2024-05-01 07:58:38,572 WARN received SIGTERM indicating exit request
+2024-05-01 07:58:57,321 INFO Set uid to user 1000 succeeded
+2024-05-01 07:58:57,323 INFO supervisord started with pid 1
+2024-05-01 07:58:58,335 INFO spawned: 'octane_00' with pid 7
+2024-05-01 07:59:00,260 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 07:59:11,339 WARN received SIGTERM indicating exit request
+2024-05-01 07:59:11,342 INFO waiting for octane_00 to die
+2024-05-01 07:59:11,398 INFO stopped: octane_00 (exit status 0)

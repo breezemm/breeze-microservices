@@ -1,0 +1,22 @@
+2024-05-01 06:42:06,729 INFO Set uid to user 1000 succeeded
+2024-05-01 06:42:06,731 INFO supervisord started with pid 1
+2024-05-01 06:42:07,739 INFO spawned: 'octane_00' with pid 7
+2024-05-01 06:42:07,836 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 06:42:08,839 INFO spawned: 'octane_00' with pid 17
+2024-05-01 06:42:08,856 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 06:42:10,864 INFO spawned: 'octane_00' with pid 25
+2024-05-01 06:42:10,890 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 06:42:13,909 INFO spawned: 'octane_00' with pid 37
+2024-05-01 06:42:13,964 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 06:42:14,967 INFO gave up: octane_00 entered FATAL state, too many start retries too quickly
+2024-05-01 06:42:40,246 INFO Set uid to user 1000 succeeded
+2024-05-01 06:42:40,248 INFO supervisord started with pid 1
+2024-05-01 06:42:41,260 INFO spawned: 'octane_00' with pid 7
+2024-05-01 06:42:41,327 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 06:42:42,331 INFO spawned: 'octane_00' with pid 17
+2024-05-01 06:42:42,353 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 06:42:44,360 INFO spawned: 'octane_00' with pid 25
+2024-05-01 06:42:44,382 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 06:42:47,397 INFO spawned: 'octane_00' with pid 37
+2024-05-01 06:42:47,418 WARN exited: octane_00 (exit status 1; not expected)
+2024-05-01 06:42:47,418 INFO gave up: octane_00 entered FATAL state, too many start retries too quickly
