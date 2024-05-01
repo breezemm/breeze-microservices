@@ -12,3 +12,18 @@
 2024-05-01 06:26:39,617 WARN received SIGTERM indicating exit request
 2024-05-01 06:26:39,619 INFO waiting for octane_00 to die
 2024-05-01 06:26:39,664 INFO stopped: octane_00 (exit status 0)
+2024-05-01 06:28:59,594 INFO Set uid to user 1000 succeeded
+2024-05-01 06:28:59,597 INFO supervisord started with pid 1
+2024-05-01 06:29:00,604 INFO spawned: 'horizon_00' with pid 7
+2024-05-01 06:29:00,611 INFO spawned: 'octane_00' with pid 8
+2024-05-01 06:29:00,781 WARN exited: horizon_00 (exit status 1; not expected)
+2024-05-01 06:29:02,471 INFO spawned: 'horizon_00' with pid 69
+2024-05-01 06:29:02,473 INFO success: octane_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-05-01 06:29:02,609 WARN exited: horizon_00 (exit status 1; not expected)
+2024-05-01 06:29:04,626 INFO spawned: 'horizon_00' with pid 81
+2024-05-01 06:29:04,753 WARN exited: horizon_00 (exit status 1; not expected)
+2024-05-01 06:29:08,010 INFO spawned: 'horizon_00' with pid 95
+2024-05-01 06:29:08,173 WARN exited: horizon_00 (exit status 1; not expected)
+2024-05-01 06:29:09,177 INFO gave up: horizon_00 entered FATAL state, too many start retries too quickly
+2024-05-01 06:30:31,298 INFO reaped unknown pid 233 (exit status 1)
+2024-05-01 06:30:31,300 INFO reaped unknown pid 244 (exit status 1)
