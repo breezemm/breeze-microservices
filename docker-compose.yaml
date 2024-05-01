@@ -227,6 +227,6 @@ services:
       - .:/var/www/html
       - /var/www/html/apps/auth/vendor
     ports:
-      - "8000:8000"
+      - "8000:80"
     depends_on:
       - mysql

@@ -52,7 +52,6 @@ USER $USER
 COPY  --chown=${USER}:${USER} ./packages/ ./packages/
 COPY --chown=${USER}:${USER} ./composer.json ./composer.json
 COPY --chown=${USER}:${USER} ./composer.lock ./composer.lock
-
 COPY --chown=${USER}:${USER}  ${APP_NAME} ${APP_NAME}
 
 RUN composer install
@@ -66,8 +65,10 @@ RUN chown -R $USER:www-data ${APP_NAME}/bootstrap/cache
 RUN chmod -R 775 ${APP_NAME}/storage
 RUN chmod -R 775 ${APP_NAME}/bootstrap/cache
 
+COPY --from=breezemm.com/bun:latest /temp/dev/node_modules /var/www/html/node_modules
 
-ENTRYPOINT php $APP_NAME/artisan octane:frankenphp
+
+ENTRYPOINT php $APP_NAME/artisan octane:start --server=frankenphp --host=0.0.0.0 --port=80 --admin-port=2019 --watch
 
 
 
