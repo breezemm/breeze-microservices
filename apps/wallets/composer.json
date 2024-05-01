@@ -8,6 +8,7 @@
     ],
     "license": "MIT",
     "require": {
+        "myanmarcyberyouths/breeze-sdk-php": "self.version",
         "php": "^8.2",
         "cknow/laravel-money": "^8.0",
         "godruoyi/php-snowflake": "^3.0",
@@ -17,7 +18,6 @@
         "laravel/pail": "^1.1",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "mateusjunges/laravel-kafka": "^2.0",
         "spatie/laravel-data": "^4.4",
         "tightenco/ziggy": "^2.0"
     },
@@ -92,6 +92,15 @@
             "phpstan/extension-installer": true
         }
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./../../packages/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "minimum-stability": "stable",
     "prefer-stable": true
 }

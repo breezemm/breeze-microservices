@@ -3,9 +3,6 @@
 use App\Http\Controllers\Api\V1\AcceptGuestInvitationController;
 use App\Http\Controllers\Api\V1\AddFirebaseToken;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
-use App\Http\Controllers\Api\V1\Auth\InterestController;
-use App\Http\Controllers\Api\V1\Auth\ValidationController;
-use App\Http\Controllers\Api\V1\CityListController;
 use App\Http\Controllers\Api\V1\EventSeatingPlanController;
 use App\Http\Controllers\Api\V1\FollowerController;
 use App\Http\Controllers\Api\V1\FollowingController;
@@ -39,7 +36,6 @@ use App\Http\Controllers\Api\V1\UserEventCheckInController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserFollowController;
 use App\Http\Controllers\Api\V1\UserFollowings\UserUnFollowController;
 use App\Http\Controllers\Api\V1\Wallet\GetMyWalletController;
-use App\Http\Controllers\OTPController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -47,23 +43,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/public/timeline', PublicTimelineController::class);
 
-Route::post('/otp/verify', [OTPController::class, 'verify']);
-Route::post('/otp/resend', [OTPController::class, 'resend']);
 
-Route::prefix('users')->group(function () {
-
-    Route::post('/sign-up', [AuthController::class, 'register']);
-    Route::post('/sign-in', [AuthController::class, 'login']);
-    Route::middleware('auth:api')->post('/sign-out', [AuthController::class, 'logout']);
-
-    Route::post('/validate', [ValidationController::class, 'validateEmail'])->middleware('throttle:5,1'); // validate email or phone number
-
-
-    Route::post('/validate-profile-image', [ValidationController::class, 'validateProfileImage']);
-    Route::get('/interests', InterestController::class);
-    Route::get('/cities', CityListController::class);
-});
-
+// Following and Followers services
 Route::middleware('auth:api')->prefix('/users')
     ->group(function () {
         Route::get('/me', [AuthController::class, 'getAuthUser']);
@@ -78,6 +59,8 @@ Route::middleware('auth:api')->prefix('/users')
         Route::post('/{user}/unfollow', UserUnFollowController::class);
     });
 
+
+// General Auth Routes and users services
 Route::middleware('auth:api')
     ->group(function () {
         Route::get('/timeline', PrivateTimelineController::class);
@@ -128,19 +111,20 @@ Route::middleware('auth:api')->prefix('event-dashboard')->group(function () {
     Route::post('/check-in', [UserEventCheckInController::class, 'checkInEvent']);
 });
 
+// get my wallets
 Route::middleware('auth:api')->prefix('wallets')->group(function () {
     Route::get('/me', GetMyWalletController::class);
 });
 
+// Notifications services
+// TODO: event_joined, wallet_cash_in, wallet_cash_out, wallet_transfer
 Route::middleware('auth:api')->group(function () {
     Route::get('/notifications', GetAllNotificationController::class);
     Route::post('/notifications/tokens', AddFirebaseToken::class);
     Route::post('/notifications/{notificationId}/read', MarkedAsReadController::class);
 });
 
-// TODO: event_joined, wallet_cash_in, wallet_cash_out, wallet_transfer
-
-// Admin Routes
+// Admin Routes: Role and Permission Management
 Route::middleware(['auth:api', 'role:admin'])->name('admin.')->group(function () {
     Route::apiResource('/roles', RoleController::class);
     Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])->name('roles.permissions');
@@ -157,5 +141,4 @@ Route::middleware(['auth:api', 'role:admin'])->name('admin.')->group(function ()
     Route::delete('/users/{user}/roles/{role}', [UserController::class, 'removeRole'])->name('users.roles.remove');
     Route::post('/users/{user}/permissions', [UserController::class, 'givePermission'])->name('users.permissions');
     Route::delete('/users/{user}/permissions/{permission}', [UserController::class, 'revokePermission'])->name('users.permissions.revoke');
-
 });

@@ -14,7 +14,6 @@ use Kreait\Firebase\Exception\MessagingException;
 
 class SendNotificationController extends Controller
 {
-
     public function __invoke(NotificationSendRequest $request)
     {
         try {
@@ -28,7 +27,6 @@ class SendNotificationController extends Controller
 
             DB::commit();
 
-
             $tokens = collect(User::where('user_id', $userId)
                 ->select('push_tokens')
                 ->get()
@@ -39,15 +37,14 @@ class SendNotificationController extends Controller
                     if ($token['type'] === TokenType::FIREBASE->value) {
                         return $token['token'];
                     }
+
                     return false;
                 })
                 ->toArray();
 
-
-            if (!$tokens) {
+            if (! $tokens) {
                 return response()->json(['message' => 'No push token found'], 422);
             }
-
 
             foreach ($tokens as $token) {
                 $message = [
@@ -59,9 +56,10 @@ class SendNotificationController extends Controller
             }
 
             return response()->json(['message' => 'Notification sent']);
-        } catch (MessagingException|FirebaseException $e) {
+        } catch (MessagingException | FirebaseException $e) {
 
             DB::rollBack();
+
             return response()->json([
                 'message' => 'Error sending notification',
             ], 400); // 400 for client-side errors
@@ -71,5 +69,4 @@ class SendNotificationController extends Controller
             return response()->json(['error' => 'Internal error'], 500);
         }
     }
-
 }

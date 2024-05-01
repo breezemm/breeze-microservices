@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.1
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.1
+
+  mailpit:
+    image: axllent/mailpit:latest
+
+  redis:
+    image: redis:alpine3.8
+
+  minio:
+    image: 'minio/minio:latest'
+
+  mysql:
+    image: mysql:8.0
+

@@ -27,6 +27,7 @@ class NotificationTopicConsumer extends Command
 
     /**
      * Execute the console command.
+     *
      * @throws KafkaConsumerException
      * @throws Exception
      */

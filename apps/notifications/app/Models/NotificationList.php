@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use PhpParser\Node\Expr\AssignOp\Mod;
 
 class NotificationList extends Model
 {
@@ -19,7 +17,6 @@ class NotificationList extends Model
         'message' => 'array',
         'is_read' => 'boolean',
     ];
-
 
     public function user(): BelongsTo
     {

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NotificationListIndexRequest;
 use App\Models\NotificationList;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class NotificationListController extends Controller
@@ -15,9 +14,11 @@ class NotificationListController extends Controller
         $userId = $request->validated('user_id');
 
         return Cache::remember(
-            "notifications:{$userId}:page:{$page}", 60,
-            fn() => NotificationList::where('user_id', $userId)
+            "notifications:{$userId}:page:{$page}",
+            60,
+            fn () => NotificationList::where('user_id', $userId)
                 ->orderBy('created_at', 'desc')
-                ->paginate(10));
+                ->paginate(10)
+        );
     }
 }

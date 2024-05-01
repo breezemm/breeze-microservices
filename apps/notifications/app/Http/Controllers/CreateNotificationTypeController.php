@@ -11,8 +11,6 @@ use Kreait\Firebase\Contract\Messaging;
 
 class CreateNotificationTypeController extends Controller
 {
-
-
     public function __construct(public readonly Messaging $messaging)
     {
     }
@@ -25,18 +23,16 @@ class CreateNotificationTypeController extends Controller
         $userId = $request->validated('user_id');
         $notificationId = $request->validated('notification_id');
 
-
         $notificationType = NotificationType::where('user_id', $userId)
             ->where('notification_id', $notificationId)
             ->first();
-
 
         $isNotificationTypeAlreadyExists = NotificationType::where('user_id', $userId)
             ->where('notification_id', $notificationId)
             ->exists();
 
         if ($isNotificationTypeAlreadyExists) {
-            throw new NotificationAlreadyExisits("Notification type already exists");
+            throw new NotificationAlreadyExisits('Notification type already exists');
         }
 
         $notificationType = NotificationType::create([
@@ -46,22 +42,22 @@ class CreateNotificationTypeController extends Controller
                 'channels' => [
                     'email' => [
                         'enabled' => false,
-                        'frequency' => 'instant'
+                        'frequency' => 'instant',
                     ],
                     'sms' => [
                         'enabled' => false,
-                        'frequency' => 'instant'
+                        'frequency' => 'instant',
                     ],
                     'push' => [
                         'enabled' => true,
-                        'frequency' => 'instant'
+                        'frequency' => 'instant',
                     ],
                     'web_push' => [
                         'enabled' => false,
-                        'frequency' => 'instant'
-                    ]
-                ]
-            ]
+                        'frequency' => 'instant',
+                    ],
+                ],
+            ],
         ]);
 
         $user = User::where('id', $userId)->first();
@@ -70,15 +66,13 @@ class CreateNotificationTypeController extends Controller
                 if ($token['type'] !== 'FCM') {
                     return false;
                 }
+
                 return $token['token'];
             })
             ->toArray();
-
 
         SubscribeFirebaseTopicJob::dispatch($notificationId, $firebaseTokens);
 
         return response()->json($notificationType, 201);
     }
-
-
 }

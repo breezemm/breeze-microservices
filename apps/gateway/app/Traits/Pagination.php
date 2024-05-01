@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 trait Pagination
 {
-    public function paginate(array|Collection $items, ?int $perPage = null, ?int $page = null, array $options = [], ?string $path = null): LengthAwarePaginator
+    public function paginate(array | Collection $items, ?int $perPage = null, ?int $page = null, array $options = [], ?string $path = null): LengthAwarePaginator
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
 

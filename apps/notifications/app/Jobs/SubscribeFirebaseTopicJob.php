@@ -10,18 +10,20 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Kreait\Firebase\Contract\Messaging;
 
-class SubscribeFirebaseTopicJob implements ShouldQueue, ShouldBeUnique
+class SubscribeFirebaseTopicJob implements ShouldBeUnique, ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
      */
     public function __construct(
         public readonly string $notificationId,
-        public readonly array  $firebaseTokens
-    )
-    {
+        public readonly array $firebaseTokens
+    ) {
         //
     }
 

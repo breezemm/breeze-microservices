@@ -24,7 +24,6 @@ class NotificationSendAction implements Action
             ]);
             DB::commit();
 
-
             $tokens = collect(User::where('user_id', $userId)
                 ->select('push_tokens')
                 ->get()
@@ -35,10 +34,10 @@ class NotificationSendAction implements Action
                     if ($token['type'] === TokenType::FIREBASE->value) {
                         return $token['token'];
                     }
+
                     return false;
                 })
                 ->toArray();
-
 
             foreach ($tokens as $token) {
                 $message = [

@@ -25,7 +25,7 @@ class OrderCheckOutController extends Controller
             $buyerUserId = auth()->id();
             $sellerUserId = $event->user->id;
 
-            Cache::lock('event:'.$event->id.':ticket:'.$ticket->id.':checkout')
+            Cache::lock('event:' . $event->id . ':ticket:' . $ticket->id . ':checkout')
                 ->block(5, function () use ($ticket) {
                     $ticket->lockForUpdate()->first();
                 });

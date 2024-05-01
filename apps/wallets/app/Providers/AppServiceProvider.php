@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\AtomicLockInterface;
+use App\Contracts\WalletServiceInterface;
+use App\Services\AtomicLockService;
+use App\Services\WalletService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,15 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(
-            \App\Contracts\WalletServiceInterface::class,
-            \App\Services\WalletService::class
-        );
-
-        $this->app->bind(
-            \App\Contracts\AtomicLockInterface::class,
-            \App\Services\AtomicLockService::class
-        );
     }
 
     /**
@@ -27,6 +22,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->bind(
+            WalletServiceInterface::class,
+            WalletService::class
+        );
+
+        $this->app->bind(
+            AtomicLockInterface::class,
+            AtomicLockService::class
+        );
     }
 }

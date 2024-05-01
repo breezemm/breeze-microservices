@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
@@ -21,7 +22,7 @@ class UserController extends Controller
         return response()->json($user->with('roles.permissions')->first());
     }
 
-    public function assignRole(Request $request, User $user): \Illuminate\Http\RedirectResponse
+    public function assignRole(Request $request, User $user): RedirectResponse
     {
         if ($user->hasRole($request->role)) {
             return back()->with('message', 'Role exists.');

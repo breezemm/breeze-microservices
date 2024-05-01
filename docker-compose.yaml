@@ -1,35 +1,60 @@
+version: '3.8'
 volumes:
   mysql-db:
   redis:
   minio:
 
+
+
 networks:
-  dev:
+  development:
     driver: bridge
 
 services:
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.5.1
-    env_file: .env
-    container_name: zookeeper
+  mysql:
+    extends:
+      file: ./docker-compose.base.yaml
+      service: mysql
+    restart: always
+    command: --default-authentication-plugin=caching_sha2_password
+    volumes:
+      - mysql-db:/var/lib/mysql
+      - ./infra/dev/databases/mysql/init:/docker-entrypoint-initdb.d # create necessary databases
     ports:
-      - 2181:2181
+      - '${FORWARD_MINIO_PORT:-3306}:3306'
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - development
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+  zookeeper:
+    extends:
+      file: ./docker-compose.base.yaml
+      service: zookeeper
+    ports:
+      - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - dev
+      - development
 
   kafka:
+    extends:
+      file: ./docker-compose.base.yaml
+      service: kafka
     restart: on-failure
-    image: confluentinc/cp-kafka:7.5.1
-    env_file: .env
     hostname: kafka
-    container_name: kafka
     depends_on:
       - zookeeper
     ports:
       - 9092:9092
+      - 29092:29092
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -42,7 +67,7 @@ services:
       KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-host.docker.internal}
       KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
     networks:
-      - dev
+      - development
     healthcheck:
       test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
       interval: 5s
@@ -50,31 +75,36 @@ services:
       retries: 5
 
 
+
   mailpit:
-    image: axllent/mailpit:latest
-    container_name: mailpit
+    extends:
+      file: ./docker-compose.base.yaml
+      service: mailpit
     ports:
-      - 1025:1025 # SMTP
-      - 8025:8025 # Mail Box
+      - "1025:1025" # SMTP
+      - "8025:8025" # Mail Box
     networks:
-      - dev
+      - development
 
   redis:
-    image: redis:alpine3.8
-    env_file: .env
+    extends:
+      file: ./docker-compose.base.yaml
+      service: redis
     volumes:
       - redis:/data
     ports:
       - "6379:6379"
     networks:
-      - dev
+      - development
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 5s
       timeout: 5s
 
   minio:
-    image: 'minio/minio:latest'
+    extends:
+      file: ./docker-compose.base.yaml
+      service: minio
     ports:
       - '${FORWARD_MINIO_PORT:-9000}:9000'
       - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
@@ -84,7 +114,7 @@ services:
     volumes:
       - 'minio:/data/minio'
     networks:
-      - dev
+      - development
     command: 'minio server /data/minio --console-address ":8900"'
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
@@ -114,26 +144,8 @@ services:
       exit 0;
       "
     networks:
-      - dev
+      - development
 
-  mysql-db:
-    image: mysql:8.0
-    restart: always
-    command: --default-authentication-plugin=caching_sha2_password
-    volumes:
-      - mysql-db:/var/lib/mysql
-      - ./infra/development/databases/mysql/init:/docker-entrypoint-initdb.d # init sql
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - dev
 
   gateway:
     restart: unless-stopped
@@ -149,13 +161,13 @@ services:
       - ./apps/gateway:/usr/src/app
     depends_on:
       - kafka
-      - mysql-db
+      - mysql
       - redis
       - mailpit
       - minio
       - create-bucket
     networks:
-      - dev
+      - development
 
   wallets:
     build:
@@ -169,11 +181,11 @@ services:
     volumes:
       - ./apps/wallets:/usr/src/app
     depends_on:
-      - mysql-db
+      - mysql
       - redis
       - kafka
     networks:
-      - dev
+      - development
     links:
       - gateway
 
@@ -190,8 +202,33 @@ services:
     volumes:
       - ./apps/notifications:/usr/src/app
     depends_on:
-      - mysql-db
+      - mysql
       - kafka
       - redis
     networks:
-      - dev
+      - development
+
+  bun:
+    build:
+      dockerfile: ./infra/dev/bun/Dockerfile
+      context: .
+    image: breezemm.com/bun:latest
+    working_dir: /temp/dev
+
+  auth:
+    build:
+      args:
+        APP_PATH: ./apps/auth
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - development
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/apps/auth/vendor
+    ports:
+      - "8000:80"
+    depends_on:
+      - mysql
+
+

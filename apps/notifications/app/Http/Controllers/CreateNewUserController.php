@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class CreateNewUserController extends Controller
 {
-
     public function __invoke(UserIdentifyRequest $request)
     {
 
@@ -25,22 +24,22 @@ class CreateNewUserController extends Controller
                     'channels' => [
                         'email' => [
                             'enabled' => false,
-                            'frequency' => 'instant'
+                            'frequency' => 'instant',
                         ],
                         'sms' => [
                             'enabled' => false,
-                            'frequency' => 'instant'
+                            'frequency' => 'instant',
                         ],
                         'push' => [
                             'enabled' => true,
-                            'frequency' => 'instant'
+                            'frequency' => 'instant',
                         ],
                         'web_push' => [
                             'enabled' => false,
-                            'frequency' => 'instant'
-                        ]
-                    ]
-                ]
+                            'frequency' => 'instant',
+                        ],
+                    ],
+                ],
             ]);
             DB::commit();
 
@@ -49,10 +48,10 @@ class CreateNewUserController extends Controller
                     if ($token['type'] !== 'FCM') {
                         return false;
                     }
+
                     return $token['token'];
                 })
                 ->toArray();
-
 
             $notificationTypes = NotificationType::all();
 
@@ -65,10 +64,10 @@ class CreateNewUserController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'message' => 'User creation failed. Please try again.',
             ]);
         }
     }
-
 }

@@ -59,7 +59,7 @@ class AcceptGuestInvitationController extends Controller
                 'channels' => [
                     'push' => [
                         'title' => 'Invitation Accepted',
-                        'body' => auth()->user()->name.' accept your invitation.',
+                        'body' => auth()->user()->name . ' accept your invitation.',
                         'data' => [
                             'type' => 'event_invitation_accepted',
                             'user' => auth()->user()->load('media'),

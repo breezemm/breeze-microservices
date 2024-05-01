@@ -24,7 +24,7 @@ class PostLikeController extends Controller
             'channels' => [
                 'push' => [
                     'title' => 'Post Liked',
-                    'body' => auth()->user()->name.' likes your post.',
+                    'body' => auth()->user()->name . ' likes your post.',
                     'data' => [
                         'type' => 'new_follower',
                         'user' => auth()->user()->load('media'),

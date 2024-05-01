@@ -67,7 +67,7 @@ class GuestInvitationController extends Controller
                 'channels' => [
                     'push' => [
                         'title' => 'Event Invitation',
-                        'body' => auth()->user()->name.' invites you to the event.',
+                        'body' => auth()->user()->name . ' invites you to the event.',
                         'data' => [
                             'type' => 'event_invitation',
                             'user' => auth()->user()->load('media'),
@@ -80,7 +80,7 @@ class GuestInvitationController extends Controller
             ]);
 
             return response()->json([
-                'message' => 'Invitation sent successfully to '.$user->name.'!',
+                'message' => 'Invitation sent successfully to ' . $user->name . '!',
             ]);
         } catch (\Exception $exception) {
             DB::rollBack();

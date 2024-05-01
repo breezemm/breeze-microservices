@@ -1,19 +1,16 @@
 {
-    "name": "breeze",
-    "private": true,
-    "engines": {
-        "node": ">=v20.10.0"
-    },
-    "scripts": {
-        "dev": "turbo dev --watch"
-    },
-    "workspaces": [
-        "apps/*",
-        "docs/*",
-        "research/*"
-    ],
-    "devDependencies": {
-        "typescript": "^5.3.3",
-        "turbo": "latest"
-    }
+  "name": "breeze",
+  "private": true,
+  "engines": {
+    "node": ">=v20.10.0"
+  },
+  "scripts": {
+    "dev": "turbo dev -- --watch",
+    "build": "turbo build"
+  },
+  "workspaces": ["apps/*"],
+  "devDependencies": {
+    "turbo": "^1.13.3",
+    "typescript": "^5.4.5"
+  }
 }

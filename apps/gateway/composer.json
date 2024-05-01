@@ -23,7 +23,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "league/flysystem-aws-s3-v3": "^3.0",
-        "mateusjunges/laravel-kafka": "v1.13.9",
+        "mateusjunges/laravel-kafka": "v2.0.2",
         "opcodesio/log-viewer": "^3.1",
         "overtrue/laravel-follow": "^5.1",
         "overtrue/laravel-like": "^5.1",

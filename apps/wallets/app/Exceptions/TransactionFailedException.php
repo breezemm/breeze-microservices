@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TransactionFailedException extends Exception
@@ -17,7 +18,7 @@ class TransactionFailedException extends Exception
         //
     }
 
-    public function render(Request $request): \Illuminate\Http\JsonResponse
+    public function render(Request $request): JsonResponse
     {
         return response()->json(['error' => $this->message], 500);
     }
