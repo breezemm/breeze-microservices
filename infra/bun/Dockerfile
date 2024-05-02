@@ -12,8 +12,3 @@ COPY apps/wallets/package.json /temp/dev/apps/wallets/
 
 RUN cd /temp/dev && bun install --frozen-lockfile
 
-# Copy the rest of the files
-#FROM base AS final
-#COPY --from=install /temp/dev/node_modules node_modules
-#COPY . .
-

@@ -1,0 +1,24 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - host: auth
+    name: auth_service
+    port: 8000
+    protocol: http
+    routes:
+      - name: auth_route
+        paths:
+          - /auth
+        strip_path: true
+
+  - host: auth
+    name: wallet_service
+    port: 8000
+    protocol: http
+    routes:
+      - name: wallet_route
+        paths:
+          - /wallets
+        strip_path: true
+
