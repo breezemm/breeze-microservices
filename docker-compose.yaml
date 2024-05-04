@@ -19,7 +19,7 @@ services:
     command: --default-authentication-plugin=caching_sha2_password
     volumes:
       - mysql-db:/var/lib/mysql
-      - ./infra/dev/databases/mysql/init:/docker-entrypoint-initdb.d # create necessary databases
+      - ./infra/databases/mysql/init:/docker-entrypoint-initdb.d # create necessary databases
     ports:
       - '${FORWARD_MINIO_PORT:-3306}:3306'
     healthcheck:
@@ -53,8 +53,8 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - 9092:9092
-      - 29092:29092
+      - "9092:9092"
+      - "29092:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -208,31 +208,6 @@ services:
       - minio
       - create-bucket
 
-
-  bun:
-    build:
-      dockerfile: infra/bun/Dockerfile
-      context: .
-    image: breezemm.com/bun:latest
-    working_dir: /temp/dev
-
-  auth:
-    build:
-      args:
-        APP_PATH: ./apps/auth
-      context: .
-      dockerfile: Dockerfile
-    networks:
-      - development
-    volumes:
-      - .:/var/www/html
-      - /var/www/html/apps/auth/vendor
-    ports:
-      - "8003:8000"
-    depends_on:
-      - mysql
-
-
   kong:
     image: kong
     networks:
@@ -256,3 +231,29 @@ services:
       - "8001:8001/tcp"
       - "8443:8443/tcp"
       - "127.0.0.1:8444:8444/tcp"
+
+
+  bun:
+    build:
+      dockerfile: infra/bun/Dockerfile
+      context: .
+    image: breezemm.com/bun:latest
+    working_dir: /temp/dev
+
+  auth:
+    restart: unless-stopped
+    build:
+      args:
+        APP_PATH: ./apps/auth
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - development
+    volumes:
+      - ./apps/auth:/var/www/html/apps/auth
+    ports:
+      - "8003:8000"
+    depends_on:
+      - mysql
+
+

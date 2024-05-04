@@ -9,7 +9,7 @@ services:
     routes:
       - name: auth_route
         paths:
-          - /auth
+          - /api/v1/auth
         strip_path: true
 
   - host: auth

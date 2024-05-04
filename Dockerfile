@@ -65,14 +65,12 @@ RUN adduser -D -u $UID -G www-data ${USER}
 
 USER $USER
 
-COPY  --chown=${USER}:${USER} ./packages/ ./packages/
+COPY --chown=${USER}:${USER} ./packages/ ./packages/
 COPY --chown=${USER}:${USER} ./composer.json ./composer.json
 COPY --chown=${USER}:${USER} ./composer.lock ./composer.lock
 COPY --chown=${USER}:${USER}  ${APP_PATH} ${APP_PATH}
 
-RUN composer install
-
-# install deps in child apps
+# install deps in app path
 RUN composer install --working-dir=${APP_PATH}
 
 RUN chown -R $USER:www-data ${APP_PATH}/storage
