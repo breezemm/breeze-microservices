@@ -1,0 +1,37 @@
+version: 3
+
+tasks:
+  up-*:
+    vars:
+      ARG_1: '{{index .MATCH 0}}'
+    cmd: docker compose up {{.ARG_1}}
+
+  sh-*:
+    vars:
+      ARG_1: '{{index .MATCH 0}}'
+    cmd: docker compose exec {{.ARG_1}} sh
+
+  build:
+    cmd: docker compose build
+
+  up:
+    cmd: docker compose up -d
+
+  down:
+    cmd: docker compose down --remove-orphans
+
+  stop:
+    cmd: docker compose stop
+
+  restart:
+    cmd: docker compose restart
+
+  destroy:
+    cmd: docker compose down --rmi all --volumes --remove-orphans
+
+
+  ps:
+    cmd: docker compose ps
+
+  auth:sh:
+    cmd: docker compose exec auth sh
