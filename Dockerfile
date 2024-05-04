@@ -82,8 +82,10 @@ RUN chmod -R 775 ${APP_PATH}/bootstrap/cache
 # copy devlopment node_modules deps
 COPY --from=breezemm.com/bun:latest /temp/dev/node_modules /var/www/html/node_modules
 
+# copy supervisord config
 COPY --chown=${USER}:${USER} infra/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY --chown=${USER}:${USER} ./start-container /usr/local/bin/start-container
+COPY --chown=${USER}:${USER} infra/supervisord/supervisord.*.conf /etc/supervisor/conf.d/
+COPY --chown=${USER}:${USER} infra/start-container /usr/local/bin/start-container
 
 RUN chmod +x /usr/local/bin/start-container
 

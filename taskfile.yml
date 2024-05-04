@@ -1,7 +1,6 @@
 version: 3
 
 
-
 tasks:
   up:*:
     vars:
@@ -14,6 +13,7 @@ tasks:
       ARG_1: '{{index .MATCH 0}}'
     desc: "Start a shell in a service"
     cmd: docker compose exec {{.ARG_1}} sh
+
 
   build:
     desc: "Build or rebuild services"
@@ -42,7 +42,3 @@ tasks:
   ps:
     desc: "List containers"
     cmd: docker compose ps
-
-  auth:sh:
-    desc: "Start a shell in the auth service"
-    cmd: docker compose exec auth sh

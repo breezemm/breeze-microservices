@@ -1,7 +1,18 @@
 #!/usr/bin/env sh
 set -e
 
-cd "${APP_PATH}}}"
+containerMode=${CONTAINER_MODE:-"http"}
 
-exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
-
+if [ "$containerMode" = "http" ]; then
+    echo "Starting HTTP server"
+    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+elif [ "$containerMode" = "horizon" ]; then
+    echo "Starting Horizon"
+    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.horizon.conf
+elif [ "$containerMode" = "worker" ]; then
+    echo "Starting Queue Worker"
+    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.worker.conf
+else
+    echo "Invalid container mode: $containerMode"
+    exit 1
+fi
