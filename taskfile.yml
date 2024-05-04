@@ -1,37 +1,48 @@
 version: 3
 
+
+
 tasks:
-  up-*:
+  up:*:
     vars:
       ARG_1: '{{index .MATCH 0}}'
+    desc: "Start a service in foreground"
     cmd: docker compose up {{.ARG_1}}
 
-  sh-*:
+  sh:*:
     vars:
       ARG_1: '{{index .MATCH 0}}'
+    desc: "Start a shell in a service"
     cmd: docker compose exec {{.ARG_1}} sh
 
   build:
+    desc: "Build or rebuild services"
     cmd: docker compose build
 
   up:
+    desc: "Start a service in background"
     cmd: docker compose up -d
 
   down:
+    desc: "Stop and remove containers and networks"
     cmd: docker compose down --remove-orphans
 
   stop:
+    desc: "Stop services"
     cmd: docker compose stop
 
   restart:
+    desc: "Restart services"
     cmd: docker compose restart
 
   destroy:
+    desc: "Stop and remove containers, networks, images, and volumes"
     cmd: docker compose down --rmi all --volumes --remove-orphans
 
-
   ps:
+    desc: "List containers"
     cmd: docker compose ps
 
   auth:sh:
+    desc: "Start a shell in the auth service"
     cmd: docker compose exec auth sh
