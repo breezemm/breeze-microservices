@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
+cd "${APP_PATH}}}"
+
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+
