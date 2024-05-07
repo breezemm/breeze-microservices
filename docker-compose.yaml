@@ -1,14 +1,16 @@
 version: '3.8'
-volumes:
-  mysql-db:
-  redis:
-  minio:
-
-
 
 networks:
   development:
     driver: bridge
+
+volumes:
+  mysql-db:
+  redis:
+  minio:
+  pg_data: { }
+  conduktor_data: { }
+
 
 services:
   mysql:
@@ -33,48 +35,91 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
   zookeeper:
-    extends:
-      file: ./docker-compose.base.yaml
-      service: zookeeper
-    ports:
-      - "2181:2181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
+    image: 'bitnami/zookeeper:latest'
     networks:
       - development
-
-  kafka:
-    extends:
-      file: ./docker-compose.base.yaml
-      service: kafka
-    restart: on-failure
-    hostname: kafka
-    depends_on:
-      - zookeeper
     ports:
-      - "9092:9092"
-      - "29092:29092"
+      - '2181:2181'
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_JMX_PORT: 9999
-      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-host.docker.internal}
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-    networks:
-      - development
+      ZOO_PORT_NUMBER: 2181
+      ZOO_SERVER_ID: 1
+      ZOO_HC_TIMEOUT: 5
+      ALLOW_ANONYMOUS_LOGIN: 'yes'
     healthcheck:
-      test: [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
-      interval: 5s
+      test: [ "CMD", "nc", "-vz", "localhost", "2181" ]
+      interval: 10s
       timeout: 10s
       retries: 5
 
+  kafka:
+    image: 'bitnami/kafka:latest'
+    networks:
+      - development
+    ports:
+      - '9092:9092'
+      - '9094:9094'
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092,EXTERNAL://host.docker.internal:9094
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@127.0.0.1:9093
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+      - BITNAMI_DEBUG=yes
+      - KAFKA_CFG_NUM_PARTITIONS=2
 
+    healthcheck:
+      test: [ "CMD", "nc", "-vz", "localhost", "9091" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  postgresql:
+    image: postgres:14
+    hostname: postgresql
+    networks:
+      - development
+    environment:
+      POSTGRES_DB: "conduktor-console"
+      POSTGRES_USER: "conduktor"
+      POSTGRES_PASSWORD: "change_me"
+
+  conduktor-console:
+    image: conduktor/conduktor-console:1.22.0
+    depends_on:
+      - kafka
+      - postgresql
+      - conduktor-monitoring
+    ports:
+      - "8080:8080"
+    networks:
+      - development
+    environment:
+      CDK_DATABASE_URL: "postgresql://conduktor:change_me@postgresql:5432/conduktor-console"
+      CDK_ORGANIZATION_NAME: "Myanmar Cyber Youths"
+      CDK_ADMIN_EMAIL: "admin@cyberyouths.com.mm"
+      CDK_ADMIN_PASSWORD: "password"
+      CDK_MONITORING_CORTEX-URL: http://conduktor-monitoring:9009/
+      CDK_MONITORING_ALERT-MANAGER-URL: http://conduktor-monitoring:9010/
+      CDK_MONITORING_CALLBACK-URL: http://conduktor-console:8080/monitoring/api/
+      CDK_MONITORING_NOTIFICATIONS-CALLBACK-URL: http://localhost:8080
+
+
+  conduktor-monitoring:
+    image: conduktor/conduktor-console-cortex:1.22.0
+    networks:
+      - development
+    environment:
+      CDK_CONSOLE-URL: "http://conduktor-console:8080"
 
   mailpit:
     extends:
