@@ -147,66 +147,13 @@ services:
       - development
 
 
-  wallets:
+  bun:
     build:
-      args:
-        UID: 1000
-        USER: breeze
+      dockerfile: infra/bun/Dockerfile
       context: .
-      dockerfile: ./apps/wallets/dev.Dockerfile
-    ports:
-      - "8002:80"
-    volumes:
-      - ./apps/wallets:/usr/src/app
-    depends_on:
-      - mysql
-      - redis
-      - kafka
-    networks:
-      - development
-    links:
-      - gateway
+    image: breezemm.com/bun:latest
+    working_dir: /temp/dev
 
-  notifications:
-    restart: unless-stopped
-    build:
-      args:
-        UID: 1000
-        USER: breeze
-      context: .
-      dockerfile: ./apps/notifications/dev.Dockerfile
-    ports:
-      - "8003:80"
-    volumes:
-      - ./apps/notifications:/usr/src/app
-    depends_on:
-      - mysql
-      - kafka
-      - redis
-    networks:
-      - development
-
-  gateway:
-    restart: unless-stopped
-    build:
-      args:
-        APP_PATH: ./apps/gateway
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8001:8000"
-    networks:
-      - development
-    volumes:
-      - .:/var/www/html
-      - /var/www/html/apps/auth/vendor
-    depends_on:
-      - kafka
-      - mysql
-      - redis
-      - mailpit
-      - minio
-      - create-bucket
 
   kong:
     image: kong
@@ -233,13 +180,6 @@ services:
       - "127.0.0.1:8444:8444/tcp"
 
 
-  bun:
-    build:
-      dockerfile: infra/bun/Dockerfile
-      context: .
-    image: breezemm.com/bun:latest
-    working_dir: /temp/dev
-
   auth:
     restart: unless-stopped
     build:
@@ -256,4 +196,50 @@ services:
     depends_on:
       - mysql
 
+  gateway:
+    restart: unless-stopped
+    build:
+      args:
+        APP_PATH: ./apps/gateway
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - development
+    volumes:
+      - ./apps/gateway:/var/www/html/apps/gateway
+    ports:
+      - "8003:8000"
+    depends_on:
+      - mysql
 
+  wallets:
+    restart: unless-stopped
+    build:
+      args:
+        APP_PATH: ./apps/wallets
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - development
+    volumes:
+      - ./apps/wallets:/var/www/html/apps/wallets
+    ports:
+      - "8003:8000"
+    depends_on:
+      - mysql
+
+  notifications:
+    restart: unless-stopped
+    build:
+      args:
+        APP_PATH: ./apps/notifications
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - development
+    volumes:
+      - ./apps/notifications:/var/www/html/apps/notifications
+    ports:
+      - "8003:8000"
+    depends_on:
+      - mysql
