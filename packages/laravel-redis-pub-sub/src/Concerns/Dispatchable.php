@@ -3,6 +3,7 @@
 namespace MyanmarCyberYouths\RedisPubSub\Concerns;
 
 
+use Prwnr\Streamer\Contracts\Event;
 use Prwnr\Streamer\Facades\Streamer;
 
 trait Dispatchable
@@ -14,12 +15,14 @@ trait Dispatchable
 
     public static function dispatch(...$args): int
     {
-        return (int)Streamer::emit(new self(...$args));
+        $event = type(new self(...$args))->as(Event::class);
+        return (int)Streamer::emit($event);
     }
 
     public static function dispatchIf(bool $condition, ...$args): int
     {
-        return $condition ? (int)Streamer::emit(new self(...$args)) : 0;
+        $event = type(new self(...$args))->as(Event::class);
+        return $condition ? (int)Streamer::emit($event) : 0;
     }
 
     public function name(): string

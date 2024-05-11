@@ -27,10 +27,11 @@
   "require": {
     "php": "^8.2",
     "illuminate/contracts": "^10.0||^11.0",
-    "spatie/laravel-package-tools": "^1.16",
+    "pinkary-project/type-guard": "^0.1.0",
     "prwnr/laravel-streamer": "^4.1",
-    "symfony/serializer": "v7.0.7",
-    "symfony/property-access": "v7.0.7"
+    "spatie/laravel-package-tools": "^1.16",
+    "symfony/property-access": "v7.0.7",
+    "symfony/serializer": "v7.0.7"
   },
   "require-dev": {
     "myanmarcyberyouths/command-watcher": "*",
