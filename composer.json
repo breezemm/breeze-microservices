@@ -1,6 +1,6 @@
 {
     "name": "myanmarcyberyouths/breeze",
-    "description": "Microservices for Breeze Application",
+    "description": "Monorepo for Breeze",
     "authors": [
         {
             "name": "Aung Myat Moe",
@@ -20,27 +20,25 @@
     },
     "require-dev": {
         "schranz/mono": "^2.2",
-        "laravel/pint": "^1.0",
-        "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^1.10"
+        "laravel/pint": "^1.0"
     },
     "config": {
         "allow-plugins": {
-            "composer/package-versions-deprecated": true,
-            "pestphp/pest-plugin": true,
-            "phpstan/extension-installer": true
+            "composer/package-versions-deprecated": true
         }
     },
     "scripts": {
-        "mono": "mono",
-        "format": "pint"
+        "mono": "mono"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
         {
             "type": "path",
-            "url": "./packages/*"
+            "url": "./packages/*",
+            "options": {
+                "symlink": true
+            }
         }
     ]
 }
