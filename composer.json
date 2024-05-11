@@ -11,8 +11,7 @@
     "homepage": "https://www.cyberyouths.com.mm",
     "autoload": {
         "psr-4": {
-            "MyanmarCyberYouths\\Breeze\\": "packages",
-            "MyanmarCyberYouths\\BreezeSdk\\": "packages/breeze-sdk-php/src"
+            "MyanmarCyberYouths\\Breeze\\": "packages"
         }
     },
     "require": {
@@ -24,7 +23,8 @@
     },
     "config": {
         "allow-plugins": {
-            "composer/package-versions-deprecated": true
+            "composer/package-versions-deprecated": true,
+            "phpstan/extension-installer": true
         }
     },
     "scripts": {
