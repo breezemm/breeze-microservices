@@ -43,8 +43,7 @@ trait  Listener
             throw new Exception('The listener must implement a listen method' . PHP_EOL);
         }
 
-        $this->{'listen'}(type($event)->as($className));
-
+        $this->listen($event);
     }
 
 

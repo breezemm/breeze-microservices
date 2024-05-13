@@ -6,6 +6,7 @@ namespace MyanmarCyberYouths\RedisPubSub\Concerns;
 use Prwnr\Streamer\Contracts\Event;
 use Prwnr\Streamer\Facades\Streamer;
 
+
 trait Dispatchable
 {
 
@@ -13,16 +14,31 @@ trait Dispatchable
 
     public string $className = __CLASS__;
 
+
+    /**
+     * Dispatch the event to the redis pub/sub
+     *
+     * @param mixed ...$args
+     * @return int
+     */
     public static function dispatch(...$args): int
     {
-        $event = type(new self(...$args))->as(Event::class);
+        $event = type(new static(...$args))->as(Event::class);
+
         return (int)Streamer::emit($event);
     }
 
-    public static function dispatchIf(bool $condition, ...$args): int
+    /**
+     * Dispatch the event with the given arguments if the given truth test passes.
+     *
+     * @param bool $boolean
+     * @param mixed ...$arguments
+     * @return int
+     */
+    public static function dispatchIf(bool $boolean, ...$arguments): int
     {
-        $event = type(new self(...$args))->as(Event::class);
-        return $condition ? (int)Streamer::emit($event) : 0;
+        $event = type(new static(...$arguments))->as(Event::class);
+        return value($boolean) ? Streamer::emit($event) : 0;
     }
 
     public function name(): string
