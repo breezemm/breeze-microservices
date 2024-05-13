@@ -1,0 +1,16 @@
+FROM dunglas/frankenphp:1.1-php8.3-alpine
+
+RUN apk add --update --no-cache --virtual .persistent-deps                                              \
+        supervisor
+
+RUN install-php-extensions                                                                              \
+        opcache                                                                                         \
+        pcntl pdo_mysql                                                                                 \
+        redis                                                                                           \
+        zip
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"                        && \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer                          && \
+    php -r "unlink('composer-setup.php');"
+
+COPY octane.ini /usr/local/etc/php/conf.d/
