@@ -1,0 +1,81 @@
+name: 'breezemm'
+
+networks:
+  staging:
+    name: 'staging'
+    ipam:
+      driver: 'default'
+      config:
+        - subnet:   '10.10.101.0/24'
+          ip_range: '10.10.101.0/24'
+          gateway:  '10.10.101.254'
+
+volumes:
+  mysql:
+  redis:
+
+services:
+  mysql:
+    image: 'bitnami/mysql:8.3.0'
+    container_name: 'mysql'
+    environment:
+      - 'ALLOW_EMPTY_PASSWORD=yes'
+    volumes:
+      - 'mysql:/bitnami/mysql/data'
+      - './infra/databases/mysql/init/01-databases.sql:/docker-entrypoint-initdb.d/create-database.sql'
+    networks:
+      staging:
+        ipv4_address: '10.10.101.11'
+    healthcheck:
+        test: ['CMD', 'mysqladmin', 'ping', '-p']
+        retries: '3'
+        timeout: '5s'
+    restart: 'unless-stopped'
+
+  redis:
+    image: 'bitnami/redis:7.2.4'
+    container_name: 'redis'
+    environment:
+      - 'ALLOW_EMPTY_PASSWORD=yes'
+    volumes:
+      - 'redis:/bitnami/redis/data'
+    networks:
+      staging:
+        ipv4_address: '10.10.101.12'
+    healthcheck:
+        test: ['CMD', 'redis-cli', 'ping']
+        retries: '3'
+        timeout: '5s'
+    restart: 'unless-stopped'
+
+  kong:
+    image: 'kong:latest'
+    container_name: 'kong'
+    environment:
+      - 'KONG_DATABASE=off'
+      - 'KONG_DECLARATIVE_CONFIG=/usr/local/kong/declarative/kong.yml'
+      - 'KONG_PROXY_ACCESS_LOG=/dev/stdout'
+      - 'KONG_ADMIN_ACCESS_LOG=/dev/stdout'
+      - 'KONG_PROXY_ERROR_LOG=/dev/stderr'
+      - 'KONG_ADMIN_ERROR_LOG=/dev/stderr'
+      - 'KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl'
+      - 'KONG_LOG_LEVEL=debug'
+      - 'KONG_PLUGINS=bundled'
+    volumes:
+      - './infra/kong/config:/usr/local/kong/declarative'
+      - './infra/kong/logs/file.log:/file.log'
+    networks:
+      staging:
+        ipv4_address: '10.10.101.13'
+    restart: 'unless-stopped'
+
+  auth:
+    build:
+      context: './apps/auth'
+      dockerfile: 'staging.dockerfile'
+    container_name: 'auth'
+    env_file: './apps/auth/staging.env'
+    networks:
+      staging:
+        ipv4_address: '10.10.101.101'
+    restart: 'unless-stopped'

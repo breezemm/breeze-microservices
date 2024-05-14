@@ -1,10 +1,9 @@
 FROM mmcyberyouths/php:dev
 
 RUN install-php-extensions                                                                           \
-        bcmath                                                                                       \
-        intl
+        exif
 
-COPY ./apps/wallets .
+COPY . .
 
 RUN composer install \
     --no-autoloader && \
