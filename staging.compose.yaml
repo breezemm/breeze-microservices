@@ -1,14 +1,9 @@
 name: 'breezemm'
 
 networks:
-  staging:
-    name: 'staging'
-    ipam:
-      driver: 'default'
-      config:
-        - subnet:   '10.10.101.0/24'
-          ip_range: '10.10.101.0/24'
-          gateway:  '10.10.101.254'
+  asn:
+    name: 'asn'
+    external: true
 
 volumes:
   mysql:
@@ -25,7 +20,7 @@ services:
       - './infra/databases/mysql/init/01-databases.sql:/docker-entrypoint-initdb.d/create-database.sql'
     networks:
       staging:
-        ipv4_address: '10.10.101.11'
+        ipv4_address: '192.0.66.201'
     healthcheck:
         test: ['CMD', 'mysqladmin', 'ping', '-p']
         retries: '3'
@@ -41,7 +36,7 @@ services:
       - 'redis:/bitnami/redis/data'
     networks:
       staging:
-        ipv4_address: '10.10.101.12'
+        ipv4_address: '192.0.66.202'
     healthcheck:
         test: ['CMD', 'redis-cli', 'ping']
         retries: '3'
@@ -66,7 +61,7 @@ services:
       - './infra/kong/logs/file.log:/file.log'
     networks:
       staging:
-        ipv4_address: '10.10.101.13'
+        ipv4_address: '192.0.66.203'
     restart: 'unless-stopped'
 
   auth:
@@ -77,5 +72,5 @@ services:
     env_file: './apps/auth/staging.env'
     networks:
       staging:
-        ipv4_address: '10.10.101.101'
+        ipv4_address: '192.0.66.204'
     restart: 'unless-stopped'
