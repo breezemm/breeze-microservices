@@ -4,6 +4,7 @@ _transform: true
 services:
   - host: auth
     name: auth_service
+    url: http://auth:8000/api/v1
     port: 8000
     protocol: http
     routes:
@@ -12,13 +13,4 @@ services:
           - /api/v1/auth
         strip_path: true
 
-  - host: auth
-    name: wallet_service
-    port: 8000
-    protocol: http
-    routes:
-      - name: wallet_route
-        paths:
-          - /wallets
-        strip_path: true
 
