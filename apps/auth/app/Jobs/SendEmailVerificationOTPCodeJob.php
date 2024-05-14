@@ -23,7 +23,8 @@ class SendEmailVerificationOTPCodeJob implements ShouldQueue
     public function __construct(
         public readonly string $email,
         public readonly string $verificationCode,
-    ) {
+    )
+    {
         //
     }
 
@@ -32,8 +33,9 @@ class SendEmailVerificationOTPCodeJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->email)->send(new EmailVerificationCodeSentMail(
-            code: $this->verificationCode,
-        ));
+        Mail::to($this->email)->send(
+            new EmailVerificationCodeSentMail(
+                code: $this->verificationCode,
+            ));
     }
 }

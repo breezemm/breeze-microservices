@@ -18,7 +18,8 @@ class EmailVerificationCodeSentMail extends Mailable
      */
     public function __construct(
         public readonly string $code,
-    ) {
+    )
+    {
         //
     }
 
@@ -28,7 +29,7 @@ class EmailVerificationCodeSentMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Email Verification Code Sent',
+            subject: 'Your verification code',
         );
     }
 
@@ -38,7 +39,7 @@ class EmailVerificationCodeSentMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.verification-code-sent',
+            markdown: 'emails.otp-code',
             with: [
                 'code' => $this->code,
             ]
