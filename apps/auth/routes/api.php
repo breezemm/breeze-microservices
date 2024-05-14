@@ -16,12 +16,11 @@ Route::get('/cities', CityController::class);
 
 Route::post('/validate', [ValidationController::class, 'validateEmail'])->middleware('throttle:5,1'); // validate email or phone number
 
-Route::prefix('/auth')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
-    Route::get('/me', [AuthController::class, 'getCurrentAuthUser'])->middleware('auth:api');
-});
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
+
+Route::get('/me', [AuthController::class, 'getCurrentAuthUser'])->middleware('auth:api');
 
 Route::post('/oauth/introspect', IntrospectionController::class);
