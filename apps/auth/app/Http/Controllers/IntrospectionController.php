@@ -18,8 +18,9 @@ class IntrospectionController extends Controller implements HasMiddleware
 {
     public function __construct(
         public AccessTokenRepository $accessTokenRepository,
-        public ClientRepository $clientRepository,
-    ) {
+        public ClientRepository      $clientRepository,
+    )
+    {
     }
 
     public static function middleware(): array
@@ -29,16 +30,6 @@ class IntrospectionController extends Controller implements HasMiddleware
         ];
     }
 
-    /**
-     * @return JsonResponse
-     *
-     * @link https://www.oauth.com/oauth2-servers/token-introspection-endpoint/
-     *
-     * @example
-     * ```curl
-     * http://localhost:8000/api/oauth2/introspect?token=eyJ0eXA&token_type_hint=access_token
-     * ```
-     */
     public function __invoke(IntrospectRequest $request)
     {
         try {
@@ -54,7 +45,7 @@ class IntrospectionController extends Controller implements HasMiddleware
                 ...$claims,
             ]);
 
-        } catch (Exception | Throwable $exception) {
+        } catch (Exception|Throwable) {
             return response()->json([
                 'active' => false,
             ]);
@@ -68,6 +59,6 @@ class IntrospectionController extends Controller implements HasMiddleware
     {
         $publicKey = File::get(Passport::keyPath('oauth-public.key'));
 
-        return (array) JWT::decode($token, new Key($publicKey, 'RS256'));
+        return (array)JWT::decode($token, new Key($publicKey, 'RS256'));
     }
 }
