@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Cache;
 
 class InterestController extends Controller
 {
+    /**
+     * Get all interests.
+     * @return mixed
+     */
     public function __invoke()
     {
         $interests = Interest::all();

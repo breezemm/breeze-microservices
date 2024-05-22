@@ -8,6 +8,7 @@ use App\Http\Requests\RegistrationRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,15 @@ use function Laravel\Prompts\error;
 
 class AuthController extends Controller
 {
-    public function register(RegistrationRequest $request)
+    /**
+     * @unauthenticated
+     *
+     * Register a new user
+     *
+     * @param RegistrationRequest $request
+     * @return JsonResponse
+     */
+    public function register(RegistrationRequest $request): JsonResponse
     {
 
         $data = $request->validated();
@@ -59,6 +68,15 @@ class AuthController extends Controller
         }
     }
 
+
+    /**
+     * @unauthenticated
+     *
+     * Login a user
+     *
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
     public function login(LoginRequest $request)
     {
         $validatedUser = $request->validated();
@@ -77,6 +95,14 @@ class AuthController extends Controller
 
     }
 
+    /**
+     * @authenticated
+     *
+     * Logout a user
+     *
+     * @return \Illuminate\Http\Response
+     */
+
     public function logout()
     {
         auth()->user()->tokens()->delete();
@@ -84,6 +110,13 @@ class AuthController extends Controller
         return response()->noContent();
     }
 
+    /**
+     * @authenticated
+     *
+     * Get the current authenticated user
+     *
+     * @return JsonResponse
+     */
     public function getCurrentAuthUser()
     {
         $user = auth()->user();
@@ -93,18 +126,19 @@ class AuthController extends Controller
         return $this->getUserProfileByUsername($user->username);
     }
 
+
     public function getUserProfileByUsername(string $username)
     {
         $user = User::whereUsername($username)->firstOrFail();
 
         $user->load('city');
 
-        return Cache::remember($user->username, 60 * 60 * 24, fn() => response()->json([
+
+        return response()->json([
             'data' => [
                 'is_auth_user' => auth()->user()->is($user),
                 'user' => new UserResource($user),
             ],
-        ]));
-
+        ]);
     }
 }

@@ -15,6 +15,13 @@ class OTPController extends Controller
     {
     }
 
+    /**
+     * Verify OTP code
+     *
+     * @param ValidationRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function verify(ValidationRequest $request)
     {
         $isVerifiedOTP = $this->otp->verify(
@@ -29,6 +36,12 @@ class OTPController extends Controller
         ]);
     }
 
+    /**
+     * Resend OTP code
+     *
+     * @param ValidationRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function resend(ValidationRequest $request)
     {
         $email = $request->validated('email');

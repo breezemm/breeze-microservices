@@ -30,6 +30,11 @@ class IntrospectionController extends Controller implements HasMiddleware
         ];
     }
 
+    /**
+     * Introspect an access token
+     * @param IntrospectRequest $request
+     * @return JsonResponse
+     */
     public function __invoke(IntrospectRequest $request)
     {
         try {
