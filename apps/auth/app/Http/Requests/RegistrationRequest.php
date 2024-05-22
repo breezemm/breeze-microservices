@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Base64ValidationRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class RegistrationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +30,7 @@ class RegisterRequest extends FormRequest
             'date_of_birth' => 'required|date_format:d-m-Y',
             'gender' => 'required|in:male,female',
             'interests' => 'required|array',
-            'profile_image' => 'required|image',
+            'user_profile_image' => ['required', new Base64ValidationRule()],
             'accept_terms' => 'required|boolean',
             'city_id' => 'required|exists:cities,id',
             'least_favorite' => 'required|numeric|exists:interests,id',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\StorageMediaCollectionName;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,12 +19,11 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'username' => $this->username,
-            'profile_image' => $this->getFirstMediaUrl('profile_images'),
+            'profile_image' => $this->getFirstMediaUrl(StorageMediaCollectionName::PROFILE_IMAGES->value),
             'email' => $this->email,
             'date_of_birth' => $this->date_of_birth,
             'interests' => InterestResource::collection($this->interests),
             'city' => $this->city->name,
-            //            'settings' => $this->settings()->all(),
         ];
     }
 }

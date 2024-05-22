@@ -16,7 +16,6 @@ Route::get('/cities', CityController::class);
 
 Route::post('/validate', [ValidationController::class, 'validateEmail'])->middleware('throttle:5,1'); // validate email or phone number
 
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:api');

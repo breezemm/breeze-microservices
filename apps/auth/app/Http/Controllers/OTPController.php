@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Common\OTP;
+use App\Common\OTPType;
 use App\Http\Requests\ValidationRequest;
 use App\Jobs\SendEmailVerificationOTPCodeJob;
 
@@ -10,7 +11,8 @@ class OTPController extends Controller
 {
     public function __construct(
         public readonly OTP $otp,
-    ) {
+    )
+    {
     }
 
     public function verify(ValidationRequest $request)
@@ -20,7 +22,7 @@ class OTPController extends Controller
             otp: $request->validated('code'),
         );
 
-        abort_if(! $isVerifiedOTP, 422, 'Invalid OTP code');
+        abort_if(!$isVerifiedOTP, 422, 'Invalid OTP code');
 
         return response()->json([
             'message' => 'OTP verified successfully',
@@ -31,7 +33,7 @@ class OTPController extends Controller
     {
         $email = $request->validated('email');
 
-        $otpCode = $this->otp->generate(identifier: $email);
+        $otpCode = $this->otp->generate(identifier: $email, type: OTPType::Alphanumeric);
 
         dispatch(new SendEmailVerificationOTPCodeJob(
             email: $email,

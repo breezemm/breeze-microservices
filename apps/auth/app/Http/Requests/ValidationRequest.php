@@ -25,7 +25,7 @@ class ValidationRequest extends FormRequest
             'email' => 'required|email',
             'phone' => 'nullable|numeric',
             'type' => 'required|in:email,phone',
-            'code' => 'nullable|numeric|digits:6',
+            'code' => 'nullable|string',
         ];
     }
 }

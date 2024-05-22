@@ -12,9 +12,9 @@ class OTP
      * @param  Carbon|null  $expireAt  in seconds
      * @return string One Time Password
      */
-    public function generate(string $identifier, ?OTPTypeEnum $type = null, ?int $length = 6, ?Carbon $expireAt = null): string
+    public function generate(string $identifier, ?OTPType $type = null, ?int $length = 6, ?Carbon $expireAt = null): string
     {
-        $type = $type ?? OTPTypeEnum::Numeric;
+        $type = $type ?? OTPType::Numeric;
         $otp = $this->generateOTP($type, $length);
 
         OneTimePassword::create([
@@ -36,11 +36,11 @@ class OTP
         return $otpRecord->exists();
     }
 
-    private function generateOTP(OTPTypeEnum $type, int $length): string
+    private function generateOTP(OTPType $type, int $length): string
     {
         return match ($type) {
-            OTPTypeEnum::Numeric => $this->generateNumericOTP($length),
-            OTPTypeEnum::Alphanumeric => $this->generateAlphaNumericOTP($length),
+            OTPType::Numeric => $this->generateNumericOTP($length),
+            OTPType::Alphanumeric => $this->generateAlphaNumericOTP($length),
             default => throw new \InvalidArgumentException('Invalid OTP type.'),
         };
     }

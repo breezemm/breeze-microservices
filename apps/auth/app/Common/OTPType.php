@@ -2,7 +2,7 @@
 
 namespace App\Common;
 
-enum OTPTypeEnum: string
+enum OTPType: string
 {
     case Numeric = 'numeric';
     case Alphanumeric = 'alphanumeric';
