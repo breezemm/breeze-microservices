@@ -6,43 +6,80 @@ tasks:
   prepare:
     cmd: docker create network development
 
-  up:*:
-    vars:
-      ARG_1: '{{index .MATCH 0}}'
-    desc: "Start a service in foreground"
-    cmd: docker compose up {{.ARG_1}}
-
   sh:*:
     vars:
       ARG_1: '{{index .MATCH 0}}'
     desc: "Start a shell in a service"
     cmd: docker compose exec {{.ARG_1}} sh
 
-
   build:
     desc: "Build or rebuild services"
-    cmd: docker compose build
+    cmds:
+      - docker compose build
+      - docker compose -f docker-compose.base.yml build
+      - docker compose -f docker-compose.generator.yml build
+
+  up:*:
+    vars:
+      ARG_1: '{{index .MATCH 0}}'
+    desc: "Start a service in foreground"
+    cmd: docker compose up {{.ARG_1}}
 
   up:
-    desc: "Start a service in background"
+    desc: "Start all services in background"
+    preconditions:
+      - docker inspect development
     cmd: docker compose up -d
 
-  down:
-    desc: "Stop and remove containers and networks"
-    cmd: docker compose down --remove-orphans
+  up:base:
+    desc: "Start all core service in background"
+    preconditions:
+      - docker inspect development
+    cmd: docker compose -f docker-compose.base.yml up -d
+
+  up:generator:
+    desc: "Start a service in background"
+    cmd: docker compose -f docker-compose.generator.yml up -d
 
   stop:
     desc: "Stop services"
-    cmd: docker compose stop
+    cmds:
+      - docker compose stop
+      - docker compose -f docker-compose.base.yml stop
+      - docker compose -f docker-compose.generator.yml stop
+      - docker compose down --remove-orphans
+
+  down:
+    desc: "Stop and remove containers and networks"
+    cmds:
+      - docker compose down --remove-orphans
+      - docker compose -f docker-compose.base.yml down --remove-orphans
+      - docker compose -f docker-compose.generator.yml down --remove-orphans
+
 
   restart:
     desc: "Restart services"
-    cmd: docker compose restart
+    cmds:
+      - docker compose restart
+      - docker compose -f docker-compose.base.yml restart
+      - docker compose -f docker-compose.generator.yml restart
+
+  restart:*:
+    vars:
+      ARG_1: '{{index .MATCH 0}}'
+    desc: "Restart a service"
+    cmd: docker compose -f docker-compose.{{.ARG_1}}.yml restart
 
   destroy:
     desc: "Stop and remove containers, networks, images, and volumes"
-    cmd: docker compose down --rmi all --volumes --remove-orphans
+    cmds:
+      - docker compose down --rmi all --volumes --remove-orphans
+      - docker compose -f docker-compose.base.yml down --rmi all --volumes --remove-orphans
+      - docker compose -f docker-compose.generator.yml down --rmi all --volumes --remove-orphans
 
   ps:
     desc: "List containers"
-    cmd: docker compose ps
+    cmds:
+      - docker compose ps
+      - docker compose -f docker-compose.base.yml ps
+      - docker compose -f docker-compose.generator.yml ps

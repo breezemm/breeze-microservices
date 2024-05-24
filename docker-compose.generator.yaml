@@ -1,0 +1,44 @@
+networks:
+  development:
+    driver: bridge
+    name: development
+    external: true
+
+services:
+  #    As this is a get started, we want to bring some life to the cluster to demonstrate the value of Conduktor.
+  #    This is totally optional and only used for this purpose. Do not use it in production.
+  conduktor-data-generator:
+    image: conduktor/conduktor-data-generator:0.4
+    container_name: conduktor-data-generator
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: conduktor-gateway:6969
+      KAFKA_SCHEMA_REGISTRY_URL: http://redpanda-0:8081
+      GATEWAY_ADMIN_API: http://conduktor-gateway:8888
+    networks:
+      - development
+    restart: on-failure
+
+
+
+  create-bucket:
+    image: minio/mc:latest
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: |
+      "
+      # set host alias
+      mc alias set minio http://minio:9000 root password
+
+      # create IAM user
+      # ref: https://min.io/docs/minio/linux/administration/identity-access-management/minio-user-management.html#id5
+      mc admin user add minio access_key secret_key
+      mc admin policy attach minio readwrite --user=access_key
+
+      # create bucket
+      mc mb minio/breeze
+      mc anonymous set upload minio/breeze
+      mc anonymous set download minio/breeze
+      mc anonymous set public minio/breeze
+      exit 0;
+      "
+    networks:
+      - development

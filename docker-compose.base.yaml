@@ -1,16 +1,306 @@
-version: '3.8'
+networks:
+  development:
+    external: true
+
+volumes:
+  mysql:
+  redis:
+  minio:
+  pg_data: null
+  conduktor_data: null
+  redpanda-0: null
+  redpanda-1: null
+  redpanda-2: null
 
 services:
+  # We use Redpanda to get started with Kafka as it's small and efficient.
+  # This is an example here. For production, connect Conduktor to your own Kafka clusters.
+  redpanda-0:
+    command:
+      - redpanda
+      - start
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda-0:9092,external://localhost:19092
+      - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:18082
+      # Address the broker advertises to clients that connect to the HTTP Proxy.
+      - --advertise-pandaproxy-addr internal://redpanda-0:8082,external://localhost:18082
+      - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:18081
+      # Redpanda brokers use the RPC API to communicate with eachother internally.
+      - --rpc-addr redpanda-0:33145
+      - --advertise-rpc-addr redpanda-0:33145
+      - --smp 1
+      - --memory 1G
+      - --mode dev-container
+      - --default-log-level=info
+    image: docker.redpanda.com/redpandadata/redpanda:v23.1.11
+    container_name: redpanda-0
+    networks:
+      - development
+    volumes:
+      - redpanda-0:/var/lib/redpanda/data
+    ports:
+      - 18081:18081
+      - 18082:18082
+      - 19092:19092
+      - 19644:9644
+    healthcheck:
+      test: [ "CMD-SHELL", "rpk cluster health | grep -E 'Healthy:.+true' || exit 1" ]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
 
-  mailpit:
-    image: axllent/mailpit:latest
+  #  redpanda-1:
+  #    command:
+  #      - redpanda
+  #      - start
+  #      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:29092
+  #      - --advertise-kafka-addr internal://redpanda-1:9092,external://localhost:29092
+  #      - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:28082
+  #      - --advertise-pandaproxy-addr internal://redpanda-1:8082,external://localhost:28082
+  #      - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:28081
+  #      - --rpc-addr redpanda-1:33145
+  #      - --advertise-rpc-addr redpanda-1:33145
+  #      - --mode dev-container
+  #      - --smp 1
+  #      - --default-log-level=info
+  #      - --seeds redpanda-0:33145
+  #    image: docker.redpanda.com/redpandadata/redpanda:v24.1.2
+  #    container_name: redpanda-1
+  #    volumes:
+  #      - redpanda-1:/var/lib/redpanda/data
+  #    networks:
+  #      - development
+  #    ports:
+  #      - 28081:28081
+  #      - 28082:28082
+  #      - 29092:29092
+  #      - 29644:9644
+  #    depends_on:
+  #      - redpanda-0
 
-  redis:
-    image: redis:alpine3.8
-
-  minio:
-    image: 'minio/minio:latest'
+  #  redpanda-2:
+  #    command:
+  #      - redpanda
+  #      - start
+  #      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:39092
+  #      - --advertise-kafka-addr internal://redpanda-2:9092,external://localhost:39092
+  #      - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:38082
+  #      - --advertise-pandaproxy-addr internal://redpanda-2:8082,external://localhost:38082
+  #      - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:38081
+  #      - --rpc-addr redpanda-2:33145
+  #      - --advertise-rpc-addr redpanda-2:33145
+  #      - --mode dev-container
+  #      - --smp 1
+  #      - --default-log-level=info
+  #      - --seeds redpanda-0:33145
+  #    image: docker.redpanda.com/redpandadata/redpanda:v24.1.2
+  #    container_name: redpanda-2
+  #    volumes:
+  #      - redpanda-2:/var/lib/redpanda/data
+  #    networks:
+  #      - development
+  #    ports:
+  #      - 38081:38081
+  #      - 38082:38082
+  #      - 39092:39092
+  #      - 39644:9644
+  #    depends_on:
+  #      - redpanda-0
 
   mysql:
     image: mysql:8.0
+    restart: always
+    command: --default-authentication-plugin=caching_sha2_password
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./infra/databases/mysql/init:/docker-entrypoint-initdb.d # create necessary databases
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - development
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
+  postgresql:
+    image: postgres:14
+    hostname: postgresql
+    networks:
+      - development
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      PGDATA: "/var/lib/postgresql/data"
+      POSTGRES_DB: "conduktor-console"
+      POSTGRES_USER: "conduktor"
+      POSTGRES_PASSWORD: "change_me"
+      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
+
+
+  redis:
+    image: redis:alpine3.8
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - development
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 5s
+      timeout: 5s
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - '${FORWARD_MINIO_PORT:-9000}:9000'
+      - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: password
+    volumes:
+      - 'minio:/data/minio'
+    networks:
+      - development
+    command: 'minio server /data/minio --console-address ":8900"'
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      retries: 3
+      timeout: 5s
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # Mail Box
+    networks:
+      - development
+
+
+  # Conduktor Console, the enterprise UI.
+  # It depends on PostgreSQL. Here, we depend on Redpanda only for our get-started.
+  # https://docs.conduktor.io/platform/get-started/configuration/introduction/
+  conduktor-console:
+    image: conduktor/conduktor-console:1.23.0
+    depends_on:
+      - postgresql
+      - redpanda-0
+    networks:
+      - development
+    ports:
+      - "8080:8080"
+    volumes:
+      - conduktor_data:/var/conduktor
+    environment:
+      CDK_DATABASE_URL: "postgresql://conduktor:change_me@postgresql:5432/conduktor-console"
+      CDK_ORGANIZATION_NAME: "Myanmar Cyber Youths"
+      CDK_ADMIN_EMAIL: "admin@cyberyouths.com.mm"
+      CDK_ADMIN_PASSWORD: "password"
+
+      CDK_CLUSTERS_0_ID: "local-kafka"
+      CDK_CLUSTERS_0_NAME: "local-kafka"
+      CDK_CLUSTERS_0_BOOTSTRAPSERVERS: "redpanda-0:9092"
+      CDK_CLUSTERS_0_SCHEMAREGISTRY_URL: "http://redpanda-0:18081"
+      CDK_CLUSTERS_0_COLOR: "#6A57C8"
+      CDK_CLUSTERS_0_ICON: "kafka"
+      CDK_CLUSTERS_1_ID: "cdk-gateway"
+      CDK_CLUSTERS_1_NAME: "cdk-gateway"
+      CDK_CLUSTERS_1_BOOTSTRAPSERVERS: "conduktor-gateway:6969"
+      CDK_CLUSTERS_1_SCHEMAREGISTRY_URL: "http://redpanda-0:18081"
+      CDK_CLUSTERS_1_KAFKAFLAVOR_URL: "http://conduktor-gateway:8888"
+      CDK_CLUSTERS_1_KAFKAFLAVOR_USER: "admin"
+      CDK_CLUSTERS_1_KAFKAFLAVOR_PASSWORD: "conduktor"
+      CDK_CLUSTERS_1_KAFKAFLAVOR_VIRTUALCLUSTER: "passthrough"
+      CDK_CLUSTERS_1_KAFKAFLAVOR_TYPE: "Gateway"
+      CDK_CLUSTERS_1_COLOR: "#6A57C8"
+      CDK_CLUSTERS_1_ICON: "dog"
+      CDK_MONITORING_CORTEX-URL: http://conduktor-monitoring:9009/
+      CDK_MONITORING_ALERT-MANAGER-URL: http://conduktor-monitoring:9010/
+      CDK_MONITORING_CALLBACK-URL: http://conduktor-console:8080/monitoring/api/
+      CDK_MONITORING_NOTIFICATIONS-CALLBACK-URL: http://localhost:8080
+
+
+  # Conduktor uses Cortex to store Kafka and applications metrics as well as alerting.
+  # It is optional.
+  # https://docs.conduktor.io/platform/get-started/configuration/cortex/
+  conduktor-monitoring:
+    image: conduktor/conduktor-console-cortex:1.23.0
+    networks:
+      - development
+    environment:
+      CDK_CONSOLE-URL: "http://conduktor-console:8080"
+
+
+  # Conduktor comes with its Gateway, a Kafka proxy bringing many security and governance features.
+  # In this get started, Gateway uses Redpanda as its backend Kafka cluster.
+  # https://docs.conduktor.io/gateway/
+  conduktor-gateway:
+    image: conduktor/conduktor-gateway:3.0.3
+    hostname: conduktor-gateway
+    container_name: conduktor-gateway
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: redpanda-0:9092
+    networks:
+      - development
+    ports:
+      - "8888:8888"
+    healthcheck:
+      test: curl localhost:8888/health
+      interval: 5s
+      retries: 25
+    depends_on:
+      redpanda-0:
+        condition: service_healthy
+
+  redpanda-console:
+    container_name: redpanda-console
+    image: docker.redpanda.com/redpandadata/console:v2.5.2
+    networks:
+      - development
+    entrypoint: /bin/sh
+    command: -c 'echo "$$CONSOLE_CONFIG_FILE" > /tmp/config.yml; /app/console'
+    environment:
+      CONFIG_FILEPATH: /tmp/config.yml
+      CONSOLE_CONFIG_FILE: |
+        kafka:
+          brokers: ["redpanda-0:9092"]
+          schemaRegistry:
+            enabled: true
+            urls: ["http://redpanda-0:8081"]
+        redpanda:
+          adminApi:
+            enabled: true
+            urls: ["http://redpanda-0:9644"]
+    ports:
+      - 8090:8080
+    depends_on:
+      - redpanda-0
+
+  kong:
+    image: kong
+    networks:
+      - development
+    volumes:
+      - "./infra/kong/config:/usr/local/kong/declarative"
+      - "./infra/kong/logs/file.log:/file.log"
+    environment:
+      - KONG_DATABASE=off
+      - KONG_DECLARATIVE_CONFIG=/usr/local/kong/declarative/kong.yml
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
+      - KONG_LOG_LEVEL=debug
+      - KONG_PLUGINS=bundled
+    ports:
+      - "8000:8000/tcp"
+      - "127.0.0.1:7990:8001/tcp"
+      - "8001:8001/tcp"
+      - "8443:8443/tcp"
+      - "127.0.0.1:8444:8444/tcp"
