@@ -10,6 +10,12 @@ Before you begin, ensure you have met the following requirements:
 |----------------|--------|----------|
 | Docker Desktop | Docker | Orbstack |
 
+## Prepare the docker network
+
+```bash
+task prepare
+```
+
 ## Endpoints
 
 | Service Name         | Production           | Endpoint Development | Port  |

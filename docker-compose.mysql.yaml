@@ -1,0 +1,28 @@
+networks:
+  development:
+    external: true
+
+volumes:
+  mysql-db:
+
+services:
+  mysql:
+    extends:
+      file: ./docker-compose.base.yaml
+      service: mysql
+    restart: always
+    command: --default-authentication-plugin=caching_sha2_password
+    volumes:
+      - mysql-db:/var/lib/mysql
+      - ./infra/databases/mysql/init:/docker-entrypoint-initdb.d # create necessary databases
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - development
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"

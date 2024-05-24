@@ -3,6 +3,8 @@ version: '3.8'
 networks:
   development:
     driver: bridge
+    name: development
+    external: true
 
 volumes:
   mysql-db:
@@ -16,33 +18,11 @@ volumes:
   redpanda-2: null
 
 
-
-
 services:
-  mysql:
-    extends:
-      file: ./docker-compose.base.yaml
-      service: mysql
-    restart: always
-    command: --default-authentication-plugin=caching_sha2_password
-    volumes:
-      - mysql-db:/var/lib/mysql
-      - ./infra/databases/mysql/init:/docker-entrypoint-initdb.d # create necessary databases
-    ports:
-      - '${FORWARD_MINIO_PORT:-3306}:3306'
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - development
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
-    # Conduktor stores its metadata in PostgreSQL.
-    # Consider using an external managed database for production usage.
-    # https://docs.conduktor.io/platform/get-started/configuration/database/
+  # Conduktor stores its metadata in PostgreSQL.
+  # Consider using an external managed database for production usage.
+  # https://docs.conduktor.io/platform/get-started/configuration/database/
   postgresql:
     image: postgres:14
     hostname: postgresql
@@ -192,36 +172,36 @@ services:
       retries: 5
       start_period: 5s
 
-#  redpanda-1:
-#    command:
-#      - redpanda
-#      - start
-#      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:29092
-#      - --advertise-kafka-addr internal://redpanda-1:9092,external://localhost:29092
-#      - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:28082
-#      - --advertise-pandaproxy-addr internal://redpanda-1:8082,external://localhost:28082
-#      - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:28081
-#      - --rpc-addr redpanda-1:33145
-#      - --advertise-rpc-addr redpanda-1:33145
-#      - --mode dev-container
-#      - --smp 1
-#      - --default-log-level=info
-#      - --seeds redpanda-0:33145
-#    image: docker.redpanda.com/redpandadata/redpanda:v24.1.2
-#    container_name: redpanda-1
-#    volumes:
-#      - redpanda-1:/var/lib/redpanda/data
-#    networks:
-#      - development
-#    ports:
-#      - 28081:28081
-#      - 28082:28082
-#      - 29092:29092
-#      - 29644:9644
-#    depends_on:
-#      - redpanda-0
+  #  redpanda-1:
+  #    command:
+  #      - redpanda
+  #      - start
+  #      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:29092
+  #      - --advertise-kafka-addr internal://redpanda-1:9092,external://localhost:29092
+  #      - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:28082
+  #      - --advertise-pandaproxy-addr internal://redpanda-1:8082,external://localhost:28082
+  #      - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:28081
+  #      - --rpc-addr redpanda-1:33145
+  #      - --advertise-rpc-addr redpanda-1:33145
+  #      - --mode dev-container
+  #      - --smp 1
+  #      - --default-log-level=info
+  #      - --seeds redpanda-0:33145
+  #    image: docker.redpanda.com/redpandadata/redpanda:v24.1.2
+  #    container_name: redpanda-1
+  #    volumes:
+  #      - redpanda-1:/var/lib/redpanda/data
+  #    networks:
+  #      - development
+  #    ports:
+  #      - 28081:28081
+  #      - 28082:28082
+  #      - 29092:29092
+  #      - 29644:9644
+  #    depends_on:
+  #      - redpanda-0
 
-#  redpanda-2:
+  #  redpanda-2:
   #    command:
   #      - redpanda
   #      - start
@@ -386,9 +366,9 @@ services:
     volumes:
       - ./apps/auth:/var/www/html/apps/auth
     ports:
-      - "8003:8000"
+      - "8003:80"
     depends_on:
-      - mysql
+      - redis
 
 #  gateway:
 #    restart: unless-stopped

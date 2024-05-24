@@ -2,6 +2,10 @@ version: 3
 
 
 tasks:
+
+  prepare:
+    cmd: docker create network development
+
   up:*:
     vars:
       ARG_1: '{{index .MATCH 0}}'
