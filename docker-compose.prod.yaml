@@ -1,0 +1,19 @@
+version: '3.8'
+
+networks:
+  production:
+    name: ingress
+    attachable: true
+
+
+services:
+  auth:
+    image: breezemm.com/auth:latest
+    environment:
+      WITH_HORIZON: "true"
+    volumes:
+      - ./apps/auth:/var/www/html/apps/auth
+    ports:
+      - "8004:80"
+    deploy:
+      replicas: 1

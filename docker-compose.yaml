@@ -1,5 +1,3 @@
-version: '3.8'
-
 networks:
   development:
     driver: bridge
@@ -17,9 +15,13 @@ services:
 
   auth:
     restart: unless-stopped
+    image: breezemm.com/auth:latest
+    deploy:
+      replicas: 1
     build:
       args:
         APP_PATH: ./apps/auth
+        WITH_HORIZON: "true"
       context: .
       dockerfile: Dockerfile
     environment:

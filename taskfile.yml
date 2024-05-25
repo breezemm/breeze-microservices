@@ -19,17 +19,20 @@ tasks:
       - docker compose -f docker-compose.base.yml build
       - docker compose -f docker-compose.generator.yml build
 
+  up:
+    desc: "Start all services in background"
+    preconditions:
+      - docker inspect development
+    cmds:
+      - docker compose -f docker-compose.base.yml up -d
+      - docker compose up -d
+        
   up:*:
     vars:
       ARG_1: '{{index .MATCH 0}}'
     desc: "Start a service in foreground"
     cmd: docker compose up {{.ARG_1}} {{.CLI_ARGS}}
 
-  up:
-    desc: "Start all services in background"
-    preconditions:
-      - docker inspect development
-    cmd: docker compose up -d
 
   up:base:
     desc: "Start all core service in background"

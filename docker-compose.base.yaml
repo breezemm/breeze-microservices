@@ -1,5 +1,7 @@
 networks:
   development:
+    driver: bridge
+    name: development
     external: true
 
 volumes:
