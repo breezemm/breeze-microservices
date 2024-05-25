@@ -21,28 +21,30 @@ services:
       args:
         APP_PATH: ./apps/auth
       context: .
-      dockerfile: not-working.Dockerfile
+      dockerfile: Dockerfile
     environment:
       WITH_HORIZON: "true"
     networks:
       - development
+    depends_on:
+      - bun
     volumes:
       - ./apps/auth:/var/www/html/apps/auth
     ports:
       - "8003:80"
 
-  posts:
-    restart: unless-stopped
-    build:
-      args:
-        APP_PATH: ./apps/posts
-      context: .
-      dockerfile: not-working.Dockerfile
-    environment:
-      WITH_HORIZON: false
-    networks:
-      - development
-    volumes:
-      - ./apps/posts:/var/www/html/apps/posts
-    ports:
-      - "8004:80"
+#  posts:
+#    restart: unless-stopped
+#    build:
+#      args:
+#        APP_PATH: ./apps/posts
+#      context: .
+#      dockerfile: not-working.Dockerfile
+#    environment:
+#      WITH_HORIZON: false
+#    networks:
+#      - development
+#    volumes:
+#      - ./apps/posts:/var/www/html/apps/posts
+#    ports:
+#      - "8004:80"

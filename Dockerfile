@@ -23,43 +23,45 @@ ENV USER=${USER} \
     WITH_SCHEDULER=false
 
 ENV WORK_DIR=${WORK_DIR}
-ENV APP_PATH=
+ENV APP_PATH=${APP_PATH}
 ENV COMPOSER_VERSION=${COMPOSER_VERSION}
 
 
 WORKDIR ${WORK_DIR}
 
-RUN apk add --no-cache  \
+RUN apk update; \
+    apk upgrade; \
+    apk add --no-cache  \
+    bash \
+    curl \
     supervisor \
     nodejs \
     npm  \
-    libzip-dev \
-    libxml2-dev \
+    libsodium-dev \
     librdkafka-dev \
     g++ \
     make \
     autoconf \
     && apk del autoconf g++ make  \
-    && rm -rf /tmp/*  \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 RUN install-php-extensions \
-    redis \
-    rdkafka \
-    exif \
-    pdo_mysql \
-    zip \
-    sockets \
-    pcntl \
-    opcache \
-    mongodb \
-    gd \
-    opcache \
-    intl \
-    bcmath
-
+        redis \
+        rdkafka \
+        exif \
+        pdo_mysql \
+        zip \
+        sockets \
+        pcntl \
+        opcache \
+        mongodb \
+        gd \
+        opcache \
+        intl \
+        bcmath
 
 RUN install-php-extensions @composer-${COMPOSER_VERSION}
+
 
 RUN adduser -D -u $UID -G www-data ${USER}
 

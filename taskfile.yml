@@ -70,13 +70,6 @@ tasks:
     desc: "Restart a service"
     cmd: docker compose -f docker-compose.{{.ARG_1}}.yml restart
 
-  destroy:
-    desc: "Stop and remove containers, networks, images, and volumes"
-    cmds:
-      - docker compose down --rmi all --volumes --remove-orphans
-      - docker compose -f docker-compose.base.yml down --rmi all --volumes --remove-orphans
-      - docker compose -f docker-compose.generator.yml down --rmi all --volumes --remove-orphans
-
   ps:
     desc: "List containers"
     cmds:
