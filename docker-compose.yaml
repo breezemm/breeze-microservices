@@ -33,18 +33,18 @@ services:
     ports:
       - "8003:80"
 
-#  posts:
-#    restart: unless-stopped
-#    build:
-#      args:
-#        APP_PATH: ./apps/posts
-#      context: .
-#      dockerfile: not-working.Dockerfile
-#    environment:
-#      WITH_HORIZON: false
-#    networks:
-#      - development
-#    volumes:
-#      - ./apps/posts:/var/www/html/apps/posts
-#    ports:
-#      - "8004:80"
+  posts:
+    restart: unless-stopped
+    build:
+      args:
+        APP_PATH: ./apps/posts
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      WITH_HORIZON: false
+    networks:
+      - development
+    volumes:
+      - ./apps/posts:/var/www/html/apps/posts
+    ports:
+      - "8004:80"

@@ -23,7 +23,7 @@ tasks:
     vars:
       ARG_1: '{{index .MATCH 0}}'
     desc: "Start a service in foreground"
-    cmd: docker compose up {{.ARG_1}}
+    cmd: docker compose up {{.ARG_1}} {{.CLI_ARGS}}
 
   up:
     desc: "Start all services in background"
