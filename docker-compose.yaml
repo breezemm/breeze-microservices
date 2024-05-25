@@ -7,7 +7,6 @@ networks:
     external: true
 
 
-
 services:
   bun:
     build:
@@ -22,7 +21,9 @@ services:
       args:
         APP_PATH: ./apps/auth
       context: .
-      dockerfile: Dockerfile
+      dockerfile: not-working.Dockerfile
+    environment:
+      WITH_HORIZON: "true"
     networks:
       - development
     volumes:
@@ -30,50 +31,18 @@ services:
     ports:
       - "8003:80"
 
-#  gateway:
-#    restart: unless-stopped
-#    build:
-#      args:
-#        APP_PATH: ./apps/gateway
-#      context: .
-#      dockerfile: Dockerfile
-#    networks:
-#      - development
-#    volumes:
-#      - ./apps/gateway:/var/www/html/apps/gateway
-#    ports:
-#      - "8003:8000"
-#    depends_on:
-#      - mysql
-#
-#  wallets:
-#    restart: unless-stopped
-#    build:
-#      args:
-#        APP_PATH: ./apps/wallets
-#      context: .
-#      dockerfile: Dockerfile
-#    networks:
-#      - development
-#    volumes:
-#      - ./apps/wallets:/var/www/html/apps/wallets
-#    ports:
-#      - "8003:8000"
-#    depends_on:
-#      - mysql
-#
-#  notifications:
-#    restart: unless-stopped
-#    build:
-#      args:
-#        APP_PATH: ./apps/notifications
-#      context: .
-#      dockerfile: Dockerfile
-#    networks:
-#      - development
-#    volumes:
-#      - ./apps/notifications:/var/www/html/apps/notifications
-#    ports:
-#      - "8003:8000"
-#    depends_on:
-#      - mysql
+  posts:
+    restart: unless-stopped
+    build:
+      args:
+        APP_PATH: ./apps/posts
+      context: .
+      dockerfile: not-working.Dockerfile
+    environment:
+      WITH_HORIZON: false
+    networks:
+      - development
+    volumes:
+      - ./apps/posts:/var/www/html/apps/posts
+    ports:
+      - "8004:80"

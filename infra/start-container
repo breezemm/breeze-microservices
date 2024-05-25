@@ -4,13 +4,13 @@ set -e
 containerMode=${CONTAINER_MODE:-"http"}
 
 if [ "$containerMode" = "http" ]; then
-    echo "Starting HTTP server"
+    echo "Starting HTTP Server"
     exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 elif [ "$containerMode" = "horizon" ]; then
     echo "Starting Horizon"
     exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.horizon.conf
 elif [ "$containerMode" = "worker" ]; then
-    echo "Starting Queue Worker"
+    echo "Starting Worker"
     exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.worker.conf
 else
     echo "Invalid container mode: $containerMode"
