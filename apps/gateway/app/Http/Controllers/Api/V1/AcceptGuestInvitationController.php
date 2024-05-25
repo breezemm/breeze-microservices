@@ -51,23 +51,23 @@ class AcceptGuestInvitationController extends Controller
 
             DB::commit();
 
-            (new SendPushNotification())->handle([
-                'notification_id' => 'event_invitation_accepted',
-                'user' => [
-                    'user_id' => $event->user->id, // notify to the event organizer
-                ],
-                'channels' => [
-                    'push' => [
-                        'title' => 'Invitation Accepted',
-                        'body' => auth()->user()->name . ' accept your invitation.',
-                        'data' => [
-                            'type' => 'event_invitation_accepted',
-                            'user' => auth()->user()->load('media'),
-                            'content' => ' accept your invitation.',
-                        ],
-                    ],
-                ],
-            ]);
+//            (new SendPushNotification())->handle([
+//                'notification_id' => 'event_invitation_accepted',
+//                'user' => [
+//                    'user_id' => $event->user->id, // notify to the event organizer
+//                ],
+//                'channels' => [
+//                    'push' => [
+//                        'title' => 'Invitation Accepted',
+//                        'body' => auth()->user()->name . ' accept your invitation.',
+//                        'data' => [
+//                            'type' => 'event_invitation_accepted',
+//                            'user' => auth()->user()->load('media'),
+//                            'content' => ' accept your invitation.',
+//                        ],
+//                    ],
+//                ],
+//            ]);
 
             return response()->json([
                 'message' => 'Invitation accepted successfully',
