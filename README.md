@@ -167,3 +167,51 @@ AWS_BUCKET=breeze-staging-storage
 AWS_ENDPOINT="https://s3.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_BUCKET}"
 ```
 
+## CNI
+
+### Development
+
+In development, we are using the default bridge network. You can use the following configuration to connect the
+services.
+Create a custom bridge network.
+
+```bash
+docker network create -d bridge development
+```
+
+Connect the services to the development network.
+
+```yaml
+networks:
+    development:
+        driver: bridge
+        name: development
+        external: true
+
+services:
+    service-name:
+        networks:
+            - development
+```
+
+### Production
+
+Create custom swarm overlay network.
+
+```bash
+docker network create -d overlay --attachable --scope swarm prod-overlay
+```
+
+Connect the services to the overlay network.
+
+```yaml
+networks:
+    development:
+        name: prod-overlay
+        external: true
+
+services:
+    service-name:
+        networks:
+            - development
+```

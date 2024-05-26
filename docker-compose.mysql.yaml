@@ -1,0 +1,27 @@
+networks:
+  development:
+    name: dev-overlay
+    external: true
+
+
+volumes:
+  mysql:
+
+services:
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=caching_sha2_password
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./infra/databases/mysql/init:/docker-entrypoint-initdb.d # create necessary databases
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - development
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"

@@ -4,8 +4,8 @@ _transform: true
 services:
   - host: auth
     name: auth_service
-    url: http://auth:8000/api/v1
-    port: 8000
+    url: http://auth:80/api/v1
+    port: 80
     protocol: http
     routes:
       - name: auth_route

@@ -1,19 +1,33 @@
-version: '3.8'
-
 networks:
-  production:
-    name: ingress
-    attachable: true
+  development:
+    name: dev-overlay
+    external: true
 
+volumes:
+  mysql:
 
 services:
   auth:
+    restart: unless-stopped
     image: breezemm.com/auth:latest
+    deploy:
+      replicas: 1
     environment:
-      WITH_HORIZON: "true"
+      WITH_HORIZON: "false"
+    networks:
+      - development
     volumes:
       - ./apps/auth:/var/www/html/apps/auth
     ports:
+      - "8003:80"
+
+  posts:
+    image: breezemm.com/posts:latest
+    environment:
+      WITH_HORIZON: "false"
+    networks:
+      - development
+    volumes:
+      - ./apps/posts:/var/www/html/apps/posts
+    ports:
       - "8004:80"
-    deploy:
-      replicas: 1

@@ -37,6 +37,7 @@ services:
 
   posts:
     restart: unless-stopped
+    image: breezemm.com/posts:latest
     build:
       args:
         APP_PATH: ./apps/posts
