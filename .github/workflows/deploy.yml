@@ -22,13 +22,18 @@ jobs:
       env:
         SSH_USER: ${{ secrets.SSH_USER }}
         SSH_HOST: ${{ secrets.SSH_HOST }}
-        REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
-        REPO_URL: ${{ secrets.REPO_URL }}
+        REMOTE_DIR: /prod/git/repo/breeze
+        REPO_URL: git@github.com-breeze:myanmarcyberyouths/breeze
       run: |
         ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
 
-          cd /root/repo
+          cd $REMOTE_DIR || exit
 
-          git clone git@github.com-breeze:myanmarcyberyouths/breeze.git
+          if [ -d ".git" ]; then
+            git pull
+          else
+            git clone $REPO_URL .
+            cd $(basename "$REPO_URL" .git)
+          fi
 
         EOF
