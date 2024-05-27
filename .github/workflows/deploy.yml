@@ -27,10 +27,12 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
 
-          cd $REMOTE_DIR
+          ls -al && pwd && whoami
+
+          # cd $REMOTE_DIR
 
           echo "Cloning repository"
-          git clone $REPO_URL
+          # git clone $REPO_URL
 
           docker compose ps -a
 
