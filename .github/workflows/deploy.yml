@@ -26,7 +26,7 @@ jobs:
         REPO_URL: ${{ secrets.REPO_URL }}
         BRANCH: staging
       run: |
-        ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << EOF
+        ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
           cd $REMOTE_DIR
           if [ -d ".git" ]; then
             echo "Pulling latest changes from $BRANCH..."
