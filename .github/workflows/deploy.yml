@@ -35,4 +35,6 @@ jobs:
             git clone git@github.com-breeze:myanmarcyberyouths/breeze .
           fi
 
+          docker compose -f staging.compose.yaml up -d --build mysql redis
+
         EOF
