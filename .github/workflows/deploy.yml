@@ -27,13 +27,12 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
 
-          cd $REMOTE_DIR || exit
+          cd /prod/git/repo/breeze || exit
 
           if [ -d ".git" ]; then
             git pull
           else
-            git clone $REPO_URL .
-            cd $(basename "$REPO_URL" .git)
+            git clone git@github.com-breeze:myanmarcyberyouths/breeze .
           fi
 
         EOF
