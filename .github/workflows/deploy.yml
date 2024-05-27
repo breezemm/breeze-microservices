@@ -31,9 +31,9 @@ jobs:
 
           # cd $REMOTE_DIR
 
-          echo "Cloning repository"
+          # echo "Cloning repository"
           # git clone $REPO_URL
 
-          docker compose ps -a
+          # docker compose ps -a
 
         EOF
