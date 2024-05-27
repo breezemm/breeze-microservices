@@ -24,17 +24,14 @@ jobs:
         SSH_HOST: ${{ secrets.SSH_HOST }}
         REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
         REPO_URL: ${{ secrets.REPO_URL }}
-        BRANCH: staging
       run: |
         ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
+
           cd $REMOTE_DIR
 
-          echo "Cloning repository from $REPO_URL..."
-          git clone $REPO_URL .
+          echo "Cloning repository"
+          git clone $REPO_URL
 
-          # echo "Starting MySQL and Redis services..."
           docker compose ps -a
 
-          # echo "Building and starting test services..."
-          # docker-compose up -d --build test test1
         EOF
