@@ -17,7 +17,6 @@ volumes:
 services:
   mysql:
     image: 'bitnami/mysql:8.0'
-    container_name: 'mysql'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     healthcheck:
@@ -34,7 +33,6 @@ services:
 
   redis:
     image: 'bitnami/redis:7.2.4'
-    container_name: 'redis'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     healthcheck:
