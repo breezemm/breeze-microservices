@@ -29,13 +29,8 @@ jobs:
         ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
           cd $REMOTE_DIR
 
-          if [ -d ".git" ]; then
-            echo "Pulling latest changes from $BRANCH..."
-            git pull origin $BRANCH
-          else
-            echo "Cloning repository from $REPO_URL..."
-            git clone $REPO_URL .
-          fi
+          echo "Cloning repository from $REPO_URL..."
+          git clone $REPO_URL .
 
           # echo "Starting MySQL and Redis services..."
           docker compose ps -a
