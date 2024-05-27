@@ -1,0 +1,44 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to server
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+        REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+        REPO_URL: ${{ secrets.REPO_URL }}
+        BRANCH: staging
+      run: |
+        ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << EOF
+          cd $REMOTE_DIR
+          if [ -d ".git" ]; then
+            echo "Pulling latest changes from $BRANCH..."
+            git pull origin $BRANCH
+          else
+            echo "Cloning repository from $REPO_URL..."
+            git clone $REPO_URL .
+          fi
+
+          echo "Starting MySQL and Redis services..."
+          docker-compose up mysql redis
+
+          # echo "Building and starting test services..."
+          # docker-compose up -d --build test test1
+        EOF
