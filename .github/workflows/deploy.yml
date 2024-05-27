@@ -27,9 +27,9 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
 
-          ls -al && pwd && whoami
+          cd $REMOTE_DIR
 
-          # cd $REMOTE_DIR
+          ls -al
 
           # echo "Cloning repository"
           # git clone $REPO_URL
