@@ -3,9 +3,6 @@ ARG FRANKENPHP_VERSION=latest
 
 FROM dunglas/frankenphp:${FRANKENPHP_VERSION}-php${PHP_VERSION}-alpine
 
-ARG S6_OVERLAY_VERSION="3.1.5.0"
-ARG S6_OVERLAY_ARCH="x86_64"
-
 ARG TZ=UTC
 ARG WORK_DIR=/var/www/html
 ARG APP_PATH
@@ -91,7 +88,6 @@ COPY --chown=${USER}:${USER} infra/start-container /usr/local/bin/start-containe
 
 RUN chmod +x /usr/local/bin/start-container
 
-ENTRYPOINT ["start-container"]
 
 EXPOSE 8000
 EXPOSE 443
