@@ -51,3 +51,20 @@ services:
       - ./apps/posts:/var/www/html/apps/posts
     ports:
       - "8004:80"
+
+
+  settings:
+    restart: unless-stopped
+    build:
+#      args:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      APP_PATH: ./apps/settings
+      WITH_HORIZON: false
+    networks:
+      - development
+    volumes:
+      - ./apps/settings:/var/www/html/apps/settings
+    ports:
+      - "8004:80"

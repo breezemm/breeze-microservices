@@ -43,19 +43,22 @@ RUN apk update; \
     && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 RUN install-php-extensions \
-        redis \
-        rdkafka \
-        exif \
-        pdo_mysql \
-        zip \
-        sockets \
-        pcntl \
-        opcache \
-        mongodb \
-        gd \
-        opcache \
-        intl \
-        bcmath
+    redis \
+    rdkafka \
+    exif \
+    pdo_mysql \
+    zip \
+    sockets \
+    pcntl \
+    opcache \
+    mongodb \
+    gd \
+    opcache \
+    intl \
+    bcmath \
+    grpc \
+  protobuf
+
 
 RUN install-php-extensions @composer-${COMPOSER_VERSION}
 
