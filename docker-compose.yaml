@@ -56,12 +56,11 @@ services:
   settings:
     restart: unless-stopped
     build:
-#      args:
+      args:
+        APP_PATH: ./apps/settings
       context: .
       dockerfile: Dockerfile
-    environment:
-      APP_PATH: ./apps/settings
-      WITH_HORIZON: false
+    entrypoint: php ./apps/settings/artisan octane:start --server=frankenphp --host=0.0.0.0 --port=80 --admin-port=2019 --watch
     networks:
       - development
     volumes:

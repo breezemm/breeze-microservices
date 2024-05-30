@@ -215,3 +215,19 @@ services:
         networks:
             - development
 ```
+
+
+## With GRPC
+
+```dockerfile
+
+RUN apk update; \
+    apk upgrade; \
+    apk add --no-cache  \
+    $PHPIZE_DEPS 
+
+
+RUN install-php-extensions \
+    grpc \
+  protobuf
+```
