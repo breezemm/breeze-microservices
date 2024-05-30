@@ -16,29 +16,15 @@ tasks:
     desc: "Build or rebuild services"
     cmds:
       - docker compose build
-      - docker compose -f docker-compose.base.yml build
-      - docker compose -f docker-compose.generator.yml build
-
-  up:
-    desc: "Start all services in background"
-    preconditions:
-      - docker inspect development
-    cmds:
-      - docker compose -f docker-compose.base.yml up -d
-      - docker compose up -d
-        
-  up:*:
-    vars:
-      ARG_1: '{{index .MATCH 0}}'
-    desc: "Start a service in foreground"
-    cmd: docker compose up {{.ARG_1}} {{.CLI_ARGS}}
+      - docker compose -f docker-compose.base.yaml build
+      - docker compose -f docker-compose.generator.yaml build
 
 
   up:base:
     desc: "Start all core service in background"
     preconditions:
       - docker inspect development
-    cmd: docker compose -f docker-compose.base.yml up -d
+    cmd: docker compose -f docker-compose.base.yaml up -d
 
   up:generator:
     desc: "Start a service in background"
