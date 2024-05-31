@@ -3,22 +3,19 @@
 namespace MyanmarCyberYouths\BreezeSdk;
 
 use MyanmarCyberYouths\BreezeSdk\Connectors\AuthConnector;
+use MyanmarCyberYouths\BreezeSdk\Connectors\Requests\OAuthIntrospectRequest;
 
-final readonly class Breeze
+final class Breeze
 {
 
     public function __construct(
-        public readonly string $accessToken = '',
-        public readonly array $settings = [],
-    ) {
-
+        public readonly string $token,
+    )
+    {
     }
 
     public function auth(): AuthConnector
     {
-        return new AuthConnector(
-            accessToken: $this->accessToken,
-            baseUrl: $this->config->get('auth.base_url'),
-        );
+        return new AuthConnector($this->token);
     }
 }
