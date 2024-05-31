@@ -22,7 +22,7 @@ class ValidationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users:email',
             'phone' => 'nullable|numeric',
             'type' => 'required|in:email,phone',
             'code' => 'nullable|string',

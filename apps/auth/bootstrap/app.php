@@ -12,9 +12,6 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         apiPrefix: '/api/v1',
     )
-    ->withRouting(
-        web: __DIR__ . '/../routes/oauth.php',
-    )
     ->withMiddleware(function (Middleware $middleware) {
     })
     ->withExceptions(function (Exceptions $exceptions) {

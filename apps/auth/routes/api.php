@@ -17,6 +17,6 @@ Route::post('/validate', [ValidationController::class, 'validateEmail'])->middle
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
 Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 Route::get('/me', [AuthController::class, 'getCurrentAuthUser'])->middleware('auth:api');
-

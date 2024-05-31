@@ -31,13 +31,12 @@ class AuthController extends Controller
 
         $data = $request->validated();
 
-        $data['password'] = Hash::make($data['password']);
+        $data['password'] = Hash::make($request->password);
         $data['date_of_birth'] = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
         $data['username'] = Str::snake($data['name'] . Str::random(5));
 
         try {
             DB::beginTransaction();
-
             $user = User::create($data);
 
             $user->addMediaFromBase64($request->validated('user_profile_image'))
@@ -61,6 +60,7 @@ class AuthController extends Controller
             DB::rollBack();
 
             error($exception);
+
 
             return response()->json([
                 'message' => 'User registration failed',
