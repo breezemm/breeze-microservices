@@ -90,6 +90,7 @@ Route::middleware('auth:api')->prefix('events')
 
         // TODO: commments sevice
         Route::get('/{event}/comments', EventCommentIndexController::class);
+
         Route::post('/{event}/comments', EventCommentController::class);
         Route::post('/{event}/comments/{comment}/like', CommentLikeController::class);
         Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);

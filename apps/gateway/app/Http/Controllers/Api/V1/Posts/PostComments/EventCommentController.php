@@ -18,23 +18,23 @@ class EventCommentController extends Controller
 
         if (! $createCommentReqeust->parent_id) {
 
-            (new SendPushNotification())->handle([
-                'notification_id' => 'post_commented',
-                'user' => [
-                    'user_id' => $event->user->id,
-                ],
-                'channels' => [
-                    'push' => [
-                        'title' => 'Post Commented',
-                        'body' => auth()->user()->name . ' commented on your post.',
-                        'data' => [
-                            'type' => 'post_commented',
-                            'user' => auth()->user()->load('media'),
-                            'content' => 'commented on your post.',
-                        ],
-                    ],
-                ],
-            ]);
+//            (new SendPushNotification())->handle([
+//                'notification_id' => 'post_commented',
+//                'user' => [
+//                    'user_id' => $event->user->id,
+//                ],
+//                'channels' => [
+//                    'push' => [
+//                        'title' => 'Post Commented',
+//                        'body' => auth()->user()->name . ' commented on your post.',
+//                        'data' => [
+//                            'type' => 'post_commented',
+//                            'user' => auth()->user()->load('media'),
+//                            'content' => 'commented on your post.',
+//                        ],
+//                    ],
+//                ],
+//            ]);
 
         } else {
             $parentComment = $event->comments()->find($createCommentReqeust->parent_id);
