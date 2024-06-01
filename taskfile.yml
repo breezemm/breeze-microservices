@@ -46,18 +46,11 @@ tasks:
       - docker compose -f docker-compose.generator.yml down --remove-orphans
 
 
-  restart:
-    desc: "Restart services"
-    cmds:
-      - docker compose restart
-      - docker compose -f docker-compose.base.yml restart
-      - docker compose -f docker-compose.generator.yml restart
-
   restart:*:
     vars:
       ARG_1: '{{index .MATCH 0}}'
     desc: "Restart a service"
-    cmd: docker compose -f docker-compose.{{.ARG_1}}.yml restart
+    cmd: docker compose restart {{.ARG_1}}
 
   ps:
     desc: "List containers"

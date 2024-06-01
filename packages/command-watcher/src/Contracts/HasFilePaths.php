@@ -2,6 +2,7 @@
 
 namespace MyanmarCyberYouths\CommandWatcher\Contracts;
 
-class HasFilePaths {
-
+interface HasFilePaths
+{
+    public function getFilePaths(): array;
 }

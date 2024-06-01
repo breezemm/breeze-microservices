@@ -2,11 +2,10 @@
 
 namespace MyanmarCyberYouths\CommandWatcher\Concerns;
 
-use CommandWatcher\CommandWatcher\CommandWatcher\Contracts\ShouldWatch;
+use MyanmarCyberYouths\CommandWatcher\Contracts\HasFilePaths;
 use Spatie\Watcher\Exceptions\CouldNotStartWatcher;
 use Spatie\Watcher\Watch;
 use Symfony\Component\Process\Process;
-
 
 trait InteractWithCommandWatcher
 {
@@ -17,14 +16,9 @@ trait InteractWithCommandWatcher
      */
     public function handle(): int
     {
-        if (!$this instanceof ShouldWatch) {
-            $this->line("<options=bold;bg=red> ERROR </> Command does not implement " . ShouldWatch::class . " interface");
-            return 1;
-        }
+        $this->line('<options=bold;bg=blue> INFO </> Command Watcher Started');
 
-        $this->line("<options=bold;bg=blue> INFO </> Command Watcher Started");
-
-        if (!$this->startFileWatcher()) {
+        if (! $this->startFileWatcher()) {
             return 1;
         }
 
@@ -33,16 +27,15 @@ trait InteractWithCommandWatcher
         return 0;
     }
 
-    public
-    function startFileWatcher(): bool
+    public function startFileWatcher(): bool
     {
         $this->process = Process::fromShellCommandline($this->shellCommand())
             ->setTty(Process::isTtySupported())
             ->setTimeout(null);
 
-        $this->process->start(fn($type, $output) => $this->info($output));
+        $this->process->start(fn ($type, $output) => $this->info($output));
 
-        return !$this->process->isTerminated();
+        return ! $this->process->isTerminated();
     }
 
     /**
@@ -59,6 +52,10 @@ trait InteractWithCommandWatcher
             base_path('composer.lock'),
         ];
 
+        if ($this instanceof HasFilePaths) {
+            $filePaths = array_merge($filePaths, $this->getFilePaths());
+        }
+
         Watch::paths($filePaths)
             ->onAnyChange(function () {
                 $this->restartFileWatcher();
@@ -71,7 +68,7 @@ trait InteractWithCommandWatcher
 
     public function restartFileWatcher(): void
     {
-        $this->line("<options=bold;bg=blue> INFO </> Restarting Command Watcher");
+        $this->line('<options=bold;bg=blue> INFO </> Restarting Command Watcher');
         $this->startFileWatcher();
     }
 }

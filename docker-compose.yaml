@@ -50,6 +50,7 @@ services:
       - development
     volumes:
       - ./apps/posts:/var/www/html/apps/posts
+      - ./apps/posts/vendor:/var/www/html/apps/posts/vendor
       - ./packages:/var/www/html/packages
     ports:
       - "8004:80"
