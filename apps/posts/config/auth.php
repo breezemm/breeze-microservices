@@ -42,7 +42,6 @@ return [
         ],
         'api' => [
             'driver' => 'breeze.authorizer',
-            'provider' => 'breeze-provider'
         ]
     ],
 
@@ -69,9 +68,6 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
-        'breeze-provider' => [
-            'driver' => 'breeze.oauth.provider',
-        ],
     ],
 
     /*

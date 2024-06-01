@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "626716aed92e6854e4df550fcff4a08c",
+    "content-hash": "6a3680f6c040127f7327f7a9ce099139",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3502,11 +3502,11 @@
             "dist": {
                 "type": "path",
                 "url": "../../packages/breeze-core-sdk",
-                "reference": "cb06b3ba98071e57e930108e4a3b3bd98bc0c4d9"
+                "reference": "164a4b14425a1b4afd4a0c3292d0bd495e00367e"
             },
             "require": {
                 "illuminate/contracts": "^10.0||^11.0",
-                "php": "^8.2",
+                "php": "^8.3",
                 "saloonphp/saloon": "^3.0",
                 "spatie/laravel-data": "^4.6",
                 "spatie/laravel-package-tools": "^1.16"
@@ -10956,11 +10956,13 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "myanmarcyberyouths/command-watcher": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2"
+        "php": "^8.3"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"
