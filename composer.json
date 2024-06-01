@@ -9,11 +9,6 @@
         }
     ],
     "homepage": "https://www.cyberyouths.com.mm",
-    "autoload": {
-        "psr-4": {
-            "MyanmarCyberYouths\\Breeze\\": "packages"
-        }
-    },
     "require": {
         "php": "^8.3"
     },

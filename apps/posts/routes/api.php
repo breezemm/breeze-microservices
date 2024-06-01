@@ -10,6 +10,12 @@ use App\Http\Controllers\ShowPostController;
 use App\Http\Controllers\UnSavePostContoller;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/sso', function (Request $request) {
+
+    dd(auth()->guard('api')->user());
+
+})->middleware('auth:api');
+
 Route::post('/posts', CreatePostController::class);
 Route::get('/posts/{post}', ShowPostController::class);
 Route::get('/posts/launched', GetAllPostByUserIdController::class);

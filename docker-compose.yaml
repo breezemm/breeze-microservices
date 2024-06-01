@@ -32,6 +32,7 @@ services:
       - bun
     volumes:
       - ./apps/auth:/var/www/html/apps/auth
+      - ./packages:/var/www/html/packages
     ports:
       - "8003:80"
 
@@ -49,6 +50,7 @@ services:
       - development
     volumes:
       - ./apps/posts:/var/www/html/apps/posts
+      - ./packages:/var/www/html/packages
     ports:
       - "8004:80"
 

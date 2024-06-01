@@ -7,7 +7,17 @@
         "framework"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../packages/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
+        "myanmarcyberyouths/breeze-core-sdk": "*",
         "php": "^8.2",
         "laravel/framework": "^11.0",
         "laravel/horizon": "^5.24",
@@ -71,6 +81,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }
