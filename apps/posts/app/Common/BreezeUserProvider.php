@@ -5,10 +5,8 @@ namespace App\Common;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 
-class SSOProvider implements UserProvider
+class BreezeUserProvider implements UserProvider
 {
-
-
     public function retrieveById($identifier)
     {
         // TODO: Implement retrieveById() method.
@@ -16,6 +14,7 @@ class SSOProvider implements UserProvider
 
     public function retrieveByToken($identifier, $token)
     {
+        // TODO: Implement retrieveByToken() method.
     }
 
     public function updateRememberToken(Authenticatable $user, $token)
@@ -25,7 +24,6 @@ class SSOProvider implements UserProvider
 
     public function retrieveByCredentials(array $credentials)
     {
-        return 'he';
     }
 
     public function validateCredentials(Authenticatable $user, array $credentials): true

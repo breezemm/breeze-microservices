@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b0d9c8e11ee3f2b3059ae16fb3fb399",
+    "content-hash": "626716aed92e6854e4df550fcff4a08c",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3601,6 +3601,108 @@
             }
         },
         {
+            "name": "myanmarcyberyouths/command-watcher",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../../packages/command-watcher",
+                "reference": "7488aad1b09052ed3826e096b731ee03897c3faa"
+            },
+            "require": {
+                "illuminate/contracts": "^10.0||^11.0",
+                "php": "^8.2",
+                "spatie/file-system-watcher": "^1.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9",
+                "laravel/pint": "^1.14",
+                "nunomaduro/collision": "^8.1.1||^7.10.0",
+                "orchestra/testbench": "^9.0.0||^8.22.0",
+                "pestphp/pest": "^2.34",
+                "pestphp/pest-plugin-arch": "^2.7",
+                "pestphp/pest-plugin-laravel": "^2.3",
+                "phpstan/extension-installer": "^1.3",
+                "phpstan/phpstan-deprecation-rules": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MyanmarCyberYouths\\CommandWatcher\\CommandWatcherServiceProvider"
+                    ],
+                    "aliases": {
+                        "CommandWatcher": "MyanmarCyberYouths\\CommandWatcher\\Facades\\CommandWatcher"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MyanmarCyberYouths\\CommandWatcher\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MyanmarCyberYouths\\CommandWatcher\\Tests\\": "tests/",
+                    "Workbench\\App\\": "workbench/app/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@composer run prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-command-watcher --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@composer run prepare",
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "start": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@composer run build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aung Myat Moe",
+                    "email": "aungmyatmoe834@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Command watcher for the laravel long running commands.",
+            "homepage": "https://github.com/myanmarcyberyouths/command-watcher",
+            "keywords": [
+                "MyanmarCyberYouths",
+                "command-watcher",
+                "laravel"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "nesbot/carbon",
             "version": "3.4.0",
             "source": {
@@ -5101,6 +5203,66 @@
                 }
             ],
             "time": "2024-04-08T11:53:06+00:00"
+        },
+        {
+            "name": "spatie/file-system-watcher",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/file-system-watcher.git",
+                "reference": "d9511ecbd266f190c4abce88516c3f231fcb6bfe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/file-system-watcher/zipball/d9511ecbd266f190c4abce88516c3f231fcb6bfe",
+                "reference": "d9511ecbd266f190c4abce88516c3f231fcb6bfe",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "symfony/process": "^5.2|^6.0|^7.0"
+            },
+            "require-dev": {
+                "pestphp/pest": "^1.22",
+                "phpunit/phpunit": "^9.5",
+                "spatie/ray": "^1.22",
+                "spatie/temporary-directory": "^2.0",
+                "vimeo/psalm": "^4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Watcher\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Watch changes in the file system using PHP",
+            "homepage": "https://github.com/spatie/file-system-watcher",
+            "keywords": [
+                "file-system-watcher",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/file-system-watcher/issues",
+                "source": "https://github.com/spatie/file-system-watcher/tree/1.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-12-18T14:26:25+00:00"
         },
         {
             "name": "spatie/image",

@@ -41,8 +41,8 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-            'driver' => 'token',
-            'provider' => 'sso'
+            'driver' => 'breeze.authorizer',
+            'provider' => 'breeze-provider'
         ]
     ],
 
@@ -69,8 +69,8 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
-        'sso' => [
-            'driver' => 'breeze-sso',
+        'breeze-provider' => [
+            'driver' => 'breeze.oauth.provider',
         ],
     ],
 
