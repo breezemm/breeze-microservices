@@ -8,13 +8,15 @@ use App\Http\Controllers\SavedPostController;
 use App\Http\Controllers\SavePostController;
 use App\Http\Controllers\ShowPostController;
 use App\Http\Controllers\UnSavePostContoller;
+use App\Http\Middleware\AuthorizeMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/sso', function (Request $request) {
 
-    return response()->json(auth()->user());
+    return 'gey';
+//    return response()->json(auth()->user());
 
-})->middleware('auth:api');
+})->middleware(AuthorizeMiddleware::class);
 
 Route::post('/posts', CreatePostController::class);
 Route::get('/posts/{post}', ShowPostController::class);

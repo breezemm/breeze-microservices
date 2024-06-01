@@ -5,12 +5,11 @@ namespace App\Http\Middleware;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
-use JsonException;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\Requests\OAuthIntrospectionRequest;
 use MyanmarCyberYouths\Breeze\Facades\Breeze;
 use Symfony\Component\HttpFoundation\Response;
 
-class SSOAuthMiddleware
+class AuthorizeMiddleware
 {
     /**
      * Handle an incoming request.
@@ -22,19 +21,11 @@ class SSOAuthMiddleware
         try {
             $response = Breeze::auth()->send(new OAuthIntrospectionRequest($request->bearerToken()));
 
-            if (!$response->json('active')) {
-                return response()->json([
-                    'message' => 'Unauthorized',
-                ], 401);
-            }
-
+            abort_unless($response->json('active'), 401);
 
             return $next($request);
-        } catch (Exception|JsonException) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
+        } catch (Exception) {
+            abort(401);
         }
-
     }
 }
