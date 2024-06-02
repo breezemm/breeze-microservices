@@ -8,6 +8,10 @@ use App\Http\Controllers\OTPController;
 use App\Http\Controllers\ValidationController;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware("scopes:hey,hi")->get('/some', function () {
+
+});
+
 Route::post('oauth/introspect', IntrospectionController::class)->name('oauth.introspect');
 
 
