@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Common;
+namespace App\Packages\OTP;
 
 enum OTPType: string
 {

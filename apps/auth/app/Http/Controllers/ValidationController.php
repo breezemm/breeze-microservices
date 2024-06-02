@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Common\OTP;
-use App\Common\OTPType;
-use App\Http\Requests\ValidationRequest;
+use App\Http\Requests\EmailVerificationRequest;
 use App\Jobs\SendEmailVerificationOTPCodeJob;
+use App\Packages\OTP\OTP;
+use App\Packages\OTP\OTPType;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ValidationController extends Controller implements ShouldQueue
@@ -19,10 +19,10 @@ class ValidationController extends Controller implements ShouldQueue
     /**
      * Validate email or phone number
      *
-     * @param ValidationRequest $request
+     * @param EmailVerificationRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function validateEmail(ValidationRequest $request)
+    public function validateEmail(EmailVerificationRequest $request)
     {
         $email = $request->validated('email');
 

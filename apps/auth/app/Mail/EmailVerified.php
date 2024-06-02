@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class EmailVerificationCodeSentMail extends Mailable
+class EmailVerified extends Mailable
 {
     use Queueable;
     use SerializesModels;

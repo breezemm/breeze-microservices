@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Common;
+namespace App\Packages\OTP;
 
 use App\Models\OneTimePassword;
 use Carbon\Carbon;
