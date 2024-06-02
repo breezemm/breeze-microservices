@@ -22,6 +22,9 @@ class ForgotPasswordController extends Controller
 
         return response()->json([
             'message' => 'OTP sent to your email',
+            'data' => [
+                'otp' => $otpCode,
+            ],
         ]);
     }
 }

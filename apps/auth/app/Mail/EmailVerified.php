@@ -18,8 +18,7 @@ class EmailVerified extends Mailable
      */
     public function __construct(
         public readonly string $code,
-    )
-    {
+    ) {
         //
     }
 
@@ -39,10 +38,8 @@ class EmailVerified extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.otp-code',
-            with: [
-                'code' => $this->code,
-            ]
+            markdown: 'emails.email-verified',
+            with: ['code' => $this->code],
         );
     }
 
