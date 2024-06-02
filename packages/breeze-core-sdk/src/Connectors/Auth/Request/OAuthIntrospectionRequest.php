@@ -1,6 +1,6 @@
 <?php
 
-namespace MyanmarCyberYouths\Breeze\Connectors\Auth\Requests;
+namespace MyanmarCyberYouths\Breeze\Connectors\Auth\Request;
 
 use JsonException;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\DataTransferObjects\Introspect;

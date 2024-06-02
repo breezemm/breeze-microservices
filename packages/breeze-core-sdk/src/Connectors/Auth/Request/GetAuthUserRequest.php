@@ -1,6 +1,6 @@
 <?php
 
-namespace MyanmarCyberYouths\Breeze\Connectors\Auth\Requests;
+namespace MyanmarCyberYouths\Breeze\Connectors\Auth\Request;
 
 use Saloon\Enums\Method;
 use Saloon\Http\Request;

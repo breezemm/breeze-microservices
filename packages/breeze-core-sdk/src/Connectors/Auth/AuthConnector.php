@@ -6,8 +6,8 @@ namespace MyanmarCyberYouths\Breeze\Connectors\Auth;
 use JsonException;
 use Mockery\Exception;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\DataTransferObjects\AuthenticatedUser;
-use MyanmarCyberYouths\Breeze\Connectors\Auth\Requests\GetAuthUserRequest;
-use MyanmarCyberYouths\Breeze\Connectors\Auth\Requests\OAuthIntrospectionRequest;
+use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\GetAuthUserRequest;
+use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\OAuthIntrospectionRequest;
 use Saloon\Contracts\Authenticator;
 use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Exceptions\Request\RequestException;
@@ -61,6 +61,20 @@ class AuthConnector extends Connector
             return false;
         }
     }
+
+    public function can(string $permission): bool
+    {
+        try {
+            $response = $this->introspect();
+
+            $scopes = $response->json('scope');
+
+            return in_array($permission, $scopes);
+        } catch (Exception|FatalRequestException|RequestException|JsonException) {
+            return false;
+        }
+    }
+
 
     public function user(): ?AuthenticatedUser
     {
