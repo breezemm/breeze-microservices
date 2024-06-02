@@ -16,11 +16,6 @@ readonly class AuthenticatedUser implements Authenticatable
     )
     {
     }
-    public function id(): int
-    {
-        return $this->id;
-    }
-
     public function getAuthIdentifierName(): string
     {
         return 'id';

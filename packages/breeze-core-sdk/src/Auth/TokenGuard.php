@@ -1,22 +1,28 @@
 <?php
 
-namespace MyanmarCyberYouths\Breeze\Guards;
+namespace MyanmarCyberYouths\Breeze\Auth;
 
-use AllowDynamicProperties;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use MyanmarCyberYouths\Breeze\Facades\Breeze;
 
-#[AllowDynamicProperties] class AuthorizationGuard implements Guard
+class TokenGuard implements Guard
 {
+    use GuardHelper;
+
     public function check(): bool
     {
         return Breeze::auth()->check();
     }
 
-    public function guest()
+    /**
+     * Determine if the current user is a guest.
+     *
+     * @return bool
+     */
+    public function guest(): bool
     {
-        // TODO: Implement guest() method.
+        return !$this->check();
     }
 
     public function user(): Authenticatable|null
@@ -24,11 +30,6 @@ use MyanmarCyberYouths\Breeze\Facades\Breeze;
         return Breeze::auth()->user();
     }
 
-
-    public function id(): int|string|null
-    {
-        return $this->user()->id;
-    }
 
     public function validate(array $credentials = [])
     {
