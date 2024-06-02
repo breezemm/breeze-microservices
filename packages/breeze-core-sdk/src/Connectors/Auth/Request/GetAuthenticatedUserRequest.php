@@ -5,7 +5,7 @@ namespace MyanmarCyberYouths\Breeze\Connectors\Auth\Request;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
-class GetAuthUserRequest extends Request
+class GetAuthenticatedUserRequest extends Request
 {
 
     protected Method $method = Method::GET;

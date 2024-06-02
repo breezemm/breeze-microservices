@@ -4,7 +4,7 @@ namespace MyanmarCyberYouths\Breeze\Auth;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
-use MyanmarCyberYouths\Breeze\Facades\Breeze;
+use MyanmarCyberYouths\Breeze\Connectors\Auth\AuthConnector;
 
 class TokenGuard implements Guard
 {
@@ -12,7 +12,7 @@ class TokenGuard implements Guard
 
     public function check(): bool
     {
-        return Breeze::auth()->check();
+        return app(AuthConnector::class)->check();
     }
 
     /**
@@ -27,7 +27,7 @@ class TokenGuard implements Guard
 
     public function user(): Authenticatable|null
     {
-        return Breeze::auth()->user();
+        return app(AuthConnector::class)->user();
     }
 
 
@@ -42,6 +42,5 @@ class TokenGuard implements Guard
 
     public function setUser(Authenticatable $user)
     {
-        // TODO: Implement setUser() method.
     }
 }

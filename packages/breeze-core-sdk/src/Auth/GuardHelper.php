@@ -17,4 +17,5 @@ trait GuardHelper
         }
         return null;
     }
+
 }

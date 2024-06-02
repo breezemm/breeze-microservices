@@ -6,13 +6,14 @@ namespace MyanmarCyberYouths\Breeze\Connectors\Auth;
 use JsonException;
 use Mockery\Exception;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\DataTransferObjects\AuthenticatedUser;
-use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\GetAuthUserRequest;
+use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\GetAuthenticatedUserRequest;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\OAuthIntrospectionRequest;
 use Saloon\Contracts\Authenticator;
 use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Exceptions\Request\RequestException;
 use Saloon\Http\Auth\TokenAuthenticator;
 use Saloon\Http\Connector;
+use Saloon\Http\Response;
 
 class AuthConnector extends Connector
 {
@@ -41,36 +42,23 @@ class AuthConnector extends Connector
         return new TokenAuthenticator($this->token);
     }
 
-
     /**
      * @throws FatalRequestException
      * @throws RequestException
      */
-    public function introspect(): \Saloon\Http\Response
+    public function introspect(): Response
     {
         return $this->send(new OAuthIntrospectionRequest($this->token));
     }
 
+
     public function check(): bool
     {
         try {
-            $response = $this->introspect();
+            $response = $this->introspect()->dto();
 
-            return $response->json('active');
-        } catch (Exception|FatalRequestException|RequestException|JsonException) {
-            return false;
-        }
-    }
-
-    public function can(string $permission): bool
-    {
-        try {
-            $response = $this->introspect();
-
-            $scopes = $response->json('scope');
-
-            return in_array($permission, $scopes);
-        } catch (Exception|FatalRequestException|RequestException|JsonException) {
+            return $response->active;
+        } catch (Exception|FatalRequestException|RequestException) {
             return false;
         }
     }
@@ -79,7 +67,7 @@ class AuthConnector extends Connector
     public function user(): ?AuthenticatedUser
     {
         try {
-            $response = $this->send(new GetAuthUserRequest());
+            $response = $this->send(new GetAuthenticatedUserRequest());
 
             $data = $response->json('data');
 
@@ -95,4 +83,5 @@ class AuthConnector extends Connector
             return null;
         }
     }
+
 }
