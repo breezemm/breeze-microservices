@@ -8,13 +8,7 @@ use App\Http\Controllers\SavedPostController;
 use App\Http\Controllers\SavePostController;
 use App\Http\Controllers\ShowPostController;
 use App\Http\Controllers\UnSavePostContoller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/test', function (Request $request) {
-    return $request->user();
-})->middleware(['auth:api']);
-
 
 Route::post('/posts', CreatePostController::class);
 Route::get('/posts/{post}', ShowPostController::class);

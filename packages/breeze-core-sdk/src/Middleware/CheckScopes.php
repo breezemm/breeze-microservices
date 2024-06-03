@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace MyanmarCyberYouths\Breeze\Middleware;
 
 use Closure;
-use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Aws\Acm\Exception;
 
-class CheckForAnyScope
+class CheckScopes
 {
-
     /**
      * Specify the scopes for the middleware.
      *
-     * @param array|string $scopes
-     * @return string
+     * @param  array|string  $scopes
      */
     public static function using(...$scopes): string
     {
@@ -26,25 +24,19 @@ class CheckForAnyScope
         return static::class . ':' . implode(',', $scopes);
     }
 
-
     /**
-     * @param Request $request
-     * @param Closure $next
-     * @param ...$scopes
-     * @return Response
      * @throws AuthenticationException
-     * @throws Exception
      */
     public function handle(Request $request, Closure $next, ...$scopes): Response
     {
-        if (!$request->user()) {
+        if (! $request->user()) {
             throw new AuthenticationException;
         }
 
-        if ($request->user()->tokenCan($scopes)) {
-            return $next($request);
+        if (! $request->user()->tokenCan($scopes)) {
+            throw new Exception('User does not have the required scopes.', 403);
         }
 
-        throw new Exception('User does not have the required scopes.', 403);
+        return $next($request);
     }
 }

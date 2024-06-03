@@ -2,7 +2,7 @@
 
 namespace MyanmarCyberYouths\Breeze;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use MyanmarCyberYouths\Breeze\Auth\TokenGuard;
 use MyanmarCyberYouths\Breeze\Commands\BreezeCommand;
@@ -12,13 +12,13 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class BreezeServiceProvider extends PackageServiceProvider
 {
-    /**
-     * @throws BindingResolutionException
-     */
     public function boot(): void
     {
-        $token = $this->app->make('request')->bearerToken();
-        $this->app->singleton(AuthConnector::class, fn() => new AuthConnector(token: $token));
+        $this->app->singleton(AuthConnector::class, function (Application $app) {
+            $token = $app->make('request')->bearerToken();
+
+            return new AuthConnector(token: $token);
+        });
 
         Auth::extend('breeze.authorizer', function ($app, $name, array $config) {
             return new TokenGuard();

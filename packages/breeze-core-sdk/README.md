@@ -45,3 +45,47 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 ```
+
+## Checking Scopes
+
+Breeze SDK includes two middleware that may be used to verify that an incoming request is authenticated with a token
+that
+has been granted a given scope. To get started, define the following middleware aliases in your application's
+`bootstrap/app.php` file:
+
+```php
+<?php
+
+use  MyanmarCyberYouths\Breeze\Middleware\CheckScopes;
+use  MyanmarCyberYouths\Breeze\Middleware\CheckForAnyScope;
+
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->alias([
+        'scopes' => CheckScopes::class,
+        'scope' => CheckForAnyScope::class,
+    ])
+})
+```
+
+## Check For All Scopes
+
+The `scopes` middleware may be assigned to a route to verify that the incoming request's access token has all of the
+listed scopes:
+
+```php
+
+Route::get('/orders', function () {
+// Access token has both "check-status" and "place-orders" scopes...
+})->middleware(['auth:api', 'scopes:check-status,place-orders']);
+```
+
+## Check For Any Scopes
+
+The `scope` middleware may be assigned to a route to verify that the incoming request's access token has at least one of
+the listed scopes:
+
+```php
+Route::get('/orders', function () {
+    // Access token has either "check-status" or "place-orders" scope...
+})->middleware(['auth:api', 'scope:check-status,place-orders']);
+```

@@ -4,6 +4,8 @@ networks:
     name: development
     external: true
 
+volumes:
+  minio:
 
 services:
   bun:
@@ -70,3 +72,6 @@ services:
       - ./apps/settings:/var/www/html/apps/settings
     ports:
       - "8004:80"
+
+
+
