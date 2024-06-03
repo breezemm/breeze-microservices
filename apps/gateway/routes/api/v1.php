@@ -78,6 +78,8 @@ Route::middleware('auth:api')->prefix('events')
         Route::get('/saved', [PostSaveController::class, 'index']);
         Route::get('/suggestions', SuggestionController::class);
 
+        // TODO: post services
+
         Route::post('/', PostStoreController::class);
         Route::get('{event}', PostShowController::class);
 
@@ -86,7 +88,9 @@ Route::middleware('auth:api')->prefix('events')
         Route::post('/{event}/like', PostLikeController::class);
         Route::post('/{event}/dislike', PostUnLikeController::class);
 
+        // TODO: commments sevice
         Route::get('/{event}/comments', EventCommentIndexController::class);
+
         Route::post('/{event}/comments', EventCommentController::class);
         Route::post('/{event}/comments/{comment}/like', CommentLikeController::class);
         Route::post('/{event}/comments/{comment}/dislike', CommentDisLikeController::class);

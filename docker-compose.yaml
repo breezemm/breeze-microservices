@@ -32,6 +32,7 @@ services:
       - bun
     volumes:
       - ./apps/auth:/var/www/html/apps/auth
+      - ./packages:/var/www/html/packages
     ports:
       - "8003:80"
 
@@ -49,5 +50,23 @@ services:
       - development
     volumes:
       - ./apps/posts:/var/www/html/apps/posts
+      - ./apps/posts/vendor:/var/www/html/apps/posts/vendor
+      - ./packages:/var/www/html/packages
+    ports:
+      - "8004:80"
+
+
+  settings:
+    restart: unless-stopped
+    build:
+      args:
+        APP_PATH: ./apps/settings
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: php ./apps/settings/artisan octane:start --server=frankenphp --host=0.0.0.0 --port=80 --admin-port=2019 --watch
+    networks:
+      - development
+    volumes:
+      - ./apps/settings:/var/www/html/apps/settings
     ports:
       - "8004:80"

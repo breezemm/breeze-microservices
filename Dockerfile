@@ -19,6 +19,7 @@ ARG COMPOSER_VERSION=2.7.1
 ENV USER=${USER} \
     UID=${UID} \
     GID=${GID} \
+    WITH_OCTANE=false \
     WITH_HORIZON=false \
     WITH_SCHEDULER=false
 
@@ -29,39 +30,37 @@ ENV COMPOSER_VERSION=${COMPOSER_VERSION}
 
 WORKDIR ${WORK_DIR}
 
-RUN apk update; \
-    apk upgrade; \
-    apk add --no-cache  \
-    bash \
-    curl \
+RUN apk add --no-cache  \
     supervisor \
     nodejs \
     npm  \
-    libsodium-dev \
+    libzip-dev \
+    libxml2-dev \
     librdkafka-dev \
     g++ \
     make \
     autoconf \
     && apk del autoconf g++ make  \
-    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
+    && rm -rf /tmp/*  \
+    && rm -rf /var/cache/apk/*
 
 RUN install-php-extensions \
-        redis \
-        rdkafka \
-        exif \
-        pdo_mysql \
-        zip \
-        sockets \
-        pcntl \
-        opcache \
-        mongodb \
-        gd \
-        opcache \
-        intl \
-        bcmath
+    redis \
+    rdkafka \
+    exif \
+    pdo_mysql \
+    zip \
+    sockets \
+    pcntl \
+    opcache \
+    mongodb \
+    gd \
+    opcache \
+    intl \
+    bcmath
+
 
 RUN install-php-extensions @composer-${COMPOSER_VERSION}
-
 
 RUN adduser -D -u $UID -G www-data ${USER}
 
@@ -97,5 +96,7 @@ EXPOSE 8000
 EXPOSE 443
 EXPOSE 443/udp
 EXPOSE 2019
+
+CMD ["start-container"]
 
 HEALTHCHECK --start-period=5s --interval=2s --timeout=5s --retries=8 CMD php ${APP_PATH}/artisan octane:status || exit 1

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Packages\OTP\OTP;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
@@ -22,10 +23,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
         Scramble::extendOpenApi(function (OpenApi $openApi) {
             $openApi->secure(
                 SecurityScheme::http('bearer', 'JWT')
-        );
+            );
         });
+
+        $this->app->singleton(OTP::class, function () {
+            return new OTP();
+        });
+
     }
 }
