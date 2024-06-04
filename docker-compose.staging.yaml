@@ -26,8 +26,8 @@ services:
       staging:
         ipv4_address: '192.0.66.203'
     ports:
-      '8000:8000'
-      '8001:8001'
+      - '8000:8000'
+      - '8001:8001'
     restart: 'unless-stopped'
 
   auth:
