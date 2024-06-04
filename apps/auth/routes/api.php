@@ -26,8 +26,8 @@ Route::prefix('auth')->group(function () {
 
     Route::post('/validate', [ValidationController::class, 'validateEmail']);
 
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register'])->middleware('guest');
+    Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 
     Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
     Route::get('/me', [AuthController::class, 'getCurrentAuthUser'])->middleware('auth:api');

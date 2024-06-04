@@ -13,7 +13,9 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use function Laravel\Prompts\error;
 
 class AuthController extends Controller
@@ -26,7 +28,7 @@ class AuthController extends Controller
      * @param RegistrationRequest $request
      * @return JsonResponse
      */
-    public function register(RegistrationRequest $request): JsonResponse
+    public function register(RegistrationRequest $request)
     {
 
         $data = $request->validated();
@@ -56,11 +58,10 @@ class AuthController extends Controller
                     'access_token' => $accessToken,
                 ],
             ]);
-        } catch (Exception $exception) {
+        } catch (Exception|FileCannotBeAdded $exception) {
             DB::rollBack();
 
-            error($exception);
-
+            Log::error("User registration failed" . $exception->getMessage());
 
             return response()->json([
                 'message' => 'User registration failed',
