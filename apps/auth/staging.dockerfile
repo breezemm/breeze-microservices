@@ -4,6 +4,8 @@ RUN install-php-extensions                                                      
         exif                                                                                            \
         sodium
 
+COPY . .
+
 RUN composer install
 
 ENTRYPOINT ["./start-container"]
