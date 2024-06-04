@@ -25,14 +25,17 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
 
-          cd /prod/git/repo/breeze || exit
+          cd /staging/repo/breeze || exit
 
           if [ -d ".git" ]; then
             git pull
           else
             git clone git@github.com-breeze:myanmarcyberyouths/breeze .
+            git switch -f staging
           fi
 
-          docker compose -f staging.compose.yaml up -d --build mysql redis
+          docker compose -f docker-compose.staging.yaml down
+
+          docker compose -f docker-compose.staging.yaml up -d --build kong auth
 
         EOF

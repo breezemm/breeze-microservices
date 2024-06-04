@@ -1,51 +1,14 @@
-name: 'breezemm'
+name: 'breeze-staging'
 
 networks:
-  asn:
+  staging:
     name: 'asn'
     external: true
 
-volumes:
-  mysql:
-  redis:
-
 services:
-  mysql:
-    image: 'bitnami/mysql:8.3.0'
-    container_name: 'mysql'
-    environment:
-      - 'ALLOW_EMPTY_PASSWORD=yes'
-    volumes:
-      - 'mysql:/bitnami/mysql/data'
-      - './infra/databases/mysql/init/01-databases.sql:/docker-entrypoint-initdb.d/create-database.sql'
-    networks:
-      staging:
-        ipv4_address: '192.0.66.201'
-    healthcheck:
-        test: ['CMD', 'mysqladmin', 'ping', '-p']
-        retries: '3'
-        timeout: '5s'
-    restart: 'unless-stopped'
-
-  redis:
-    image: 'bitnami/redis:7.2.4'
-    container_name: 'redis'
-    environment:
-      - 'ALLOW_EMPTY_PASSWORD=yes'
-    volumes:
-      - 'redis:/bitnami/redis/data'
-    networks:
-      staging:
-        ipv4_address: '192.0.66.202'
-    healthcheck:
-        test: ['CMD', 'redis-cli', 'ping']
-        retries: '3'
-        timeout: '5s'
-    restart: 'unless-stopped'
-
   kong:
     image: 'kong:latest'
-    container_name: 'kong'
+    container_name: 'breeze-kong-staging'
     environment:
       - 'KONG_DATABASE=off'
       - 'KONG_DECLARATIVE_CONFIG=/usr/local/kong/declarative/kong.yml'
@@ -57,18 +20,21 @@ services:
       - 'KONG_LOG_LEVEL=debug'
       - 'KONG_PLUGINS=bundled'
     volumes:
-      - './infra/kong/config:/usr/local/kong/declarative'
-      - './infra/kong/logs/file.log:/file.log'
+      - './infra/kong/staging/config:/usr/local/kong/declarative'
+      - './infra/kong/staging/logs/file.log:/file.log'
     networks:
       staging:
         ipv4_address: '192.0.66.203'
+    ports:
+      '8000:8000'
+      '8001:8001'
     restart: 'unless-stopped'
 
   auth:
     build:
       context: './apps/auth'
       dockerfile: 'staging.dockerfile'
-    container_name: 'auth'
+    container_name: 'breeze-auth-staging'
     env_file: './apps/auth/staging.env'
     networks:
       staging:
