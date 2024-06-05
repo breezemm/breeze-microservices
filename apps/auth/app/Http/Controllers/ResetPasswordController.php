@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 class ResetPasswordController extends Controller
 {
     /**
+     * @unauthenticated
      * Reset password for the user.
      */
     public function __invoke(ResetPasswordRequest $request)

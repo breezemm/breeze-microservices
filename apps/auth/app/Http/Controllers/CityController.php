@@ -10,6 +10,8 @@ class CityController extends Controller
 {
 
     /**
+     * @unauthenticated
+     *
      * Get all cities
      */
     public function __invoke()
