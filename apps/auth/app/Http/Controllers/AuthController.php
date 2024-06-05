@@ -20,7 +20,6 @@ class AuthController extends Controller
 {
     /**
      * @unauthenticated
-     *
      * Register a new user
      *
      * @param RegistrationRequest $request

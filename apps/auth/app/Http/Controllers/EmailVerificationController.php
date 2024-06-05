@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 class EmailVerificationController extends Controller
 {
     /**
-     * Verify Email OTP
+     * Verify Email
      *
      * @param EmailVerificationRequest $request
      * @return JsonResponse
@@ -17,18 +17,15 @@ class EmailVerificationController extends Controller
 
     public function __invoke(EmailVerificationRequest $request)
     {
-        $isVerifiedOTP = app(OTP::class)->verify(
+        $isValidCode = app(OTP::class)->verify(
             identifier: $request->email,
             otp: $request->code,
         );
 
-        abort_unless($isVerifiedOTP, 422, 'Invalid OTP code');
+        abort_unless($isValidCode, 422, 'Invalid OTP code');
 
         return response()->json([
             'message' => 'Your email is verified successfully.',
-            'data' => [
-                'active' => $isVerifiedOTP,
-            ],
         ]);
     }
 
