@@ -3,38 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailVerificationRequest;
-use App\Jobs\SendEmailVerificationOTPCodeJob;
+use App\Mail\EmailVerified;
 use App\Packages\OTP\OTP;
 use App\Packages\OTP\OTPType;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail;
 
-class ValidationController extends Controller implements ShouldQueue
+class EmailValidationController extends Controller
 {
-    public function __construct(
-        public readonly OTP $otp,
-    )
-    {
-    }
 
     /**
      * Validate email or phone number
      *
      * @param EmailVerificationRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function validateEmail(EmailVerificationRequest $request)
+    public function __invoke(EmailVerificationRequest $request)
     {
-        $email = $request->validated('email');
+        $otpCode = app(OTP::class)->generate(identifier: $request->email, type: OTPType::Alphanumeric);
 
-        $otpCode = $this->otp->generate(identifier: $email, type: OTPType::Alphanumeric);
+        Mail::to($request->email)->queue(new EmailVerified(code: $otpCode));
 
-        dispatch(
-            new SendEmailVerificationOTPCodeJob(
-                email: $email,
-                verificationCode: $otpCode,
-            )
-        );
-
+        // If the app is in production, we don't want to send the OTP code
         $response = app()->isProduction()
             ? ['message' => 'Email Verification Code sent successfully',]
             : [
