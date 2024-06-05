@@ -29,7 +29,7 @@ class OTP
     public function verify(string $identifier, string $otp): bool
     {
         $otpRecord = OneTimePassword::where('identifier', $identifier)
-            ->orWhere('otp', $otp)
+            ->where('otp', $otp)
             ->where('expires_at', '>=', now())
             ->latest();
 

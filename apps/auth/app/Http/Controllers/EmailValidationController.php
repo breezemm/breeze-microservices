@@ -9,10 +9,11 @@ use App\Packages\OTP\OTPType;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
 
-class ResendOneTimePasswordController extends Controller
+class EmailValidationController extends Controller
 {
+
     /**
-     * Resend OTP code
+     * Validate email or phone number
      *
      * @param EmailVerificationRequest $request
      * @return JsonResponse
@@ -23,15 +24,16 @@ class ResendOneTimePasswordController extends Controller
 
         Mail::to($request->email)->queue(new EmailVerified(code: $otpCode));
 
-        if (app()->isLocal()) {
-            return response()->json([
-                'message' => 'OTP code has been sent to your email.',
+        // If the app is in production, we don't want to send the OTP code
+        $response = app()->isProduction()
+            ? ['message' => 'Email Verification Code sent successfully',]
+            : [
+                'message' => 'Email Verification Code sent successfully',
                 'data' => [
-                    'otp' => $otpCode
+                    'otp_code' => $otpCode,
                 ]
-            ]);
-        }
+            ];
 
-        return response()->json(['message' => 'OTP code has been sent to your email.']);
+        return response()->json($response);
     }
 }

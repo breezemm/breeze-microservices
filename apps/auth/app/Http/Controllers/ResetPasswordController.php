@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ResetPasswordRequest;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -11,6 +12,7 @@ use Illuminate\Support\Str;
 class ResetPasswordController extends Controller
 {
     /**
+     * @unauthenticated
      * Reset password for the user.
      */
     public function __invoke(ResetPasswordRequest $request)
@@ -27,8 +29,8 @@ class ResetPasswordController extends Controller
             $user->save();
             DB::commit();
 
-            return response()->json(['message' => 'Password reset successfully']);
-        } catch (\Exception $e) {
+            return response()->json(['message' => 'Password changed successfully']);
+        } catch (Exception) {
             DB::rollBack();
             return response()->json(['message' => 'Something went wrong'], 500);
         }

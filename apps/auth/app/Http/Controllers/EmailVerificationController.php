@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailVerificationRequest;
-use App\Models\User;
 use App\Packages\OTP\OTP;
 use Illuminate\Http\JsonResponse;
 
 class EmailVerificationController extends Controller
 {
     /**
-     * Verify Email OTP
+     * Verify Email
      *
      * @param EmailVerificationRequest $request
      * @return JsonResponse
@@ -18,24 +17,15 @@ class EmailVerificationController extends Controller
 
     public function __invoke(EmailVerificationRequest $request)
     {
-        $isVerifiedOTP = app(OTP::class)->verify(
+        $isValidCode = app(OTP::class)->verify(
             identifier: $request->email,
             otp: $request->code,
         );
 
-        abort_unless($isVerifiedOTP, 422, 'Invalid OTP code');
-
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
-        }
+        abort_unless($isValidCode, 422, 'Invalid OTP code');
 
         return response()->json([
-            'message' => 'OTP verified successfully',
-            'data' => [
-                'active' => $isVerifiedOTP,
-            ],
+            'message' => 'Your email is verified successfully.',
         ]);
     }
 

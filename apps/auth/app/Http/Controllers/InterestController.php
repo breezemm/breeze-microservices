@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Cache;
 class InterestController extends Controller
 {
     /**
+     * @unauthenticated
+     *
      * Get all interests.
      * @return mixed
      */

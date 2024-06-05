@@ -12,6 +12,8 @@ class ForgotPasswordController extends Controller
 {
 
     /**
+     * @unauthenticated
+     *
      * Forgot password
      */
     public function __invoke(EmailVerificationRequest $request)
