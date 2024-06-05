@@ -10,13 +10,11 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
-use function Laravel\Prompts\error;
 
 class AuthController extends Controller
 {
@@ -47,6 +45,8 @@ class AuthController extends Controller
             $user->interests()->attach($data['interests'], [
                 'least_favorite_id' => $data['least_favorite'],
             ]);
+
+            $user->markEmailAsVerified();
 
             $accessToken = $user->createToken('access_token')->accessToken;
 

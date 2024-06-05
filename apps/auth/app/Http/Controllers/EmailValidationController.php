@@ -29,11 +29,9 @@ class EmailValidationController extends Controller
             ? ['message' => 'Email Verification Code sent successfully',]
             : [
                 'message' => 'Email Verification Code sent successfully',
-                [
-                    'data' => [
-                        'otp' => $otpCode,
-                    ]
-                ],
+                'data' => [
+                    'otp_code' => $otpCode,
+                ]
             ];
 
         return response()->json($response);
