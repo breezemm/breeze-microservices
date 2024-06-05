@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('oauth/introspect', IntrospectionController::class)->name('oauth.introspect');
 
 Route::prefix('auth')->group(function () {
-    Route::post('/email/validate', EmailValidationController::class);
+    Route::post('/email/validate', EmailValidationController::class)->middleware(['guest', 'throttle:5,1']);
     Route::post('/email/verify', EmailVerificationController::class)->middleware(['guest', 'throttle:5,1']); // 5 requests per minute
     Route::post('/otp/resend', ResendOneTimePasswordController::class)->middleware(['guest', 'throttle:5,1']);
 
