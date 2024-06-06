@@ -6,35 +6,36 @@ use App\Enums\UserSettings;
 use App\Models\Interest;
 use Illuminate\Http\Request;
 
+
 class UserPreferenceController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Get all user settings
+     *
      */
     public function __invoke(Request $request)
     {
         $setting = collect(UserSettings::cases())
-            ->map(function ($setting) {
+            ->map(function (UserSettings $setting) {
                 $key = auth()->user()->settings()->get($setting);
 
-                if ($setting === UserSettings::MOST_FAVORITES) {
-                    return [
+                return match ($setting) {
+                    UserSettings::MOST_FAVORITES => [
                         $setting->value => collect($key)->map(fn($favorite) => Interest::find($favorite)->name),
-                    ];
-                }
-
-                if ($setting === UserSettings::LEAST_FAVORITE) {
-                    return [
+                    ],
+                    UserSettings::LEAST_FAVORITE => [
                         $setting->value => Interest::find($key)->name,
-                    ];
-                }
-                return [
-                    $setting->value => $key,
-                ];
+                    ],
+                    default => [
+                        $setting->value => auth()->user()->settings()->get($setting->value),
+                    ],
+                };
             });
+
 
         return response()->json([
             'data' => $setting,
         ]);
     }
+
 }
