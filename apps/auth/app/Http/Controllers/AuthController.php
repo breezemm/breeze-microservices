@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StorageMediaCollectionName;
+use App\Enums\UserSettings;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Resources\UserResource;
@@ -41,9 +42,13 @@ class AuthController extends Controller
             $user->addMediaFromBase64($request->validated('user_profile_image'))
                 ->toMediaCollection(StorageMediaCollectionName::PROFILE_IMAGES->value);
 
-            $user->interests()->attach($data['interests'], [
-                'least_favorite_id' => $data['least_favorite'],
-            ]);
+
+            $mostFavorites = $request->validated('most_favorites');
+
+            $user->settings()->set(UserSettings::MOST_FAVORITES, $mostFavorites);
+
+            $user->settings()->set(UserSettings::LEAST_FAVORITE, $request->validated('least_favorite'));
+
 
             $user->markEmailAsVerified();
 
@@ -120,8 +125,6 @@ class AuthController extends Controller
     public function getCurrentAuthUser()
     {
         $user = auth()->user();
-
-        $user->load('interests:id,name');
 
         return $this->getUserProfileByUsername($user->username);
     }

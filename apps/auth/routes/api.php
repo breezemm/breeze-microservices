@@ -9,6 +9,7 @@ use App\Http\Controllers\IntrospectionController;
 use App\Http\Controllers\ResendOneTimePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\EmailValidationController;
+use App\Http\Controllers\UserPreferenceController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -32,5 +33,7 @@ Route::prefix('auth')->group(function () {
     Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
     Route::get('/me', [AuthController::class, 'getCurrentAuthUser'])->middleware('auth:api');
 
+    Route::get('/user-preferences', UserPreferenceController::class)->middleware('auth:api');
 });
+
 

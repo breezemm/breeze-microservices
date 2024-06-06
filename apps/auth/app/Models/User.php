@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Rawilk\Settings\Models\HasSettings;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -18,6 +18,7 @@ class User extends Authenticatable implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
     use Notifiable;
+    use HasSettings;
 
     /**
      * The attributes that are mass assignable.
@@ -89,10 +90,7 @@ class User extends Authenticatable implements HasMedia
         return $query->where('username', $username);
     }
 
-    public function interests(): BelongsToMany
-    {
-        return $this->belongsToMany(Interest::class);
-    }
+
 
     public function city(): BelongsTo
     {

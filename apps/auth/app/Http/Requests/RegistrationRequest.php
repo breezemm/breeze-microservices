@@ -29,10 +29,10 @@ class RegistrationRequest extends FormRequest
             'password' => 'required|min:8|confirmed',
             'date_of_birth' => 'required|date_format:d-m-Y',
             'gender' => 'required|in:male,female',
-            'interests' => 'required|array',
             'user_profile_image' => ['required', new Base64ValidationRule()],
             'accept_terms' => 'required|boolean',
             'city_id' => 'required|exists:cities,id',
+            'most_favorites' => 'required|array',
             'least_favorite' => 'required|numeric|exists:interests,id',
         ];
     }
