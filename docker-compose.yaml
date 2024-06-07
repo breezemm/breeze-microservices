@@ -4,9 +4,6 @@ networks:
     name: development
     external: true
 
-volumes:
-  minio:
-
 services:
   bun:
     build:
