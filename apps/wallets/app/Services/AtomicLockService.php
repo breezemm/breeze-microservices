@@ -16,7 +16,7 @@ class AtomicLockService implements AtomicLockInterface
     // @phpstan-ignore-next-line
     public function blocks(array $objects, callable $callback): mixed
     {
-        $locks = collect($objects)->map(fn ($object) => Cache::lock('atomic-lock:' . $object->id, 10));
+        $locks = collect($objects)->map(fn ($object) => Cache::lock('atomic-lock:'.$object->id, 10));
 
         try {
             if ($locks->every(fn ($lock) => $lock->get())) {
