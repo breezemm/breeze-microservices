@@ -17,6 +17,7 @@
         "laravel/passport": "^12.0",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.0",
+        "rawilk/laravel-settings": "^3.3",
         "spatie/laravel-medialibrary": "^11.4"
     },
     "require-dev": {
@@ -58,11 +59,12 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "development": [
-            "php artisan passport:keys --force",
-            "php artisan migrate:fresh --seed",
-            "php artisan passport:client --personal --name 'Breeze'"
-        ]
+        "setup:dev": [
+            "@php artisan passport:keys --force",
+            "@php artisan migrate:fresh --seed",
+            "@php artisan passport:client --personal --name 'Breeze'"
+        ],
+        "dev": "@php artisan serve --port=8003"
     },
     "extra": {
         "laravel": {

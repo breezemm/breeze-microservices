@@ -4,9 +4,6 @@ networks:
     name: development
     external: true
 
-volumes:
-  minio:
-
 services:
   bun:
     build:
@@ -57,21 +54,6 @@ services:
     ports:
       - "8004:80"
 
-
-  settings:
-    restart: unless-stopped
-    build:
-      args:
-        APP_PATH: ./apps/settings
-      context: .
-      dockerfile: Dockerfile
-    entrypoint: php ./apps/settings/artisan octane:start --server=frankenphp --host=0.0.0.0 --port=80 --admin-port=2019 --watch
-    networks:
-      - development
-    volumes:
-      - ./apps/settings:/var/www/html/apps/settings
-    ports:
-      - "8004:80"
 
 
 

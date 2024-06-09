@@ -14,8 +14,8 @@ class InterestSeeder extends Seeder
     {
         $interests = [
             ['name' => 'Fun & Casual'],
-            ['name' => ' Social & Networking'],
-            ['name' => ' Weekend Getaway'],
+            ['name' => 'Social & Networking'],
+            ['name' => 'Weekend Getaway'],
             ['name' => 'Art & Design'],
             ['name' => 'Technology'],
             ['name' => 'Education'],
@@ -23,6 +23,8 @@ class InterestSeeder extends Seeder
             ['name' => 'Charity'],
             ['name' => 'Music & Life'],
         ];
+
+
 
         Interest::insert($interests);
     }
