@@ -4,16 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Enums\UserSettings;
 use App\Models\Interest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-
 
 class UserPreferenceController extends Controller
 {
     /**
      * Get all user settings
-     *
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         $setting = collect(UserSettings::cases())
             ->map(function (UserSettings $setting) {
@@ -21,7 +20,7 @@ class UserPreferenceController extends Controller
 
                 return match ($setting) {
                     UserSettings::MOST_FAVORITES => [
-                        $setting->value => collect($key)->map(fn($favorite) => Interest::find($favorite)->name),
+                        $setting->value => collect($key)->map(fn ($favorite) => Interest::find($favorite)->name),
                     ],
                     UserSettings::LEAST_FAVORITE => [
                         $setting->value => Interest::find($key)->name,
@@ -32,10 +31,8 @@ class UserPreferenceController extends Controller
                 };
             });
 
-
         return response()->json([
             'data' => $setting,
         ]);
     }
-
 }

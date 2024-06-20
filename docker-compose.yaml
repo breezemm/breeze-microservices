@@ -33,11 +33,10 @@ services:
       - ./apps/auth:/var/www/html/apps/auth
       - ./packages:/var/www/html/packages
     ports:
-      - "8003:80"
+      - "8005:80"
 
   posts:
     restart: unless-stopped
-    image: breezemm.com/posts:latest
     build:
       args:
         APP_PATH: ./apps/posts
@@ -52,8 +51,7 @@ services:
       - ./apps/posts/vendor:/var/www/html/apps/posts/vendor
       - ./packages:/var/www/html/packages
     ports:
-      - "8004:80"
-
+      - "8006:80"
 
 
 

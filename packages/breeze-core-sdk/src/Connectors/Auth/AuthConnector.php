@@ -26,7 +26,7 @@ class AuthConnector extends Connector
 
     public function resolveBaseUrl(): string
     {
-        return 'auth/api/v1';
+        return 'http://localhost:8005/api/v1';
     }
 
     protected function defaultHeaders(): array
