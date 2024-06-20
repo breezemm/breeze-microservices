@@ -2,112 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TicketStatus;
 use App\Http\Requests\CreatePostRequest;
+use App\Models\Phase;
 use App\Models\Post;
 use App\Models\Ticket;
 use App\Models\TicketType;
-use Illuminate\Support\Facades\DB;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 
 class CreatePostController extends Controller
 {
     public function __invoke(CreatePostRequest $request)
     {
-        DB::beginTransaction();
 
-        try {
-            $post = $this->createPost($request);
-            $this->uploadImage($post, $request);
-            $phases = $this->createPhases($post, $request);
-            $this->createTickets($phases, $request);
-
-            // TODO: Emit a post created event to the activity service
-            // $this->emitPostCreatedEvent($post);
-
-            DB::commit();
-
-            return $post;
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            abort(500, 'Event creation failed');
-        }
-    }
-
-    private function createPost(CreatePostRequest $request)
-    {
-        return Post::create($request->validated() + ['user_id' => auth()->id()]);
-    }
-
-    /**
-     * @throws FileCannotBeAdded
-     * @throws FileDoesNotExist
-     * @throws FileIsTooBig
-     * @throws InvalidBase64Data
-     */
-    private function uploadImage(Post $post, CreatePostRequest $request)
-    {
-        $post->addMediaFromBase64($request->validated('image'))->toMediaCollection('event-images');
-    }
-
-    private function createPhases(Post $post, CreatePostRequest $request)
-    {
-        return $post->phases()->createMany($request->validated('phases'));
-    }
-
-    private function createTickets($phases, CreatePostRequest $request)
-    {
-        foreach ($phases as $index => $phase) {
-            $ticketTypes = $request->validated('phases')[$index]['ticket_types'];
-
-            $phase->ticketTypes()->createMany($ticketTypes)->each(function (TicketType $ticketType) {
-                $this->createTicketsForTicketType($ticketType);
-            });
-        }
-    }
-
-    private function createTicketsForTicketType(TicketType $ticketType)
-    {
-        $totalSeats = $ticketType->total_seats;
-        $hasSeatingPlan = $ticketType->is_has_seating_plan;
-
-        if (!$hasSeatingPlan && $totalSeats <= 0) {
-            $this->createNonSeatingPlanTicket($ticketType);
-        } else {
-            $this->createSeatingPlanTickets($ticketType, $totalSeats);
-        }
-    }
-
-    private function createNonSeatingPlanTicket(TicketType $ticketType)
-    {
-        Ticket::create([
+        $post = Post::create([
             'user_id' => auth()->id(),
-            'phase_id' => $ticketType->phase_id,
-            'ticket_type_id' => $ticketType->id,
-            'seat_number' => null,
+            'name' => $request->input('name'),
+            'date' => $request->input('date'),
+            'start_time' => $request->input('start_time'),
+            'end_time' => $request->input('end_time'),
+            'address' => $request->input('address'),
+            'city' => $request->input('city'),
+            'description' => $request->input('description'),
         ]);
-    }
 
-    private function createSeatingPlanTickets(TicketType $ticketType, $totalSeats)
-    {
-
-        foreach (range(1, $totalSeats) as $seatNumber) {
-            Ticket::create([
+        foreach ($request->ticket_types as $ticketTypeData) {
+            $ticketType = TicketType::create([
                 'user_id' => auth()->id(),
-                'phase_id' => $ticketType->phase_id,
-                'ticket_type_id' => $ticketType->id,
-                'seat_number' => $seatNumber,
+                'post_id' => $post->id,
+                'name' => $ticketTypeData['name'],
+                'price' => $ticketTypeData['price'] ?? 0,
+                'quantity' => $ticketTypeData['quantity'],
             ]);
-        }
-    }
 
-    // private function emitPostCreatedEvent(Post $post)
-    // {
-    //     auth()->user()->activities()->create([
-    //         'event_id' => $post->id,
-    //         'action_type' => UserActionTypeEnum::Create,
-    //     ]);
-    // }
+            abort_unless($ticketTypeData['quantity'] >= 0 && $ticketTypeData['quantity'] <= 40, 422, 'Ticket quantity must be between 0 and 40');
+
+            // create seating plan tickets
+            if ($ticketTypeData['quantity'] > 0 && $ticketTypeData['quantity'] <= 40) {
+                foreach (range(1, $ticketTypeData['quantity']) as $seat) {
+                    Ticket::create([
+                        'user_id' => auth()->id(),
+                        'post_id' => $post->id,
+                        'ticket_type_id' => $ticketType->id,
+                        'seat_no' => $seat,
+                        'state' => TicketStatus::InStock,
+                    ]);
+                }
+
+            }
+
+            // if the ticket has selling phases then create them
+            if (isset($ticketTypeData['phases'])) {
+                foreach ($ticketTypeData['phases'] as $phase) {
+                    Phase::create([
+                        'user_id' => auth()->id(),
+                        'post_id' => $post->id,
+                        'ticket_type_id' => $ticketType->id,
+                        'name' => $phase['name'],
+                        'start_date' => $phase['start_date'],
+                        'end_date' => $phase['end_date'],
+                        'price' => $phase['price'],
+                    ]);
+                }
+            }
+        }
+
+
+    }
 }

@@ -15,23 +15,26 @@ class Post extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'start_date',
+        'date',
         'start_time',
-        'end_date',
         'end_time',
-        'place',
+        'address',
+        'city',
         'description',
-        'is_has_phases',
-    ];
-
-    protected $casts = [
-        'is_has_phases' => 'boolean',
     ];
 
 
-    public function phases(): HasMany
+    protected function casts(): array
     {
-        return $this->hasMany(Phase::class);
+        return [
+            'is_has_phases' => 'boolean',
+        ];
+    }
+
+
+    public function ticketTypes(): HasMany
+    {
+        return $this->hasMany(TicketType::class);
     }
 
 }

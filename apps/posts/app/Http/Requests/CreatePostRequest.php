@@ -22,36 +22,39 @@ class CreatePostRequest extends FormRequest
      */
     public function rules(): array
     {
+        /**
+         * A post has many phases
+         * A phase has many ticket types
+         * A ticket type has many tickets (seats) if it has a seating plan
+         */
         return [
             // Step 1
             'name' => 'required|string|max:255',
-            'start_date' => 'required|date_format:Y-m-d',
+            'date' => 'required|date_format:Y-m-d',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i',
-            'place' => 'required',
+            'address' => 'required',
+            'city' => 'required',
             'co_organizers' => 'nullable|array|exists:users,id',
-
-            // Step 2
+            'interests' => 'required|array',
             'image' => ['required', new Base64ValidationRule],
             'description' => 'required|string',
 
-            // Step 3
-            'interests' => 'required|array|exists:interests,id',
+            'ticket_types' => 'required|array',
+            'ticket_types.*.name' => 'required|string',
+            'ticket_types.*.quantity' => 'required|integer', // if quantity is 0, it means unlimited
+            'ticket_types.*.benefits' => 'nullable|array',
+            'ticket_types.*.price' => 'nullable|numeric', // if price is null, it means free
 
-            'is_has_phases' => 'required|boolean', // does event have phases or not,
+            'ticket_types.*.phases' => 'nullable|array',
+            'ticket_types.*.phases.*.name' => 'required|string',
+            'ticket_types.*.phases.*.start_date' => 'required|date_format:Y-m-d',
+            'ticket_types.*.phases.*.end_date' => 'required|date_format:Y-m-d',
+            'ticket_types.*.phases.*.price' => 'required|numeric',
 
-            'phases' => 'required|array', // a phase is a part of an event
-            'phases.*.name' => 'required|string', // Period Name
-            'phases.*.start_date' => 'required|date_format:Y-m-d',
-            'phases.*.end_date' => 'required|date_format:Y-m-d',
 
-            // phases have many ticket types
-            'phases.*.ticket_types' => 'required|array',
-            'phases.*.ticket_types.*.name' => 'required|string',
-            'phases.*.ticket_types.*.benefits' => 'nullable|array',
-            'phases.*.ticket_types.*.price' => 'required|integer',
-            'phases.*.ticket_types.*.is_has_seating_plan' => 'required|boolean',
-            'phases.*.ticket_types.*.total_seats' => 'required_if:phases.*.ticket_types.*.is_has_seating_plan,true|integer',
+            // terms confirmation
+            'terms' => 'required|boolean',
 
         ];
     }

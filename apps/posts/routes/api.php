@@ -10,7 +10,8 @@ use App\Http\Controllers\ShowPostController;
 use App\Http\Controllers\UnSavePostContoller;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/posts', CreatePostController::class);
+
+Route::post('/posts', CreatePostController::class)->middleware('auth:api');
 Route::get('/posts/{post}', ShowPostController::class);
 Route::get('/posts/launched', GetAllPostByUserIdController::class);
 
@@ -20,3 +21,4 @@ Route::delete('/posts/{post}/unsave', UnSavePostContoller::class);
 
 Route::post('/posts/post}/like', PostLikeController::class);
 Route::post('/posts/post}/unlike', PostUnLikeController::class);
+

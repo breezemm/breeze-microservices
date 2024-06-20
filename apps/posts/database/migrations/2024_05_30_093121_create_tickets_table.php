@@ -12,10 +12,12 @@ return new class extends Migration {
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
             $table->foreignId('post_id');
-            $table->string('name');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->foreignId('ticket_type_id');
+            $table->string('seat_no');
+            $table->string('note')->nullable();
+            $table->string('state')->default('in_stock');
             $table->timestamps();
         });
     }

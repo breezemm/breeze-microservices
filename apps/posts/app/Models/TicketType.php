@@ -12,27 +12,31 @@ class TicketType extends Model
     use HasFactory;
 
     protected $fillable = [
-        'phase_id',
+        'user_id',
+        'post_id',
         'name',
-        'benefits',
         'price',
-        'is_has_seating_plan',
-        'total_seats',
-    ];
-
-    protected $casts = [
-        'benefits' => 'array',
-        'is_has_seating_plan' => 'boolean',
+        'quantity',
+        'benefits',
     ];
 
 
-    public function phase(): BelongsTo
+    protected function casts(): array
     {
-        return $this->belongsTo(Phase::class);
+        return [
+            'price' => 'float',
+            'quantity' => 'integer',
+            'benefits' => 'array',
+        ];
     }
 
-    public function tickets(): HasMany
+    public function post(): BelongsTo
     {
-        return $this->hasMany(Ticket::class, 'ticket_type_id', 'id');
+        return $this->belongsTo(Post::class);
+    }
+
+    public function phases(): HasMany
+    {
+        return $this->hasMany(Phase::class);
     }
 }
