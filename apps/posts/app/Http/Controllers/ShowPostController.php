@@ -9,16 +9,14 @@ class ShowPostController extends Controller
 {
     public function __invoke(Post $post)
     {
-//           return new EventResource($event->load([
-//            'user',
-//            'phases' => function (HasMany $query) {
-//                $query->with([
-//                    'ticketTypes.tickets',
-//                ]);
-//            },
-//        ]));
 
-        return $post->with('phases.ticketTypes.tickets');
+        $post->load('ticketTypes.phases');
+        $post->load('ticketTypes.tickets');
+        $post->load('media');
+
+        return response()->json([
+            'data' => $post,
+        ]);
 
     }
 }

@@ -23,6 +23,11 @@ class Post extends Model
         'description',
     ];
 
+    public function likes(): HasMany
+    {
+        return $this->hasMany(PostLike::class);
+    }
+
 
     protected function casts(): array
     {
