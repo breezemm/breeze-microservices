@@ -1,6 +1,6 @@
 <?php
 
-namespace MyanmarCyberYouths\Breeze\Connectors\Auth\DataTransferObjects;
+namespace MyanmarCyberYouths\Breeze\Connectors\Auth\Data;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use JsonException;
@@ -11,7 +11,7 @@ use Saloon\Exceptions\Request\RequestException;
 use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Data;
 
-class AuthenticatedUser extends Data implements Authenticatable
+class AuthenticatedUserData extends Data implements Authenticatable
 {
     public function __construct(
         public int    $id,

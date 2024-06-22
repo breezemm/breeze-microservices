@@ -5,7 +5,7 @@ namespace MyanmarCyberYouths\Breeze\Connectors\Auth;
 
 use JsonException;
 use Mockery\Exception;
-use MyanmarCyberYouths\Breeze\Connectors\Auth\DataTransferObjects\AuthenticatedUser;
+use MyanmarCyberYouths\Breeze\Connectors\Auth\Data\AuthenticatedUserData;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\GetAuthenticatedUserRequest;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\OAuthIntrospectionRequest;
 use Saloon\Contracts\Authenticator;
@@ -64,21 +64,23 @@ class AuthConnector extends Connector
     }
 
 
-    public function user(): ?AuthenticatedUser
+    public function user(): ?AuthenticatedUserData
     {
         try {
             $response = $this->send(new GetAuthenticatedUserRequest());
 
             $data = $response->json('data');
 
-            return new AuthenticatedUser(
-                id: $data['user']['id'],
-                name: $data['user']['name'],
-                username: $data['user']['username'],
-                email: $data['user']['email'],
-                profileImage: $data['user']['profile_image'],
-                city: $data['user']['city'],
-            );
+//            return new AuthenticatedUserData(
+//                id: $data['user']['id'],
+//                name: $data['user']['name'],
+//                username: $data['user']['username'],
+//                email: $data['user']['email'],
+//                profileImage: $data['user']['profile_image'],
+//                city: $data['user']['city'],
+//            );
+
+            return AuthenticatedUserData::from($data['user']);
         } catch (Exception|FatalRequestException|RequestException|JsonException) {
             return null;
         }

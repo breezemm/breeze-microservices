@@ -1,10 +1,10 @@
 <?php
 
-namespace MyanmarCyberYouths\Breeze\Connectors\Auth\DataTransferObjects;
+namespace MyanmarCyberYouths\Breeze\Connectors\Auth\Data;
 
 use Spatie\LaravelData\Data;
 
-class OAuthIntrospectionResponse extends Data
+class OAuthIntrospectionData extends Data
 {
     public function __construct(
         public bool  $active,
