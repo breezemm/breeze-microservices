@@ -26,7 +26,7 @@ class TicketType extends Model
         return [
             'price' => 'float',
             'quantity' => 'integer',
-            'benefits' => 'array',
+            'benefits' => 'json',
         ];
     }
 
@@ -38,5 +38,10 @@ class TicketType extends Model
     public function phases(): HasMany
     {
         return $this->hasMany(Phase::class);
+    }
+
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
     }
 }

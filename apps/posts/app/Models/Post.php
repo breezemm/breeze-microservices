@@ -37,4 +37,5 @@ class Post extends Model
         return $this->hasMany(TicketType::class);
     }
 
+
 }

@@ -10,15 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('tickets', function (Blueprint $table) {
+        Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('post_id');
-            $table->foreignId('ticket_type_id');
-            $table->string('seat_no');
-            $table->string('note')->nullable();
-            $table->string('available_state');
-            $table->string('invitation_state');
+            $table->foreignId('phase_id');
             $table->timestamps();
         });
     }
@@ -28,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('tickets');
+        Schema::dropIfExists('purchases');
     }
 };
