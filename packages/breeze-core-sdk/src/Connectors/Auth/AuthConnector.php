@@ -71,16 +71,14 @@ class AuthConnector extends Connector
 
             $data = $response->json('data');
 
-//            return new AuthenticatedUserData(
-//                id: $data['user']['id'],
-//                name: $data['user']['name'],
-//                username: $data['user']['username'],
-//                email: $data['user']['email'],
-//                profileImage: $data['user']['profile_image'],
-//                city: $data['user']['city'],
-//            );
-
-            return AuthenticatedUserData::from($data['user']);
+            return new AuthenticatedUserData(
+                id: $data['user']['id'],
+                name: $data['user']['name'],
+                username: $data['user']['username'],
+                email: $data['user']['email'],
+                profileImage: $data['user']['profile_image'],
+                city: $data['user']['city'],
+            );
         } catch (Exception|FatalRequestException|RequestException|JsonException) {
             return null;
         }
