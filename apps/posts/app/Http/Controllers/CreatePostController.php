@@ -8,6 +8,7 @@ use App\Rules\Base64ValidationRule;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CreatePostController extends Controller
 {
@@ -15,6 +16,7 @@ class CreatePostController extends Controller
     {
         try {
             DB::beginTransaction();
+            
             $request->validate([
                 'image' => ['required', 'string', new Base64ValidationRule()],
             ]);
@@ -28,11 +30,11 @@ class CreatePostController extends Controller
 
             return response()->json([
                 'message' => 'Post created successfully',
-            ]);
+            ], 201);
         } catch (Exception $exception) {
             DB::rollBack();
 
-            info($exception);
+            Log::error('Post creation failed', ['exception' => $exception]);
 
             return response()->json([
                 'message' => 'Post creat failed.'

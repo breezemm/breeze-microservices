@@ -14,6 +14,8 @@ class ShowPostController extends Controller
         $post->load('ticketTypes.phases');
         $post->load('ticketTypes.tickets');
 
-        return response()->json(['data' => $post]);
+
+        return response()->json(['data' => $post,
+        ]);
     }
 }
