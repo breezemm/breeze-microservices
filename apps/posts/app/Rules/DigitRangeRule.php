@@ -14,8 +14,8 @@ class DigitRangeRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ($value < 0 || $value > 40) {
-            $fail("The :attribute must be between 0 and 40.");
+        if ($value < 1 || $value > 40) {
+            $fail("The :attribute must be between 1 and 40.");
         }
     }
 }

@@ -19,7 +19,9 @@ return new class extends Migration {
             $table->time('end_time');
             $table->string('address');
             $table->string('city');
+            $table->json('interests')->nullable();
             $table->text('description');
+            $table->boolean('terms')->default(false);
             $table->timestamps();
         });
     }

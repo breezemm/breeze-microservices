@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Models\SavedPost;
 use Illuminate\Http\Request;
 
@@ -14,7 +13,7 @@ class SavedPostController extends Controller
         $savedPosts = SavedPost::where('user_id', auth()->id())
             ->with('post')
             ->groupBy('created_at')
-            ->get();
+            ->paginate();
 
         return response()->json([
             'data' => $savedPosts

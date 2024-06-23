@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id');
             $table->foreignId('post_id');
             $table->foreignId('ticket_type_id');
-            $table->string('seat_no');
+            $table->string('seat_no')->nullable();
             $table->string('note')->nullable();
             $table->string('available_state');
             $table->string('invitation_state');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\DataTransferObjects;
 
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\MapOutputName;
