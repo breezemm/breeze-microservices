@@ -1,8 +1,8 @@
-name: 'breeze-staging'
+name: 'breezemm'
 
 networks:
   staging:
-    name: 'asn'
+    name: 'net'
     external: true
 
 services:
@@ -24,7 +24,7 @@ services:
       - './infra/kong/staging/logs/file.log:/file.log'
     networks:
       staging:
-        ipv4_address: '192.0.66.203'
+        ipv4_address: '172.16.101.3'
     ports:
       - '8000:8000'
       - '8001:8001'
@@ -38,5 +38,16 @@ services:
     env_file: './apps/auth/staging.env'
     networks:
       staging:
-        ipv4_address: '192.0.66.204'
+        ipv4_address: '172.16.101.4'
+    restart: 'unless-stopped'
+
+ posts:
+    build:
+      context: './apps/posts'
+      dockerfile: 'staging.dockerfile'
+    container_name: 'breeze-posts-staging'
+    env_file: './apps/posts/staging.env'
+    networks:
+      staging:
+        ipv4_address: '172.16.101.5'
     restart: 'unless-stopped'
