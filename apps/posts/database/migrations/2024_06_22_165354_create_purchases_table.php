@@ -13,7 +13,9 @@ return new class extends Migration {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('phase_id');
+            $table->foreignId('post_id');
+            $table->foreignId('ticket_id');
+            $table->string('qr_code');
             $table->timestamps();
         });
     }

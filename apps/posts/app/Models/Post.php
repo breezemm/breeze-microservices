@@ -21,6 +21,8 @@ class Post extends Model implements HasMedia
         'date',
         'start_time',
         'end_time',
+        'final_selling_date',
+        'final_selling_time',
         'address',
         'city',
         'description',
@@ -71,6 +73,11 @@ class Post extends Model implements HasMedia
             get: fn($value, array $attributes) => $this->where('user_id', auth()->id())->exists(),
             set: fn($value) => $value,
         );
+    }
+
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(Purchase::class, 'post_id');
     }
 
 }
