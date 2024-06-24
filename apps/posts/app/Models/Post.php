@@ -34,7 +34,7 @@ class Post extends Model implements HasMedia
             'is_has_phases' => 'boolean',
             'interests' => 'json',
             'terms' => 'boolean',
-            'has_liked' => 'boolean',
+            'has_saved' => 'boolean',
         ];
     }
 
@@ -45,4 +45,18 @@ class Post extends Model implements HasMedia
     }
 
 
+    public function saves(): HasMany
+    {
+        return $this->hasMany(SavedPost::class);
+    }
+
+
+
+    protected function hasSaved(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, array $attributes) => $this->where('user_id', auth()->id())->exists(),
+            set: fn($value) => $value,
+        );
+    }
 }
