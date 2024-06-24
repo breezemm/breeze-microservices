@@ -13,4 +13,13 @@ services:
           - /api/v1/auth
         strip_path: true
 
-
+  - host: posts
+    name: posts_service
+    url: http://posts:80/api/v1/posts
+    port: 80
+    protocol: http
+    routes:
+      - name: posts_route
+        paths:
+          - /api/v1/posts
+        strip_path: true
