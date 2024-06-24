@@ -40,8 +40,8 @@ services:
       staging:
         ipv4_address: '172.16.101.4'
     restart: 'unless-stopped'
-
- posts:
+    
+  posts:
     build:
       context: './apps/posts'
       dockerfile: 'staging.dockerfile'
