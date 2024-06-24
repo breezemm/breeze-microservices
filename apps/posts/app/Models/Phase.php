@@ -12,20 +12,30 @@ class Phase extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'post_id',
+        'ticket_type_id',
         'name',
         'start_date',
         'end_date',
+        'price',
     ];
 
-    public function post(): BelongsTo
+
+    protected function casts(): array
     {
-        return $this->belongsTo(Post::class);
+        return [
+            'start_date' => 'datetime',
+            'end_date' => 'datetime',
+            'price' => 'float',
+        ];
     }
 
-    public function ticketTypes(): HasMany
+    public function ticketType(): BelongsTo
     {
-        return $this->hasMany(TicketType::class);
+        return $this->belongsTo(TicketType::class);
     }
+
+
 
 }

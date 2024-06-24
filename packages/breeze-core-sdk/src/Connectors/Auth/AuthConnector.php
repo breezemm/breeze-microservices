@@ -2,10 +2,9 @@
 
 namespace MyanmarCyberYouths\Breeze\Connectors\Auth;
 
-
 use JsonException;
 use Mockery\Exception;
-use MyanmarCyberYouths\Breeze\Connectors\Auth\DataTransferObjects\AuthenticatedUser;
+use MyanmarCyberYouths\Breeze\Connectors\Auth\Data\AuthenticatedUserData;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\GetAuthenticatedUserRequest;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\OAuthIntrospectionRequest;
 use Saloon\Contracts\Authenticator;
@@ -17,16 +16,15 @@ use Saloon\Http\Response;
 
 class AuthConnector extends Connector
 {
-
     public function __construct(
         public readonly string $token = '',
-    )
-    {
+    ) {
     }
 
     public function resolveBaseUrl(): string
     {
-        return 'auth/api/v1';
+        //        return 'http://localhost:8005/api/v1';
+        return 'http://auth/api/v1';
     }
 
     protected function defaultHeaders(): array
@@ -51,27 +49,25 @@ class AuthConnector extends Connector
         return $this->send(new OAuthIntrospectionRequest($this->token));
     }
 
-
     public function check(): bool
     {
         try {
             $response = $this->introspect()->dto();
 
             return $response->active;
-        } catch (Exception|FatalRequestException|RequestException) {
+        } catch (Exception | FatalRequestException | RequestException) {
             return false;
         }
     }
 
-
-    public function user(): ?AuthenticatedUser
+    public function user(): ?AuthenticatedUserData
     {
         try {
             $response = $this->send(new GetAuthenticatedUserRequest());
 
             $data = $response->json('data');
 
-            return new AuthenticatedUser(
+            return new AuthenticatedUserData(
                 id: $data['user']['id'],
                 name: $data['user']['name'],
                 username: $data['user']['username'],
@@ -79,9 +75,8 @@ class AuthConnector extends Connector
                 profileImage: $data['user']['profile_image'],
                 city: $data['user']['city'],
             );
-        } catch (Exception|FatalRequestException|RequestException|JsonException) {
+        } catch (Exception | FatalRequestException | RequestException | JsonException) {
             return null;
         }
     }
-
 }

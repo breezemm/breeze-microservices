@@ -14,11 +14,12 @@ return new class extends Migration {
         Schema::create('ticket_types', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
-            $table->foreignId('phase_id');
-            $table->foreignId('ticket_type_id');
-            $table->string('seat_number')->nullable();
-            $table->text('remark')->nullable();
-            $table->string('status')->default(TicketStatus::Available);
+            $table->foreignId('post_id');
+            $table->string('name');
+            $table->string('price')->nullable();
+            $table->integer('quantity')->nullable();
+            $table->json('benefits')->nullable();
+
             $table->timestamps();
         });
     }

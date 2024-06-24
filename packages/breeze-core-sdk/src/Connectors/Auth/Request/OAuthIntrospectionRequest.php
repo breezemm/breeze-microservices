@@ -3,7 +3,7 @@
 namespace MyanmarCyberYouths\Breeze\Connectors\Auth\Request;
 
 use JsonException;
-use MyanmarCyberYouths\Breeze\Connectors\Auth\DataTransferObjects\OAuthIntrospectionResponse;
+use MyanmarCyberYouths\Breeze\Connectors\Auth\Data\OAuthIntrospectionData;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
@@ -32,11 +32,11 @@ class OAuthIntrospectionRequest extends Request
     /**
      * @throws JsonException
      */
-    public function createDtoFromResponse(Response $response): OAuthIntrospectionResponse
+    public function createDtoFromResponse(Response $response): OAuthIntrospectionData
     {
         $data = $response->object();
 
-        return new OAuthIntrospectionResponse(
+        return new OAuthIntrospectionData(
             active: $data->active,
             scopes: $data->scopes,
         );

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SavedPost extends Model
 {
@@ -14,8 +15,14 @@ class SavedPost extends Model
         'post_id',
     ];
 
-    public function post()
+
+
+
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
+
+
+
 }
