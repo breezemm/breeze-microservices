@@ -15,7 +15,9 @@ class SavedPostController extends Controller
             ->get();
 
         $savedPosts->map(function ($savedPost) {
-            $savedPost->post->append('has_saved');
+            $savedPost->post->append('has_saved')
+                ->append('has_liked');
+
             return $savedPost;
         });
 

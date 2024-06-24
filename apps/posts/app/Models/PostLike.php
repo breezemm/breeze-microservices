@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PostLike extends Model
@@ -21,16 +20,6 @@ class PostLike extends Model
         return $this->belongsTo(Post::class);
     }
 
-    public function scopeAttachLikeStatus(Builder $query, int $userId): Builder
-    {
-        return $query->addSelect([
-            'liked' => PostLike::select('id')
-                ->whereColumn('post_id', 'posts.id')
-                ->where('user_id', $userId)
-                ->limit(1),
-        ]);
-
-    }
 
 
 }
