@@ -12,3 +12,14 @@ services:
         paths:
           - /api/v1/auth
         strip_path: true
+
+  - host: breeze-posts-staging
+    name: posts_service
+    url: http://breeze-posts-staging:80/api/v1/auth
+    port: 80
+    protocol: http
+    routes:
+      - name: posts_route
+        paths:
+          - /api/v1/posts
+        strip_path: true
