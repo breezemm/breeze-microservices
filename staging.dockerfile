@@ -9,9 +9,8 @@ COPY --from=node /usr/local/lib /usr/local/lib
 COPY --from=node /usr/local/include /usr/local/include
 COPY --from=node /usr/local/bin /usr/local/bin
 
-COPY infra/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY infra/supervisord/supervisord.*.conf /etc/supervisor/conf.d/
-COPY infra/start-container /usr/local/bin/start-container
+COPY infra/staging/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY infra/staging/start-container /usr/local/bin/start-container
 
 COPY ./packages/ ./packages/
 COPY ./composer.json ./composer.json
