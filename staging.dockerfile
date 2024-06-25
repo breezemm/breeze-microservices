@@ -1,7 +1,7 @@
-ARG APP_PATH
-
 FROM node:lts-alpine as node
 FROM mmcyberyouths/php:v1.0-8.3-alpine
+
+ARG APP_PATH
 
 COPY --from=node /usr/lib /usr/lib
 COPY --from=node /usr/local/share /usr/local/share
