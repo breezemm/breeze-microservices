@@ -47,6 +47,8 @@ services:
       dockerfile: 'staging.dockerfile'
     container_name: 'breeze-posts-staging'
     env_file: './apps/posts/staging.env'
+    volumes:
+      - './packages:/staging/packages'
     networks:
       staging:
         ipv4_address: '172.16.101.6'

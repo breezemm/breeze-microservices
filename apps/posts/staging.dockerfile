@@ -1,6 +1,8 @@
 FROM node:lts-alpine as node
 FROM mmcyberyouths/php:v1.0-8.3-alpine
 
+WIRKDIR /staging/apps/posts
+
 RUN install-php-extensions                                                                              \
         exif                                                                                            \
         sodium
@@ -10,7 +12,7 @@ COPY --from=node /usr/local/share /usr/local/share
 COPY --from=node /usr/local/lib /usr/local/lib
 COPY --from=node /usr/local/include /usr/local/include
 COPY --from=node /usr/local/bin /usr/local/bin
-COPY . .
+COPY . /staging/apps/posts
 
 RUN composer install
 RUN npm install
