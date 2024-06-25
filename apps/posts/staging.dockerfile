@@ -1,7 +1,7 @@
 FROM node:lts-alpine as node
 FROM mmcyberyouths/php:v1.0-8.3-alpine
 
-WIRKDIR /staging/apps/posts
+WORKDIR /staging/apps/posts
 
 RUN install-php-extensions                                                                              \
         exif                                                                                            \

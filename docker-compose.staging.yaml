@@ -32,7 +32,10 @@ services:
 
   auth:
     build:
-      context: './apps/auth'
+      args:
+        APP_PATH: './apps/auth'
+        WITH_HORIZON: 'true'
+      context: '.'
       dockerfile: 'staging.dockerfile'
     container_name: 'breeze-auth-staging'
     env_file: './apps/auth/staging.env'
@@ -43,12 +46,12 @@ services:
     
   posts:
     build:
-      context: './apps/posts'
+      args:
+        APP_PATH: './apps/posts'
+      context: '.'
       dockerfile: 'staging.dockerfile'
     container_name: 'breeze-posts-staging'
     env_file: './apps/posts/staging.env'
-    volumes:
-      - './packages:/staging/packages'
     networks:
       staging:
         ipv4_address: '172.16.101.6'
