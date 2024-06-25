@@ -10,11 +10,12 @@ class GetAllPostByUserIdController extends Controller
     public function __invoke(Request $request)
     {
 
-        $launchedPost = Post::where('user_id', auth()->id())->paginate();
+        $launchedPost = Post::where('user_id', auth()->id())
+            ->latest()
+            ->paginate();
+
         $launchedPost->load('media');
 
-        return response()->json([
-            'data' => $launchedPost
-        ]);
+        return response()->json($launchedPost);
     }
 }
