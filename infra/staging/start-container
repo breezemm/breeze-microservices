@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+set -e
+
+exec /usr/bin/supervisord -c /app/supervisord.conf
