@@ -53,5 +53,20 @@ services:
     ports:
       - "8006:80"
 
-
-
+  users:
+    restart: unless-stopped
+    build:
+      args:
+        APP_PATH: ./apps/users
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      WITH_HORIZON: false
+    networks:
+      - development
+    volumes:
+      - ./apps/users:/var/www/html/apps/users
+      - ./apps/users/vendor:/var/www/html/apps/users/vendor
+      - ./packages:/var/www/html/packages
+    ports:
+      - "8007:80"
