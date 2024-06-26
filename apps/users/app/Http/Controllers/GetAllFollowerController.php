@@ -4,31 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Follow;
 use Illuminate\Http\Request;
+use MyanmarCyberYouths\Breeze\Breeze;
 
 class GetAllFollowerController extends Controller
 {
+
+    public function __construct(
+        public readonly Breeze $breeze,
+    )
+    {
+    }
+
     public function __invoke(Request $request)
     {
         $userId = $request->route('id');
 
         $followers = Follow::where('following_id', $userId)->get();
-
-        // Collect all follower IDs
         $followerIds = $followers->pluck('follower_id')->toArray();
 
-        // Retrieve follow-back statuses in one query
+        $users = $this->breeze->auth()->users($followerIds)
+            ->collect()
+            ->keyBy('id');
+
         $followBackStatuses = Follow::whereIn('following_id', $followerIds)
             ->where('follower_id', $userId)
             ->pluck('following_id')
             ->toArray();
 
-        // TODO: fix status
-        $followersWithFollowingStatus = $followers->map(function ($follower) use ($followBackStatuses) {
-            return [
-                ...$follower->toArray(),
-                'has_followed' => in_array($follower->follower_id, $followBackStatuses),
-            ];
+        $followersWithFollowingStatus = $followers->map(function (Follow $follower) use ($users, $followBackStatuses) {
+            $follower->setAttribute('has_followed', in_array($follower->follower_id, $followBackStatuses));
+            $follower->setAttribute('user', $users->get($follower->follower_id));
+            return $follower;
         });
+
 
         return response()->json([
             'data' => $followersWithFollowingStatus,

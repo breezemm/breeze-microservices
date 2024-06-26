@@ -5,6 +5,7 @@ namespace MyanmarCyberYouths\Breeze\Connectors\Auth;
 use JsonException;
 use Mockery\Exception;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\Data\AuthenticatedUserData;
+use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\FilterUsersRequest;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\GetAuthenticatedUserRequest;
 use MyanmarCyberYouths\Breeze\Connectors\Auth\Request\OAuthIntrospectionRequest;
 use Saloon\Contracts\Authenticator;
@@ -79,5 +80,18 @@ class AuthConnector extends Connector
         } catch (Exception|FatalRequestException|RequestException|JsonException) {
             return null;
         }
+    }
+
+    /**
+     * @throws FatalRequestException
+     * @throws RequestException
+     */
+    public function users(array $userIds): Response
+    {
+        return $this->send(
+            new FilterUsersRequest(
+                userIds: $userIds,
+            ));
+
     }
 }
