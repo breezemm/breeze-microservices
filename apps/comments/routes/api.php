@@ -14,6 +14,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/comments', CreateCommentController::class);
     Route::post('/comments/{comment}/reply', CreateCommentReplyController::class);
 
+    // TODO: Add middleware to check if the user is the owner of the comment
     Route::post('/comments/{comment}/like', LikeCommentController::class);
     Route::delete('/comments/{comment}/unlike', UnLikeCommentController::class);
 
