@@ -56,3 +56,16 @@ services:
       staging:
         ipv4_address: '172.16.101.6'
     restart: 'unless-stopped'
+
+  users:
+    build:
+      args:
+        APP_PATH: './apps/users'
+      context: '.'
+      dockerfile: 'staging.dockerfile'
+    container_name: 'breeze-users-staging'
+    env_file: './apps/users/staging.env'
+    networks:
+      staging:
+        ipv4_address: '172.16.101.7'
+    restart: 'unless-stopped'

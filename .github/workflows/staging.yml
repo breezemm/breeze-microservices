@@ -36,6 +36,6 @@ jobs:
 
           docker compose -f docker-compose.staging.yaml down
 
-          docker compose -f docker-compose.staging.yaml up -d --build kong auth posts
+          docker compose -f docker-compose.staging.yaml up -d --build kong auth posts users
 
         EOF
