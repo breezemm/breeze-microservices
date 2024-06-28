@@ -2,13 +2,28 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../packages/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
+        "myanmarcyberyouths/breeze-core-sdk": "dev-main",
+        "kra8/laravel-snowflake": "^2.3",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "spatie/laravel-data": "^4.7",
         "spatie/laravel-medialibrary": "*",
         "staudenmeir/laravel-adjacency-list": "^1.0"
     },
@@ -64,6 +79,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

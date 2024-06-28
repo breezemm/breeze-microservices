@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateCommentRequest;
+use App\DataTransferObjects\CreateCommentData;
 use App\Models\Comment;
-use Illuminate\Http\Request;
 
 class CreateCommentController extends Controller
 {
-    public function __invoke(CreateCommentRequest $createCommentRequest)
+    public function __invoke(CreateCommentData $createCommentData)
     {
-        Comment::query()->create($createCommentRequest->validated());
+        $comment = Comment::create([
+            ...$createCommentData->toArray(),
+            'user_id' => auth()->id(),
+        ]);
+
+        return response()->json(['message' => 'Comment created successfully', 'data' => $comment]);
     }
 }
