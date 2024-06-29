@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CreateCommentReplyController;
 use App\Http\Controllers\CreateCommentController;
+use App\Http\Controllers\GetAllRepliesByParentPostId;
 use App\Http\Controllers\GetCommentByPostId;
 use App\Http\Controllers\GetCommentLikeByCommentIdController;
 use App\Http\Controllers\LikeCommentController;
@@ -12,9 +13,10 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/comments', GetCommentByPostId::class);
     Route::post('/comments', CreateCommentController::class);
-    Route::post('/comments/{comment}/reply', CreateCommentReplyController::class);
 
-    // TODO: Add middleware to check if the user is the owner of the comment
+    Route::get('/comments/{comment}/replies', GetAllRepliesByParentPostId::class);
+    Route::post('/comments/{comment}/replies', CreateCommentReplyController::class);
+
     Route::post('/comments/{comment}/like', LikeCommentController::class);
     Route::delete('/comments/{comment}/unlike', UnLikeCommentController::class);
 

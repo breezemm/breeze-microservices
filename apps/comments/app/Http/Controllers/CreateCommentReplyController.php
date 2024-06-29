@@ -11,12 +11,13 @@ class CreateCommentReplyController extends Controller
     {
         Comment::create([
             ...$createReplyData->toArray(),
+            'post_id' => $comment->post_id,
             'parent_id' => $comment->id,
             'user_id' => auth()->id(),
         ]);
 
         return response()->json([
-            'message' => 'Comment replied successfully',
+            'message' => 'Replied successfully',
         ]);
     }
 }
