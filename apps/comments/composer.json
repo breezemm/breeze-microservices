@@ -20,6 +20,7 @@
         "php": "^8.3",
         "kra8/laravel-snowflake": "^2.3",
         "laravel/framework": "^11.0",
+        "laravel/octane": "^2.4",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "myanmarcyberyouths/breeze-core-sdk": "dev-main",
