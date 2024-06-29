@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TicketStatus;
+use App\States\BuyerTypeState;
 use App\States\InvitationState;
 use App\States\TicketState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,7 @@ class Ticket extends Model
         'note',
         'available_state',
         'invitation_state',
+        'buyer_state',
     ];
 
     protected function casts(): array
@@ -29,6 +31,7 @@ class Ticket extends Model
         return [
             'available_state' => TicketState::class,
             'invitation_state' => InvitationState::class,
+            'buyer_state' => BuyerTypeState::class,
         ];
     }
 

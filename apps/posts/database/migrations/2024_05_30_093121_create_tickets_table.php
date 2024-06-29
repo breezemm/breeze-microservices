@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('note')->nullable();
             $table->string('available_state');
             $table->string('invitation_state');
+            $table->string('buyer_state');
             $table->timestamps();
         });
     }
