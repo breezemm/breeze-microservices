@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTransferObjects\GetAllCommentsByPostIdData;
 use App\Models\Comment;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use MyanmarCyberYouths\Breeze\Breeze;
+use Saloon\Exceptions\Request\FatalRequestException;
+use Saloon\Exceptions\Request\RequestException;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class GetCommentByPostId extends Controller
 {
@@ -14,29 +19,29 @@ class GetCommentByPostId extends Controller
     {
     }
 
-    public function __invoke(GetAllCommentsByPostIdData $getAllCommentsByPostIdData)
+    /**
+     * @throws FatalRequestException
+     * @throws RequestException
+     */
+    public function __invoke(Request $request)
     {
-        $comments = Comment::with('media')
-            ->where('post_id', $getAllCommentsByPostIdData->postId)
+        /** @var LengthAwarePaginator<Comment> $comments */
+        $comments = QueryBuilder::for(Comment::class)
+            ->allowedFilters([
+                AllowedFilter::exact('post_id')
+            ])
+            ->whereNull('parent_id')
+            ->withCount('likes')
             ->withCount('replies')
-            ->get()
-            ->toTree('replies');
-
+            ->orderByDesc('created_at')
+            ->paginate()
+            ->appends($request->query());
 
         $userIds = $comments->pluck('user_id')->toArray();
         $users = $this->breeze->auth()->users($userIds)->collect()->keyBy('id');
 
-        $comments->map(function ($comment) use ($users) {
-            $comment->user = $users->get($comment->user_id);
-            $comment->replies->map(function ($reply) use ($users) {
-                $reply->user = $users->get($reply->user_id);
-                return $reply;
-            });
-            return $comment;
-        });
+        $comments = $comments->collect()->map(fn(Comment $comment) => $comment->setAttribute('user', $users->get($comment->user_id)));
 
-        return response()->json([
-            'data' => $comments,
-        ]);
+        return response()->json(['data' => $comments]);
     }
 }

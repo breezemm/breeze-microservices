@@ -10,8 +10,7 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 class Comment extends Model
 {
-    use HasSnowflakePrimary;
-    use InteractsWithMedia, HasRecursiveRelationships;
+    use HasSnowflakePrimary, InteractsWithMedia, HasRecursiveRelationships;
 
     protected $fillable = [
         'user_id',
@@ -19,7 +18,6 @@ class Comment extends Model
         'parent_id',
         'content',
     ];
-
 
 
     public function getParentKeyName(): string
@@ -30,6 +28,11 @@ class Comment extends Model
     public function replies(): HasMany
     {
         return $this->hasMany(Comment::class, 'parent_id')->with('replies');
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(CommentLike::class);
     }
 
 
