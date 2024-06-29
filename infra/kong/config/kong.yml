@@ -34,3 +34,14 @@ services:
         paths:
           - /api/v1/users
         strip_path: true
+
+  - host: comments
+    name: comments_service
+    url: http://comments:80/api/v1/users
+    port: 80
+    protocol: http
+    routes:
+      - name: comments_route
+        paths:
+          - /api/v1/comments
+        strip_path: true
