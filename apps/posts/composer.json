@@ -18,6 +18,7 @@
     ],
     "require": {
         "php": "^8.3",
+        "kra8/laravel-snowflake": "^2.3",
         "laravel/framework": "^11.0",
         "laravel/horizon": "^5.24",
         "laravel/octane": "^2.3",

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CreatePostController;
+use App\Http\Controllers\GetAllGuestsController;
 use App\Http\Controllers\GetAllPostByUserIdController;
 use App\Http\Controllers\GetAllSeatingPlanController;
 use App\Http\Controllers\PostLikeController;
@@ -23,6 +24,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/posts', CreatePostController::class);
     Route::get('/posts/{post}', ShowPostController::class);
 
+
+    // TODO: implement guests
+    // guest is purchased users so we don't need another table for guests
+    Route::get('/posts/{post}/guests', GetAllGuestsController::class);
+
+
     Route::get('/posts/{post}/purchase', PurchaseTicketController::class);
 
     Route::get('/posts/{post}/seating-plan', GetAllSeatingPlanController::class);
@@ -37,5 +44,6 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/posts/post}/like', PostLikeController::class);
     Route::post('/posts/post}/unlike', PostUnLikeController::class);
+
 
 });
